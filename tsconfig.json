@@ -21,13 +21,22 @@
       "~/*": ["./src/*"]
     }
   },
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
+    "compilerOptions": {
+      "module": "CommonJS"
+    },
+    "require": ["tsconfig-paths/register"]
+  },
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
-    "**/*.mjs"
+    "**/*.mjs",
+    "src/server/script.mts"
   ],
   "exclude": ["node_modules"]
 }
