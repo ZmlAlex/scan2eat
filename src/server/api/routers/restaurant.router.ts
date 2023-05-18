@@ -27,6 +27,7 @@ export const restaurantRouter = createTRPCRouter({
   }),
   createRestaurant: protectedProcedure
     .input(createRestaurantSchema)
+    //TODO: MOVE IT TO THE SERVICES
     .mutation(({ ctx, input }) => {
       const translationFields: RestaurantTranslationFields[] = [
         "name",
@@ -46,10 +47,11 @@ export const restaurantRouter = createTRPCRouter({
           workingHours: input.workingHours,
           logoUrl: input.logoUrl,
           currencyCode: input.currencyCode,
-          Menu: {
+
+          menu: {
             create: {},
           },
-          RestaurantI18N: {
+          restaurantI18N: {
             createMany: {
               data: translations,
             },
@@ -92,15 +94,13 @@ export const restaurantRouter = createTRPCRouter({
           })
         );
 
-      const result = await ctx.prisma.$transaction([
+      return ctx.prisma.$transaction([
         ...transactions,
         ctx.prisma.restaurant.update({
           where: { id: input.restaurantId },
           data: updatedData,
         }),
       ]);
-
-      return result;
     }),
   deleteRestaurant: protectedProcedure
     .input(deleteRestaurantSchema)

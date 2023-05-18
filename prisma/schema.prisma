@@ -75,7 +75,7 @@ model Currency {
   code      CurrencyCode @unique
   title     String
 
-  Restaurant Restaurant[]
+  restaurant Restaurant[]
 }
 
 model Restaurant {
@@ -92,8 +92,8 @@ model Restaurant {
   // address      String
   logoUrl      String
 
-  RestaurantI18N RestaurantI18N[]
-  Menu           Menu[]
+  restaurantI18N RestaurantI18N[]
+  menu           Menu[]
 }
 
 enum RestaurantTranslationFields {
@@ -121,8 +121,8 @@ model Menu {
   Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
 
-  Category Category[]
-  Product  Product[]
+  category Category[]
+  product  Product[]
 }
 
 model Category {
@@ -131,10 +131,9 @@ model Category {
   updatedAt DateTime @updatedAt
   menuId    String
   menu      Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
-  name      String
 
   product      Product[]
-  CategoryI18N CategoryI18N[]
+  categoryI18N CategoryI18N[]
 }
 
 enum CategoryTranslationFields {
@@ -168,7 +167,7 @@ model Product {
   measurementUnit  String
   measurementValue String
   imageUrl         String
-  ProductI18N      ProductI18N[]
+  productI18N      ProductI18N[]
 }
 
 enum ProductTranslationFields {
@@ -205,7 +204,7 @@ model Language {
   title     LanguageTitle
   code      LanguageCode  @unique
 
-  CategoryI18N   CategoryI18N[]
-  ProductI18N    ProductI18N[]
-  RestaurantI18N RestaurantI18N[]
+  categoryI18N   CategoryI18N[]
+  productI18N    ProductI18N[]
+  restaurantI18N RestaurantI18N[]
 }
