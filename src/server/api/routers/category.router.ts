@@ -7,7 +7,7 @@ export const categoryRouter = createTRPCRouter({
     //TODO: update zod schema
     .input(z.object({ text: z.string() }))
     .mutation(({ ctx, input }) => {
-      return "create restaurant";
+      return "create category";
     }),
   updateCategory: protectedProcedure
     .input(z.object({ text: z.string() }))

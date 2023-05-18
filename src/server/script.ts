@@ -9,39 +9,39 @@ async function main() {
   //       email: "alice@prisma.io",
   //     },
   //   });
-  const restaurant = await prisma.restaurant.create({
-    data: {
-      // address: "blabla",
-      // description: "111",
+  // const restaurant = await prisma.restaurant.create({
+  //   data: {
+  //     // address: "blabla",
+  //     // description: "111",
 
-      workingHours: "24hrs",
-      logoUrl: "blabla",
-      userId: "clhnujfeb00003s8fw5f3l35m",
-      currencyCode: "RUB",
-      RestaurantI18N: {
-        createMany: {
-          data: [
-            {
-              fieldName: "name",
-              translation: "Шаверма",
-              languageId: "clhnu9dgw00013su6no4pkai7",
-            },
-            {
-              fieldName: "description",
-              translation: "шава на районе",
-              languageId: "clhnu9dgw00013su6no4pkai7",
-            },
-            {
-              fieldName: "address",
-              translation: "Таганрог",
-              languageId: "clhnu9dgw00013su6no4pkai7",
-            },
-          ],
-        },
-      },
-      // category: { create: { name: "juice" } },
-    },
-  });
+  //     workingHours: "24hrs",
+  //     logoUrl: "blabla",
+  //     userId: "clhnujfeb00003s8fw5f3l35m",
+  //     currencyCode: "RUB",
+  //     RestaurantI18N: {
+  //       createMany: {
+  //         data: [
+  //           {
+  //             fieldName: "name",
+  //             translation: "Шаверма",
+  //             languageId: "clhnu9dgw00013su6no4pkai7",
+  //           },
+  //           {
+  //             fieldName: "description",
+  //             translation: "шава на районе",
+  //             languageId: "clhnu9dgw00013su6no4pkai7",
+  //           },
+  //           {
+  //             fieldName: "address",
+  //             translation: "Таганрог",
+  //             languageId: "clhnu9dgw00013su6no4pkai7",
+  //           },
+  //         ],
+  //       },
+  //     },
+  //     // category: { create: { name: "juice" } },
+  //   },
+  // });
   // const test = await prisma.restaurantI18N.createMany({
   //   data: [
   //     {
@@ -52,16 +52,18 @@ async function main() {
   //     },
   //   ],
   // });
-  // const language = await prisma.language.createMany({
-  //   data: [
-  //     {
-  //       title: "english",
-  //     },
-  //     {
-  //       title: "russian",
-  //     },
-  //   ],
-  // });
+  const language = await prisma.language.createMany({
+    data: [
+      {
+        title: "english",
+        code: "english",
+      },
+      {
+        title: "russian",
+        code: "russian",
+      },
+    ],
+  });
   // console.log("language: ", language);
   // const currency = await prisma.currency.createMany({
   //   data: [
