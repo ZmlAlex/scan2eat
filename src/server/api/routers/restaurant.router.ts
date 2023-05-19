@@ -35,6 +35,7 @@ export const restaurantRouter = createTRPCRouter({
         "address",
       ];
 
+      // TODO: move it to helpers
       const translations = translationFields.map((field) => ({
         fieldName: field,
         translation: input[field] || "",
@@ -74,6 +75,7 @@ export const restaurantRouter = createTRPCRouter({
         "address",
       ];
 
+      // TODO: move it to helpers
       const transactions: PrismaPromise<unknown>[] = translationFields
         .map((field) => ({
           fieldName: field,

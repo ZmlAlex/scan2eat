@@ -162,7 +162,7 @@ model Product {
   category         Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   // name             String
   // description      String?
-  isEnabled        Boolean
+  isEnabled        Boolean @default(true)
   price            Int
   measurementUnit  String
   measurementValue String
@@ -183,7 +183,7 @@ model ProductI18N {
   language     Language                 @relation(fields: [languageCode], references: [code], onDelete: Cascade)
   fieldName    ProductTranslationFields // fields to be translated
   translation  String // translation text goes here
-  productId    String //id of item in Category
+  productId    String 
   product      Product                  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
