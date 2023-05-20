@@ -16,8 +16,27 @@ export const restaurantRouter = createTRPCRouter({
   getRestaurant: protectedProcedure
     .input(getRestaurantSchema)
     .query(({ ctx, input }) => {
-      return ctx.prisma.restaurant.findFirst({
-        where: { id: input.restaurantId },
+      return ctx.prisma.restaurant.findFirstOrThrow({
+        where: {
+          id: input.restaurantId,
+        },
+        include: {
+          restaurantI18N: true,
+          currency: true,
+
+          menu: {
+            include: {
+              category: {
+                include: { categoryI18N: true },
+              },
+              product: {
+                include: {
+                  productI18N: true,
+                },
+              },
+            },
+          },
+        },
       });
     }),
   getAllRestaurants: protectedProcedure.query(({ ctx }) => {

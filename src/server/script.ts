@@ -13,7 +13,6 @@ async function main() {
   //   data: {
   //     // address: "blabla",
   //     // description: "111",
-
   //     workingHours: "24hrs",
   //     logoUrl: "blabla",
   //     userId: "clhnujfeb00003s8fw5f3l35m",
@@ -52,18 +51,18 @@ async function main() {
   //     },
   //   ],
   // });
-  const language = await prisma.language.createMany({
-    data: [
-      {
-        title: "english",
-        code: "english",
-      },
-      {
-        title: "russian",
-        code: "russian",
-      },
-    ],
-  });
+  // const language = await prisma.language.createMany({
+  //   data: [
+  //     {
+  //       title: "english",
+  //       code: "english",
+  //     },
+  //     {
+  //       title: "russian",
+  //       code: "russian",
+  //     },
+  //   ],
+  // });
   // console.log("language: ", language);
   // const currency = await prisma.currency.createMany({
   //   data: [
@@ -106,6 +105,7 @@ async function main() {
   // });
   // console.log("test: ", test);
   // console.log("category: ", category);
+  // const menu =
 }
 
 main()
