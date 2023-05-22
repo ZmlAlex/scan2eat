@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { currencyCodeS, languageCodeS } from "./common.schema";
 
 export const getRestaurantSchema = z.object({ restaurantId: z.string() });
 
@@ -8,10 +9,8 @@ export const createRestaurantSchema = z.object({
   address: z.string().optional(),
   workingHours: z.string(),
   logoUrl: z.string(),
-  //TODO: think about unification
-  currencyCode: z.enum(["USD", "RUB", "EUR", "GBP"]),
-  //TODO: think about reference
-  languageCode: z.enum(["russian", "english"]),
+  currencyCode: currencyCodeS,
+  languageCode: languageCodeS,
 });
 
 export const updateRestaurantSchema = z.object({
@@ -21,10 +20,8 @@ export const updateRestaurantSchema = z.object({
   address: z.string().optional(),
   workingHours: z.string(),
   logoUrl: z.string(),
-  //TODO: think about unification
-  currencyCode: z.enum(["USD", "RUB", "EUR", "GBP"]),
-  //TODO: think about reference
-  languageCode: z.enum(["russian", "english"]),
+  currencyCode: currencyCodeS,
+  languageCode: languageCodeS,
 });
 
 export const deleteRestaurantSchema = z.object({ restaurantId: z.string() });

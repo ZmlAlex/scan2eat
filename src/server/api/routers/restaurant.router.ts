@@ -3,7 +3,6 @@ import type {
   RestaurantTranslationFields,
   PrismaPromise,
 } from "@prisma/client";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import {
   createRestaurantSchema,
@@ -11,6 +10,8 @@ import {
   getRestaurantSchema,
   updateRestaurantSchema,
 } from "../schemas/restaurant.schema";
+import { transformTranslation } from "~/server/helpers/formatTranslation";
+import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
 export const restaurantRouter = createTRPCRouter({
   getRestaurant: protectedProcedure
@@ -47,27 +48,19 @@ export const restaurantRouter = createTRPCRouter({
   createRestaurant: protectedProcedure
     .input(createRestaurantSchema)
     //TODO: MOVE IT TO THE SERVICES
-    .mutation(({ ctx, input }) => {
-      const translationFields: RestaurantTranslationFields[] = [
-        "name",
-        "description",
-        "address",
-      ];
+    .mutation(async ({ ctx, input }) => {
+      const translations =
+        formatFieldsToTranslationTable<RestaurantTranslationFields>(
+          ["name", "description", "address"],
+          input
+        );
 
-      // TODO: move it to helpers
-      const translations = translationFields.map((field) => ({
-        fieldName: field,
-        translation: input[field] || "",
-        languageCode: input.languageCode,
-      }));
-
-      return ctx.prisma.restaurant.create({
+      const result = await ctx.prisma.restaurant.create({
         data: {
           userId: ctx.session.user.id,
           workingHours: input.workingHours,
           logoUrl: input.logoUrl,
           currencyCode: input.currencyCode,
-
           menu: {
             create: {},
           },
@@ -77,7 +70,22 @@ export const restaurantRouter = createTRPCRouter({
             },
           },
         },
+        include: {
+          restaurantI18N: {
+            select: {
+              fieldName: true,
+              translation: true,
+            },
+          },
+        },
       });
+
+      return {
+        ...result,
+        ...transformTranslation<RestaurantTranslationFields>(
+          result.restaurantI18N
+        ),
+      };
     }),
   updateRestaurant: protectedProcedure
     .input(updateRestaurantSchema)
@@ -88,19 +96,13 @@ export const restaurantRouter = createTRPCRouter({
         currencyCode: input.currencyCode,
       };
 
-      const translationFields: RestaurantTranslationFields[] = [
-        "name",
-        "description",
-        "address",
-      ];
+      const translations =
+        formatFieldsToTranslationTable<RestaurantTranslationFields>(
+          ["name", "description", "address"],
+          input
+        );
 
-      // TODO: move it to helpers
-      const transactions: PrismaPromise<unknown>[] = translationFields
-        .map((field) => ({
-          fieldName: field,
-          translation: input[field] || "",
-          languageCode: input.languageCode,
-        }))
+      const transactions: PrismaPromise<unknown>[] = translations
         .filter(({ translation }) => translation)
         .map((record) =>
           ctx.prisma.restaurantI18N.updateMany({

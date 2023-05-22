@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { languageCodeS } from "./common.schema";
 
 export const createProductSchema = z.object({
   menuId: z.string(),
@@ -11,7 +12,7 @@ export const createProductSchema = z.object({
   name: z.string(),
   description: z.string(),
   imageUrl: z.string(),
-  languageCode: z.enum(["russian", "english"]),
+  languageCode: languageCodeS,
 });
 
 export const updateProductSchema = z.object({
@@ -24,7 +25,7 @@ export const updateProductSchema = z.object({
   name: z.string(),
   description: z.string(),
   imageUrl: z.string(),
-  languageCode: z.enum(["russian", "english"]),
+  languageCode: languageCodeS,
 });
 
 export const deleteProductSchema = z.object({ productId: z.string() });

@@ -1,19 +1,18 @@
 import { z } from "zod";
+import { languageCodeS } from "./common.schema";
 
 export const getRestaurantSchema = z.object({ restaurantId: z.string() });
 
 export const createCategorySchema = z.object({
   menuId: z.string(),
   name: z.string(),
-  //TODO: think about reference
-  languageCode: z.enum(["russian", "english"]),
+  languageCode: languageCodeS,
 });
 
 export const updateCategorySchema = z.object({
   categoryId: z.string(),
   name: z.string(),
-  //TODO: think about reference
-  languageCode: z.enum(["russian", "english"]),
+  languageCode: languageCodeS,
 });
 
 export const deleteCategorySchema = z.object({ categoryId: z.string() });

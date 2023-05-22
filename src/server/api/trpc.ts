@@ -22,6 +22,7 @@ import { prisma } from "~/server/db";
 
 type CreateContextOptions = {
   session: Session | null;
+  prisma?: PrismaClient;
 };
 
 /**
@@ -34,10 +35,10 @@ type CreateContextOptions = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
-    prisma,
+    prisma: opts.prisma || prisma,
   };
 };
 
@@ -66,6 +67,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * errors on the backend.
  */
 import { initTRPC, TRPCError } from "@trpc/server";
+import type { PrismaClient } from "@prisma/client";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
