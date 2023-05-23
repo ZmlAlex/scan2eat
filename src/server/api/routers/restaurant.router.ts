@@ -1,8 +1,3 @@
-import type {
-  Restaurant,
-  RestaurantTranslationFields,
-  PrismaPromise,
-} from "@prisma/client";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import {
   createRestaurantSchema,
@@ -10,128 +5,59 @@ import {
   getRestaurantSchema,
   updateRestaurantSchema,
 } from "../schemas/restaurant.schema";
-import { transformTranslation } from "~/server/helpers/formatTranslation";
-import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
+import {
+  createRestaurant,
+  deleteRestaurant,
+  findAllRestaurants,
+  findRestaurant,
+  updateRestaurant,
+} from "../services/restaurant.service";
 
 export const restaurantRouter = createTRPCRouter({
   getRestaurant: protectedProcedure
     .input(getRestaurantSchema)
-    .query(({ ctx, input }) => {
-      return ctx.prisma.restaurant.findFirstOrThrow({
-        where: {
-          id: input.restaurantId,
-        },
-        include: {
-          restaurantI18N: true,
-          currency: true,
+    .query(async ({ ctx, input }) => {
+      //TODO: MOVE IT TO CONTROLERS
 
-          menu: {
-            include: {
-              category: {
-                include: { categoryI18N: true },
-              },
-              product: {
-                include: {
-                  productI18N: true,
-                },
-              },
-            },
-          },
-        },
-      });
+      const result = await findRestaurant(
+        { id: input.restaurantId },
+        ctx.prisma
+      );
+
+      return result;
     }),
-  getAllRestaurants: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.restaurant.findMany({
-      where: { userId: ctx.session.user.id },
-    });
+  getAllRestaurants: protectedProcedure.query(async ({ ctx }) => {
+    return await findAllRestaurants(
+      { userId: ctx.session.user.id },
+      ctx.prisma
+    );
   }),
   createRestaurant: protectedProcedure
     .input(createRestaurantSchema)
-    //TODO: MOVE IT TO THE SERVICES
     .mutation(async ({ ctx, input }) => {
-      const translations =
-        formatFieldsToTranslationTable<RestaurantTranslationFields>(
-          ["name", "description", "address"],
-          input
-        );
-
-      const result = await ctx.prisma.restaurant.create({
-        data: {
-          userId: ctx.session.user.id,
-          workingHours: input.workingHours,
-          logoUrl: input.logoUrl,
-          currencyCode: input.currencyCode,
-          menu: {
-            create: {},
-          },
-          restaurantI18N: {
-            createMany: {
-              data: translations,
-            },
-          },
-        },
-        include: {
-          restaurantI18N: {
-            select: {
-              fieldName: true,
-              translation: true,
-            },
-          },
-        },
-      });
-
-      return {
-        ...result,
-        ...transformTranslation<RestaurantTranslationFields>(
-          result.restaurantI18N
-        ),
-      };
+      //TODO: MOVE IT TO CONTROLERS
+      return await createRestaurant(
+        { ...input, userId: ctx.session.user.id },
+        ctx.prisma
+      );
     }),
   updateRestaurant: protectedProcedure
     .input(updateRestaurantSchema)
     .mutation(async ({ ctx, input }) => {
-      const updatedData: Partial<Restaurant> = {
-        logoUrl: input.logoUrl,
-        workingHours: input.workingHours,
-        currencyCode: input.currencyCode,
-      };
+      //TODO: MOVE IT TO CONTROLERS
+      await updateRestaurant(input, { id: input.restaurantId }, ctx.prisma);
 
-      const translations =
-        formatFieldsToTranslationTable<RestaurantTranslationFields>(
-          ["name", "description", "address"],
-          input
-        );
-
-      const transactions: PrismaPromise<unknown>[] = translations
-        .filter(({ translation }) => translation)
-        .map((record) =>
-          ctx.prisma.restaurantI18N.updateMany({
-            data: {
-              translation: record.translation,
-            },
-            where: {
-              languageCode: { equals: record.languageCode },
-              fieldName: record.fieldName,
-              restaurantId: input.restaurantId,
-            },
-          })
-        );
-
-      return ctx.prisma.$transaction([
-        ...transactions,
-        ctx.prisma.restaurant.update({
-          where: { id: input.restaurantId },
-          data: updatedData,
-        }),
-      ]);
+      return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
     }),
   deleteRestaurant: protectedProcedure
     .input(deleteRestaurantSchema)
-    .mutation(({ ctx, input }) => {
-      return ctx.prisma.restaurant.delete({
-        where: {
-          id: input.restaurantId,
-        },
-      });
+    .mutation(async ({ ctx, input }) => {
+      //TODO: MOVE IT TO CONTROLERS
+      await deleteRestaurant({ id: input.restaurantId }, ctx.prisma);
+
+      return await findAllRestaurants(
+        { userId: ctx.session.user.id },
+        ctx.prisma
+      );
     }),
 });

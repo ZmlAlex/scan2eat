@@ -26,4 +26,6 @@ export const updateRestaurantSchema = z.object({
 
 export const deleteRestaurantSchema = z.object({ restaurantId: z.string() });
 
-//TODO:create types for services
+export type CreateRestaurantInput = z.infer<typeof createRestaurantSchema>;
+export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchema>;
+export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantSchema>;

@@ -18,7 +18,6 @@ export const createProductSchema = z.object({
 export const updateProductSchema = z.object({
   productId: z.string(),
   price: z.number(),
-  //TODO: UPDATE IT
   isEnabled: z.boolean(),
   measurmentUnit: z.string(),
   measurmentValue: z.string(),

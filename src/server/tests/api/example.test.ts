@@ -1,6 +1,6 @@
+import type { Session } from "next-auth";
 import { appRouter } from "../../api/root";
 import { prisma } from "../../db";
-import type { Session } from "next-auth";
 
 test("getSecretMessage test", async () => {
   const mockSession: Session = {

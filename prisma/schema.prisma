@@ -89,8 +89,8 @@ model Restaurant {
 
   restaurantI18N RestaurantI18N[]
   menu           Menu[]
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  currency     Currency     @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currency       Currency         @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
 }
 
 enum RestaurantTranslationFields {
@@ -106,21 +106,21 @@ model RestaurantI18N {
   languageCode LanguageCode                @default(russian)
   fieldName    RestaurantTranslationFields // fields to be translated
   translation  String // translation text goes here
-  restaurantId String 
+  restaurantId String
 
-  restaurant   Restaurant                  @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  language     Language                    @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 }
 
 model Menu {
-  id           String     @id @default(cuid())
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   restaurantId String
 
-  category Category[]
-  product  Product[]
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  category   Category[]
+  product    Product[]
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
 
 model Category {
@@ -131,7 +131,7 @@ model Category {
 
   product      Product[]
   categoryI18N CategoryI18N[]
-  menu      Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menu         Menu           @relation(fields: [menuId], references: [id], onDelete: Cascade)
 }
 
 enum CategoryTranslationFields {
@@ -147,26 +147,25 @@ model CategoryI18N {
   translation  String // translation text goes here
   categoryId   String
 
-  category     Category                  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  language     Language                  @relation(fields: [languageCode], references: [code], onDelete: Cascade)
-
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 }
 
 model Product {
-  id               String        @id @default(cuid())
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   menuId           String
   categoryId       String
-  isEnabled        Boolean @default(true)
+  isEnabled        Boolean  @default(true)
   price            Int
   measurementUnit  String
   measurementValue String
   imageUrl         String
 
-  productI18N      ProductI18N[]
-  menu             Menu          @relation(fields: [menuId], references: [id], onDelete: Cascade)
-  category         Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  productI18N ProductI18N[]
+  menu        Menu          @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
 enum ProductTranslationFields {
@@ -181,10 +180,10 @@ model ProductI18N {
   languageCode LanguageCode             @default(russian)
   fieldName    ProductTranslationFields // fields to be translated
   translation  String // translation text goes here
-  productId    String 
+  productId    String
 
-  product      Product                  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  language     Language                 @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 }
 
 enum LanguageTitle {
