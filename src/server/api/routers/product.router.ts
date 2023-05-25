@@ -1,6 +1,6 @@
 import type {
   Product,
-  ProductTranslationFields,
+  ProductTranslationField,
   PrismaPromise,
 } from "@prisma/client";
 
@@ -15,7 +15,7 @@ export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
     .input(createProductSchema)
     .mutation(({ ctx, input }) => {
-      const translationFields: ProductTranslationFields[] = [
+      const translationFields: ProductTranslationField[] = [
         "name",
         "description",
       ];
@@ -53,7 +53,7 @@ export const productRouter = createTRPCRouter({
         imageUrl: input.imageUrl,
       };
 
-      const translationFields: ProductTranslationFields[] = [
+      const translationFields: ProductTranslationField[] = [
         "name",
         "description",
       ];

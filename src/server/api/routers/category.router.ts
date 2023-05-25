@@ -1,4 +1,4 @@
-import type { CategoryTranslationFields, PrismaPromise } from "@prisma/client";
+import type { CategoryTranslationField, PrismaPromise } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import {
@@ -27,7 +27,7 @@ export const categoryRouter = createTRPCRouter({
   updateCategory: protectedProcedure
     .input(updateCategorySchema)
     .mutation(({ ctx, input }) => {
-      const translationFields: CategoryTranslationFields[] = ["name"];
+      const translationFields: CategoryTranslationField[] = ["name"];
 
       const transactions: PrismaPromise<unknown>[] = translationFields
         .map((field) => ({

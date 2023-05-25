@@ -93,18 +93,18 @@ model Restaurant {
   currency       Currency         @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
 }
 
-enum RestaurantTranslationFields {
+enum RestaurantTranslationField {
   name
   description
   address
 }
 
 model RestaurantI18N {
-  id           String                      @id @default(cuid())
-  createdAt    DateTime                    @default(now())
-  updatedAt    DateTime                    @updatedAt
-  languageCode LanguageCode                @default(russian)
-  fieldName    RestaurantTranslationFields // fields to be translated
+  id           String                     @id @default(cuid())
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime                   @updatedAt
+  languageCode LanguageCode               @default(russian)
+  fieldName    RestaurantTranslationField // fields to be translated
   translation  String // translation text goes here
   restaurantId String
 
@@ -134,16 +134,16 @@ model Category {
   menu         Menu           @relation(fields: [menuId], references: [id], onDelete: Cascade)
 }
 
-enum CategoryTranslationFields {
+enum CategoryTranslationField {
   name
 }
 
 model CategoryI18N {
-  id           String                    @id @default(cuid())
-  createdAt    DateTime                  @default(now())
-  updatedAt    DateTime                  @updatedAt
-  languageCode LanguageCode              @default(russian)
-  fieldName    CategoryTranslationFields // fields to be translated
+  id           String                   @id @default(cuid())
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+  languageCode LanguageCode             @default(russian)
+  fieldName    CategoryTranslationField // fields to be translated
   translation  String // translation text goes here
   categoryId   String
 
@@ -168,17 +168,17 @@ model Product {
   category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
-enum ProductTranslationFields {
+enum ProductTranslationField {
   name
   description
 }
 
 model ProductI18N {
-  id           String                   @id @default(cuid())
-  createdAt    DateTime                 @default(now())
-  updatedAt    DateTime                 @updatedAt
-  languageCode LanguageCode             @default(russian)
-  fieldName    ProductTranslationFields // fields to be translated
+  id           String                  @id @default(cuid())
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  languageCode LanguageCode            @default(russian)
+  fieldName    ProductTranslationField // fields to be translated
   translation  String // translation text goes here
   productId    String
 

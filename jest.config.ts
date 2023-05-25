@@ -11,5 +11,6 @@ export default {
   moduleNameMapper: {
     "^~/(.*)$": "<rootDir>/src/$1",
   },
+  setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
   testTimeout: 10000,
 };

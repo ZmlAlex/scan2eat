@@ -1,6 +1,6 @@
 import type {
   Prisma,
-  RestaurantTranslationFields,
+  RestaurantTranslationField,
   PrismaClient,
   PrismaPromise,
   Restaurant,
@@ -48,7 +48,7 @@ export const findRestaurant = async (
 
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationFields>(result.restaurantI18N),
+    ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
   };
 };
 
@@ -88,7 +88,7 @@ export const findAllRestaurants = async (
 
   return result.map((record) => ({
     ...record,
-    ...transformTranslation<RestaurantTranslationFields>(record.restaurantI18N),
+    ...transformTranslation<RestaurantTranslationField>(record.restaurantI18N),
   }));
 };
 
@@ -97,7 +97,7 @@ export const createRestaurant = async (
   prisma: PrismaClient
 ) => {
   const translations =
-    formatFieldsToTranslationTable<RestaurantTranslationFields>(
+    formatFieldsToTranslationTable<RestaurantTranslationField>(
       ["name", "description", "address"],
       input
     );
@@ -129,7 +129,7 @@ export const createRestaurant = async (
 
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationFields>(result.restaurantI18N),
+    ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
   };
 };
 
@@ -145,7 +145,7 @@ export const updateRestaurant = async (
   };
 
   const translations =
-    formatFieldsToTranslationTable<RestaurantTranslationFields>(
+    formatFieldsToTranslationTable<RestaurantTranslationField>(
       ["name", "description", "address"],
       input
     );

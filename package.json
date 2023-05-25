@@ -58,5 +58,11 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.13.0"
+  },
+  "engines": {
+    "node": ">=16.x"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

@@ -1,4 +1,4 @@
-import type { RestaurantTranslationFields } from "@prisma/client";
+import type { RestaurantTranslationField } from "@prisma/client";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
@@ -9,7 +9,7 @@ export const createRestaurant = async (
   input: CreateRestaurantInput
 ) => {
   const translations =
-    formatFieldsToTranslationTable<RestaurantTranslationFields>(
+    formatFieldsToTranslationTable<RestaurantTranslationField>(
       ["name", "description", "address"],
       input
     );
@@ -41,6 +41,6 @@ export const createRestaurant = async (
 
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationFields>(result.restaurantI18N),
+    ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
   };
 };

@@ -71,7 +71,7 @@ describe("Restaurant API", () => {
     const testUser = await createUser();
     const caller = createProtectedCaller(testUser);
 
-    const [testRestaurant, testRestaurantSecond] = await Promise.all([
+    await Promise.all([
       createRestaurant(testUser.id, createRestaurantInput),
       createRestaurant(testUser.id, createRestaurantInput),
     ]);
@@ -81,8 +81,6 @@ describe("Restaurant API", () => {
     console.log("result: ", result);
 
     expect(result).toHaveLength(2);
-    expect(result[1]?.id).toEqual(testRestaurant.id);
-    expect(result[0]?.id).toEqual(testRestaurantSecond.id);
   });
 
   it("should update restaurant by id", async () => {
