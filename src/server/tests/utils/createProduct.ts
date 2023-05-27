@@ -1,8 +1,4 @@
-import {
-  CategoryTranslationField,
-  ProductTranslationField,
-  RestaurantTranslationField,
-} from "@prisma/client";
+import type { ProductTranslationField } from "@prisma/client";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
@@ -10,6 +6,7 @@ import type { CreateProductInput } from "~/server/api/schemas/product.schema";
 
 //TODO: add default value
 export const createProduct = async (input: CreateProductInput) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { price, isEnabled, ...restInput } = input;
 
   const translations = formatFieldsToTranslationTable<ProductTranslationField>(
