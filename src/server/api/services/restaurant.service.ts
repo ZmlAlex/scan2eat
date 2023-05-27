@@ -4,6 +4,8 @@ import type {
   PrismaClient,
   PrismaPromise,
   Restaurant,
+  CategoryTranslationField,
+  ProductTranslationField,
 } from "@prisma/client";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
@@ -13,10 +15,10 @@ import type {
 } from "../schemas/restaurant.schema";
 
 export const findRestaurant = async (
-  where: Partial<Prisma.RestaurantWhereUniqueInput>,
+  where: Partial<Prisma.RestaurantWhereInput>,
   prisma: PrismaClient
 ) => {
-  const result = await prisma.restaurant.findUniqueOrThrow({
+  const result = await prisma.restaurant.findFirstOrThrow({
     where,
     include: {
       restaurantI18N: {
@@ -49,6 +51,18 @@ export const findRestaurant = async (
   return {
     ...result,
     ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
+    //temporary return first menu
+    menu: {
+      ...result.menu[0],
+      category: result.menu[0]?.category.map((record) => ({
+        ...record,
+        ...transformTranslation<CategoryTranslationField>(record.categoryI18N),
+      })),
+      product: result.menu[0]?.product.map((record) => ({
+        ...record,
+        ...transformTranslation<ProductTranslationField>(record.productI18N),
+      })),
+    },
   };
 };
 
@@ -122,6 +136,14 @@ export const createRestaurant = async (
         select: {
           fieldName: true,
           translation: true,
+        },
+      },
+      menu: {
+        select: { id: true },
+        include: {
+          category: {
+            include: { categoryI18N: true },
+          },
         },
       },
     },

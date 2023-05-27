@@ -1,98 +1,46 @@
-import type {
-  Product,
-  ProductTranslationField,
-  PrismaPromise,
-} from "@prisma/client";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import {
   createProductSchema,
   deleteProductSchema,
   updateProductSchema,
 } from "../schemas/product.schema";
+import { findRestaurant } from "../services/restaurant.service";
+import { createProduct, updateProduct } from "../services/product.service";
 
 export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
     .input(createProductSchema)
-    .mutation(({ ctx, input }) => {
-      const translationFields: ProductTranslationField[] = [
-        "name",
-        "description",
-      ];
+    .mutation(async ({ ctx, input }) => {
+      const createdProduct = await createProduct(input, ctx.prisma);
 
-      // TODO: move it to helpers
-      const translations = translationFields.map((field) => ({
-        fieldName: field,
-        translation: input[field],
-        languageCode: input.languageCode,
-      }));
-
-      return ctx.prisma.product.create({
-        data: {
-          imageUrl: input.imageUrl,
-          isEnabled: input.isEnabled,
-          price: input.price,
-          menuId: input.menuId,
-          categoryId: input.categoryId,
-          measurementUnit: input.measurmentUnit,
-          measurementValue: input.measurmentValue,
-          productI18N: {
-            createMany: { data: translations },
-          },
-        },
-      });
+      return await findRestaurant(
+        { menu: { some: { id: createdProduct.menuId } } },
+        ctx.prisma
+      );
     }),
   updateProduct: protectedProcedure
     .input(updateProductSchema)
     .mutation(async ({ ctx, input }) => {
-      const updatedData: Partial<Product> = {
-        price: input.price,
-        isEnabled: input.isEnabled,
-        measurementUnit: input.measurmentUnit,
-        measurementValue: input.measurmentValue,
-        imageUrl: input.imageUrl,
-      };
+      const updatedProduct = await updateProduct(input, ctx.prisma);
 
-      const translationFields: ProductTranslationField[] = [
-        "name",
-        "description",
-      ];
-
-      const transactions: PrismaPromise<unknown>[] = translationFields
-        .map((field) => ({
-          fieldName: field,
-          translation: input[field] || "",
-          languageCode: input.languageCode,
-        }))
-        .filter(({ translation }) => translation)
-        .map((record) =>
-          ctx.prisma.productI18N.updateMany({
-            data: {
-              translation: record.translation,
-            },
-            where: {
-              languageCode: { equals: record.languageCode },
-              fieldName: record.fieldName,
-              productId: input.productId,
-            },
-          })
-        );
-
-      return ctx.prisma.$transaction([
-        ...transactions,
-        ctx.prisma.restaurant.update({
-          where: { id: input.productId },
-          data: updatedData,
-        }),
-      ]);
+      return await findRestaurant(
+        {
+          menu: { some: { id: updatedProduct.menuId } },
+        },
+        ctx.prisma
+      );
     }),
   deleteProduct: protectedProcedure
     .input(deleteProductSchema)
-    .mutation(({ ctx, input }) => {
-      return ctx.prisma.product.delete({
+    .mutation(async ({ ctx, input }) => {
+      const deletedProduct = await ctx.prisma.product.delete({
         where: {
           id: input.productId,
         },
       });
+      return await findRestaurant(
+        { menu: { some: { id: deletedProduct.menuId } } },
+        ctx.prisma
+      );
     }),
 });

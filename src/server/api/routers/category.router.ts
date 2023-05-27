@@ -1,63 +1,48 @@
-import type { CategoryTranslationField, PrismaPromise } from "@prisma/client";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import {
   createCategorySchema,
   deleteCategorySchema,
   updateCategorySchema,
 } from "../schemas/category.schema";
+import { findRestaurant } from "../services/restaurant.service";
+import {
+  createCategory,
+  deleteCategory,
+  updateCategory,
+} from "../services/category.service";
 
 export const categoryRouter = createTRPCRouter({
   createCategory: protectedProcedure
     .input(createCategorySchema)
-    .mutation(({ ctx, input }) => {
-      return ctx.prisma.category.create({
-        data: {
-          menuId: input.menuId,
-          categoryI18N: {
-            create: {
-              fieldName: "name",
-              translation: input.name,
-              languageCode: input.languageCode,
-            },
-          },
-        },
-      });
+    .mutation(async ({ ctx, input }) => {
+      await createCategory(input, ctx.prisma);
+
+      return await findRestaurant(
+        { menu: { some: { id: input.menuId } } },
+        ctx.prisma
+      );
     }),
   updateCategory: protectedProcedure
     .input(updateCategorySchema)
-    .mutation(({ ctx, input }) => {
-      const translationFields: CategoryTranslationField[] = ["name"];
+    .mutation(async ({ ctx, input }) => {
+      await updateCategory(input, ctx.prisma);
 
-      const transactions: PrismaPromise<unknown>[] = translationFields
-        .map((field) => ({
-          fieldName: field,
-          translation: input[field] || "",
-          languageCode: input.languageCode,
-        }))
-        .filter(({ translation }) => translation)
-        .map((record) =>
-          ctx.prisma.categoryI18N.updateMany({
-            data: {
-              translation: record.translation,
-            },
-            where: {
-              languageCode: { equals: record.languageCode },
-              fieldName: record.fieldName,
-              categoryId: input.categoryId,
-            },
-          })
-        );
-
-      return ctx.prisma.$transaction(transactions);
+      return await findRestaurant(
+        { menu: { some: { category: { some: { id: input.categoryId } } } } },
+        ctx.prisma
+      );
     }),
   deleteCategory: protectedProcedure
     .input(deleteCategorySchema)
-    .mutation(({ ctx, input }) => {
-      return ctx.prisma.category.delete({
-        where: {
-          id: input.categoryId,
-        },
-      });
+    .mutation(async ({ ctx, input }) => {
+      const deletedCategory = await deleteCategory(
+        { id: input.categoryId },
+        ctx.prisma
+      );
+
+      return await findRestaurant(
+        { menu: { some: { id: deletedCategory.menuId } } },
+        ctx.prisma
+      );
     }),
 });

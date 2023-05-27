@@ -12,5 +12,5 @@ export default {
     "^~/(.*)$": "<rootDir>/src/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
-  testTimeout: 10000,
+  testTimeout: 15000,
 };

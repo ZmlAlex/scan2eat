@@ -1,0 +1,48 @@
+import {
+  CategoryTranslationField,
+  ProductTranslationField,
+  RestaurantTranslationField,
+} from "@prisma/client";
+import { prisma } from "~/server/db";
+import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
+import { transformTranslation } from "~/server/helpers/formatTranslation";
+import type { CreateProductInput } from "~/server/api/schemas/product.schema";
+
+//TODO: add default value
+export const createProduct = async (input: CreateProductInput) => {
+  const { price, isEnabled, ...restInput } = input;
+
+  const translations = formatFieldsToTranslationTable<ProductTranslationField>(
+    ["name", "description"],
+    restInput
+  );
+
+  const result = await prisma.product.create({
+    data: {
+      menuId: input.menuId,
+      categoryId: input.categoryId,
+      imageUrl: input.imageUrl,
+      measurementUnit: input.measurmentUnit ?? "",
+      measurementValue: input.measurmentValue ?? "",
+      price,
+      productI18N: {
+        createMany: {
+          data: translations,
+        },
+      },
+    },
+    include: {
+      productI18N: {
+        select: {
+          fieldName: true,
+          translation: true,
+        },
+      },
+    },
+  });
+
+  return {
+    ...result,
+    ...transformTranslation<ProductTranslationField>(result.productI18N),
+  };
+};

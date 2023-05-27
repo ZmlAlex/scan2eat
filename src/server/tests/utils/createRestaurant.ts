@@ -36,6 +36,7 @@ export const createRestaurant = async (
           translation: true,
         },
       },
+      menu: { select: { id: true } },
     },
   });
 
