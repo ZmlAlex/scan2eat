@@ -139,7 +139,6 @@ export const createRestaurant = async (
         },
       },
       menu: {
-        select: { id: true },
         include: {
           category: {
             include: { categoryI18N: true },
@@ -161,9 +160,9 @@ export const updateRestaurant = async (
   prisma: PrismaClient
 ) => {
   const updatedData: Partial<Restaurant> = {
-    logoUrl: input.logoUrl,
     workingHours: input.workingHours,
     currencyCode: input.currencyCode,
+    ...(input.logoUrl && { logoUrl: input.logoUrl }),
   };
 
   const translations =

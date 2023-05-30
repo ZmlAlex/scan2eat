@@ -1,7 +1,6 @@
 import { prisma } from "~/server/db";
 
-afterAll(async () => {
+beforeAll(async () => {
   await prisma.user.deleteMany();
-
   await prisma.$disconnect();
 });

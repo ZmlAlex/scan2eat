@@ -12,6 +12,7 @@ import {
   findRestaurant,
   updateRestaurant,
 } from "../services/restaurant.service";
+import { uploadImage } from "~/server/utils/cloudinary";
 
 export const restaurantRouter = createTRPCRouter({
   getRestaurant: protectedProcedure
@@ -35,16 +36,23 @@ export const restaurantRouter = createTRPCRouter({
   createRestaurant: protectedProcedure
     .input(createRestaurantSchema)
     .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const uploadedImage = await uploadImage(input.logoUrl, userId);
+      input.logoUrl = uploadedImage.url;
       //TODO: MOVE IT TO CONTROLERS
-      return await createRestaurant(
-        { ...input, userId: ctx.session.user.id },
-        ctx.prisma
-      );
+      return await createRestaurant({ ...input, userId }, ctx.prisma);
     }),
   updateRestaurant: protectedProcedure
     .input(updateRestaurantSchema)
     .mutation(async ({ ctx, input }) => {
       //TODO: MOVE IT TO CONTROLERS
+      const userId = ctx.session.user.id;
+
+      if (input.logoUrl) {
+        const uploadedImage = await uploadImage(input.logoUrl, userId);
+        input.logoUrl = uploadedImage.url;
+      }
+
       await updateRestaurant(input, { id: input.restaurantId }, ctx.prisma);
 
       return await findRestaurant({ id: input.restaurantId }, ctx.prisma);

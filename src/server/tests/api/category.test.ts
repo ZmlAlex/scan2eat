@@ -1,9 +1,12 @@
-import { type AppRouter } from "../../api/root";
+import type { AppRouter, appRouter } from "../../api/root";
 import { type inferProcedureInput } from "@trpc/server";
-import { createUser } from "../utils/createUser";
-import { createRestaurant } from "../utils/createRestaurant";
-import { createProtectedCaller } from "../utils/protectedCaller";
-import { createCategory } from "../utils/createCategory";
+import { createUser } from "../helpers/createUser";
+import { createRestaurant } from "../helpers/createRestaurant";
+import { createProtectedCaller } from "../helpers/protectedCaller";
+import { createCategory } from "../helpers/createCategory";
+import { User } from "@prisma/client";
+
+type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
 //TODO: MOVE IT TO THE MOCKS
 const createRestaurantInput: inferProcedureInput<
@@ -19,12 +22,14 @@ const createRestaurantInput: inferProcedureInput<
 };
 
 describe("Category API", () => {
+  let testUser: User;
+  let caller: TestCaller;
+
+  beforeEach(async () => {
+    testUser = await createUser();
+    caller = createProtectedCaller(testUser);
+  });
   it("should create category", async () => {
-    //TODO: MOVE IT TO THE BEFORE EACH?
-    const testUser = await createUser();
-
-    const caller = createProtectedCaller(testUser);
-
     const testRestaurant = await createRestaurant(
       testUser.id,
       createRestaurantInput
@@ -49,9 +54,6 @@ describe("Category API", () => {
     });
   });
   it("should update category by id", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
-
     const testRestaurant = await createRestaurant(
       testUser.id,
       createRestaurantInput
@@ -81,9 +83,6 @@ describe("Category API", () => {
   });
 
   it("should delete restaurant by id", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
-
     const testRestaurant = await createRestaurant(
       testUser.id,
       createRestaurantInput
@@ -109,7 +108,6 @@ describe("Category API", () => {
     const {
       menu: { category },
     } = await caller.category.deleteCategory(input);
-    console.log("category: ", category);
 
     expect(category).toHaveLength(1);
   });

@@ -19,7 +19,7 @@ export const updateRestaurantSchema = z.object({
   description: z.string().optional(),
   address: z.string().optional(),
   workingHours: z.string(),
-  logoUrl: z.string(),
+  logoUrl: z.string().optional(),
   currencyCode: currencyCodeS,
   languageCode: languageCodeS,
 });

@@ -23,7 +23,7 @@ export const updateProductSchema = z.object({
   measurmentValue: z.string().optional(),
   name: z.string(),
   description: z.string(),
-  imageUrl: z.string(),
+  imageUrl: z.string().optional(),
   languageCode: languageCodeS,
 });
 

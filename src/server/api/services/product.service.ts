@@ -43,14 +43,14 @@ export const updateProduct = async (
   input: UpdateProductInput,
   prisma: PrismaClient
 ) => {
-  const { price, isEnabled, ...restInput } = input;
+  const { price, isEnabled, imageUrl, ...restInput } = input;
 
   const updatedData: Partial<Product> = {
     price,
     isEnabled,
     measurementUnit: input.measurmentUnit,
     measurementValue: input.measurmentValue,
-    imageUrl: input.imageUrl,
+    ...(imageUrl && { imageUrl }),
   };
 
   const translations = formatFieldsToTranslationTable<ProductTranslationField>(
@@ -61,6 +61,7 @@ export const updateProduct = async (
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
     .map((record) =>
+      //TODO: FIX WITH UPSERT
       prisma.productI18N.updateMany({
         data: {
           translation: record.translation,

@@ -24,6 +24,10 @@ export const env = createEnv({
     EMAIL_SERVER: z.string(),
     EMAIL_FROM: z.string(),
     EMAIL_API_KEY: z.string(),
+
+    CLOUDINARY_CLOUD_NAME: z.string(),
+    CLOUDINARY_API_KEY: z.string(),
+    CLOUDINARY_API_SECRET: z.string(),
   },
 
   /**
@@ -47,5 +51,8 @@ export const env = createEnv({
     EMAIL_SERVER: process.env.EMAIL_SERVER,
     EMAIL_FROM: process.env.EMAIL_FROM,
     EMAIL_API_KEY: process.env.EMAIL_API_KEY,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   },
 });

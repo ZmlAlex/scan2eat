@@ -6,11 +6,18 @@ import {
 } from "../schemas/product.schema";
 import { findRestaurant } from "../services/restaurant.service";
 import { createProduct, updateProduct } from "../services/product.service";
+import { uploadImage } from "~/server/utils/cloudinary";
 
 export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
     .input(createProductSchema)
     .mutation(async ({ ctx, input }) => {
+      const uploadedImage = await uploadImage(
+        input.imageUrl,
+        ctx.session.user.id
+      );
+      input.imageUrl = uploadedImage.url;
+
       const createdProduct = await createProduct(input, ctx.prisma);
 
       return await findRestaurant(
@@ -21,6 +28,13 @@ export const productRouter = createTRPCRouter({
   updateProduct: protectedProcedure
     .input(updateProductSchema)
     .mutation(async ({ ctx, input }) => {
+      if (input.imageUrl) {
+        const uploadedImage = await uploadImage(
+          input.imageUrl,
+          ctx.session.user.id
+        );
+        input.imageUrl = uploadedImage.url;
+      }
       const updatedProduct = await updateProduct(input, ctx.prisma);
 
       return await findRestaurant(

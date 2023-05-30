@@ -1,8 +1,11 @@
-import { type AppRouter } from "../../api/root";
+import type { AppRouter, appRouter } from "../../api/root";
 import { type inferProcedureInput } from "@trpc/server";
-import { createUser } from "../utils/createUser";
-import { createRestaurant } from "../utils/createRestaurant";
-import { createProtectedCaller } from "../utils/protectedCaller";
+import { createUser } from "../helpers/createUser";
+import { createRestaurant } from "../helpers/createRestaurant";
+import { createProtectedCaller } from "../helpers/protectedCaller";
+import { type User } from "@prisma/client";
+
+type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
 const createRestaurantInput: inferProcedureInput<
   AppRouter["restaurant"]["createRestaurant"]
@@ -12,34 +15,34 @@ const createRestaurantInput: inferProcedureInput<
   description: "best fastfood in the Bikini Bottom",
   currencyCode: "RUB",
   workingHours: "24hrs",
-  logoUrl: "bla!",
+  logoUrl:
+    "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
   languageCode: "english",
 };
 
 describe("Restaurant API", () => {
-  it("should create restaurant", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
+  let testUser: User;
+  let caller: TestCaller;
 
+  beforeEach(async () => {
+    testUser = await createUser();
+    caller = createProtectedCaller(testUser);
+  });
+  it("should create restaurant", async () => {
     const result = await caller.restaurant.createRestaurant(
       createRestaurantInput
     );
-
-    console.log("result: ", result);
 
     expect(result).toMatchObject({
       name: "Krusty Krab",
       address: "831 Bottom Feeder Lane",
       description: "best fastfood in the Bikini Bottom",
       currencyCode: "RUB",
-      logoUrl: "bla!",
+      logoUrl: expect.stringContaining("cloudinary") as string,
       workingHours: "24hrs",
     });
   });
   it("should get restaurant by id", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
-
     const testRestaurant = await createRestaurant(
       testUser.id,
       createRestaurantInput
@@ -58,7 +61,7 @@ describe("Restaurant API", () => {
       address: "831 Bottom Feeder Lane",
       description: "best fastfood in the Bikini Bottom",
       currencyCode: "RUB",
-      logoUrl: "bla!",
+      logoUrl: expect.stringContaining("Olympic") as string,
       workingHours: "24hrs",
       currency: {
         code: "RUB",
@@ -68,9 +71,6 @@ describe("Restaurant API", () => {
   });
 
   it("should get all restaurants by id", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
-
     await Promise.all([
       createRestaurant(testUser.id, createRestaurantInput),
       createRestaurant(testUser.id, createRestaurantInput),
@@ -78,50 +78,79 @@ describe("Restaurant API", () => {
 
     const result = await caller.restaurant.getAllRestaurants();
 
-    console.log("result: ", result);
-
     expect(result).toHaveLength(2);
   });
 
-  it("should update restaurant by id", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
+  describe("When restaurant is updated by id", () => {
+    it("should return restaurant with new data and old logoUrl", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
 
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["updateRestaurant"]
+      > = {
+        ...createRestaurantInput,
+        logoUrl: undefined,
+        restaurantId: testRestaurant.id,
+        name: "Chum Bucket",
+        address: "830 Bottom Feeder Lane",
+      };
 
-    const input: inferProcedureInput<
-      AppRouter["restaurant"]["updateRestaurant"]
-    > = {
-      ...createRestaurantInput,
-      restaurantId: testRestaurant.id,
-      name: "Chum Bucket",
-      address: "830 Bottom Feeder Lane",
-    };
+      const result = await caller.restaurant.updateRestaurant(input);
 
-    const result = await caller.restaurant.updateRestaurant(input);
+      expect(result).toMatchObject({
+        name: "Chum Bucket",
+        address: "830 Bottom Feeder Lane",
+        description: "best fastfood in the Bikini Bottom",
+        currencyCode: "RUB",
+        logoUrl: expect.stringContaining("Olympic") as string,
+        workingHours: "24hrs",
+        currency: {
+          code: "RUB",
+          title: "рубль",
+        },
+      });
+    });
 
-    console.log("result: ", result);
-    expect(result).toMatchObject({
-      name: "Chum Bucket",
-      address: "830 Bottom Feeder Lane",
-      description: "best fastfood in the Bikini Bottom",
-      currencyCode: "RUB",
-      logoUrl: "bla!",
-      workingHours: "24hrs",
-      currency: {
-        code: "RUB",
-        title: "рубль",
-      },
+    it("should return restaurant with new data and new logoUrl", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["updateRestaurant"]
+      > = {
+        ...createRestaurantInput,
+        logoUrl:
+          "https://upload.wikimedia.org/wikipedia/commons/6/62/Barbieri_-_ViaSophia25668.jpg",
+        restaurantId: testRestaurant.id,
+        name: "Chum Bucket",
+        address: "830 Bottom Feeder Lane",
+      };
+
+      const result = await caller.restaurant.updateRestaurant(input);
+      console.log("result: ", result);
+
+      expect(result).toMatchObject({
+        name: "Chum Bucket",
+        address: "830 Bottom Feeder Lane",
+        description: "best fastfood in the Bikini Bottom",
+        currencyCode: "RUB",
+        logoUrl: expect.stringContaining("cloudinary") as string,
+
+        workingHours: "24hrs",
+        currency: {
+          code: "RUB",
+          title: "рубль",
+        },
+      });
     });
   });
 
   it("should delete restaurant by id", async () => {
-    const testUser = await createUser();
-    const caller = createProtectedCaller(testUser);
-
     const [testRestaurant, testRestaurantSecond] = await Promise.all([
       createRestaurant(testUser.id, createRestaurantInput),
       createRestaurant(testUser.id, createRestaurantInput),
