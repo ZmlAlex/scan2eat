@@ -1,9 +1,10 @@
 import type {
+  CategoryTranslationField,
   Prisma,
   PrismaClient,
   PrismaPromise,
-  CategoryTranslationField,
 } from "@prisma/client";
+
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
 import type {

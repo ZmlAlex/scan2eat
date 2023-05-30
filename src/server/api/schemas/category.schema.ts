@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { languageCodeS } from "./common.schema";
 
 export const createCategorySchema = z.object({

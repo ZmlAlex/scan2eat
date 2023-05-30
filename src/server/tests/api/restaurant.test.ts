@@ -1,9 +1,10 @@
-import type { AppRouter, appRouter } from "../../api/root";
-import { type inferProcedureInput } from "@trpc/server";
-import { createUser } from "../helpers/createUser";
-import { createRestaurant } from "../helpers/createRestaurant";
-import { createProtectedCaller } from "../helpers/protectedCaller";
 import { type User } from "@prisma/client";
+import { type inferProcedureInput } from "@trpc/server";
+
+import type { AppRouter, appRouter } from "../../api/root";
+import { createRestaurant } from "../helpers/createRestaurant";
+import { createUser } from "../helpers/createUser";
+import { createProtectedCaller } from "../helpers/protectedCaller";
 
 type TestCaller = ReturnType<typeof appRouter.createCaller>;
 

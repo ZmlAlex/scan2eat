@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { currencyCodeS, languageCodeS } from "./common.schema";
 
 export const getRestaurantSchema = z.object({ restaurantId: z.string() });

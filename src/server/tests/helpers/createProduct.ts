@@ -1,8 +1,9 @@
 import type { ProductTranslationField } from "@prisma/client";
+
+import type { CreateProductInput } from "~/server/api/schemas/product.schema";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
-import type { CreateProductInput } from "~/server/api/schemas/product.schema";
 
 //TODO: add default value
 export const createProduct = async (input: CreateProductInput) => {

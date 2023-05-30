@@ -2,10 +2,11 @@ import type {
   CategoryTranslationField,
   RestaurantTranslationField,
 } from "@prisma/client";
+
+import type { CreateCategoryInput } from "~/server/api/schemas/category.schema";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
-import type { CreateCategoryInput } from "~/server/api/schemas/category.schema";
 
 export const createCategory = async (input: CreateCategoryInput) => {
   const translations = formatFieldsToTranslationTable<CategoryTranslationField>(

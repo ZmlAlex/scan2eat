@@ -1,14 +1,16 @@
 import type {
+  CategoryTranslationField,
   Prisma,
-  RestaurantTranslationField,
   PrismaClient,
   PrismaPromise,
-  Restaurant,
-  CategoryTranslationField,
   ProductTranslationField,
+  Restaurant,
+  RestaurantTranslationField,
 } from "@prisma/client";
+
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
+
 import type {
   CreateRestaurantInput,
   UpdateRestaurantInput,

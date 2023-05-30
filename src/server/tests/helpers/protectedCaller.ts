@@ -1,7 +1,8 @@
-import { appRouter } from "~/server/api/root";
-import { type Session } from "next-auth";
-import { createInnerTRPCContext } from "~/server/api/trpc";
 import type { User } from "@prisma/client";
+import { type Session } from "next-auth";
+
+import { appRouter } from "~/server/api/root";
+import { createInnerTRPCContext } from "~/server/api/trpc";
 
 export const createProtectedCaller = (user: User) => {
   const mockSession: Session = {

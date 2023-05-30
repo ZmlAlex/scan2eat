@@ -1,4 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { uploadImage } from "~/server/utils/cloudinary";
+
 import {
   createRestaurantSchema,
   deleteRestaurantSchema,
@@ -12,7 +14,6 @@ import {
   findRestaurant,
   updateRestaurant,
 } from "../services/restaurant.service";
-import { uploadImage } from "~/server/utils/cloudinary";
 
 export const restaurantRouter = createTRPCRouter({
   getRestaurant: protectedProcedure

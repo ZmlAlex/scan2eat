@@ -1,5 +1,6 @@
-import { prisma } from "~/server/db";
 import crypto from "crypto";
+
+import { prisma } from "~/server/db";
 
 export const createUser = async () => {
   return await prisma.user.create({

@@ -1,11 +1,12 @@
-import type { appRouter, AppRouter } from "../../api/root";
+import { type User } from "@prisma/client";
 import { type inferProcedureInput } from "@trpc/server";
-import { createUser } from "../helpers/createUser";
-import { createRestaurant } from "../helpers/createRestaurant";
-import { createProtectedCaller } from "../helpers/protectedCaller";
+
+import type { AppRouter,appRouter } from "../../api/root";
 import { createCategory } from "../helpers/createCategory";
 import { createProduct } from "../helpers/createProduct";
-import { type User } from "@prisma/client";
+import { createRestaurant } from "../helpers/createRestaurant";
+import { createUser } from "../helpers/createUser";
+import { createProtectedCaller } from "../helpers/protectedCaller";
 
 //TODO: MOVE IT TO THE MOCKS
 const createRestaurantInput: inferProcedureInput<

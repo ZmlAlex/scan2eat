@@ -1,5 +1,5 @@
-import crypto from "crypto";
 import cloudinary from "cloudinary";
+import crypto from "crypto";
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

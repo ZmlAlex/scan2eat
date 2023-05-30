@@ -2,10 +2,12 @@ import type {
   Prisma,
   PrismaClient,
   PrismaPromise,
-  ProductTranslationField,
   Product,
+  ProductTranslationField,
 } from "@prisma/client";
+
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
+
 import type {
   CreateProductInput,
   UpdateProductInput,

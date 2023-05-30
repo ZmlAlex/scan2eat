@@ -1,6 +1,7 @@
-import { createTRPCRouter } from "~/server/api/trpc";
-import { restaurantRouter } from "~/server/api/routers/restaurant.router";
 import { exampleRouter } from "~/server/api/routers/example.router";
+import { restaurantRouter } from "~/server/api/routers/restaurant.router";
+import { createTRPCRouter } from "~/server/api/trpc";
+
 import { categoryRouter } from "./routers/category.router";
 import { productRouter } from "./routers/product.router";
 

@@ -1,12 +1,13 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { uploadImage } from "~/server/utils/cloudinary";
+
 import {
   createProductSchema,
   deleteProductSchema,
   updateProductSchema,
 } from "../schemas/product.schema";
-import { findRestaurant } from "../services/restaurant.service";
 import { createProduct, updateProduct } from "../services/product.service";
-import { uploadImage } from "~/server/utils/cloudinary";
+import { findRestaurant } from "../services/restaurant.service";
 
 export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure

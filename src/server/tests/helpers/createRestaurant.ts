@@ -1,8 +1,9 @@
 import type { RestaurantTranslationField } from "@prisma/client";
+
+import type { CreateRestaurantInput } from "~/server/api/schemas/restaurant.schema";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
-import type { CreateRestaurantInput } from "~/server/api/schemas/restaurant.schema";
 
 export const createRestaurant = async (
   userId: string,

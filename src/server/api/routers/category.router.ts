@@ -1,15 +1,16 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+
 import {
   createCategorySchema,
   deleteCategorySchema,
   updateCategorySchema,
 } from "../schemas/category.schema";
-import { findRestaurant } from "../services/restaurant.service";
 import {
   createCategory,
   deleteCategory,
   updateCategory,
 } from "../services/category.service";
+import { findRestaurant } from "../services/restaurant.service";
 
 export const categoryRouter = createTRPCRouter({
   createCategory: protectedProcedure

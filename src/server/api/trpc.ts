@@ -66,8 +66,8 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-import { initTRPC, TRPCError } from "@trpc/server";
 import type { PrismaClient } from "@prisma/client";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
