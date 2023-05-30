@@ -4,7 +4,7 @@ import { createUser } from "../helpers/createUser";
 import { createRestaurant } from "../helpers/createRestaurant";
 import { createProtectedCaller } from "../helpers/protectedCaller";
 import { createCategory } from "../helpers/createCategory";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 
 type TestCaller = ReturnType<typeof appRouter.createCaller>;
 

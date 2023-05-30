@@ -1,4 +1,4 @@
-import { appRouter, type AppRouter } from "../../api/root";
+import type { appRouter, AppRouter } from "../../api/root";
 import { type inferProcedureInput } from "@trpc/server";
 import { createUser } from "../helpers/createUser";
 import { createRestaurant } from "../helpers/createRestaurant";
