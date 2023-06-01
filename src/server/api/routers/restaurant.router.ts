@@ -5,6 +5,7 @@ import {
   createRestaurantSchema,
   deleteRestaurantSchema,
   getRestaurantSchema,
+  setPublishedRestaurantSchema,
   updateRestaurantSchema,
 } from "../schemas/restaurant.schema";
 import {
@@ -55,6 +56,21 @@ export const restaurantRouter = createTRPCRouter({
       }
 
       await updateRestaurant(input, { id: input.restaurantId }, ctx.prisma);
+      return await findRestaurant(
+        {
+          id: input.restaurantId,
+        },
+        ctx.prisma
+      );
+    }),
+  setPublishedRestaurant: protectedProcedure
+    .input(setPublishedRestaurantSchema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.restaurant.update({
+        where: { id: input.restaurantId },
+        data: { isPublished: input.isPublished },
+      });
+
       return await findRestaurant(
         {
           id: input.restaurantId,

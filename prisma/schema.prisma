@@ -86,6 +86,7 @@ model Restaurant {
   currencyCode CurrencyCode
   workingHours String
   logoUrl      String
+  isPublished  Boolean      @default(false)
 
   restaurantI18N RestaurantI18N[]
   menu           Menu[]

@@ -39,6 +39,7 @@ describe("Restaurant API", () => {
       currencyCode: "RUB",
       logoUrl: expect.stringContaining("cloudinary") as string,
       workingHours: "24hrs",
+      isPublished: false,
       restaurantI18N: {
         english: expect.objectContaining({
           name: "Krusty Krab",
@@ -203,6 +204,26 @@ describe("Restaurant API", () => {
           code: "RUB",
           title: "рубль",
         },
+      });
+    });
+
+    it("should update published status on true return restaurant with new data", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["setPublishedRestaurant"]
+      > = {
+        restaurantId: testRestaurant.id,
+        isPublished: true,
+      };
+
+      const result = await caller.restaurant.setPublishedRestaurant(input);
+
+      expect(result).toMatchObject({
+        isPublished: true,
       });
     });
   });

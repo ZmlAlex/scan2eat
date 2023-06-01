@@ -25,6 +25,11 @@ export const updateRestaurantSchema = z.object({
   languageCode: languageCodeS,
 });
 
+export const setPublishedRestaurantSchema = z.object({
+  restaurantId: z.string(),
+  isPublished: z.boolean(),
+});
+
 export const deleteRestaurantSchema = z.object({ restaurantId: z.string() });
 
 export type CreateRestaurantInput = z.infer<typeof createRestaurantSchema>;
