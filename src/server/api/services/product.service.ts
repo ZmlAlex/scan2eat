@@ -63,15 +63,22 @@ export const updateProduct = async (
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
     .map((record) =>
-      //TODO: FIX WITH UPSERT
-      prisma.productI18N.updateMany({
-        data: {
+      prisma.productI18N.upsert({
+        where: {
+          productId_languageCode_fieldName: {
+            languageCode: record.languageCode,
+            fieldName: record.fieldName,
+            productId: input.productId,
+          },
+        },
+        update: {
           translation: record.translation,
         },
-        where: {
-          languageCode: { equals: record.languageCode },
+        create: {
+          languageCode: record.languageCode,
           fieldName: record.fieldName,
           productId: input.productId,
+          translation: record.translation,
         },
       })
     );

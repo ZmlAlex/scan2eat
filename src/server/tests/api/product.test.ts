@@ -1,12 +1,15 @@
 import { type User } from "@prisma/client";
 import { type inferProcedureInput } from "@trpc/server";
 
-import type { AppRouter,appRouter } from "../../api/root";
+import type { AppRouter, appRouter } from "../../api/root";
 import { createCategory } from "../helpers/createCategory";
 import { createProduct } from "../helpers/createProduct";
 import { createRestaurant } from "../helpers/createRestaurant";
 import { createUser } from "../helpers/createUser";
 import { createProtectedCaller } from "../helpers/protectedCaller";
+
+//TODO: MOVE IT GLOBALLY
+type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
 //TODO: MOVE IT TO THE MOCKS
 const createRestaurantInput: inferProcedureInput<
@@ -20,8 +23,6 @@ const createRestaurantInput: inferProcedureInput<
   logoUrl: "mockUrl",
   languageCode: "english",
 };
-
-type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
 describe("Product API", () => {
   let testUser: User;
@@ -63,11 +64,15 @@ describe("Product API", () => {
     } = await caller.product.createProduct(createProductInput);
 
     expect(product?.[0]).toMatchObject({
-      name: "apple juice",
-      description: "amazing fresh drink",
       price: 1000,
       isEnabled: true,
       imageUrl: expect.stringContaining("cloudinary") as string,
+      productI18N: {
+        english: expect.objectContaining({
+          name: "apple juice",
+          description: "amazing fresh drink",
+        }) as unknown,
+      },
     });
   });
 
@@ -113,11 +118,15 @@ describe("Product API", () => {
       } = await caller.product.updateProduct(updateProductInput);
 
       expect(product?.[0]).toMatchObject({
-        name: "orange juice",
         price: 1500,
-        description: "amazing fresh drink",
         imageUrl: "mockUrl",
         isEnabled: true,
+        productI18N: {
+          english: expect.objectContaining({
+            name: "orange juice",
+            description: "amazing fresh drink",
+          }) as unknown,
+        },
       });
     });
 
@@ -163,11 +172,60 @@ describe("Product API", () => {
       } = await caller.product.updateProduct(updateProductInput);
 
       expect(product?.[0]).toMatchObject({
-        name: "orange juice",
         price: 1500,
-        description: "amazing fresh drink",
         imageUrl: expect.not.stringContaining("originalUrl") as string,
         isEnabled: true,
+        productI18N: {
+          english: expect.objectContaining({
+            name: "orange juice",
+            description: "amazing fresh drink",
+          }) as unknown,
+        },
+      });
+    });
+
+    it("should update translations for russian language product", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const testCategory = await createCategory({
+        menuId: testRestaurant.menu[0]?.id as string,
+        name: "juices",
+        languageCode: "english",
+      });
+
+      const testProduct = await createProduct({
+        menuId: testRestaurant.menu[0]?.id as string,
+        categoryId: testCategory.id,
+        name: "apple juice",
+        description: "amazing fresh drink",
+        price: 1000,
+        languageCode: "english",
+        measurmentUnit: "ml.",
+        measurmentValue: "250",
+        imageUrl: "mockUrl",
+      });
+
+      const updateProductInput: inferProcedureInput<
+        AppRouter["product"]["updateProduct"]
+      > = {
+        productId: testProduct.id,
+        name: "апельсиновый сок",
+        price: 1500,
+        description: "свежевыжатый сок",
+        languageCode: "russian",
+        isEnabled: true,
+      };
+
+      const {
+        menu: { product },
+      } = await caller.product.updateProduct(updateProductInput);
+
+      expect(product?.[0]?.productI18N.russian).toMatchObject({
+        name: "апельсиновый сок",
+        description: "свежевыжатый сок",
       });
     });
   });

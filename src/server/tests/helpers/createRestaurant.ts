@@ -35,6 +35,7 @@ export const createRestaurant = async (
         select: {
           fieldName: true,
           translation: true,
+          languageCode: true,
         },
       },
       menu: { select: { id: true } },
@@ -43,6 +44,8 @@ export const createRestaurant = async (
 
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
+    restaurantI18N: transformTranslation<RestaurantTranslationField>(
+      result.restaurantI18N
+    ),
   };
 };

@@ -34,6 +34,7 @@ export const createProduct = async (input: CreateProductInput) => {
         select: {
           fieldName: true,
           translation: true,
+          languageCode: true,
         },
       },
     },
@@ -41,6 +42,8 @@ export const createProduct = async (input: CreateProductInput) => {
 
   return {
     ...result,
-    ...transformTranslation<ProductTranslationField>(result.productI18N),
+    productI18N: transformTranslation<ProductTranslationField>(
+      result.productI18N
+    ),
   };
 };

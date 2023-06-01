@@ -55,8 +55,12 @@ export const restaurantRouter = createTRPCRouter({
       }
 
       await updateRestaurant(input, { id: input.restaurantId }, ctx.prisma);
-
-      return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
+      return await findRestaurant(
+        {
+          id: input.restaurantId,
+        },
+        ctx.prisma
+      );
     }),
   deleteRestaurant: protectedProcedure
     .input(deleteRestaurantSchema)

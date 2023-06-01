@@ -110,6 +110,8 @@ model RestaurantI18N {
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+
+  @@unique([restaurantId, languageCode, fieldName])
 }
 
 model Menu {
@@ -149,6 +151,8 @@ model CategoryI18N {
 
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+
+  @@unique([categoryId, languageCode, fieldName])
 }
 
 model Product {
@@ -184,6 +188,8 @@ model ProductI18N {
 
   product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+
+  @@unique([productId, languageCode, fieldName])
 }
 
 enum LanguageTitle {

@@ -6,6 +6,7 @@ import { createRestaurant } from "../helpers/createRestaurant";
 import { createUser } from "../helpers/createUser";
 import { createProtectedCaller } from "../helpers/protectedCaller";
 
+//TODO: MOVE IT GLOBALLY
 type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
 const createRestaurantInput: inferProcedureInput<
@@ -35,12 +36,16 @@ describe("Restaurant API", () => {
     );
 
     expect(result).toMatchObject({
-      name: "Krusty Krab",
-      address: "831 Bottom Feeder Lane",
-      description: "best fastfood in the Bikini Bottom",
       currencyCode: "RUB",
       logoUrl: expect.stringContaining("cloudinary") as string,
       workingHours: "24hrs",
+      restaurantI18N: {
+        english: expect.objectContaining({
+          name: "Krusty Krab",
+          address: "831 Bottom Feeder Lane",
+          description: "best fastfood in the Bikini Bottom",
+        }) as unknown,
+      },
     });
   });
   it("should get restaurant by id", async () => {
@@ -58,15 +63,19 @@ describe("Restaurant API", () => {
 
     console.log("result: ", result);
     expect(result).toMatchObject({
-      name: "Krusty Krab",
-      address: "831 Bottom Feeder Lane",
-      description: "best fastfood in the Bikini Bottom",
       currencyCode: "RUB",
       logoUrl: expect.stringContaining("Olympic") as string,
       workingHours: "24hrs",
       currency: {
         code: "RUB",
         title: "рубль",
+      },
+      restaurantI18N: {
+        english: expect.objectContaining({
+          name: "Krusty Krab",
+          address: "831 Bottom Feeder Lane",
+          description: "best fastfood in the Bikini Bottom",
+        }) as unknown,
       },
     });
   });
@@ -102,15 +111,19 @@ describe("Restaurant API", () => {
       const result = await caller.restaurant.updateRestaurant(input);
 
       expect(result).toMatchObject({
-        name: "Chum Bucket",
-        address: "830 Bottom Feeder Lane",
-        description: "best fastfood in the Bikini Bottom",
         currencyCode: "RUB",
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
         currency: {
           code: "RUB",
           title: "рубль",
+        },
+        restaurantI18N: {
+          english: expect.objectContaining({
+            name: "Chum Bucket",
+            address: "830 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
         },
       });
     });
@@ -136,13 +149,56 @@ describe("Restaurant API", () => {
       console.log("result: ", result);
 
       expect(result).toMatchObject({
-        name: "Chum Bucket",
-        address: "830 Bottom Feeder Lane",
-        description: "best fastfood in the Bikini Bottom",
         currencyCode: "RUB",
         logoUrl: expect.stringContaining("cloudinary") as string,
 
         workingHours: "24hrs",
+        currency: {
+          code: "RUB",
+          title: "рубль",
+        },
+        restaurantI18N: {
+          english: expect.objectContaining({
+            name: "Chum Bucket",
+            address: "830 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
+        },
+      });
+    });
+
+    it("should update translations for russian language and return restaurant with new data", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["updateRestaurant"]
+      > = {
+        ...createRestaurantInput,
+        logoUrl: undefined,
+        restaurantId: testRestaurant.id,
+        name: "Красти Крабс",
+        address: "Нижний переулок 830",
+        description: "лучшие бургеры",
+        languageCode: "russian",
+      };
+
+      const result = await caller.restaurant.updateRestaurant(input);
+      console.log("result: ", result);
+
+      expect(result).toMatchObject({
+        currencyCode: "RUB",
+        logoUrl: expect.stringContaining("Olympic") as string,
+        workingHours: "24hrs",
+        restaurantI18N: {
+          russian: expect.objectContaining({
+            name: "Красти Крабс",
+            address: "Нижний переулок 830",
+            description: "лучшие бургеры",
+          }) as unknown,
+        },
         currency: {
           code: "RUB",
           title: "рубль",

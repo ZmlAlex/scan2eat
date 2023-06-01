@@ -44,14 +44,22 @@ export const updateCategory = async (
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
     .map((record) =>
-      prisma.categoryI18N.updateMany({
-        data: {
+      prisma.categoryI18N.upsert({
+        where: {
+          categoryId_languageCode_fieldName: {
+            categoryId: input.categoryId,
+            languageCode: record.languageCode,
+            fieldName: record.fieldName,
+          },
+        },
+        update: {
           translation: record.translation,
         },
-        where: {
-          languageCode: { equals: record.languageCode },
-          fieldName: record.fieldName,
+        create: {
+          translation: record.translation,
           categoryId: input.categoryId,
+          languageCode: record.languageCode,
+          fieldName: record.fieldName,
         },
       })
     );

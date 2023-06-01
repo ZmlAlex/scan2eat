@@ -7,6 +7,7 @@ import { createRestaurant } from "../helpers/createRestaurant";
 import { createUser } from "../helpers/createUser";
 import { createProtectedCaller } from "../helpers/protectedCaller";
 
+//TODO: MOVE IT GLOBALLY
 type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
 //TODO: MOVE IT TO THE MOCKS
@@ -51,35 +52,75 @@ describe("Category API", () => {
     } = await caller.category.createCategory(createCategoryInput);
 
     expect(category?.[0]).toMatchObject({
-      name: "juices",
+      categoryI18N: {
+        english: expect.objectContaining({
+          name: "juices",
+        }) as unknown,
+      },
     });
   });
-  it("should update category by id", async () => {
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
 
-    const testCategory = await createCategory({
-      menuId: testRestaurant.menu[0]?.id as string,
-      name: "juices",
-      languageCode: "english",
+  describe("When category is updated by id", () => {
+    it("should return category with new data", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const testCategory = await createCategory({
+        menuId: testRestaurant.menu[0]?.id as string,
+        name: "juices",
+        languageCode: "english",
+      });
+
+      const updateCategoryInput: inferProcedureInput<
+        AppRouter["category"]["updateCategory"]
+      > = {
+        categoryId: testCategory.id,
+        name: "beverages",
+        languageCode: "english",
+      };
+
+      const {
+        menu: { category },
+      } = await caller.category.updateCategory(updateCategoryInput);
+
+      expect(category?.[0]).toMatchObject({
+        categoryI18N: {
+          english: expect.objectContaining({
+            name: "beverages",
+          }) as unknown,
+        },
+      });
     });
 
-    const updateCategoryInput: inferProcedureInput<
-      AppRouter["category"]["updateCategory"]
-    > = {
-      categoryId: testCategory.id,
-      name: "beverages",
-      languageCode: "english",
-    };
+    it("should update translations for russian language category", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
 
-    const {
-      menu: { category },
-    } = await caller.category.updateCategory(updateCategoryInput);
+      const testCategory = await createCategory({
+        menuId: testRestaurant.menu[0]?.id as string,
+        name: "juices",
+        languageCode: "english",
+      });
 
-    expect(category?.[0]).toMatchObject({
-      name: "beverages",
+      const updateCategoryInput: inferProcedureInput<
+        AppRouter["category"]["updateCategory"]
+      > = {
+        categoryId: testCategory.id,
+        name: "соки",
+        languageCode: "russian",
+      };
+
+      const {
+        menu: { category },
+      } = await caller.category.updateCategory(updateCategoryInput);
+
+      expect(category?.[0]?.categoryI18N.russian).toMatchObject({
+        name: "соки",
+      });
     });
   });
 

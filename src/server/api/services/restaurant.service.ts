@@ -27,6 +27,7 @@ export const findRestaurant = async (
         select: {
           fieldName: true,
           translation: true,
+          languageCode: true,
         },
       },
       currency: {
@@ -38,7 +39,9 @@ export const findRestaurant = async (
       menu: {
         include: {
           category: {
-            include: { categoryI18N: true },
+            include: {
+              categoryI18N: true,
+            },
           },
           product: {
             include: {
@@ -50,19 +53,39 @@ export const findRestaurant = async (
     },
   });
 
+  console.log("result before: ", result);
+
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
+    restaurantI18N: transformTranslation<RestaurantTranslationField>(
+      result.restaurantI18N
+      // languageCode
+    ),
+    // ...transformTranslation<RestaurantTranslationField>(
+    // result.restaurantI18N
+    // languageCode
+    // ),
     //temporary return first menu
     menu: {
       ...result.menu[0],
       category: result.menu[0]?.category.map((record) => ({
         ...record,
-        ...transformTranslation<CategoryTranslationField>(record.categoryI18N),
+        categoryI18N: transformTranslation<CategoryTranslationField>(
+          record.categoryI18N
+        ),
+        // ...transformTranslation<CategoryTranslationField>(
+        // record.categoryI18N
+        // languageCode
+        // ),
       })),
       product: result.menu[0]?.product.map((record) => ({
         ...record,
-        ...transformTranslation<ProductTranslationField>(record.productI18N),
+        productI18N: transformTranslation<ProductTranslationField>(
+          record.productI18N
+        ),
+        // ...transformTranslation<ProductTranslationField>(
+        //   record.productI18N
+        // ),
       })),
     },
   };
@@ -79,6 +102,7 @@ export const findAllRestaurants = async (
         select: {
           fieldName: true,
           translation: true,
+          languageCode: true,
         },
       },
       currency: {
@@ -104,7 +128,10 @@ export const findAllRestaurants = async (
 
   return result.map((record) => ({
     ...record,
-    ...transformTranslation<RestaurantTranslationField>(record.restaurantI18N),
+    restaurantI18N: transformTranslation<RestaurantTranslationField>(
+      record.restaurantI18N
+    ),
+    // ...transformTranslation<RestaurantTranslationField>(record.restaurantI18N),
   }));
 };
 
@@ -138,6 +165,7 @@ export const createRestaurant = async (
         select: {
           fieldName: true,
           translation: true,
+          languageCode: true,
         },
       },
       menu: {
@@ -152,7 +180,9 @@ export const createRestaurant = async (
 
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationField>(result.restaurantI18N),
+    restaurantI18N: transformTranslation<RestaurantTranslationField>(
+      result.restaurantI18N
+    ),
   };
 };
 
@@ -176,21 +206,29 @@ export const updateRestaurant = async (
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
     .map((record) =>
-      prisma.restaurantI18N.updateMany({
-        data: {
+      prisma.restaurantI18N.upsert({
+        where: {
+          restaurantId_languageCode_fieldName: {
+            languageCode: record.languageCode,
+            fieldName: record.fieldName,
+            restaurantId: input.restaurantId,
+          },
+        },
+        update: {
           translation: record.translation,
         },
-        where: {
-          languageCode: { equals: record.languageCode },
-          fieldName: record.fieldName,
+        create: {
           restaurantId: input.restaurantId,
+          languageCode: record.languageCode,
+          fieldName: record.fieldName,
+          translation: record.translation,
         },
       })
     );
 
   await prisma.$transaction([
     ...transactions,
-    prisma.restaurant.updateMany({
+    prisma.restaurant.update({
       where,
       data: updatedData,
     }),

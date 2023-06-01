@@ -28,6 +28,7 @@ export const createCategory = async (input: CreateCategoryInput) => {
         select: {
           fieldName: true,
           translation: true,
+          languageCode: true,
         },
       },
     },
@@ -35,6 +36,8 @@ export const createCategory = async (input: CreateCategoryInput) => {
 
   return {
     ...result,
-    ...transformTranslation<RestaurantTranslationField>(result.categoryI18N),
+    categoryI18N: transformTranslation<RestaurantTranslationField>(
+      result.categoryI18N
+    ),
   };
 };

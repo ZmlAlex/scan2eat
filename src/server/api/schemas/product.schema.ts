@@ -28,7 +28,9 @@ export const updateProductSchema = z.object({
   languageCode: languageCodeS,
 });
 
-export const deleteProductSchema = z.object({ productId: z.string() });
+export const deleteProductSchema = z.object({
+  productId: z.string(),
+});
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;
