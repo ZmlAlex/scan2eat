@@ -2,9 +2,9 @@ import { z } from "zod";
 
 import { currencyCodeS, languageCodeS } from "./common.schema";
 
-export const getRestaurantSchema = z.object({ restaurantId: z.string() });
+export const getRestaurantSchemaInput = z.object({ restaurantId: z.string() });
 
-export const createRestaurantSchema = z.object({
+export const createRestaurantSchemaInput = z.object({
   name: z.string(),
   description: z.string().optional(),
   address: z.string().optional(),
@@ -14,7 +14,7 @@ export const createRestaurantSchema = z.object({
   languageCode: languageCodeS,
 });
 
-export const updateRestaurantSchema = z.object({
+export const updateRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
   name: z.string(),
   description: z.string().optional(),
@@ -25,13 +25,15 @@ export const updateRestaurantSchema = z.object({
   languageCode: languageCodeS,
 });
 
-export const setPublishedRestaurantSchema = z.object({
+export const setPublishedRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
   isPublished: z.boolean(),
 });
 
-export const deleteRestaurantSchema = z.object({ restaurantId: z.string() });
+export const deleteRestaurantSchemaInput = z.object({
+  restaurantId: z.string(),
+});
 
-export type CreateRestaurantInput = z.infer<typeof createRestaurantSchema>;
-export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchema>;
-export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantSchema>;
+export type CreateRestaurantInput = z.infer<typeof createRestaurantSchemaInput>;
+export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchemaInput>;
+export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantSchemaInput>;

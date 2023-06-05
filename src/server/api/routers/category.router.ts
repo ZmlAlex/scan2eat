@@ -1,9 +1,9 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 import {
-  createCategorySchema,
-  deleteCategorySchema,
-  updateCategorySchema,
+  createCategorySchemaInput,
+  deleteCategorySchemaInput,
+  updateCategorySchemaInput,
 } from "../schemas/category.schema";
 import {
   createCategory,
@@ -14,7 +14,7 @@ import { findRestaurant } from "../services/restaurant.service";
 
 export const categoryRouter = createTRPCRouter({
   createCategory: protectedProcedure
-    .input(createCategorySchema)
+    .input(createCategorySchemaInput)
     .mutation(async ({ ctx, input }) => {
       await createCategory(input, ctx.prisma);
 
@@ -24,7 +24,7 @@ export const categoryRouter = createTRPCRouter({
       );
     }),
   updateCategory: protectedProcedure
-    .input(updateCategorySchema)
+    .input(updateCategorySchemaInput)
     .mutation(async ({ ctx, input }) => {
       await updateCategory(input, ctx.prisma);
 
@@ -34,7 +34,7 @@ export const categoryRouter = createTRPCRouter({
       );
     }),
   deleteCategory: protectedProcedure
-    .input(deleteCategorySchema)
+    .input(deleteCategorySchemaInput)
     .mutation(async ({ ctx, input }) => {
       const deletedCategory = await deleteCategory(
         { id: input.categoryId },

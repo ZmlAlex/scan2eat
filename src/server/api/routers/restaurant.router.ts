@@ -1,12 +1,16 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { uploadImage } from "~/server/utils/cloudinary";
 
 import {
-  createRestaurantSchema,
-  deleteRestaurantSchema,
-  getRestaurantSchema,
-  setPublishedRestaurantSchema,
-  updateRestaurantSchema,
+  createRestaurantSchemaInput,
+  deleteRestaurantSchemaInput,
+  getRestaurantSchemaInput,
+  setPublishedRestaurantSchemaInput,
+  updateRestaurantSchemaInput,
 } from "../schemas/restaurant.schema";
 import {
   createRestaurant,
@@ -17,17 +21,11 @@ import {
 } from "../services/restaurant.service";
 
 export const restaurantRouter = createTRPCRouter({
-  getRestaurant: protectedProcedure
-    .input(getRestaurantSchema)
+  getRestaurant: publicProcedure
+    .input(getRestaurantSchemaInput)
     .query(async ({ ctx, input }) => {
-      //TODO: MOVE IT TO CONTROLERS
-
-      const result = await findRestaurant(
-        { id: input.restaurantId },
-        ctx.prisma
-      );
-
-      return result;
+      // TODO: MOVE IT TO CONTROLERS
+      return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
     }),
   getAllRestaurants: protectedProcedure.query(async ({ ctx }) => {
     return await findAllRestaurants(
@@ -36,7 +34,7 @@ export const restaurantRouter = createTRPCRouter({
     );
   }),
   createRestaurant: protectedProcedure
-    .input(createRestaurantSchema)
+    .input(createRestaurantSchemaInput)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const uploadedImage = await uploadImage(input.logoUrl, userId);
@@ -45,7 +43,7 @@ export const restaurantRouter = createTRPCRouter({
       return await createRestaurant({ ...input, userId }, ctx.prisma);
     }),
   updateRestaurant: protectedProcedure
-    .input(updateRestaurantSchema)
+    .input(updateRestaurantSchemaInput)
     .mutation(async ({ ctx, input }) => {
       //TODO: MOVE IT TO CONTROLERS
       const userId = ctx.session.user.id;
@@ -64,7 +62,7 @@ export const restaurantRouter = createTRPCRouter({
       );
     }),
   setPublishedRestaurant: protectedProcedure
-    .input(setPublishedRestaurantSchema)
+    .input(setPublishedRestaurantSchemaInput)
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.restaurant.update({
         where: { id: input.restaurantId },
@@ -79,7 +77,7 @@ export const restaurantRouter = createTRPCRouter({
       );
     }),
   deleteRestaurant: protectedProcedure
-    .input(deleteRestaurantSchema)
+    .input(deleteRestaurantSchemaInput)
     .mutation(async ({ ctx, input }) => {
       //TODO: MOVE IT TO CONTROLERS
       await deleteRestaurant({ id: input.restaurantId }, ctx.prisma);

@@ -36,7 +36,6 @@ describe("Restaurant API", () => {
     );
 
     expect(result).toMatchObject({
-      currencyCode: "RUB",
       logoUrl: expect.stringContaining("cloudinary") as string,
       workingHours: "24hrs",
       isPublished: false,
@@ -64,7 +63,6 @@ describe("Restaurant API", () => {
 
     console.log("result: ", result);
     expect(result).toMatchObject({
-      currencyCode: "RUB",
       logoUrl: expect.stringContaining("Olympic") as string,
       workingHours: "24hrs",
       currency: {
@@ -112,7 +110,6 @@ describe("Restaurant API", () => {
       const result = await caller.restaurant.updateRestaurant(input);
 
       expect(result).toMatchObject({
-        currencyCode: "RUB",
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
         currency: {
@@ -150,7 +147,6 @@ describe("Restaurant API", () => {
       console.log("result: ", result);
 
       expect(result).toMatchObject({
-        currencyCode: "RUB",
         logoUrl: expect.stringContaining("cloudinary") as string,
 
         workingHours: "24hrs",
@@ -190,7 +186,6 @@ describe("Restaurant API", () => {
       console.log("result: ", result);
 
       expect(result).toMatchObject({
-        currencyCode: "RUB",
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
         restaurantI18N: {

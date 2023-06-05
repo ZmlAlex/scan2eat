@@ -2,16 +2,16 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { uploadImage } from "~/server/utils/cloudinary";
 
 import {
-  createProductSchema,
-  deleteProductSchema,
-  updateProductSchema,
+  createProductSchemaInput,
+  deleteProductSchemaInput,
+  updateProductSchemaInput,
 } from "../schemas/product.schema";
 import { createProduct, updateProduct } from "../services/product.service";
 import { findRestaurant } from "../services/restaurant.service";
 
 export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
-    .input(createProductSchema)
+    .input(createProductSchemaInput)
     .mutation(async ({ ctx, input }) => {
       const uploadedImage = await uploadImage(
         input.imageUrl,
@@ -27,7 +27,7 @@ export const productRouter = createTRPCRouter({
       );
     }),
   updateProduct: protectedProcedure
-    .input(updateProductSchema)
+    .input(updateProductSchemaInput)
     .mutation(async ({ ctx, input }) => {
       if (input.imageUrl) {
         const uploadedImage = await uploadImage(
@@ -46,7 +46,7 @@ export const productRouter = createTRPCRouter({
       );
     }),
   deleteProduct: protectedProcedure
-    .input(deleteProductSchema)
+    .input(deleteProductSchemaInput)
     .mutation(async ({ ctx, input }) => {
       const deletedProduct = await ctx.prisma.product.delete({
         where: {

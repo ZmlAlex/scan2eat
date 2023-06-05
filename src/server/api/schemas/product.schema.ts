@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { languageCodeS } from "./common.schema";
 
-export const createProductSchema = z.object({
+export const createProductSchemaInput = z.object({
   menuId: z.string(),
   categoryId: z.string(),
   isEnabled: z.boolean().optional(),
@@ -16,7 +16,7 @@ export const createProductSchema = z.object({
   languageCode: languageCodeS,
 });
 
-export const updateProductSchema = z.object({
+export const updateProductSchemaInput = z.object({
   productId: z.string(),
   price: z.number(),
   isEnabled: z.boolean(),
@@ -28,10 +28,10 @@ export const updateProductSchema = z.object({
   languageCode: languageCodeS,
 });
 
-export const deleteProductSchema = z.object({
+export const deleteProductSchemaInput = z.object({
   productId: z.string(),
 });
 
-export type CreateProductInput = z.infer<typeof createProductSchema>;
-export type UpdateProductInput = z.infer<typeof updateProductSchema>;
-export type DeleteProducttInput = z.infer<typeof deleteProductSchema>;
+export type CreateProductInput = z.infer<typeof createProductSchemaInput>;
+export type UpdateProductInput = z.infer<typeof updateProductSchemaInput>;
+export type DeleteProducttInput = z.infer<typeof deleteProductSchemaInput>;

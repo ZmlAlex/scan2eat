@@ -22,7 +22,11 @@ export const findRestaurant = async (
 ) => {
   const result = await prisma.restaurant.findFirstOrThrow({
     where,
-    include: {
+    select: {
+      id: true,
+      workingHours: true,
+      logoUrl: true,
+      isPublished: true,
       restaurantI18N: {
         select: {
           fieldName: true,
@@ -53,18 +57,11 @@ export const findRestaurant = async (
     },
   });
 
-  console.log("result before: ", result);
-
   return {
     ...result,
     restaurantI18N: transformTranslation<RestaurantTranslationField>(
       result.restaurantI18N
-      // languageCode
     ),
-    // ...transformTranslation<RestaurantTranslationField>(
-    // result.restaurantI18N
-    // languageCode
-    // ),
     //temporary return first menu
     menu: {
       ...result.menu[0],
@@ -73,19 +70,12 @@ export const findRestaurant = async (
         categoryI18N: transformTranslation<CategoryTranslationField>(
           record.categoryI18N
         ),
-        // ...transformTranslation<CategoryTranslationField>(
-        // record.categoryI18N
-        // languageCode
-        // ),
       })),
       product: result.menu[0]?.product.map((record) => ({
         ...record,
         productI18N: transformTranslation<ProductTranslationField>(
           record.productI18N
         ),
-        // ...transformTranslation<ProductTranslationField>(
-        //   record.productI18N
-        // ),
       })),
     },
   };
@@ -111,18 +101,6 @@ export const findAllRestaurants = async (
           title: true,
         },
       },
-      menu: {
-        include: {
-          category: {
-            include: { categoryI18N: true },
-          },
-          product: {
-            include: {
-              productI18N: true,
-            },
-          },
-        },
-      },
     },
   });
 
@@ -131,7 +109,6 @@ export const findAllRestaurants = async (
     restaurantI18N: transformTranslation<RestaurantTranslationField>(
       record.restaurantI18N
     ),
-    // ...transformTranslation<RestaurantTranslationField>(record.restaurantI18N),
   }));
 };
 
@@ -160,7 +137,11 @@ export const createRestaurant = async (
         },
       },
     },
-    include: {
+    select: {
+      id: true,
+      workingHours: true,
+      logoUrl: true,
+      isPublished: true,
       restaurantI18N: {
         select: {
           fieldName: true,
@@ -168,11 +149,10 @@ export const createRestaurant = async (
           languageCode: true,
         },
       },
-      menu: {
-        include: {
-          category: {
-            include: { categoryI18N: true },
-          },
+      currency: {
+        select: {
+          code: true,
+          title: true,
         },
       },
     },
