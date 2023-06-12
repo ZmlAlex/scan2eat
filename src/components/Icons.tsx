@@ -4,21 +4,23 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Clock2,
   Command,
   CreditCard,
   File,
   FileText,
   HelpCircle,
-  type Icon as LucideIcon,
   Image,
   Laptop,
   Loader2,
   type LucideProps,
+  MapPin,
   Moon,
   MoreVertical,
   Pizza,
   Plus,
   Settings,
+  Store,
   SunMedium,
   Trash,
   Twitter,
@@ -26,9 +28,8 @@ import {
   X,
 } from "lucide-react";
 
-export type Icon = LucideIcon;
-
 export const Icons = {
+  clock2: Clock2,
   logo: Command,
   close: X,
   spinner: Loader2,
@@ -49,6 +50,8 @@ export const Icons = {
   pizza: Pizza,
   sun: SunMedium,
   moon: Moon,
+  mapPin: MapPin,
+  store: Store,
   laptop: Laptop,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
