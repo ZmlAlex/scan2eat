@@ -9,13 +9,7 @@ export const transformTranslation = <T extends string>(
   }[]
 ) => {
   return translation.reduce((acc, cur) => {
-    if (!acc[cur.languageCode]) {
-      acc[cur.languageCode] = {} as Record<T, string>;
-    }
-
-    acc[cur.languageCode][cur.fieldName] = cur.translation;
-
+    acc[cur.fieldName] = cur.translation;
     return acc;
-    //TODO: MOVE TYPES GLOBALY AND SHARE IT WITH TESTS
-  }, {} as Record<LanguageCode, Record<T, string>>);
+  }, {} as Record<T, string>);
 };

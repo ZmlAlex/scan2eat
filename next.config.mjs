@@ -15,11 +15,21 @@ const config = {
    * @see https://github.com/vercel/next.js/issues/41980
    */
   i18n: {
-    locales: ["en", "ru"],
-    defaultLocale: "en",
+    locales: ["english", "russian"],
+    defaultLocale: "english",
   },
   images: {
     domains: ["menusa.dodostatic.net"],
+  },
+  experimental: {
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
   },
 };
 export default config;

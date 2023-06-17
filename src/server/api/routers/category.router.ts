@@ -20,6 +20,7 @@ export const categoryRouter = createTRPCRouter({
 
       return await findRestaurant(
         { menu: { some: { id: input.menuId } } },
+        input.languageCode,
         ctx.prisma
       );
     }),
@@ -30,6 +31,7 @@ export const categoryRouter = createTRPCRouter({
 
       return await findRestaurant(
         { menu: { some: { category: { some: { id: input.categoryId } } } } },
+        input.languageCode,
         ctx.prisma
       );
     }),
@@ -43,6 +45,7 @@ export const categoryRouter = createTRPCRouter({
 
       return await findRestaurant(
         { menu: { some: { id: deletedCategory.menuId } } },
+        input.languageCode,
         ctx.prisma
       );
     }),

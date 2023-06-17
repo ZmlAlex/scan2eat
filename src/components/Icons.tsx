@@ -9,8 +9,10 @@ import {
   CreditCard,
   File,
   FileText,
+  Globe,
   HelpCircle,
   Image,
+  Languages,
   Laptop,
   Loader2,
   type LucideProps,
@@ -25,10 +27,11 @@ import {
   Trash,
   Twitter,
   User,
-  X,
-} from "lucide-react";
+  X} from "lucide-react";
 
 export const Icons = {
+  globe: Globe,
+  languages: Languages,
   clock2: Clock2,
   logo: Command,
   close: X,

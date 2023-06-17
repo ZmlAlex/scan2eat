@@ -24,6 +24,11 @@ export const createRestaurant = async (
       menu: {
         create: {},
       },
+      restaurantLanguage: {
+        create: {
+          languageCode: input.languageCode,
+        },
+      },
       restaurantI18N: {
         createMany: {
           data: translations,

@@ -32,6 +32,14 @@ const config = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "no-console": "warn",
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
   },
 };
 

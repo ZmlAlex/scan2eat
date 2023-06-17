@@ -10,6 +10,7 @@ import { productRouter } from "./routers/product.router";
  *
  * All routers added in /api/routers should be manually added here.
  */
+//TODO: MAKE IT PLURAL AND REMOVE EXAMPLE
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   restaurant: restaurantRouter,

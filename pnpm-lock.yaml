@@ -46,6 +46,9 @@ dependencies:
   '@uidotdev/usehooks':
     specifier: ^2.0.1
     version: 2.0.1(react-dom@18.2.0)(react@18.2.0)
+  babel-plugin-superjson-next:
+    specifier: ^0.4.5
+    version: 0.4.5(next@13.4.2)(superjson@1.12.2)
   class-variance-authority:
     specifier: ^0.6.0
     version: 0.6.0(typescript@5.0.4)
@@ -67,6 +70,9 @@ dependencies:
   next-intl:
     specifier: ^2.14.6
     version: 2.14.6(next@13.4.2)(react@18.2.0)
+  next-superjson-plugin:
+    specifier: ^0.5.8
+    version: 0.5.8(next@13.4.2)(superjson@1.12.2)
   next-themes:
     specifier: ^0.2.1
     version: 0.2.1(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)
@@ -2210,6 +2216,20 @@ packages:
       '@types/babel__traverse': 7.18.5
     dev: true
 
+  /babel-plugin-superjson-next@0.4.5(next@13.4.2)(superjson@1.12.2):
+    resolution: {integrity: sha512-k7S99Qpsbi3OSdlCMXEiklzxepM6QbYEIUsrjgSkpx+ksT0iNfdY2r1kCzBK2UjG8fLN6NZEKpDA8XpG2pbDSA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      next: '>=9.0.0'
+      superjson: 1.x
+    dependencies:
+      '@babel/helper-module-imports': 7.21.4
+      '@babel/types': 7.21.5
+      hoist-non-react-statics: 3.3.2
+      next: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+      superjson: 1.12.2
+    dev: false
+
   /babel-preset-current-node-syntax@1.0.1(@babel/core@7.21.8):
     resolution: {integrity: sha512-M7LQ0bxarkxQoN+vz5aJPsLBn77n8QgTFmo8WK0/44auK2xlCXrYcUxHFxgU7qW5Yzw/CjmLRK2uJzaCd7LvqQ==}
     peerDependencies:
@@ -3495,6 +3515,12 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
+  /hoist-non-react-statics@3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+    dependencies:
+      react-is: 16.13.1
+    dev: false
+
   /html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
@@ -4598,6 +4624,17 @@ packages:
       use-intl: 2.14.6(react@18.2.0)
     dev: false
 
+  /next-superjson-plugin@0.5.8(next@13.4.2)(superjson@1.12.2):
+    resolution: {integrity: sha512-a6znMUzHWRAaxmQNHkgANJORdI0gjSC0JvsxRRKba6vb4BJRs/i2KpwEg/s91JYDhHsnZS+tkeb3MDCJWXJY4w==}
+    peerDependencies:
+      next: ^13
+      superjson: ^1
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      next: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+      superjson: 1.12.2
+    dev: false
+
   /next-themes@0.2.1(next@13.4.2)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
     peerDependencies:
@@ -5233,7 +5270,6 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}

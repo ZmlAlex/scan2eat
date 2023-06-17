@@ -88,10 +88,11 @@ model Restaurant {
   logoUrl      String
   isPublished  Boolean      @default(false)
 
-  restaurantI18N RestaurantI18N[]
-  menu           Menu[]
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  currency       Currency         @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
+  restaurantI18N     RestaurantI18N[]
+  restaurantLanguage RestaurantLanguage[]
+  menu               Menu[]
+  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currency           Currency             @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
 }
 
 enum RestaurantTranslationField {
@@ -113,6 +114,17 @@ model RestaurantI18N {
   language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 
   @@unique([restaurantId, languageCode, fieldName])
+}
+
+model RestaurantLanguage {
+  id           String       @id @default(cuid())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  restaurantId String
+  languageCode LanguageCode
+
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 }
 
 model Menu {
@@ -199,8 +211,8 @@ enum LanguageTitle {
 }
 
 enum LanguageCode {
-  english @map("en-us")
-  russian @map("ru-ru")
+  english @map("en")
+  russian @map("ru")
 }
 
 model Language {
@@ -210,7 +222,8 @@ model Language {
   title     LanguageTitle
   code      LanguageCode  @unique
 
-  categoryI18N   CategoryI18N[]
-  productI18N    ProductI18N[]
-  restaurantI18N RestaurantI18N[]
+  categoryI18N       CategoryI18N[]
+  productI18N        ProductI18N[]
+  restaurantI18N     RestaurantI18N[]
+  RestaurantLanguage RestaurantLanguage[]
 }

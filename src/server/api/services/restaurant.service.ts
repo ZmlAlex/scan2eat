@@ -1,5 +1,6 @@
 import type {
   CategoryTranslationField,
+  LanguageCode,
   Prisma,
   PrismaClient,
   PrismaPromise,
@@ -18,6 +19,7 @@ import type {
 
 export const findRestaurant = async (
   where: Partial<Prisma.RestaurantWhereInput>,
+  languageCode: LanguageCode,
   prisma: PrismaClient
 ) => {
   const result = await prisma.restaurant.findFirstOrThrow({
@@ -27,7 +29,12 @@ export const findRestaurant = async (
       workingHours: true,
       logoUrl: true,
       isPublished: true,
+      restaurantLanguage: {
+        select: { languageCode: true },
+      },
       restaurantI18N: {
+        where: { languageCode },
+
         select: {
           fieldName: true,
           translation: true,
@@ -44,12 +51,16 @@ export const findRestaurant = async (
         include: {
           category: {
             include: {
-              categoryI18N: true,
+              categoryI18N: {
+                where: { languageCode },
+              },
             },
           },
           product: {
             include: {
-              productI18N: true,
+              productI18N: {
+                where: { languageCode },
+              },
             },
           },
         },
@@ -83,12 +94,14 @@ export const findRestaurant = async (
 
 export const findAllRestaurants = async (
   where: Partial<Prisma.RestaurantWhereInput>,
+  languageCode: LanguageCode,
   prisma: PrismaClient
 ) => {
   const result = await prisma.restaurant.findMany({
     where,
     include: {
       restaurantI18N: {
+        where: { languageCode },
         select: {
           fieldName: true,
           translation: true,
@@ -131,6 +144,11 @@ export const createRestaurant = async (
       menu: {
         create: {},
       },
+      restaurantLanguage: {
+        create: {
+          languageCode: input.languageCode,
+        },
+      },
       restaurantI18N: {
         createMany: {
           data: translations,
@@ -142,7 +160,13 @@ export const createRestaurant = async (
       workingHours: true,
       logoUrl: true,
       isPublished: true,
+      restaurantLanguage: {
+        select: {
+          languageCode: true,
+        },
+      },
       restaurantI18N: {
+        where: { languageCode: input.languageCode },
         select: {
           fieldName: true,
           translation: true,

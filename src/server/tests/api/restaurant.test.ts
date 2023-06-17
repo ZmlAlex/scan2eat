@@ -2,6 +2,8 @@ import { type User } from "@prisma/client";
 import { type inferProcedureInput } from "@trpc/server";
 
 import type { AppRouter, appRouter } from "../../api/root";
+import { createCategory } from "../helpers/createCategory";
+import { createProduct } from "../helpers/createProduct";
 import { createRestaurant } from "../helpers/createRestaurant";
 import { createUser } from "../helpers/createUser";
 import { createProtectedCaller } from "../helpers/protectedCaller";
@@ -30,52 +32,128 @@ describe("Restaurant API", () => {
     testUser = await createUser();
     caller = createProtectedCaller(testUser);
   });
+
   it("should create restaurant", async () => {
     const result = await caller.restaurant.createRestaurant(
       createRestaurantInput
     );
+
+    console.log("result: ", result);
 
     expect(result).toMatchObject({
       logoUrl: expect.stringContaining("cloudinary") as string,
       workingHours: "24hrs",
       isPublished: false,
       restaurantI18N: {
-        english: expect.objectContaining({
-          name: "Krusty Krab",
-          address: "831 Bottom Feeder Lane",
-          description: "best fastfood in the Bikini Bottom",
-        }) as unknown,
+        name: "Krusty Krab",
+        address: "831 Bottom Feeder Lane",
+        description: "best fastfood in the Bikini Bottom",
       },
     });
   });
-  it("should get restaurant by id", async () => {
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
 
-    const input: inferProcedureInput<AppRouter["restaurant"]["getRestaurant"]> =
-      {
+  describe("when restaurant is gotten by id", () => {
+    it("should get restaurant after creation", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["getRestaurant"]
+      > = {
         restaurantId: testRestaurant.id,
+        languageCode: createRestaurantInput.languageCode,
       };
 
-    const result = await caller.restaurant.getRestaurant(input);
+      const result = await caller.restaurant.getRestaurant(input);
 
-    console.log("result: ", result);
-    expect(result).toMatchObject({
-      logoUrl: expect.stringContaining("Olympic") as string,
-      workingHours: "24hrs",
-      currency: {
-        code: "RUB",
-        title: "рубль",
-      },
-      restaurantI18N: {
-        english: expect.objectContaining({
+      console.log("result: ", result);
+      expect(result).toMatchObject({
+        logoUrl: expect.stringContaining("Olympic") as string,
+        workingHours: "24hrs",
+        currency: {
+          code: "RUB",
+          title: "рубль",
+        },
+        restaurantI18N: {
           name: "Krusty Krab",
           address: "831 Bottom Feeder Lane",
           description: "best fastfood in the Bikini Bottom",
-        }) as unknown,
-      },
+        },
+      });
+    });
+
+    //TODO: UPDATE WITH FULL DETAILS
+    it("should get restaurant with full details", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const [testCategory, testCategorySecond] = await Promise.all([
+        createCategory({
+          menuId: testRestaurant.menu[0]?.id as string,
+          name: "hamburgers",
+          languageCode: "english",
+        }),
+        createCategory({
+          menuId: testRestaurant.menu[0]?.id as string,
+          name: "juices",
+          languageCode: "english",
+        }),
+      ]);
+
+      await Promise.all([
+        createProduct({
+          menuId: testRestaurant.menu[0]?.id as string,
+          categoryId: testCategory.id,
+          name: "bigmac",
+          description: "description",
+          price: 1000,
+          languageCode: "english",
+          measurmentUnit: "g.",
+          measurmentValue: "300",
+          imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+        }),
+        createProduct({
+          menuId: testRestaurant.menu[0]?.id as string,
+          categoryId: testCategorySecond.id,
+          name: "apple juice",
+          description: "amazing fresh drink",
+          price: 1000,
+          languageCode: "english",
+          measurmentUnit: "ml.",
+          measurmentValue: "250",
+          imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+        }),
+      ]);
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["getRestaurant"]
+      > = {
+        restaurantId: testRestaurant.id,
+        languageCode: createRestaurantInput.languageCode,
+      };
+
+      const result = await caller.restaurant.getRestaurant(input);
+
+      console.log("result: ", result);
+      expect(result).toMatchObject({
+        logoUrl: expect.stringContaining("Olympic") as string,
+        workingHours: "24hrs",
+        currency: {
+          code: "RUB",
+          title: "рубль",
+        },
+        restaurantI18N: {
+          name: "Krusty Krab",
+          address: "831 Bottom Feeder Lane",
+          description: "best fastfood in the Bikini Bottom",
+        },
+      });
     });
   });
 
@@ -85,7 +163,9 @@ describe("Restaurant API", () => {
       createRestaurant(testUser.id, createRestaurantInput),
     ]);
 
-    const result = await caller.restaurant.getAllRestaurants();
+    const result = await caller.restaurant.getAllRestaurants({
+      languageCode: createRestaurantInput.languageCode,
+    });
 
     expect(result).toHaveLength(2);
   });
@@ -117,11 +197,9 @@ describe("Restaurant API", () => {
           title: "рубль",
         },
         restaurantI18N: {
-          english: expect.objectContaining({
-            name: "Chum Bucket",
-            address: "830 Bottom Feeder Lane",
-            description: "best fastfood in the Bikini Bottom",
-          }) as unknown,
+          name: "Chum Bucket",
+          address: "830 Bottom Feeder Lane",
+          description: "best fastfood in the Bikini Bottom",
         },
       });
     });
@@ -155,11 +233,9 @@ describe("Restaurant API", () => {
           title: "рубль",
         },
         restaurantI18N: {
-          english: expect.objectContaining({
-            name: "Chum Bucket",
-            address: "830 Bottom Feeder Lane",
-            description: "best fastfood in the Bikini Bottom",
-          }) as unknown,
+          name: "Chum Bucket",
+          address: "830 Bottom Feeder Lane",
+          description: "best fastfood in the Bikini Bottom",
         },
       });
     });
@@ -189,11 +265,9 @@ describe("Restaurant API", () => {
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
         restaurantI18N: {
-          russian: expect.objectContaining({
-            name: "Красти Крабс",
-            address: "Нижний переулок 830",
-            description: "лучшие бургеры",
-          }) as unknown,
+          name: "Красти Крабс",
+          address: "Нижний переулок 830",
+          description: "лучшие бургеры",
         },
         currency: {
           code: "RUB",
@@ -213,6 +287,7 @@ describe("Restaurant API", () => {
       > = {
         restaurantId: testRestaurant.id,
         isPublished: true,
+        languageCode: createRestaurantInput.languageCode,
       };
 
       const result = await caller.restaurant.setPublishedRestaurant(input);
@@ -233,6 +308,7 @@ describe("Restaurant API", () => {
       AppRouter["restaurant"]["deleteRestaurant"]
     > = {
       restaurantId: testRestaurant.id,
+      languageCode: createRestaurantInput.languageCode,
     };
 
     const result = await caller.restaurant.deleteRestaurant(input);

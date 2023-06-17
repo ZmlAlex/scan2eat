@@ -32,6 +32,7 @@ describe("Product API", () => {
     testUser = await createUser();
     caller = createProtectedCaller(testUser);
   });
+
   it("should create product", async () => {
     const testRestaurant = await createRestaurant(
       testUser.id,
@@ -68,10 +69,8 @@ describe("Product API", () => {
       isEnabled: true,
       imageUrl: expect.stringContaining("cloudinary") as string,
       productI18N: {
-        english: expect.objectContaining({
-          name: "apple juice",
-          description: "amazing fresh drink",
-        }) as unknown,
+        name: "apple juice",
+        description: "amazing fresh drink",
       },
     });
   });
@@ -122,10 +121,8 @@ describe("Product API", () => {
         imageUrl: "mockUrl",
         isEnabled: true,
         productI18N: {
-          english: expect.objectContaining({
-            name: "orange juice",
-            description: "amazing fresh drink",
-          }) as unknown,
+          name: "orange juice",
+          description: "amazing fresh drink",
         },
       });
     });
@@ -176,10 +173,8 @@ describe("Product API", () => {
         imageUrl: expect.not.stringContaining("originalUrl") as string,
         isEnabled: true,
         productI18N: {
-          english: expect.objectContaining({
-            name: "orange juice",
-            description: "amazing fresh drink",
-          }) as unknown,
+          name: "orange juice",
+          description: "amazing fresh drink",
         },
       });
     });
@@ -223,7 +218,9 @@ describe("Product API", () => {
         menu: { product },
       } = await caller.product.updateProduct(updateProductInput);
 
-      expect(product?.[0]?.productI18N.russian).toMatchObject({
+      console.log("product: ", product);
+
+      expect(product?.[0]?.productI18N).toMatchObject({
         name: "апельсиновый сок",
         description: "свежевыжатый сок",
       });
@@ -262,6 +259,7 @@ describe("Product API", () => {
 
     const input: inferProcedureInput<AppRouter["product"]["deleteProduct"]> = {
       productId: testProduct.id,
+      languageCode: createRestaurantInput.languageCode,
     };
 
     const {
