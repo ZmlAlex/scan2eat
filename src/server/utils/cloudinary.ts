@@ -7,6 +7,7 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
+
 export const uploadImage = (imageSource: string, userId: string) => {
   return cloudinary.v2.uploader.upload(imageSource, {
     public_id: crypto.randomBytes(20).toString("hex"),

@@ -1,10 +1,10 @@
-import { useLockBody } from "@uidotdev/usehooks";
+import { useLockBodyScroll } from "@uidotdev/usehooks";
 import Link from "next/link";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
 import { siteConfig } from "~/config/site";
-import { cn } from "~/lib/utils";
+import { cn } from "~/utils/cn";
 
 import type { MainNavItem } from "./MainNav";
 
@@ -14,7 +14,7 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ items, children }: MobileNavProps) {
-  useLockBody();
+  useLockBodyScroll();
 
   return (
     <div

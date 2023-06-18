@@ -19,7 +19,7 @@ const CategorySection = ({
 }: Props) => {
   return (
     <section key={categoryId}>
-      <h2 className="mb-4 text-3xl capitalize">{name}</h2>
+      <h2 className="mb-4 text-3xl font-medium capitalize">{name}</h2>
       {/* TODO: USE INTERSECTION HOOK TO UPDATE VALUE */}
       <div
         id={categoryId}

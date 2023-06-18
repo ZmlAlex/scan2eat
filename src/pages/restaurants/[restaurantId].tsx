@@ -9,7 +9,7 @@ import React from "react";
 
 import { Icons } from "~/components/Icons";
 import { LanguageToggle } from "~/components/LanguageToggle";
-import Menu from "~/components/Menu/Menu";
+import Menu from "~/components/Menu";
 import { ModeToggle } from "~/components/ModeToggle";
 import RestaurantLayout from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
@@ -29,17 +29,18 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <RestaurantLayout>
-        <div className="container flex flex-col items-stretch justify-center gap-8   md:max-w-screen-lg">
+        <div className="container flex flex-col items-stretch justify-center gap-8 md:max-w-screen-lg">
           {/* name and switcher */}
-          <div className="sticky top-0 z-40 flex  justify-between gap-2 bg-background py-3">
+          <div className="sticky top-0 z-40 flex  justify-between gap-x-4 bg-background py-3">
             <h1 className="text-3xl font-bold">{name}</h1>
 
-            <div className="flex items-center gap-2">
+            <div className="ml-auto">
               <ModeToggle />
-              {restaurant.restaurantLanguage.length > 1 && (
-                <LanguageToggle languages={restaurant.restaurantLanguage} />
-              )}
             </div>
+
+            {restaurant.restaurantLanguage.length > 1 && (
+              <LanguageToggle languages={restaurant.restaurantLanguage} />
+            )}
           </div>
           {/* general info */}
           <div className="grid grid-cols-1 gap-4  md:grid-cols-2">

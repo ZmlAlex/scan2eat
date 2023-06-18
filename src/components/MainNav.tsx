@@ -4,7 +4,7 @@ import React from "react";
 import { Icons } from "~/components/Icons";
 import { MobileNav } from "~/components/MobileNav";
 import { siteConfig } from "~/config/site";
-import { cn } from "~/lib/utils";
+import { cn } from "~/utils/cn";
 
 export type MainNavItem = {
   title: string;

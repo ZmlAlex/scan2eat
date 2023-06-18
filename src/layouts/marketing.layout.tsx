@@ -5,7 +5,7 @@ import { ModeToggle } from "~/components/ModeToggle";
 import { SiteFooter } from "~/components/SiteFooter";
 import { buttonVariants } from "~/components/ui/Button";
 import { marketingConfig } from "~/config/marketing";
-import { cn } from "~/lib/utils";
+import { cn } from "~/utils/cn";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
