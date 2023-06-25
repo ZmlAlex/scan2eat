@@ -108,6 +108,7 @@ export const findAllRestaurants = async (
           languageCode: true,
         },
       },
+      restaurantLanguage: true,
       currency: {
         select: {
           code: true,
@@ -135,6 +136,8 @@ export const createRestaurant = async (
       input
     );
 
+  console.log("input user id", input.userId);
+
   const result = await prisma.restaurant.create({
     data: {
       userId: input.userId,
@@ -157,6 +160,10 @@ export const createRestaurant = async (
     },
     select: {
       id: true,
+      createdAt: true,
+      updatedAt: true,
+      userId: true,
+      currencyCode: true,
       workingHours: true,
       logoUrl: true,
       isPublished: true,
