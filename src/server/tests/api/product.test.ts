@@ -69,8 +69,10 @@ describe("Product API", () => {
       isEnabled: true,
       imageUrl: expect.stringContaining("cloudinary") as string,
       productI18N: {
-        name: "apple juice",
-        description: "amazing fresh drink",
+        english: expect.objectContaining({
+          name: "apple juice",
+          description: "amazing fresh drink",
+        }) as unknown,
       },
     });
   });
@@ -121,8 +123,10 @@ describe("Product API", () => {
         imageUrl: "mockUrl",
         isEnabled: true,
         productI18N: {
-          name: "orange juice",
-          description: "amazing fresh drink",
+          english: expect.objectContaining({
+            name: "orange juice",
+            description: "amazing fresh drink",
+          }) as unknown,
         },
       });
     });
@@ -173,8 +177,10 @@ describe("Product API", () => {
         imageUrl: expect.not.stringContaining("originalUrl") as string,
         isEnabled: true,
         productI18N: {
-          name: "orange juice",
-          description: "amazing fresh drink",
+          english: expect.objectContaining({
+            name: "orange juice",
+            description: "amazing fresh drink",
+          }) as unknown,
         },
       });
     });
@@ -220,7 +226,7 @@ describe("Product API", () => {
 
       console.log("product: ", product);
 
-      expect(product?.[0]?.productI18N).toMatchObject({
+      expect(product?.[0]?.productI18N.russian).toMatchObject({
         name: "апельсиновый сок",
         description: "свежевыжатый сок",
       });
@@ -259,7 +265,6 @@ describe("Product API", () => {
 
     const input: inferProcedureInput<AppRouter["product"]["deleteProduct"]> = {
       productId: testProduct.id,
-      languageCode: createRestaurantInput.languageCode,
     };
 
     const {

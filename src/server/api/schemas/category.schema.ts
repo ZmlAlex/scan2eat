@@ -16,7 +16,6 @@ export const updateCategorySchemaInput = z.object({
 
 export const deleteCategorySchemaInput = z.object({
   categoryId: z.string(),
-  languageCode: languageCodeS,
 });
 
 export type CreateCategoryInput = z.infer<typeof createCategorySchemaInput>;

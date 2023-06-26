@@ -1,4 +1,3 @@
-import type { LanguageCode } from "@prisma/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
@@ -7,16 +6,14 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";
 
-const RestaurantList = () => {
+const Restaurant = () => {
   const router = useRouter();
 
-  const { data: restaurant, status } = api.restaurant.getRestaurant.useQuery(
-    {
-      restaurantId: router.query.restaurantId as string,
-      languageCode: router.locale as LanguageCode,
-    },
-    { enabled: Boolean(router.locale) }
-  );
+  const { data: restaurant, status } = api.restaurant.getRestaurant.useQuery({
+    restaurantId: router.query.restaurantId as string,
+  });
+
+  console.log("restaurant:!!! ", restaurant);
 
   return (
     <>
@@ -37,4 +34,4 @@ const RestaurantList = () => {
   );
 };
 
-export default RestaurantList;
+export default Restaurant;

@@ -1,16 +1,14 @@
 import React from "react";
 
 import { Dialog, DialogContent } from "~/components/ui/Dialog";
-import { type RouterOutputs } from "~/utils/api";
+import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { Badge } from "../ui/Badge";
 
 //TODO: MOVE TO GLOBAL
-type ArrayElement<T> = T extends (infer U)[] ? U : never;
+export type ArrayElement<T> = T extends (infer U)[] ? U : never;
 
-type Product = ArrayElement<
-  RouterOutputs["restaurant"]["getRestaurant"]["menu"]["product"]
->;
+type Product = ArrayElement<RestaurantWithDetails["menu"]["product"]>;
 
 type Props = {
   product: Product;

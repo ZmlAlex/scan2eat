@@ -45,9 +45,11 @@ describe("Restaurant API", () => {
       workingHours: "24hrs",
       isPublished: false,
       restaurantI18N: {
-        name: "Krusty Krab",
-        address: "831 Bottom Feeder Lane",
-        description: "best fastfood in the Bikini Bottom",
+        english: expect.objectContaining({
+          name: "Krusty Krab",
+          address: "831 Bottom Feeder Lane",
+          description: "best fastfood in the Bikini Bottom",
+        }) as unknown,
       },
     });
   });
@@ -63,7 +65,6 @@ describe("Restaurant API", () => {
         AppRouter["restaurant"]["getRestaurant"]
       > = {
         restaurantId: testRestaurant.id,
-        languageCode: createRestaurantInput.languageCode,
       };
 
       const result = await caller.restaurant.getRestaurant(input);
@@ -77,9 +78,11 @@ describe("Restaurant API", () => {
           title: "рубль",
         },
         restaurantI18N: {
-          name: "Krusty Krab",
-          address: "831 Bottom Feeder Lane",
-          description: "best fastfood in the Bikini Bottom",
+          english: expect.objectContaining({
+            name: "Krusty Krab",
+            address: "831 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
         },
       });
     });
@@ -135,7 +138,6 @@ describe("Restaurant API", () => {
         AppRouter["restaurant"]["getRestaurant"]
       > = {
         restaurantId: testRestaurant.id,
-        languageCode: createRestaurantInput.languageCode,
       };
 
       const result = await caller.restaurant.getRestaurant(input);
@@ -149,9 +151,11 @@ describe("Restaurant API", () => {
           title: "рубль",
         },
         restaurantI18N: {
-          name: "Krusty Krab",
-          address: "831 Bottom Feeder Lane",
-          description: "best fastfood in the Bikini Bottom",
+          english: expect.objectContaining({
+            name: "Krusty Krab",
+            address: "831 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
         },
       });
     });
@@ -163,9 +167,7 @@ describe("Restaurant API", () => {
       createRestaurant(testUser.id, createRestaurantInput),
     ]);
 
-    const result = await caller.restaurant.getAllRestaurants({
-      languageCode: createRestaurantInput.languageCode,
-    });
+    const result = await caller.restaurant.getAllRestaurants();
 
     expect(result).toHaveLength(2);
   });
@@ -197,9 +199,11 @@ describe("Restaurant API", () => {
           title: "рубль",
         },
         restaurantI18N: {
-          name: "Chum Bucket",
-          address: "830 Bottom Feeder Lane",
-          description: "best fastfood in the Bikini Bottom",
+          english: expect.objectContaining({
+            name: "Chum Bucket",
+            address: "830 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
         },
       });
     });
@@ -233,9 +237,11 @@ describe("Restaurant API", () => {
           title: "рубль",
         },
         restaurantI18N: {
-          name: "Chum Bucket",
-          address: "830 Bottom Feeder Lane",
-          description: "best fastfood in the Bikini Bottom",
+          english: expect.objectContaining({
+            name: "Chum Bucket",
+            address: "830 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
         },
       });
     });
@@ -265,9 +271,11 @@ describe("Restaurant API", () => {
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
         restaurantI18N: {
-          name: "Красти Крабс",
-          address: "Нижний переулок 830",
-          description: "лучшие бургеры",
+          russian: expect.objectContaining({
+            name: "Красти Крабс",
+            address: "Нижний переулок 830",
+            description: "лучшие бургеры",
+          }) as unknown,
         },
         currency: {
           code: "RUB",
@@ -287,7 +295,6 @@ describe("Restaurant API", () => {
       > = {
         restaurantId: testRestaurant.id,
         isPublished: true,
-        languageCode: createRestaurantInput.languageCode,
       };
 
       const result = await caller.restaurant.setPublishedRestaurant(input);
@@ -308,7 +315,6 @@ describe("Restaurant API", () => {
       AppRouter["restaurant"]["deleteRestaurant"]
     > = {
       restaurantId: testRestaurant.id,
-      languageCode: createRestaurantInput.languageCode,
     };
 
     const result = await caller.restaurant.deleteRestaurant(input);

@@ -8,7 +8,7 @@ import { uploadImage } from "~/server/utils/cloudinary";
 import {
   createRestaurantSchemaInput,
   deleteRestaurantSchemaInput,
-  getAllRestaurantsSchemaInput,
+  // getAllRestaurantsSchemaInput,
   getRestaurantSchemaInput,
   setPublishedRestaurantSchemaInput,
   updateRestaurantSchemaInput,
@@ -26,18 +26,13 @@ export const restaurantRouter = createTRPCRouter({
     .input(getRestaurantSchemaInput)
     .query(async ({ ctx, input }) => {
       // TODO: MOVE IT TO CONTROLERS
-      return await findRestaurant(
-        { id: input.restaurantId },
-        input.languageCode,
-        ctx.prisma
-      );
+      return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
     }),
   getAllRestaurants: protectedProcedure
-    .input(getAllRestaurantsSchemaInput)
-    .query(async ({ ctx, input }) => {
+    // .input(getAllRestaurantsSchemaInput)
+    .query(async ({ ctx }) => {
       return await findAllRestaurants(
         { userId: ctx.session.user.id },
-        input.languageCode,
         ctx.prisma
       );
     }),
@@ -66,8 +61,6 @@ export const restaurantRouter = createTRPCRouter({
         {
           id: input.restaurantId,
         },
-        input.languageCode,
-
         ctx.prisma
       );
     }),
@@ -83,7 +76,6 @@ export const restaurantRouter = createTRPCRouter({
         {
           id: input.restaurantId,
         },
-        input.languageCode,
         ctx.prisma
       );
     }),
@@ -95,7 +87,6 @@ export const restaurantRouter = createTRPCRouter({
 
       return await findAllRestaurants(
         { userId: ctx.session.user.id },
-        input.languageCode,
         ctx.prisma
       );
     }),

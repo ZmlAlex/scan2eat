@@ -1,17 +1,14 @@
 import Link from "next/link";
 
-import type { RouterOutputs } from "~/utils/api";
 import { formatDate } from "~/utils/formatDate";
+import type { Restaurant } from "~/utils/formatTranslationToOneLanguage";
 // import { Post } from "@prisma/client";
 
 // import { Skeleton } from "@/components/ui/skeleton";
 // import { PostOperations } from "@/components/post-operations";
 
 interface RestaurantItemProps {
-  restaurant: Pick<
-    RouterOutputs["restaurant"]["getAllRestaurants"][0],
-    "id" | "createdAt" | "restaurantI18N"
-  >;
+  restaurant: Pick<Restaurant[0], "id" | "createdAt" | "restaurantI18N">;
 }
 
 export function RestaurantItem({ restaurant }: RestaurantItemProps) {

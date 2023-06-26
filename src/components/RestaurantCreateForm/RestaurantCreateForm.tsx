@@ -1,6 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { LanguageCode } from "@prisma/client";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -46,7 +44,6 @@ type Props = {
   onSuccessCallback?: () => void;
 };
 const RestaurantCreateForm = ({ onSuccessCallback }: Props) => {
-  const router = useRouter();
   const trpcContext = api.useContext();
 
   const { mutate: createRestaurant, isLoading } =
@@ -60,7 +57,7 @@ const RestaurantCreateForm = ({ onSuccessCallback }: Props) => {
         }),
       onSuccess: (newRestaurant) => {
         trpcContext.restaurant.getAllRestaurants.setData(
-          { languageCode: router.locale as LanguageCode },
+          undefined,
           (prevRestaurants = []) => [...prevRestaurants, newRestaurant]
         );
 

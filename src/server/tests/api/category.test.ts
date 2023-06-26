@@ -53,7 +53,9 @@ describe("Category API", () => {
 
     expect(category?.[0]).toMatchObject({
       categoryI18N: {
-        name: "juices",
+        english: expect.objectContaining({
+          name: "juices",
+        }) as unknown,
       },
     });
   });
@@ -85,7 +87,9 @@ describe("Category API", () => {
 
       expect(category?.[0]).toMatchObject({
         categoryI18N: {
-          name: "beverages",
+          english: expect.objectContaining({
+            name: "beverages",
+          }) as unknown,
         },
       });
     });
@@ -114,7 +118,7 @@ describe("Category API", () => {
         menu: { category },
       } = await caller.category.updateCategory(updateCategoryInput);
 
-      expect(category?.[0]?.categoryI18N).toMatchObject({
+      expect(category?.[0]?.categoryI18N.russian).toMatchObject({
         name: "соки",
       });
     });
@@ -141,7 +145,6 @@ describe("Category API", () => {
     const input: inferProcedureInput<AppRouter["category"]["deleteCategory"]> =
       {
         categoryId: testCategory.id,
-        languageCode: createRestaurantInput.languageCode,
       };
 
     const {

@@ -2,12 +2,12 @@ import React from "react";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 
 import { Badge } from "~/components/ui/Badge";
-import type { RouterOutputs } from "~/utils/api";
+import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import CategorySection from "./CategorySection";
 
 type Props = {
-  menu: RouterOutputs["restaurant"]["getRestaurant"]["menu"];
+  menu: RestaurantWithDetails["menu"];
 };
 
 const Menu = ({ menu }: Props) => {

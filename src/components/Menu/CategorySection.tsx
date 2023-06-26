@@ -1,11 +1,11 @@
 import React from "react";
 
-import type { RouterOutputs } from "~/utils/api";
+import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import CategoryProduct from "./CategoryProduct";
 
 type Props = {
-  products: RouterOutputs["restaurant"]["getRestaurant"]["menu"]["product"];
+  products: RestaurantWithDetails["menu"]["product"];
   categoryId: string;
   name: string;
   setSelectedCategory: (category: string) => void;

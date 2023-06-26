@@ -30,7 +30,6 @@ export const updateProductSchemaInput = z.object({
 
 export const deleteProductSchemaInput = z.object({
   productId: z.string(),
-  languageCode: languageCodeS,
 });
 
 export type CreateProductInput = z.infer<typeof createProductSchemaInput>;

@@ -14,11 +14,13 @@ import { ModeToggle } from "~/components/ModeToggle";
 import RestaurantLayout from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
+import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 // Infer types from getServerSideProps
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Restaurant = ({ restaurant }: ServerSideProps) => {
+  console.log("restaurant: ", restaurant);
   const { name, address, description } = restaurant.restaurantI18N;
 
   return (
@@ -83,8 +85,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   //TODO: HANDLE CASE WHEN IT CAN BE NON VALID VALUE
   const restaurant = await trpc.restaurant.getRestaurant({
     restaurantId: (ctx.params?.restaurantId as string) ?? "",
-    languageCode: ctx.locale as LanguageCode,
   });
 
-  return { props: { restaurant } };
+  return {
+    props: {
+      restaurant: formatTranslationToOneLanguageWithDetails(
+        restaurant,
+        ctx.locale as LanguageCode
+      ),
+    },
+  };
 };

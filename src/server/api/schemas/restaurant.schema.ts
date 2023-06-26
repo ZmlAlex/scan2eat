@@ -4,12 +4,9 @@ import { currencyCodeS, languageCodeS } from "./common.schema";
 
 export const getRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
-  languageCode: languageCodeS,
 });
 
-export const getAllRestaurantsSchemaInput = z.object({
-  languageCode: languageCodeS,
-});
+// export const getAllRestaurantsSchemaInput = z.object({});
 
 export const createRestaurantSchemaInput = z.object({
   name: z.string(),
@@ -35,12 +32,10 @@ export const updateRestaurantSchemaInput = z.object({
 export const setPublishedRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
   isPublished: z.boolean(),
-  languageCode: languageCodeS,
 });
 
 export const deleteRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
-  languageCode: languageCodeS,
 });
 
 export type CreateRestaurantInput = z.infer<typeof createRestaurantSchemaInput>;

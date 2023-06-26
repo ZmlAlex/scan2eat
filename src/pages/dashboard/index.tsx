@@ -18,6 +18,7 @@ import {
 } from "~/components/ui/Dialog";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";
+import { formatTranslationToOneLanguage } from "~/utils/formatTranslationToOneLanguage";
 
 const RestaurantList = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -25,8 +26,12 @@ const RestaurantList = () => {
   const router = useRouter();
 
   const { data: restaurants, status } =
-    api.restaurant.getAllRestaurants.useQuery({
-      languageCode: router.locale as LanguageCode,
+    api.restaurant.getAllRestaurants.useQuery(undefined, {
+      select: (restaurants) =>
+        formatTranslationToOneLanguage(
+          restaurants,
+          router.locale as LanguageCode
+        ),
     });
 
   return (

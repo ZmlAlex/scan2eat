@@ -19,7 +19,6 @@ import type {
 
 export const findRestaurant = async (
   where: Partial<Prisma.RestaurantWhereInput>,
-  languageCode: LanguageCode,
   prisma: PrismaClient
 ) => {
   const result = await prisma.restaurant.findFirstOrThrow({
@@ -33,8 +32,6 @@ export const findRestaurant = async (
         select: { languageCode: true },
       },
       restaurantI18N: {
-        where: { languageCode },
-
         select: {
           fieldName: true,
           translation: true,
@@ -51,16 +48,12 @@ export const findRestaurant = async (
         include: {
           category: {
             include: {
-              categoryI18N: {
-                where: { languageCode },
-              },
+              categoryI18N: true,
             },
           },
           product: {
             include: {
-              productI18N: {
-                where: { languageCode },
-              },
+              productI18N: true,
             },
           },
         },
@@ -94,21 +87,21 @@ export const findRestaurant = async (
 
 export const findAllRestaurants = async (
   where: Partial<Prisma.RestaurantWhereInput>,
-  languageCode: LanguageCode,
   prisma: PrismaClient
 ) => {
   const result = await prisma.restaurant.findMany({
     where,
     include: {
       restaurantI18N: {
-        where: { languageCode },
         select: {
           fieldName: true,
           translation: true,
           languageCode: true,
         },
       },
-      restaurantLanguage: true,
+      restaurantLanguage: {
+        select: { languageCode: true },
+      },
       currency: {
         select: {
           code: true,
@@ -173,7 +166,6 @@ export const createRestaurant = async (
         },
       },
       restaurantI18N: {
-        where: { languageCode: input.languageCode },
         select: {
           fieldName: true,
           translation: true,
