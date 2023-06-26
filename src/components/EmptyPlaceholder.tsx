@@ -55,7 +55,10 @@ EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   ...props
 }: EmptyPlacholderTitleProps) {
   return (
-    <h2 className={cn("mt-6 text-xl font-semibold", className)} {...props} />
+    <h2
+      className={cn("mt-6 font-heading text-xl font-semibold", className)}
+      {...props}
+    />
   );
 };
 

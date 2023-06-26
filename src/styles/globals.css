@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: font-heading;
+  src: url("../../assets/fonts/CalSans-SemiBold.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("../../assets/fonts/CalSans-SemiBold.woff")
+      format("woff"),
+    /* Pretty Modern Browsers */ url("../../assets/fonts/CalSans-SemiBold.ttf")
+      format("truetype");
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -77,17 +86,5 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
-
-@layer utilities {
-  /* Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
   }
 }
