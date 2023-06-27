@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { formatDate } from "~/utils/formatDate";
 import type { Restaurant } from "~/utils/formatTranslationToOneLanguage";
+
+import { RestaurantOperations } from "./RestaurantOperations";
 // import { Post } from "@prisma/client";
 
 // import { Skeleton } from "@/components/ui/skeleton";
@@ -27,8 +29,7 @@ export function RestaurantItem({ restaurant }: RestaurantItemProps) {
           </p>
         </div>
       </div>
-      {/* //TODO: ADD OPERATIONS FOR EDIT/DELETE */}
-      {/* <PostOperations post={{ id: post.id, title: post.title }} /> */}
+      <RestaurantOperations restaurantId={restaurant.id} />
     </div>
   );
 }
