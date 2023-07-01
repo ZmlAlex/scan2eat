@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Dialog, DialogContent } from "~/components/ui/Dialog";
+import useModal from "~/hooks/useModal";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { Badge } from "../ui/Badge";
@@ -20,12 +21,12 @@ const CategoryProduct = ({ product }: Props) => {
     price,
     imageUrl,
   } = product;
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const { isModalOpen, toggleModal } = useModal();
 
   return (
     <>
       <div
-        onClick={() => setIsModalOpen(true)}
+        onClick={toggleModal}
         className="cursor-pointer overflow-hidden rounded-2xl "
       >
         <div className="relative">
@@ -34,14 +35,13 @@ const CategoryProduct = ({ product }: Props) => {
         </div>
         <div className="rounded-b-2xl border px-2  py-4 ">
           <p className="mb-1 text-xl">{price}</p>
-
           <p className="mb-3">{name}</p>
           <p>300 g</p>
         </div>
       </div>
 
       {/* Modal window */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isModalOpen} onOpenChange={toggleModal}>
         <DialogContent>
           {/* <DialogHeader> */}
           {/* <DialogTitle>{product.name}</DialogTitle> */}

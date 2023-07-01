@@ -48,7 +48,7 @@ const RestaurantCreateForm = ({ onSuccessCallback }: Props) => {
 
   const { mutate: createRestaurant, isLoading } =
     api.restaurant.createRestaurant.useMutation({
-      onError: (err) =>
+      onError: () =>
         toast({
           title: "Something went wrong.",
           description:

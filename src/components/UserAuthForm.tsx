@@ -11,7 +11,10 @@ import { Input } from "~/components/ui/Input";
 import { Label } from "~/components/ui/Label";
 import { toast } from "~/components/ui/useToast";
 import { cn } from "~/utils/cn";
-import { userAuthSchema } from "~/utils/validations/auth";
+
+const userAuthSchema = z.object({
+  email: z.string().email(),
+});
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 

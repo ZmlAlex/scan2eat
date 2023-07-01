@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Copy, Pen, Trash } from "lucide-react";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -22,35 +22,50 @@ import {
 import { toast } from "~/components/ui/useToast";
 import useModal from "~/hooks/useModal";
 import { api } from "~/utils/api";
+import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+
+import type { ArrayElement } from "../Menu/CategoryProduct";
+import ProductUpdateForm from "../ProductUpdateForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/Dialog";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
+  product: ArrayElement<RestaurantWithDetails["menu"]["product"]>;
 }
 
-export function RestaurantOperations({
+export function ProductOperations({
   restaurantId,
+  product,
 }: RestaurantOperationsProps) {
-  const { isModalOpen, toggleModal } = useModal();
+  const { isModalOpen: isModalDeleteOpen, toggleModal: toggleModalDelete } =
+    useModal();
+  const { isModalOpen: isModalUpdateOpen, toggleModal: toggleModalUpdate } =
+    useModal();
 
   const trpcContext = api.useContext();
 
-  const { mutate: deleteRestaurant, isLoading } =
-    api.restaurant.deleteRestaurant.useMutation({
-      onError: (err) =>
+  const { mutate: deleteProduct, isLoading } =
+    api.product.deleteProduct.useMutation({
+      onError: () =>
         toast({
           title: "Something went wrong.",
-          description:
-            "Your delete restaurant request failed. Please try again.",
+          description: "Your delete product request failed. Please try again.",
           variant: "destructive",
         }),
-      onSuccess: (updatedRestaurants) => {
-        trpcContext.restaurant.getAllRestaurants.setData(
-          undefined,
-          () => updatedRestaurants
+      onSuccess: (updatedRestaurant) => {
+        trpcContext.restaurant.getRestaurant.setData(
+          { restaurantId },
+          () => updatedRestaurant
         );
 
         toast({
-          title: "Restaurant has been deleted.",
+          title: "Product has been deleted.",
         });
       },
     });
@@ -62,30 +77,33 @@ export function RestaurantOperations({
           <Icons.ellipsis className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" className="w-[160px]">
+          <DropdownMenuItem onClick={toggleModalUpdate}>
+            <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link
-              href={`/dashboard/restaurants/${restaurantId}`}
-              className="flex w-full"
-            >
-              Edit
-            </Link>
+            <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            Make a copy
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+
           <DropdownMenuItem
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
-            onSelect={toggleModal}
+            onClick={toggleModalDelete}
           >
+            <Trash className="mr-2 h-3.5 w-3.5 text-destructive" />
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
       {/* //TODO CHECK IT HERE */}
-      <AlertDialog open={isModalOpen} onOpenChange={toggleModal}>
+      <AlertDialog open={isModalDeleteOpen} onOpenChange={toggleModalDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this restaurant?
+              Are you sure you want to delete this product?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -96,7 +114,7 @@ export function RestaurantOperations({
             <AlertDialogAction
               onClick={(event) => {
                 event.preventDefault();
-                deleteRestaurant({ restaurantId });
+                deleteProduct({ productId: product.id });
               }}
               className="bg-red-600 focus:ring-red-600"
             >
@@ -110,6 +128,25 @@ export function RestaurantOperations({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* //TODO MOVE IT TO COMPONENT */}
+      <Dialog open={isModalUpdateOpen} onOpenChange={toggleModalUpdate}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Update product</DialogTitle>
+            <DialogDescription>
+              Edit details about your product here. Click save when you&apos;re
+              done.
+            </DialogDescription>
+          </DialogHeader>
+
+          <ProductUpdateForm
+            restaurantId={restaurantId}
+            product={product}
+            onSuccessCallback={toggleModalUpdate}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

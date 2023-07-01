@@ -16,12 +16,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/Dialog";
+import useModal from "~/hooks/useModal";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";
 import { formatTranslationToOneLanguage } from "~/utils/formatTranslationToOneLanguage";
 
 const RestaurantList = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const { isModalOpen, toggleModal } = useModal();
 
   const router = useRouter();
 
@@ -46,7 +47,7 @@ const RestaurantList = () => {
           heading="Restaurants"
           text="Create and manage restaurants"
         >
-          <Button onClick={() => setIsModalOpen(true)}>
+          <Button onClick={toggleModal}>
             <Icons.add className="mr-2 h-4 w-4" />
             New Restaurant
           </Button>
@@ -74,10 +75,7 @@ const RestaurantList = () => {
                     You don&apos;t have any restaurants yet. Start creating
                     content.
                   </EmptyPlaceholder.Description>
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsModalOpen(true)}
-                  >
+                  <Button variant="outline" onClick={toggleModal}>
                     <Icons.add className="mr-2 h-4 w-4" />
                     New Restaurant
                   </Button>
@@ -89,7 +87,7 @@ const RestaurantList = () => {
       </DashboardLayout>
 
       {/* //TODO MOVE IT TO COMPONENT */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isModalOpen} onOpenChange={toggleModal}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Create restaurant</DialogTitle>
@@ -99,9 +97,7 @@ const RestaurantList = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <RestaurantCreateForm
-            onSuccessCallback={() => setIsModalOpen(false)}
-          />
+          <RestaurantCreateForm onSuccessCallback={toggleModal} />
         </DialogContent>
       </Dialog>
     </>

@@ -1,6 +1,5 @@
 import type {
   CategoryTranslationField,
-  LanguageCode,
   Prisma,
   PrismaClient,
   PrismaPromise,
@@ -128,8 +127,6 @@ export const createRestaurant = async (
       ["name", "description", "address"],
       input
     );
-
-  console.log("input user id", input.userId);
 
   const result = await prisma.restaurant.create({
     data: {

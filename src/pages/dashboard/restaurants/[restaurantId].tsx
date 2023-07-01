@@ -2,16 +2,25 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
+import CategoriesBlock from "~/components/CategoriesBlock";
 import { DashboardHeader } from "~/components/DashboardHeader";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";
+import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 const Restaurant = () => {
   const router = useRouter();
 
-  const { data: restaurant, status } = api.restaurant.getRestaurant.useQuery({
-    restaurantId: router.query.restaurantId as string,
-  });
+  const { data: restaurant, status } = api.restaurant.getRestaurant.useQuery(
+    {
+      restaurantId: router.query.restaurantId as string,
+    },
+    {
+      enabled: Boolean(router.query.restaurantId),
+      select: (restaurant) =>
+        formatTranslationToOneLanguageWithDetails(restaurant, "english"),
+    }
+  );
 
   console.log("restaurant:!!! ", restaurant);
 
@@ -26,8 +35,37 @@ const Restaurant = () => {
       <DashboardLayout>
         <DashboardHeader heading="Restaurant" text="Manage restaurant" />
         <div className="grid gap-10">
-          {status === "loading" && <div> loading</div>}
-          {status === "success" && <div> SINGLE RESTAURANT PAGE</div>}
+          {status === "loading" && <div>loading</div>}
+          {status === "success" && (
+            <>
+              {/* // Language block */}
+              {/* <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a fruit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectItem value="apple">Apple</SelectItem>
+                    <SelectItem value="banana">Banana</SelectItem>
+                    <SelectItem value="blueberry">Blueberry</SelectItem>
+                    <SelectItem value="grapes">Grapes</SelectItem>
+                    <SelectItem value="pineapple">Pineapple</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <div className="flex items-center space-x-2">
+                <Switch id="airplane-mode" />
+                <Label htmlFor="airplane-mode">Airplane Mode</Label>
+              </div> */}
+
+              {/* // Category block */}
+              <div>
+                <CategoriesBlock restaurant={restaurant} />
+              </div>
+            </>
+          )}
         </div>
       </DashboardLayout>
     </>
