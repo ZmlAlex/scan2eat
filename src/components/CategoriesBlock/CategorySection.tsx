@@ -40,7 +40,11 @@ const CategorySection = ({ restaurantId, products, category }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
   return (
     <>
-      <AccordionItem key={category.id} value={category.id}>
+      <AccordionItem
+        key={category.id}
+        value={category.id}
+        className="border-b-0"
+      >
         <AccordionTrigger className="gap-x-4 capitalize">
           <span>{category.categoryI18N.name}</span>
           <div className="ml-auto">

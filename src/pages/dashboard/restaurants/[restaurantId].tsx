@@ -22,8 +22,6 @@ const Restaurant = () => {
     }
   );
 
-  console.log("restaurant:!!! ", restaurant);
-
   return (
     <>
       <Head>
@@ -33,7 +31,10 @@ const Restaurant = () => {
       </Head>
       {/* TODO: REMOVE ON ANOTHER LAYOUT */}
       <DashboardLayout>
-        <DashboardHeader heading="Restaurant" text="Manage restaurant" />
+        <DashboardHeader
+          heading={`${(restaurant?.restaurantI18N.name as string) || ""}`}
+          text="Manage restaurant"
+        />
         <div className="grid gap-10">
           {status === "loading" && <div>loading</div>}
           {status === "success" && (

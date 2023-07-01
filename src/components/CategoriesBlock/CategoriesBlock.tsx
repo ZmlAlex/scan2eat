@@ -30,15 +30,17 @@ const CategoryBlock = ({ restaurant }: Props) => {
     <>
       <div>
         {/* //TODO: MOVE IT TO THE COMPONENT */}
-
         {hasCategories ? (
           <>
-            <Button onClick={toggleModal}>
+            <Button className="mb-4" onClick={toggleModal}>
               <Icons.add className="mr-2 h-4 w-4" />
               Create Category
             </Button>
 
-            <Accordion type="multiple">
+            <Accordion
+              type="multiple"
+              className="divide-y divide-border rounded-md border px-4"
+            >
               {restaurant.menu.category?.map((category) => (
                 <CategorySection
                   key={category.id}
