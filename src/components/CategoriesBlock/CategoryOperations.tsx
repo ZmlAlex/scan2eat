@@ -1,4 +1,4 @@
-import { Copy, Pen, Trash } from "lucide-react";
+import { Pen, Trash } from "lucide-react";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -24,8 +24,8 @@ import useModal from "~/hooks/useModal";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
+import CategoryUpdateForm from "../CategoryUpdateForm";
 import type { ArrayElement } from "../Menu/CategoryProduct";
-import ProductUpdateForm from "../ProductUpdateForm";
 import {
   Dialog,
   DialogContent,
@@ -36,12 +36,12 @@ import {
 
 interface RestaurantOperationsProps {
   restaurantId: string;
-  product: ArrayElement<RestaurantWithDetails["menu"]["product"]>;
+  category: ArrayElement<RestaurantWithDetails["menu"]["category"]>;
 }
 
-export function ProductOperations({
+export function CategoryOperations({
   restaurantId,
-  product,
+  category,
 }: RestaurantOperationsProps) {
   const { isModalOpen: isModalDeleteOpen, toggleModal: toggleModalDelete } =
     useModal();
@@ -50,12 +50,12 @@ export function ProductOperations({
 
   const trpcContext = api.useContext();
 
-  const { mutate: deleteProduct, isLoading } =
-    api.product.deleteProduct.useMutation({
+  const { mutate: deleteCategory, isLoading } =
+    api.category.deleteCategory.useMutation({
       onError: () =>
         toast({
           title: "Something went wrong.",
-          description: "Your delete product request failed. Please try again.",
+          description: "Your delete category request failed. Please try again.",
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -65,7 +65,7 @@ export function ProductOperations({
         );
 
         toast({
-          title: "Product has been deleted.",
+          title: "Category has been deleted.",
         });
       },
     });
@@ -73,24 +73,28 @@ export function ProductOperations({
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="ml-auto flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
+        <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
           <Icons.ellipsis className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuContent
+          align="end"
+          className="w-[160px]"
+          onClick={(event) => event.stopPropagation()}
+        >
           <DropdownMenuItem onClick={toggleModalUpdate}>
             <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Make a copy
-          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
-            onClick={toggleModalDelete}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleModalDelete();
+            }}
           >
             <Trash className="mr-2 h-3.5 w-3.5 text-destructive" />
             Delete
@@ -100,10 +104,10 @@ export function ProductOperations({
 
       {/* //TODO CHECK IT HERE */}
       <AlertDialog open={isModalDeleteOpen} onOpenChange={toggleModalDelete}>
-        <AlertDialogContent>
+        <AlertDialogContent onClick={(event) => event.stopPropagation()}>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this product?
+              Are you sure you want to delete this category?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -114,7 +118,7 @@ export function ProductOperations({
             <AlertDialogAction
               onClick={(event) => {
                 event.preventDefault();
-                deleteProduct({ productId: product.id });
+                deleteCategory({ categoryId: category.id });
               }}
               className="bg-red-600 focus:ring-red-600"
             >
@@ -131,18 +135,21 @@ export function ProductOperations({
 
       {/* //TODO MOVE IT TO COMPONENT */}
       <Dialog open={isModalUpdateOpen} onOpenChange={toggleModalUpdate}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent
+          className="sm:max-w-[425px]"
+          onClick={(event) => event.stopPropagation()}
+        >
           <DialogHeader>
-            <DialogTitle>Update product</DialogTitle>
+            <DialogTitle>Update category</DialogTitle>
             <DialogDescription>
-              Edit details about your product here. Click save when you&apos;re
+              Edit details about your category here. Click save when you&apos;re
               done.
             </DialogDescription>
           </DialogHeader>
 
-          <ProductUpdateForm
+          <CategoryUpdateForm
             restaurantId={restaurantId}
-            product={product}
+            category={category}
             onSuccessCallback={toggleModalUpdate}
           />
         </DialogContent>

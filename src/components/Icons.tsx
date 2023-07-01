@@ -14,6 +14,7 @@ import {
   Image,
   Languages,
   Laptop,
+  LayoutList,
   Loader2,
   type LucideProps,
   MapPin,
@@ -27,11 +28,13 @@ import {
   Trash,
   Twitter,
   User,
-  X} from "lucide-react";
+  X,
+} from "lucide-react";
 
 export const Icons = {
   globe: Globe,
   languages: Languages,
+  layoutList: LayoutList,
   clock2: Clock2,
   logo: Command,
   close: X,

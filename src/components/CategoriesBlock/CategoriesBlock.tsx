@@ -13,6 +13,8 @@ import {
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
+import { EmptyPlaceholder } from "../EmptyPlaceholder";
+import { Icons } from "../Icons";
 import CategorySection from "./CategorySection";
 
 type Props = {
@@ -22,23 +24,48 @@ type Props = {
 const CategoryBlock = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
+  const hasCategories = !!restaurant.menu.category?.length;
+
   return (
     <>
       <div>
-        <Button onClick={toggleModal}>Create Category</Button>
         {/* //TODO: MOVE IT TO THE COMPONENT */}
-        <Accordion type="multiple">
-          {restaurant.menu.category?.map((category) => (
-            <CategorySection
-              key={category.id}
-              restaurantId={restaurant.id || ""}
-              category={category}
-              products={restaurant.menu.product?.filter(
-                (product) => product.categoryId === category.id
-              )}
-            />
-          ))}
-        </Accordion>
+
+        {hasCategories ? (
+          <>
+            <Button onClick={toggleModal}>
+              <Icons.add className="mr-2 h-4 w-4" />
+              Create Category
+            </Button>
+
+            <Accordion type="multiple">
+              {restaurant.menu.category?.map((category) => (
+                <CategorySection
+                  key={category.id}
+                  restaurantId={restaurant.id || ""}
+                  category={category}
+                  products={restaurant.menu.product?.filter(
+                    (product) => product.categoryId === category.id
+                  )}
+                />
+              ))}
+            </Accordion>
+          </>
+        ) : (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="layoutList" />
+            <EmptyPlaceholder.Title>
+              No categories created
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              You don&apos;t have any categories yet. Start creating content.
+            </EmptyPlaceholder.Description>
+            <Button variant="outline" onClick={toggleModal}>
+              <Icons.add className="mr-2 h-4 w-4" />
+              New Category
+            </Button>
+          </EmptyPlaceholder>
+        )}
       </div>
 
       {/* //TODO MOVE IT TO COMPONENT CategoryCreateModal*/}
