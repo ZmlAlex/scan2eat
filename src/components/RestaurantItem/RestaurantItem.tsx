@@ -4,16 +4,13 @@ import { formatDate } from "~/utils/formatDate";
 import type { Restaurant } from "~/utils/formatTranslationToOneLanguage";
 
 import { RestaurantOperations } from "./RestaurantOperations";
-// import { Post } from "@prisma/client";
-
 // import { Skeleton } from "@/components/ui/skeleton";
-// import { PostOperations } from "@/components/post-operations";
 
 interface RestaurantItemProps {
   restaurant: Pick<Restaurant[0], "id" | "createdAt" | "restaurantI18N">;
 }
 
-export function RestaurantItem({ restaurant }: RestaurantItemProps) {
+function RestaurantItem({ restaurant }: RestaurantItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
@@ -45,3 +42,5 @@ export function RestaurantItem({ restaurant }: RestaurantItemProps) {
 //     </div>
 //   );
 // };
+
+export default RestaurantItem;

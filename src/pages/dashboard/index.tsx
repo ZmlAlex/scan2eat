@@ -7,7 +7,7 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
 import { Icons } from "~/components/Icons";
 import RestaurantCreateForm from "~/components/RestaurantCreateForm";
-import { RestaurantItem } from "~/components/RestaurantItem";
+import RestaurantItem from "~/components/RestaurantItem";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,

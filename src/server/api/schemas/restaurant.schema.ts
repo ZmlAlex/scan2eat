@@ -18,6 +18,11 @@ export const createRestaurantSchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
+export const createRestaurantLanguageSchemaInput = z.object({
+  restaurantId: z.string(),
+  languageCode: languageCodeS,
+});
+
 export const updateRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
   name: z.string(),
@@ -34,10 +39,20 @@ export const setPublishedRestaurantSchemaInput = z.object({
   isPublished: z.boolean(),
 });
 
+export const setEnabledRestaurantLanguagesSchemaInput = z.object({
+  restaurantId: z.string(),
+  languageCodes: z.array(
+    z.object({ languageCode: languageCodeS, isEnabled: z.boolean() })
+  ),
+});
+
 export const deleteRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
 });
 
 export type CreateRestaurantInput = z.infer<typeof createRestaurantSchemaInput>;
+export type CreateRestaurantLanguageInput = z.infer<
+  typeof createRestaurantLanguageSchemaInput
+>;
 export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchemaInput>;
 export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantSchemaInput>;

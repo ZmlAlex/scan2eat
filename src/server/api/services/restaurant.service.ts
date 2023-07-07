@@ -28,7 +28,7 @@ export const findRestaurant = async (
       logoUrl: true,
       isPublished: true,
       restaurantLanguage: {
-        select: { languageCode: true },
+        select: { languageCode: true, isEnabled: true },
       },
       restaurantI18N: {
         select: {
@@ -99,7 +99,7 @@ export const findAllRestaurants = async (
         },
       },
       restaurantLanguage: {
-        select: { languageCode: true },
+        select: { languageCode: true, isEnabled: true },
       },
       currency: {
         select: {
@@ -160,6 +160,7 @@ export const createRestaurant = async (
       restaurantLanguage: {
         select: {
           languageCode: true,
+          isEnabled: true,
         },
       },
       restaurantI18N: {

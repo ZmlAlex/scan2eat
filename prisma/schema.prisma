@@ -122,6 +122,7 @@ model RestaurantLanguage {
   updatedAt    DateTime     @updatedAt
   restaurantId String
   languageCode LanguageCode
+  isEnabled    Boolean      @default(true)
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)

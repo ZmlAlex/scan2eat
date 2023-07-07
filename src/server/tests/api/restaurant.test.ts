@@ -1,3 +1,4 @@
+// /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { type User } from "@prisma/client";
 import { type inferProcedureInput } from "@trpc/server";
 
@@ -11,6 +12,7 @@ import { createProtectedCaller } from "../helpers/protectedCaller";
 //TODO: MOVE IT GLOBALLY
 type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
+//TODO: move it to the mocks
 const createRestaurantInput: inferProcedureInput<
   AppRouter["restaurant"]["createRestaurant"]
 > = {
@@ -51,6 +53,156 @@ describe("Restaurant API", () => {
           description: "best fastfood in the Bikini Bottom",
         }) as unknown,
       },
+    });
+  });
+
+  describe("when new restaurant language is created", () => {
+    it("should get restaurant with new language", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const [testCategory, testCategorySecond] = await Promise.all([
+        createCategory({
+          menuId: testRestaurant.menu[0]?.id as string,
+          name: "hamburgers",
+          languageCode: "english",
+        }),
+        createCategory({
+          menuId: testRestaurant.menu[0]?.id as string,
+          name: "juices",
+          languageCode: "english",
+        }),
+      ]);
+
+      await Promise.all([
+        createProduct({
+          menuId: testRestaurant.menu[0]?.id as string,
+          categoryId: testCategory.id,
+          name: "bigmac",
+          description: "description",
+          price: 1000,
+          languageCode: "english",
+          measurmentUnit: "g.",
+          measurmentValue: "300",
+          imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+        }),
+        createProduct({
+          menuId: testRestaurant.menu[0]?.id as string,
+          categoryId: testCategorySecond.id,
+          name: "apple juice",
+          description: "amazing fresh drink",
+          price: 1000,
+          languageCode: "english",
+          measurmentUnit: "ml.",
+          measurmentValue: "250",
+          imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+        }),
+      ]);
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["createRestaurantLanguage"]
+      > = {
+        restaurantId: testRestaurant.id,
+        languageCode: "russian",
+      };
+
+      const result = await caller.restaurant.createRestaurantLanguage(input);
+
+      expect(result).toMatchObject({
+        restaurantLanguage: [
+          { languageCode: "english", isEnabled: true },
+          { languageCode: "russian", isEnabled: true },
+        ],
+        //TODO: FIX ARRAY CHECKS
+        // menu: expect.objectContaining({
+        //   category: [
+        //     expect.objectContaining({
+        //       categoryI18N: {
+        //         english: { name: "juices" },
+        //         russian: { name: "соки" },
+        //       },
+        //     }),
+        //     expect.objectContaining({
+        //       categoryI18N: {
+        //         english: { name: "hamburgers" },
+        //         russian: { name: "гамбургеры" },
+        //       },
+        //     }),
+        //   ],
+        //   product: [
+        //     expect.objectContaining({
+        //       productI18N: {
+        //         russian: { name: "бигмак", description: "описание" },
+        //         english: { name: "bigmac", description: "description" },
+        //       },
+        //     }),
+        //     expect.objectContaining({
+        //       productI18N: {
+        //         russian: {
+        //           name: "яблочный сок",
+        //           description: "потрясающий свежий напиток",
+        //         },
+        //         english: {
+        //           name: "apple juice",
+        //           description: "amazing fresh drink",
+        //         },
+        //       },
+        //     }),
+        //   ],
+        // }) as unknown,
+        restaurantI18N: {
+          english: {
+            name: "Krusty Krab",
+            description: "best fastfood in the Bikini Bottom",
+            address: "831 Bottom Feeder Lane",
+          },
+          russian: {
+            name: "Красти Краб",
+            description: "лучший фастфуд в Бикини Боттом",
+            address: "831 Нижняя фидерная дорожка",
+          },
+        },
+      });
+    });
+  });
+
+  describe("when restaurant language is toggled", () => {
+    it("should get restaurant with updated restaurant's languages settings", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      //TODO: MOVE IT TO THE HELPER!
+      await caller.restaurant.createRestaurantLanguage({
+        restaurantId: testRestaurant.id,
+        languageCode: "russian",
+      });
+
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["setEnabledRestaurantLanguages"]
+      > = {
+        restaurantId: testRestaurant.id,
+        languageCodes: [
+          { languageCode: "english", isEnabled: true },
+          { languageCode: "russian", isEnabled: false },
+        ],
+      };
+
+      const result = await caller.restaurant.setEnabledRestaurantLanguages(
+        input
+      );
+
+      expect(result).toMatchObject({
+        restaurantLanguage: [
+          { languageCode: "english", isEnabled: true },
+          { languageCode: "russian", isEnabled: false },
+        ],
+      });
     });
   });
 

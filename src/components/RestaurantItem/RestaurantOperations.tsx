@@ -36,7 +36,7 @@ export function RestaurantOperations({
 
   const { mutate: deleteRestaurant, isLoading } =
     api.restaurant.deleteRestaurant.useMutation({
-      onError: (err) =>
+      onError: () =>
         toast({
           title: "Something went wrong.",
           description:
@@ -80,7 +80,7 @@ export function RestaurantOperations({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {/* //TODO CHECK IT HERE */}
+
       <AlertDialog open={isModalOpen} onOpenChange={toggleModal}>
         <AlertDialogContent>
           <AlertDialogHeader>

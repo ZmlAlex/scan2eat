@@ -1,5 +1,6 @@
 import type {
   CategoryTranslationField,
+  LanguageCode,
   Prisma,
   PrismaClient,
   PrismaPromise,
@@ -30,6 +31,7 @@ export const createCategory = async (
   });
 };
 
+//TODO: USE IT FOR LANGUAGES
 export const updateCategory = async (
   input: UpdateCategoryInput,
   prisma: PrismaClient
@@ -58,6 +60,42 @@ export const updateCategory = async (
         create: {
           translation: record.translation,
           categoryId: input.categoryId,
+          languageCode: record.languageCode,
+          fieldName: record.fieldName,
+        },
+      })
+    );
+
+  await prisma.$transaction(transactions);
+};
+
+export const updateManyCategoryTranslations = async (
+  //TODO: MOVE INTO TYPE
+  translations: {
+    categoryId: string;
+    languageCode: LanguageCode;
+    translation: string;
+    fieldName: CategoryTranslationField;
+  }[],
+  prisma: PrismaClient
+) => {
+  const transactions: PrismaPromise<unknown>[] = translations
+    .filter(({ translation }) => translation)
+    .map((record) =>
+      prisma.categoryI18N.upsert({
+        where: {
+          categoryId_languageCode_fieldName: {
+            categoryId: record.categoryId,
+            languageCode: record.languageCode,
+            fieldName: record.fieldName,
+          },
+        },
+        update: {
+          translation: record.translation,
+        },
+        create: {
+          translation: record.translation,
+          categoryId: record.categoryId,
           languageCode: record.languageCode,
           fieldName: record.fieldName,
         },

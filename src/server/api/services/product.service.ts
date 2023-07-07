@@ -1,4 +1,5 @@
 import type {
+  LanguageCode,
   Prisma,
   PrismaClient,
   PrismaPromise,
@@ -90,6 +91,43 @@ export const updateProduct = async (
     }),
     ...transactions,
   ]);
+
+  return updatedProduct;
+};
+
+export const updateManyProductTranslations = async (
+  translations: {
+    productId: string;
+    languageCode: LanguageCode;
+    translation: string;
+    fieldName: ProductTranslationField;
+  }[],
+  prisma: PrismaClient
+) => {
+  const transactions: PrismaPromise<unknown>[] = translations
+    .filter(({ translation }) => translation)
+    .map((record) =>
+      prisma.productI18N.upsert({
+        where: {
+          productId_languageCode_fieldName: {
+            languageCode: record.languageCode,
+            fieldName: record.fieldName,
+            productId: record.productId,
+          },
+        },
+        update: {
+          translation: record.translation,
+        },
+        create: {
+          languageCode: record.languageCode,
+          fieldName: record.fieldName,
+          productId: record.productId,
+          translation: record.translation,
+        },
+      })
+    );
+
+  const [updatedProduct] = await prisma.$transaction([...transactions]);
 
   return updatedProduct;
 };
