@@ -64,6 +64,13 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
     defaultValues: defaultFormValues,
   });
 
+  // It requires when we add new language to get relevant value for switch component
+  React.useEffect(() => {
+    restaurant.restaurantLanguage.forEach((language) =>
+      form.setValue(language.languageCode, language.isEnabled)
+    );
+  }, [form, restaurant.restaurantLanguage]);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     const languageCodes = Object.entries(values)
       .filter((language) => language[1] !== undefined)

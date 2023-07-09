@@ -4,6 +4,7 @@ import type {
   PrismaClient,
   PrismaPromise,
   Product,
+  ProductI18N,
   ProductTranslationField,
 } from "@prisma/client";
 
@@ -13,9 +14,14 @@ import type {
   CreateProductInput,
   UpdateProductInput,
 } from "../schemas/product.schema";
+import { type PrismaTransactionClient } from "./types";
 
 export const createProduct = async (
   input: CreateProductInput,
+  additionalTranslations: Pick<
+    ProductI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[],
   prisma: PrismaClient
 ) => {
   const { price, isEnabled, ...restInput } = input;
@@ -29,14 +35,13 @@ export const createProduct = async (
     data: {
       price,
       isEnabled,
-
       imageUrl: input.imageUrl,
       menuId: input.menuId,
       categoryId: input.categoryId,
       measurementUnit: input.measurmentUnit ?? "",
       measurementValue: input.measurmentValue ?? "",
       productI18N: {
-        createMany: { data: translations },
+        createMany: { data: [...translations, ...additionalTranslations] },
       },
     },
   });
@@ -97,22 +102,22 @@ export const updateProduct = async (
 
 export const updateManyProductTranslations = async (
   translations: {
-    productId: string;
+    productId?: string;
     languageCode: LanguageCode;
     translation: string;
     fieldName: ProductTranslationField;
   }[],
-  prisma: PrismaClient
+  prisma: PrismaClient | PrismaTransactionClient
 ) => {
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
-    .map((record) =>
-      prisma.productI18N.upsert({
+    .map((record) => {
+      return prisma.productI18N.upsert({
         where: {
           productId_languageCode_fieldName: {
             languageCode: record.languageCode,
             fieldName: record.fieldName,
-            productId: record.productId,
+            productId: record.productId as string,
           },
         },
         update: {
@@ -121,15 +126,18 @@ export const updateManyProductTranslations = async (
         create: {
           languageCode: record.languageCode,
           fieldName: record.fieldName,
-          productId: record.productId,
+          productId: record.productId as string,
           translation: record.translation,
         },
-      })
-    );
+      });
+    });
 
-  const [updatedProduct] = await prisma.$transaction([...transactions]);
-
-  return updatedProduct;
+  if ("$transaction" in prisma) {
+    await prisma.$transaction([...transactions]);
+    return;
+  } else {
+    return await Promise.all(transactions);
+  }
 };
 
 export const deleteProduct = async (

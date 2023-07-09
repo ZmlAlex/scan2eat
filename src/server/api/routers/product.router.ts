@@ -1,4 +1,7 @@
+import type { ProductI18N, ProductTranslationField } from "@prisma/client";
+
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/utils/cloudinary";
 
 import {
@@ -13,13 +16,41 @@ export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
     .input(createProductSchemaInput)
     .mutation(async ({ ctx, input }) => {
+      let additionalTranslations: Pick<
+        ProductI18N,
+        "fieldName" | "languageCode" | "translation"
+      >[] = [];
+
+      const restaurant = await findRestaurant(
+        { menu: { some: { id: input.menuId } } },
+        ctx.prisma
+      );
+
+      if (restaurant.restaurantLanguage.length > 1) {
+        additionalTranslations =
+          await createFieldTranslationsForAdditionalLanguages<ProductTranslationField>(
+            {
+              sourceLanguage: input.languageCode,
+              fieldsForTranslation: [
+                ["name", input.name],
+                ["description", input.description],
+              ],
+              restaurantLanguages: restaurant.restaurantLanguage,
+            }
+          );
+      }
+
       const uploadedImage = await uploadImage(
         input.imageUrl,
         ctx.session.user.id
       );
       input.imageUrl = uploadedImage.url;
 
-      const createdProduct = await createProduct(input, ctx.prisma);
+      const createdProduct = await createProduct(
+        input,
+        additionalTranslations,
+        ctx.prisma
+      );
 
       return await findRestaurant(
         { menu: { some: { id: createdProduct.menuId } } },

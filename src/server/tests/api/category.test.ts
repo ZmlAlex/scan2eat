@@ -4,6 +4,7 @@ import { type inferProcedureInput } from "@trpc/server";
 import type { AppRouter, appRouter } from "../../api/root";
 import { createCategory } from "../helpers/createCategory";
 import { createRestaurant } from "../helpers/createRestaurant";
+import { createRestaurantWithMultipleLanguages } from "../helpers/createRestaurantWithMultipleLanguages";
 import { createUser } from "../helpers/createUser";
 import { createProtectedCaller } from "../helpers/protectedCaller";
 
@@ -31,6 +32,7 @@ describe("Category API", () => {
     testUser = await createUser();
     caller = createProtectedCaller(testUser);
   });
+
   it("should create category", async () => {
     const testRestaurant = await createRestaurant(
       testUser.id,
@@ -152,6 +154,38 @@ describe("Category API", () => {
     } = await caller.category.deleteCategory(input);
 
     expect(category).toHaveLength(1);
+  });
+
+  describe("when restaurant has multiple languages", () => {
+    it("should create category with translations", async () => {
+      const testRestaurant = await createRestaurantWithMultipleLanguages(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const createCategoryInput: inferProcedureInput<
+        AppRouter["category"]["createCategory"]
+      > = {
+        menuId: testRestaurant.menu[0]?.id as string,
+        name: "juices",
+        languageCode: "english",
+      };
+
+      const {
+        menu: { category },
+      } = await caller.category.createCategory(createCategoryInput);
+
+      expect(category?.[0]).toMatchObject({
+        categoryI18N: expect.objectContaining({
+          english: {
+            name: "juices",
+          },
+          russian: {
+            name: "соки",
+          },
+        }) as unknown,
+      });
+    });
   });
 
   //TODO: DESCRIBE WITH ERROR CASES

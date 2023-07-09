@@ -5,6 +5,7 @@ import type { AppRouter, appRouter } from "../../api/root";
 import { createCategory } from "../helpers/createCategory";
 import { createProduct } from "../helpers/createProduct";
 import { createRestaurant } from "../helpers/createRestaurant";
+import { createRestaurantWithMultipleLanguages } from "../helpers/createRestaurantWithMultipleLanguages";
 import { createUser } from "../helpers/createUser";
 import { createProtectedCaller } from "../helpers/protectedCaller";
 
@@ -272,6 +273,57 @@ describe("Product API", () => {
     } = await caller.product.deleteProduct(input);
 
     expect(product).toHaveLength(0);
+  });
+
+  //MULTIPLE LANGUAGES
+  describe("when restaurant has multiple languages", () => {
+    it("should create product with translations", async () => {
+      const testRestaurant = await createRestaurantWithMultipleLanguages(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const testCategory = await createCategory({
+        menuId: testRestaurant.menu[0]?.id as string,
+        name: "juices",
+        languageCode: "english",
+      });
+
+      const createProductInput: inferProcedureInput<
+        AppRouter["product"]["createProduct"]
+      > = {
+        menuId: testRestaurant.menu[0]?.id as string,
+        categoryId: testCategory.id,
+        name: "apple juice",
+        description: "amazing fresh drink",
+        price: 1000,
+        languageCode: "english",
+        measurmentUnit: "ml.",
+        measurmentValue: "250",
+        imageUrl:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      };
+
+      const {
+        menu: { product },
+      } = await caller.product.createProduct(createProductInput);
+
+      expect(product?.[0]).toMatchObject({
+        price: 1000,
+        isEnabled: true,
+        imageUrl: expect.stringContaining("cloudinary") as string,
+        productI18N: expect.objectContaining({
+          english: {
+            name: "apple juice",
+            description: "amazing fresh drink",
+          },
+          russian: {
+            name: "яблочный сок",
+            description: "потрясающий свежий напиток",
+          },
+        }) as unknown,
+      });
+    });
   });
 
   //TODO: DESCRIBE WITH ERROR CASES

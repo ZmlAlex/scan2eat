@@ -1,4 +1,7 @@
+import type { CategoryI18N, CategoryTranslationField } from "@prisma/client";
+
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 
 import {
   createCategorySchemaInput,
@@ -16,7 +19,28 @@ export const categoryRouter = createTRPCRouter({
   createCategory: protectedProcedure
     .input(createCategorySchemaInput)
     .mutation(async ({ ctx, input }) => {
-      await createCategory(input, ctx.prisma);
+      let additionalTranslations: Pick<
+        CategoryI18N,
+        "fieldName" | "languageCode" | "translation"
+      >[] = [];
+
+      const restaurant = await findRestaurant(
+        { menu: { some: { id: input.menuId } } },
+        ctx.prisma
+      );
+
+      if (restaurant.restaurantLanguage.length > 1) {
+        additionalTranslations =
+          await createFieldTranslationsForAdditionalLanguages<CategoryTranslationField>(
+            {
+              sourceLanguage: input.languageCode,
+              restaurantLanguages: restaurant.restaurantLanguage,
+              fieldsForTranslation: [["name", input.name]],
+            }
+          );
+      }
+
+      await createCategory(input, additionalTranslations, ctx.prisma);
 
       return await findRestaurant(
         { menu: { some: { id: input.menuId } } },

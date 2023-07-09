@@ -10,7 +10,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
-import { translate } from "~/server/utils/awsSdk";
+import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
 import { uploadImage } from "~/server/utils/cloudinary";
 
 import {
@@ -77,28 +77,6 @@ export const restaurantRouter = createTRPCRouter({
   createRestaurantLanguage: protectedProcedure
     .input(createRestaurantLanguageSchemaInput)
     .mutation(async ({ ctx, input }) => {
-      //TODO: MOVE IT TO HELPERS
-      // const toTextTranslationPromises =
-      //   (fieldIdName?: "productId" | "categoryId") =>
-      //   async (item: { id: string; field: [string, string] }) => {
-      //     const [fieldName, fieldValue] = item.field;
-
-      //     const { TranslatedText: translatedText } = await translate({
-      //       Text: fieldValue,
-      //       TargetLanguageCode: input.languageCode,
-      //       SourceLanguageCode:
-      //         //TODO: USE DEFAULT LANGUAGE CODE
-      //         restaurant.restaurantLanguage[0]?.languageCode ?? "english",
-      //     });
-
-      //     return {
-      //       ...(fieldIdName && { [fieldIdName]: item.id }),
-      //       fieldName: fieldName,
-      //       translation: translatedText,
-      //       //TODO: CHANGE LANGUAGE
-      //       languageCode: input.languageCode,
-      //     };
-      //   };
       //TODO: MOVE IT TO CONTROLERS
 
       const restaurant = await findRestaurant(
@@ -112,142 +90,59 @@ export const restaurantRouter = createTRPCRouter({
       const defaultRestaurantLanguage =
         restaurant.restaurantLanguage[0]?.languageCode ?? "english";
 
-      //categories
-      const categoriesTextForTranslation = restaurant.menu.category?.reduce(
-        (acc, cur) => {
-          const fields = Object.entries(
-            cur.categoryI18N[defaultRestaurantLanguage]
-          );
-
-          const textForTranslation = fields.map((field) => ({
-            id: cur.id,
-            field,
-          }));
-
-          return [...acc, ...textForTranslation];
-        },
-        [] as { id: string; field: [string, string] }[]
-      );
-
       const categoriesTextForTranslationPromises =
-        categoriesTextForTranslation?.map(async (category) => {
-          const [fieldName, fieldValue] = category.field;
+        createFieldTranslationsForNewLanguage<CategoryTranslationField>({
+          defaultLanguage: defaultRestaurantLanguage,
+          items: restaurant.menu.category ?? [],
+          itemKey: "categoryI18N",
+          itemIdIdentificator: "categoryId",
+          targetLanguage: input.languageCode,
+        });
 
-          const { TranslatedText: translatedText } = await translate({
-            Text: fieldValue,
-            TargetLanguageCode: input.languageCode,
-            SourceLanguageCode: defaultRestaurantLanguage,
-          });
-
-          return {
-            categoryId: category.id,
-            fieldName: fieldName as CategoryTranslationField,
-            translation: translatedText,
-            languageCode: input.languageCode,
-          };
-        }) || [];
-
-      // const categoriesTextForTranslationPromises =
-      //   categoriesTextForTranslation?.map(
-      //     toTextTranslationPromises("categoryId")
-      //   ) || [];
-
-      //products
-      const productsTextForTranslation = restaurant.menu.product?.reduce(
-        (acc, cur) => {
-          // TODO: CHANGE IT!
-          const fields = Object.entries(
-            cur.productI18N[defaultRestaurantLanguage]
-          );
-
-          const textForTranslation = fields.map((field) => ({
-            id: cur.id,
-            field,
-          }));
-
-          return [...acc, ...textForTranslation];
-        },
-        [] as { id: string; field: [string, string] }[]
-      );
-
-      //TODO: MOVE INTO ONE FUNCTION
       const productsTextForTranslationPromises =
-        productsTextForTranslation?.map(async (product) => {
-          const [fieldName, fieldValue] = product.field;
-
-          const { TranslatedText: translatedText } = await translate({
-            Text: fieldValue,
-            TargetLanguageCode: input.languageCode,
-            SourceLanguageCode: defaultRestaurantLanguage,
-          });
-
-          return {
-            productId: product.id,
-            fieldName: fieldName as ProductTranslationField,
-            translation: translatedText,
-            languageCode: input.languageCode,
-          };
-        }) || [];
-
-      // const productsTextForTranslationPromises =
-      //   productsTextForTranslation?.map(
-      //     toTextTranslationPromises("productId")
-      //   ) || [];
-
-      const restaurantTextForTranslation = Object.entries(
-        restaurant.restaurantI18N[defaultRestaurantLanguage]
-      )
-        .map((field) => ({
-          id: restaurant.id,
-          field,
-        }))
-        .filter(({ field }) => field[1]);
+        createFieldTranslationsForNewLanguage<ProductTranslationField>({
+          defaultLanguage: defaultRestaurantLanguage,
+          items: restaurant.menu.product ?? [],
+          itemKey: "productI18N",
+          itemIdIdentificator: "productId",
+          targetLanguage: input.languageCode,
+        });
 
       const restaurantTextForTranslationPromises =
-        restaurantTextForTranslation?.map(async (product) => {
-          const [fieldName, fieldValue] = product.field;
-
-          const { TranslatedText: translatedText } = await translate({
-            Text: fieldValue,
-            TargetLanguageCode: input.languageCode,
-            SourceLanguageCode: defaultRestaurantLanguage,
-          });
-
-          return {
-            fieldName: fieldName as RestaurantTranslationField,
-            translation: translatedText,
-            languageCode: input.languageCode,
-          };
-        }) || [];
+        createFieldTranslationsForNewLanguage<RestaurantTranslationField>({
+          defaultLanguage: defaultRestaurantLanguage,
+          items: [restaurant],
+          itemKey: "restaurantI18N",
+          targetLanguage: input.languageCode,
+        });
 
       const restaurantResult = await Promise.all(
         restaurantTextForTranslationPromises
       );
-
       const categoriesResult = await Promise.all(
         categoriesTextForTranslationPromises
       );
-
       const productsResult = await Promise.all(
         productsTextForTranslationPromises
       );
 
-      // get all categories
-      // get all products
-      // promise all with translator
-      //TODO: MOVE IT TO THE SERVICE
-      await ctx.prisma.restaurant.update({
-        where: {
-          id: input.restaurantId,
-        },
-        data: {
-          restaurantI18N: { createMany: { data: restaurantResult } },
-          restaurantLanguage: { create: { languageCode: input.languageCode } },
-        },
-      });
+      await prisma.$transaction(async (tx) => {
+        //TODO: MOVE IT TO THE SERVICE
+        await tx.restaurant.update({
+          where: {
+            id: input.restaurantId,
+          },
+          data: {
+            restaurantI18N: { createMany: { data: restaurantResult } },
+            restaurantLanguage: {
+              create: { languageCode: input.languageCode },
+            },
+          },
+        });
 
-      await updateManyCategoryTranslations(categoriesResult, ctx.prisma);
-      await updateManyProductTranslations(productsResult, ctx.prisma);
+        await updateManyCategoryTranslations(categoriesResult, tx);
+        await updateManyProductTranslations(productsResult, tx);
+      });
 
       return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
     }),
@@ -266,7 +161,6 @@ export const restaurantRouter = createTRPCRouter({
         ctx.prisma
       );
     }),
-  //TODO: COVER BY TESTS
   setEnabledRestaurantLanguages: protectedProcedure
     .input(setEnabledRestaurantLanguagesSchemaInput)
     .mutation(async ({ ctx, input }) => {

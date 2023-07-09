@@ -57,7 +57,7 @@ describe("Restaurant API", () => {
   });
 
   describe("when new restaurant language is created", () => {
-    it("should get restaurant with new language", async () => {
+    it("should returns restaurant with new language", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -171,7 +171,7 @@ describe("Restaurant API", () => {
   });
 
   describe("when restaurant language is toggled", () => {
-    it("should get restaurant with updated restaurant's languages settings", async () => {
+    it("should returns restaurant with updated restaurant's languages settings", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -207,7 +207,7 @@ describe("Restaurant API", () => {
   });
 
   describe("when restaurant is gotten by id", () => {
-    it("should get restaurant after creation", async () => {
+    it("should returns restaurant after creation", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -240,7 +240,7 @@ describe("Restaurant API", () => {
     });
 
     //TODO: UPDATE WITH FULL DETAILS
-    it("should get restaurant with full details", async () => {
+    it("should returns restaurant with full details", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -325,7 +325,7 @@ describe("Restaurant API", () => {
   });
 
   describe("When restaurant is updated by id", () => {
-    it("should return restaurant with new data and old logoUrl", async () => {
+    it("should returns restaurant with new data and old logoUrl", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput

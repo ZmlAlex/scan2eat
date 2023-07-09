@@ -1,4 +1,5 @@
 import type {
+  CategoryI18N,
   CategoryTranslationField,
   LanguageCode,
   Prisma,
@@ -12,20 +13,26 @@ import type {
   CreateCategoryInput,
   UpdateCategoryInput,
 } from "../schemas/category.schema";
+import type { PrismaTransactionClient } from "./types";
 
 export const createCategory = async (
   input: CreateCategoryInput,
+  additionalTranslations: Pick<
+    CategoryI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[],
   prisma: PrismaClient
 ) => {
+  const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
+    ["name"],
+    input
+  );
+
   return await prisma.category.create({
     data: {
       menuId: input.menuId,
       categoryI18N: {
-        create: {
-          fieldName: "name",
-          translation: input.name,
-          languageCode: input.languageCode,
-        },
+        createMany: { data: [...translations, ...additionalTranslations] },
       },
     },
   });
@@ -70,22 +77,21 @@ export const updateCategory = async (
 };
 
 export const updateManyCategoryTranslations = async (
-  //TODO: MOVE INTO TYPE
   translations: {
-    categoryId: string;
+    categoryId?: string;
     languageCode: LanguageCode;
     translation: string;
     fieldName: CategoryTranslationField;
   }[],
-  prisma: PrismaClient
+  prisma: PrismaClient | PrismaTransactionClient
 ) => {
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
-    .map((record) =>
-      prisma.categoryI18N.upsert({
+    .map((record) => {
+      return prisma.categoryI18N.upsert({
         where: {
           categoryId_languageCode_fieldName: {
-            categoryId: record.categoryId,
+            categoryId: record.categoryId as string,
             languageCode: record.languageCode,
             fieldName: record.fieldName,
           },
@@ -95,14 +101,19 @@ export const updateManyCategoryTranslations = async (
         },
         create: {
           translation: record.translation,
-          categoryId: record.categoryId,
+          categoryId: record.categoryId as string,
           languageCode: record.languageCode,
           fieldName: record.fieldName,
         },
-      })
-    );
+      });
+    });
 
-  await prisma.$transaction(transactions);
+  if ("$transaction" in prisma) {
+    await prisma.$transaction([...transactions]);
+    return;
+  } else {
+    return await Promise.all(transactions);
+  }
 };
 
 export const deleteCategory = async (
