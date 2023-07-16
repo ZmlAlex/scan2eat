@@ -3,6 +3,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Button } from "~/components//ui/Button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/Dialog";
 import {
   Form,
   FormControl,
@@ -11,20 +19,20 @@ import {
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
+import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
-import { Icons } from "../Icons";
-import type { ArrayElement } from "../Menu/CategoryProduct";
-import { Button } from "../ui/Button";
-import { toast } from "../ui/useToast";
+import { Icons } from "../../Icons";
+import type { ArrayElement } from "../../Menu/CategoryProduct";
 
 const formSchema = z.object({
   name: z.string().trim().min(2),
 });
 
 type Props = {
-  onSuccessCallback?: () => void;
+  isModalOpen: boolean;
+  toggleModal: () => void;
   restaurantId: string;
   //TODO: MOVE TO THE GLOBAL
   category: ArrayElement<RestaurantWithDetails["menu"]["category"]>;
@@ -33,9 +41,10 @@ type Props = {
 type FormSchema = z.infer<typeof formSchema>;
 
 const CategoryUpdateForm = ({
+  isModalOpen,
   restaurantId,
   category,
-  onSuccessCallback,
+  toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
 
@@ -57,7 +66,7 @@ const CategoryUpdateForm = ({
           title: "Category has been updated.",
         });
 
-        onSuccessCallback?.();
+        toggleModal();
       },
     });
 
@@ -78,31 +87,48 @@ const CategoryUpdateForm = ({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              {/* <FormLabel>Name</FormLabel> */}
-              <FormControl>
-                <Input placeholder="Name" {...field} />
-              </FormControl>
-              {/* <FormDescription>
+    <Dialog open={isModalOpen} onOpenChange={toggleModal}>
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <DialogHeader>
+          <DialogTitle>Update category</DialogTitle>
+          <DialogDescription>
+            Edit details about your category here. Click save when you&apos;re
+            done.
+          </DialogDescription>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormControl>
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  {/* <FormDescription>
                 This is your public display name.
               </FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Button type="submit" disabled={isLoading}>
-          {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Save changes
-        </Button>
-      </form>
-    </Form>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Save changes
+            </Button>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

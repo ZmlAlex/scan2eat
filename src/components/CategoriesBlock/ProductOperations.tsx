@@ -24,15 +24,8 @@ import useModal from "~/hooks/useModal";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
+import ProductUpdateForm from "../Forms/ProductUpdateForm";
 import type { ArrayElement } from "../Menu/CategoryProduct";
-import ProductUpdateForm from "../ProductUpdateForm";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/Dialog";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
@@ -129,24 +122,13 @@ export function ProductOperations({
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* //TODO MOVE IT TO COMPONENT */}
-      <Dialog open={isModalUpdateOpen} onOpenChange={toggleModalUpdate}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Update product</DialogTitle>
-            <DialogDescription>
-              Edit details about your product here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-
-          <ProductUpdateForm
-            restaurantId={restaurantId}
-            product={product}
-            onSuccessCallback={toggleModalUpdate}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Modal window */}
+      <ProductUpdateForm
+        isModalOpen={isModalUpdateOpen}
+        toggleModal={toggleModalUpdate}
+        restaurantId={restaurantId}
+        product={product}
+      />
     </>
   );
 }

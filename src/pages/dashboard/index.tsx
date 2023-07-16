@@ -5,17 +5,10 @@ import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
 import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
+import RestaurantCreateForm from "~/components/Forms/RestaurantCreateForm";
 import { Icons } from "~/components/Icons";
-import RestaurantCreateForm from "~/components/RestaurantCreateForm";
 import RestaurantItem from "~/components/RestaurantItem";
 import { Button } from "~/components/ui/Button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/Dialog";
 import useModal from "~/hooks/useModal";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";
@@ -87,19 +80,10 @@ const RestaurantList = () => {
       </DashboardLayout>
 
       {/* //TODO MOVE IT TO COMPONENT */}
-      <Dialog open={isModalOpen} onOpenChange={toggleModal}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Create restaurant</DialogTitle>
-            <DialogDescription>
-              Add details about your restaurant here. Click save when
-              you&apos;re done.
-            </DialogDescription>
-          </DialogHeader>
-
-          <RestaurantCreateForm onSuccessCallback={toggleModal} />
-        </DialogContent>
-      </Dialog>
+      <RestaurantCreateForm
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+      />
     </>
   );
 };

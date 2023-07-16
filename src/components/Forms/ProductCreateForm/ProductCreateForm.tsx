@@ -7,6 +7,13 @@ import * as z from "zod";
 
 import { Button } from "~/components/ui/Button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/Dialog";
+import {
   Form,
   FormControl,
   FormField,
@@ -18,8 +25,8 @@ import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 
-import { Icons } from "../Icons";
-import ImageUploadInput from "../ImageUploadInput";
+import { Icons } from "../../Icons";
+import ImageUploadInput from "../../ImageUploadInput";
 
 //TODO MOVE IT TO REUSABLE PLACE
 // const MAX_FILE_SIZE = 500000;
@@ -46,7 +53,8 @@ const formSchema = z.object({
 });
 
 type Props = {
-  onSuccessCallback?: () => void;
+  isModalOpen: boolean;
+  toggleModal: () => void;
   restaurantId: string;
   menuId: string;
   categoryId: string;
@@ -58,7 +66,8 @@ const ProductCreateForm = ({
   restaurantId,
   menuId,
   categoryId,
-  onSuccessCallback,
+  isModalOpen,
+  toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
 
@@ -79,7 +88,7 @@ const ProductCreateForm = ({
         toast({
           title: "Product has been created.",
         });
-        onSuccessCallback?.();
+        toggleModal();
       },
     });
 
@@ -111,62 +120,72 @@ const ProductCreateForm = ({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              {/* <FormLabel>Name</FormLabel> */}
-              <FormControl>
-                <Input placeholder="Name" {...field} />
-              </FormControl>
-              {/* <FormDescription>
+    <Dialog open={isModalOpen} onOpenChange={toggleModal}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create product</DialogTitle>
+          <DialogDescription>
+            Add details about your product here. Click save when you&apos;re
+            done.
+          </DialogDescription>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormControl>
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  {/* <FormDescription>
                 This is your public display name.
               </FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about your product"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  placeholder="Price"
-                  type="number"
-                  {...field}
-                  onChange={(event) =>
-                    field.onChange(parseFloat(event.target.value))
-                  }
-                  step={0.1}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* //TODO: THINK ABOUT LINKS  */}
-        {/* <FormField
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us a little bit about your product"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Price"
+                      type="number"
+                      {...field}
+                      onChange={(event) =>
+                        field.onChange(parseFloat(event.target.value))
+                      }
+                      step={0.1}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* //TODO: THINK ABOUT LINKS  */}
+            {/* <FormField
           control={form.control}
           name="link"
           render={({ field }) => (
@@ -179,27 +198,30 @@ const ProductCreateForm = ({
             </FormItem>
           )}
         /> */}
-        {/* TODO: MOVE TO THE SEPARATE COMPONENT */}
 
-        <FormField
-          control={form.control}
-          name="imageBase64"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <ImageUploadInput {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="imageBase64"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ImageUploadInput {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <Button type="submit" disabled={isLoading}>
-          {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Save changes
-        </Button>
-      </form>
-    </Form>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Save changes
+            </Button>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

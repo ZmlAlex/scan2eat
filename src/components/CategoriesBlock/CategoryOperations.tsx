@@ -24,7 +24,7 @@ import useModal from "~/hooks/useModal";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
-import CategoryUpdateForm from "../CategoryUpdateForm";
+import CategoryUpdateForm from "../Forms/CategoryUpdateForm";
 import type { ArrayElement } from "../Menu/CategoryProduct";
 import {
   Dialog,
@@ -133,27 +133,13 @@ export function CategoryOperations({
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* //TODO MOVE IT TO COMPONENT */}
-      <Dialog open={isModalUpdateOpen} onOpenChange={toggleModalUpdate}>
-        <DialogContent
-          className="sm:max-w-[425px]"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <DialogHeader>
-            <DialogTitle>Update category</DialogTitle>
-            <DialogDescription>
-              Edit details about your category here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-
-          <CategoryUpdateForm
-            restaurantId={restaurantId}
-            category={category}
-            onSuccessCallback={toggleModalUpdate}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Modal window */}
+      <CategoryUpdateForm
+        restaurantId={restaurantId}
+        category={category}
+        isModalOpen={isModalUpdateOpen}
+        toggleModal={toggleModalUpdate}
+      />
     </>
   );
 }

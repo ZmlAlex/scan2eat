@@ -14,9 +14,9 @@ import {
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
-import { Button } from "../ui/Button";
-import { Switch } from "../ui/Switch";
-import { toast } from "../ui/useToast";
+import { Button } from "../../ui/Button";
+import { Switch } from "../../ui/Switch";
+import { toast } from "../../ui/useToast";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
 const formSchema = z.object({

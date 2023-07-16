@@ -1,6 +1,6 @@
 import React from "react";
 
-import CategoryCreateForm from "~/components/CategoryCreateForm/CategoryCreateForm";
+import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Accordion } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
 import {
@@ -70,24 +70,13 @@ const CategoryBlock = ({ restaurant }: Props) => {
         )}
       </div>
 
-      {/* //TODO MOVE IT TO COMPONENT CategoryCreateModal*/}
-      <Dialog open={isModalOpen} onOpenChange={toggleModal}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Create category</DialogTitle>
-            <DialogDescription>
-              Add details about your category here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-
-          <CategoryCreateForm
-            onSuccessCallback={toggleModal}
-            menuId={restaurant?.menu.id || ""}
-            restaurantId={restaurant?.id || ""}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Modal window */}
+      <CategoryCreateForm
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        menuId={restaurant?.menu.id || ""}
+        restaurantId={restaurant?.id || ""}
+      />
     </>
   );
 };

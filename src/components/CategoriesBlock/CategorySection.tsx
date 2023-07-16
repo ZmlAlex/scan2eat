@@ -1,19 +1,12 @@
 import React from "react";
 
-import ProductCreateForm from "~/components/ProductCreateForm";
+import ProductCreateForm from "~/components/Forms/ProductCreateForm";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/Dialog";
 import {
   Table,
   TableBody,
@@ -86,24 +79,14 @@ const CategorySection = ({ restaurantId, products, category }: Props) => {
       </AccordionItem>
 
       {/* //TODO MOVE IT TO COMPONENT  ProudctCreateModal*/}
-      <Dialog open={isModalOpen} onOpenChange={toggleModal}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Create product</DialogTitle>
-            <DialogDescription>
-              Add details about your product here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
 
-          <ProductCreateForm
-            onSuccessCallback={toggleModal}
-            menuId={category.menuId}
-            restaurantId={restaurantId}
-            categoryId={category?.id || ""}
-          />
-        </DialogContent>
-      </Dialog>
+      <ProductCreateForm
+        isModalOpen={isModalOpen}
+        toggleModal={toggleModal}
+        menuId={category.menuId}
+        restaurantId={restaurantId}
+        categoryId={category?.id || ""}
+      />
     </>
   );
 };
