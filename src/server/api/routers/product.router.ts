@@ -41,13 +41,12 @@ export const productRouter = createTRPCRouter({
       }
 
       const uploadedImage = await uploadImage(
-        input.imageUrl,
+        input.imageBase64,
         ctx.session.user.id
       );
-      input.imageUrl = uploadedImage.url;
 
       const createdProduct = await createProduct(
-        input,
+        { ...input, imageUrl: uploadedImage.url },
         additionalTranslations,
         ctx.prisma
       );

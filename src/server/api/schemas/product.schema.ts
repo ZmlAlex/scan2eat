@@ -12,7 +12,7 @@ export const createProductSchemaInput = z.object({
   measurmentValue: z.string().optional(),
   name: z.string(),
   description: z.string(),
-  imageUrl: z.string(),
+  imageBase64: z.string(),
   languageCode: languageCodeS,
 });
 

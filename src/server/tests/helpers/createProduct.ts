@@ -6,7 +6,9 @@ import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToT
 import { transformTranslation } from "~/server/helpers/formatTranslation";
 
 //TODO: add default value
-export const createProduct = async (input: CreateProductInput) => {
+export const createProduct = async (
+  input: Omit<CreateProductInput, "imageBase64"> & { imageUrl: string }
+) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { price, isEnabled, ...restInput } = input;
 

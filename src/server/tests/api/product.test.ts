@@ -57,7 +57,7 @@ describe("Product API", () => {
       languageCode: "english",
       measurmentUnit: "ml.",
       measurmentValue: "250",
-      imageUrl:
+      imageBase64:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
     };
 
@@ -300,7 +300,7 @@ describe("Product API", () => {
         languageCode: "english",
         measurmentUnit: "ml.",
         measurmentValue: "250",
-        imageUrl:
+        imageBase64:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
       };
 

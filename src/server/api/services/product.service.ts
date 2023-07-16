@@ -17,7 +17,7 @@ import type {
 import { type PrismaTransactionClient } from "./types";
 
 export const createProduct = async (
-  input: CreateProductInput,
+  input: CreateProductInput & { imageUrl: string },
   additionalTranslations: Pick<
     ProductI18N,
     "fieldName" | "languageCode" | "translation"
@@ -110,6 +110,7 @@ export const updateManyProductTranslations = async (
   prisma: PrismaClient | PrismaTransactionClient
 ) => {
   const transactions: PrismaPromise<unknown>[] = translations
+    //TODO: ADD TS PLUGIN FROM MATT POCK TO UPDATE TYPE FOR AS STRING
     .filter(({ translation }) => translation)
     .map((record) => {
       return prisma.productI18N.upsert({

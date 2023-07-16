@@ -1,8 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { LanguageCode } from "@prisma/client";
+import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Button } from "~/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -12,16 +15,34 @@ import {
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
 import { Textarea } from "~/components/ui/Textarea";
+import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 
 import { Icons } from "../Icons";
-import { Button } from "../ui/Button";
-import { toast } from "../ui/useToast";
+import ImageUploadInput from "../ImageUploadInput";
+
+//TODO MOVE IT TO REUSABLE PLACE
+// const MAX_FILE_SIZE = 500000;
+// const ACCEPTED_IMAGE_TYPES = [
+//   "image/jpeg",
+//   "image/jpg",
+//   "image/png",
+//   "image/webp",
+// ];
 
 const formSchema = z.object({
   name: z.string().trim().min(2),
   description: z.string(),
   price: z.number().nonnegative(),
+  // TODO:VALIDATION SIZE
+  imageBase64: z.string(),
+  // image: z
+  //   .any()
+  //   .refine((file: Blob) => file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`) // this should be greater than or equals (>=) not less that or equals (<=)
+  //   .refine(
+  //     (file: Blob) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+  //     ".jpg, .jpeg, .png and .webp files are accepted."
+  //   ),
 });
 
 type Props = {
@@ -68,21 +89,25 @@ const ProductCreateForm = ({
       name: "",
       description: "",
       price: 0,
+      imageBase64: "",
     },
   });
 
   function onSubmit(values: FormSchema) {
-    createProduct({
-      name: values.name,
-      description: values.description,
-      price: values.price,
-      languageCode: "english",
-      //TODO: REMOVE THIS FIELD
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-      menuId,
-      categoryId,
-    });
+    const { selectedRestaurantLang } = parseCookies();
+    console.log("Values", values);
+
+    if (selectedRestaurantLang) {
+      createProduct({
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        languageCode: selectedRestaurantLang as LanguageCode,
+        imageBase64: values.imageBase64,
+        menuId,
+        categoryId,
+      });
+    }
   }
 
   return (
@@ -154,6 +179,20 @@ const ProductCreateForm = ({
             </FormItem>
           )}
         /> */}
+        {/* TODO: MOVE TO THE SEPARATE COMPONENT */}
+
+        <FormField
+          control={form.control}
+          name="imageBase64"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ImageUploadInput {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button type="submit" disabled={isLoading}>
           {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}

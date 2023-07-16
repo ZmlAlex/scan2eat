@@ -28,6 +28,7 @@ import {
   SunMedium,
   Trash,
   Twitter,
+  UploadCloud,
   User,
   X,
 } from "lucide-react";
@@ -61,6 +62,7 @@ export const Icons = {
   mapPin: MapPin,
   store: Store,
   laptop: Laptop,
+  uploadCloud: UploadCloud,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
