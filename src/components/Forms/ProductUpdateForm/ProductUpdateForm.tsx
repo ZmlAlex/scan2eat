@@ -1,8 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { LanguageCode } from "@prisma/client";
+import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import ImageUploadInput from "~/components/ImageUploadInput";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -31,6 +34,9 @@ const formSchema = z.object({
   name: z.string().trim().min(2),
   description: z.string(),
   price: z.number().nonnegative(),
+  // TODO:VALIDATION SIZE
+  imageBase64: z.string().optional(),
+  isImageDeleted: z.boolean(),
 });
 
 type Props = {
@@ -79,20 +85,22 @@ const ProductUpdateForm = ({
       name: product.productI18N.name,
       description: product.productI18N.description,
       price: product.price,
+      isImageDeleted: false,
     },
   });
 
   function onSubmit(values: FormSchema) {
+    const { selectedRestaurantLang } = parseCookies();
+
     updateProduct({
       productId: product.id,
       name: values.name,
       description: values.description,
       price: values.price,
-      languageCode: "english",
-      //TODO: REMOVE THIS FIELD
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+      languageCode: selectedRestaurantLang as LanguageCode,
       isEnabled: true,
+      imageBase64: values.imageBase64,
+      isImageDeleted: values.isImageDeleted,
     });
   }
 
@@ -155,6 +163,25 @@ const ProductUpdateForm = ({
                         field.onChange(parseFloat(event.target.value))
                       }
                       step={0.1}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="imageBase64"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ImageUploadInput
+                      {...field}
+                      preselectedImageUrl={product.imageUrl}
+                      onImageDelete={() =>
+                        form.setValue("isImageDeleted", true)
+                      }
                     />
                   </FormControl>
                   <FormMessage />

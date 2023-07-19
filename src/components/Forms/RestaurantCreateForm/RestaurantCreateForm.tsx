@@ -3,6 +3,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import ImageUploadInput from "~/components/ImageUploadInput";
+import { Button } from "~/components/ui/Button";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +29,7 @@ import {
   SelectValue,
 } from "~/components/ui/Select";
 import { Textarea } from "~/components/ui/Textarea";
+import { toast } from "~/components/ui/useToast";
 import {
   currencyCodeS,
   languageCodeS,
@@ -34,8 +37,6 @@ import {
 import { api } from "~/utils/api";
 
 import { Icons } from "../../Icons";
-import { Button } from "../../ui/Button";
-import { toast } from "../../ui/useToast";
 
 const formSchema = z.object({
   languageCode: languageCodeS,
@@ -45,6 +46,7 @@ const formSchema = z.object({
   currencyCode: currencyCodeS,
   phone: z.string().optional(),
   link: z.string().optional(),
+  logoImageBase64: z.string().optional(),
 });
 
 type Props = {
@@ -83,6 +85,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       address: "",
       description: "",
       phone: "",
+      logoImageBase64: "",
     },
   });
 
@@ -92,10 +95,9 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       name: values.name,
       currencyCode: values.currencyCode,
       languageCode: values.languageCode,
+      logoImageBase64: values.logoImageBase64,
       //TODO: REMOVE THIS FIELD
       workingHours: "24hrs",
-      logoUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
     });
   }
 
@@ -239,6 +241,20 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="logoImageBase64"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ImageUploadInput {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button type="submit" disabled={isLoading}>
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

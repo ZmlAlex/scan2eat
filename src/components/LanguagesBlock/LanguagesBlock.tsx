@@ -32,11 +32,13 @@ const LanguagesBlock = ({ restaurant }: Props) => {
       </div>
 
       {/* Modal window */}
-      <RestaurantLanguageCreateForm
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        restaurantId={restaurant.id}
-      />
+      {isModalOpen && (
+        <RestaurantLanguageCreateForm
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          restaurantId={restaurant.id}
+        />
+      )}
     </>
   );
 };

@@ -10,20 +10,29 @@ import ImagePreview from "./ImagePreview";
 export type ImageUploadInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
-> & { onChange: (file: string | ArrayBuffer) => void };
+> & {
+  onChange: (file: string | ArrayBuffer) => void;
+  onImageDelete?: () => void;
+  preselectedImageUrl?: string;
+};
 
 const ImageUploadInput = (props: ImageUploadInputProps) => {
   const { isModalOpen, toggleModal } = useModal();
 
   const [newUploadedImageUrl, setNewUploadedImageUrl] = React.useState("");
-  const [croppedImageUrl, setCroppedImageUrl] = React.useState("");
+  const [croppedImageUrl, setCroppedImageUrl] = React.useState(
+    props.preselectedImageUrl
+  );
 
   return (
     <>
       {croppedImageUrl ? (
         <ImagePreview
           croppedImageUrl={croppedImageUrl}
-          onClick={() => setCroppedImageUrl("")}
+          onClick={() => {
+            setCroppedImageUrl("");
+            props.onImageDelete?.();
+          }}
         />
       ) : (
         <Dropzone

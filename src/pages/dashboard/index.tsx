@@ -79,11 +79,12 @@ const RestaurantList = () => {
         </div>
       </DashboardLayout>
 
-      {/* //TODO MOVE IT TO COMPONENT */}
-      <RestaurantCreateForm
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-      />
+      {isModalOpen && (
+        <RestaurantCreateForm
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+        />
+      )}
     </>
   );
 };

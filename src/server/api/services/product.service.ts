@@ -17,7 +17,7 @@ import type {
 import { type PrismaTransactionClient } from "./types";
 
 export const createProduct = async (
-  input: CreateProductInput & { imageUrl: string },
+  input: CreateProductInput & { imageUrl?: string },
   additionalTranslations: Pick<
     ProductI18N,
     "fieldName" | "languageCode" | "translation"
@@ -35,7 +35,7 @@ export const createProduct = async (
     data: {
       price,
       isEnabled,
-      imageUrl: input.imageUrl,
+      imageUrl: input.imageUrl ?? "",
       menuId: input.menuId,
       categoryId: input.categoryId,
       measurementUnit: input.measurmentUnit ?? "",
@@ -48,7 +48,7 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-  input: UpdateProductInput,
+  input: Omit<UpdateProductInput, "isImageDeleted"> & { imageUrl?: string },
   prisma: PrismaClient
 ) => {
   const { price, isEnabled, imageUrl, ...restInput } = input;
@@ -58,7 +58,7 @@ export const updateProduct = async (
     isEnabled,
     measurementUnit: input.measurmentUnit,
     measurementValue: input.measurmentValue,
-    ...(imageUrl && { imageUrl }),
+    ...(typeof imageUrl === "string" && { imageUrl }),
   };
 
   const translations = formatFieldsToTranslationTable<ProductTranslationField>(

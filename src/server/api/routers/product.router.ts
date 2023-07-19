@@ -16,6 +16,8 @@ export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
     .input(createProductSchemaInput)
     .mutation(async ({ ctx, input }) => {
+      let uploadedImageUrl;
+
       let additionalTranslations: Pick<
         ProductI18N,
         "fieldName" | "languageCode" | "translation"
@@ -40,13 +42,16 @@ export const productRouter = createTRPCRouter({
           );
       }
 
-      const uploadedImage = await uploadImage(
-        input.imageBase64,
-        ctx.session.user.id
-      );
+      if (input.imageBase64) {
+        const uploadedImage = await uploadImage(
+          input.imageBase64,
+          ctx.session.user.id
+        );
+        uploadedImageUrl = uploadedImage.url;
+      }
 
       const createdProduct = await createProduct(
-        { ...input, imageUrl: uploadedImage.url },
+        { ...input, imageUrl: uploadedImageUrl },
         additionalTranslations,
         ctx.prisma
       );
@@ -59,14 +64,21 @@ export const productRouter = createTRPCRouter({
   updateProduct: protectedProcedure
     .input(updateProductSchemaInput)
     .mutation(async ({ ctx, input }) => {
-      if (input.imageUrl) {
+      //if image deleted we want to remove it from db, if not keep - original in db
+      let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
+
+      if (input.imageBase64) {
         const uploadedImage = await uploadImage(
-          input.imageUrl,
+          input.imageBase64,
           ctx.session.user.id
         );
-        input.imageUrl = uploadedImage.url;
+        uploadedImageUrl = uploadedImage.url;
       }
-      const updatedProduct = await updateProduct(input, ctx.prisma);
+
+      const updatedProduct = await updateProduct(
+        { ...input, imageUrl: uploadedImageUrl },
+        ctx.prisma
+      );
 
       return await findRestaurant(
         {

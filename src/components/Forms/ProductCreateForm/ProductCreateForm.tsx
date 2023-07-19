@@ -42,7 +42,7 @@ const formSchema = z.object({
   description: z.string(),
   price: z.number().nonnegative(),
   // TODO:VALIDATION SIZE
-  imageBase64: z.string(),
+  imageBase64: z.string().optional(),
   // image: z
   //   .any()
   //   .refine((file: Blob) => file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`) // this should be greater than or equals (>=) not less that or equals (<=)
@@ -104,7 +104,6 @@ const ProductCreateForm = ({
 
   function onSubmit(values: FormSchema) {
     const { selectedRestaurantLang } = parseCookies();
-    console.log("Values", values);
 
     if (selectedRestaurantLang) {
       createProduct({

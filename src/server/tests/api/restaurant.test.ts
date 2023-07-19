@@ -15,12 +15,16 @@ type TestCaller = ReturnType<typeof appRouter.createCaller>;
 //TODO: move it to the mocks
 const createRestaurantInput: inferProcedureInput<
   AppRouter["restaurant"]["createRestaurant"]
-> = {
+> & { logoUrl: string } = {
   name: "Krusty Krab",
   address: "831 Bottom Feeder Lane",
   description: "best fastfood in the Bikini Bottom",
   currencyCode: "RUB",
   workingHours: "24hrs",
+  //for real invocation via router
+  logoImageBase64:
+    "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+  //for helper invocation
   logoUrl:
     "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
   languageCode: "english",
@@ -112,6 +116,7 @@ describe("Restaurant API", () => {
 
       const result = await caller.restaurant.createRestaurantLanguage(input);
 
+      //TODO: ADD ORDER
       expect(result).toMatchObject({
         restaurantLanguage: [
           { languageCode: "english", isEnabled: true },
@@ -335,7 +340,8 @@ describe("Restaurant API", () => {
         AppRouter["restaurant"]["updateRestaurant"]
       > = {
         ...createRestaurantInput,
-        logoUrl: undefined,
+        logoImageBase64: "",
+        isImageDeleted: false,
         restaurantId: testRestaurant.id,
         name: "Chum Bucket",
         address: "830 Bottom Feeder Lane",
@@ -370,8 +376,9 @@ describe("Restaurant API", () => {
         AppRouter["restaurant"]["updateRestaurant"]
       > = {
         ...createRestaurantInput,
-        logoUrl:
+        logoImageBase64:
           "https://upload.wikimedia.org/wikipedia/commons/6/62/Barbieri_-_ViaSophia25668.jpg",
+        isImageDeleted: false,
         restaurantId: testRestaurant.id,
         name: "Chum Bucket",
         address: "830 Bottom Feeder Lane",
@@ -408,7 +415,8 @@ describe("Restaurant API", () => {
         AppRouter["restaurant"]["updateRestaurant"]
       > = {
         ...createRestaurantInput,
-        logoUrl: undefined,
+        logoImageBase64: "",
+        isImageDeleted: false,
         restaurantId: testRestaurant.id,
         name: "Красти Крабс",
         address: "Нижний переулок 830",

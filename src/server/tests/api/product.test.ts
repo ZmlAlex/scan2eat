@@ -15,7 +15,7 @@ type TestCaller = ReturnType<typeof appRouter.createCaller>;
 //TODO: MOVE IT TO THE MOCKS
 const createRestaurantInput: inferProcedureInput<
   AppRouter["restaurant"]["createRestaurant"]
-> = {
+> & { logoUrl: string } = {
   name: "Krusty Krab",
   address: "831 Bottom Feeder Lane",
   description: "best fastfood in the Bikini Bottom",
@@ -111,7 +111,8 @@ describe("Product API", () => {
         price: 1500,
         description: "amazing fresh drink",
         languageCode: "english",
-        imageUrl: undefined,
+        imageBase64: "",
+        isImageDeleted: false,
         isEnabled: true,
       };
 
@@ -164,9 +165,10 @@ describe("Product API", () => {
         price: 1500,
         description: "amazing fresh drink",
         languageCode: "english",
-        imageUrl:
+        imageBase64:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         isEnabled: true,
+        isImageDeleted: false,
       };
 
       const {
@@ -185,6 +187,8 @@ describe("Product API", () => {
         },
       });
     });
+
+    //TODO: ADD CASE WHEN OLD DATA BUT IMAGE IS DELETED (PRODUCTS /RESTAURANTS)
 
     it("should update translations for russian language product", async () => {
       const testRestaurant = await createRestaurant(
@@ -219,6 +223,7 @@ describe("Product API", () => {
         description: "свежевыжатый сок",
         languageCode: "russian",
         isEnabled: true,
+        isImageDeleted: false,
       };
 
       const {

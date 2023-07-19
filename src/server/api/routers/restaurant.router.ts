@@ -48,24 +48,38 @@ export const restaurantRouter = createTRPCRouter({
   createRestaurant: protectedProcedure
     .input(createRestaurantSchemaInput)
     .mutation(async ({ ctx, input }) => {
+      let uploadedImageUrl;
       const userId = ctx.session.user.id;
-      const uploadedImage = await uploadImage(input.logoUrl, userId);
-      input.logoUrl = uploadedImage.url;
+
+      if (input.logoImageBase64) {
+        const uploadedImage = await uploadImage(input.logoImageBase64, userId);
+        uploadedImageUrl = uploadedImage.url;
+      }
+
       //TODO: MOVE IT TO CONTROLERS
-      return await createRestaurant({ ...input, userId }, ctx.prisma);
+      return await createRestaurant(
+        { ...input, userId, logoUrl: uploadedImageUrl },
+        ctx.prisma
+      );
     }),
   updateRestaurant: protectedProcedure
     .input(updateRestaurantSchemaInput)
     .mutation(async ({ ctx, input }) => {
       //TODO: MOVE IT TO CONTROLERS
       const userId = ctx.session.user.id;
+      //if image deleted we want to remove it from db, if not keep - original in db
+      let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
 
-      if (input.logoUrl) {
-        const uploadedImage = await uploadImage(input.logoUrl, userId);
-        input.logoUrl = uploadedImage.url;
+      if (input.logoImageBase64) {
+        const uploadedImage = await uploadImage(input.logoImageBase64, userId);
+        uploadedImageUrl = uploadedImage.url;
       }
 
-      await updateRestaurant(input, { id: input.restaurantId }, ctx.prisma);
+      await updateRestaurant(
+        { ...input, logoUrl: uploadedImageUrl },
+        { id: input.restaurantId },
+        ctx.prisma
+      );
 
       return await findRestaurant(
         {

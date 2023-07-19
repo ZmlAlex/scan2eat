@@ -80,13 +80,15 @@ const CategorySection = ({ restaurantId, products, category }: Props) => {
 
       {/* //TODO MOVE IT TO COMPONENT  ProudctCreateModal*/}
 
-      <ProductCreateForm
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        menuId={category.menuId}
-        restaurantId={restaurantId}
-        categoryId={category?.id || ""}
-      />
+      {isModalOpen && (
+        <ProductCreateForm
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          menuId={category.menuId}
+          restaurantId={restaurantId}
+          categoryId={category?.id || ""}
+        />
+      )}
     </>
   );
 };

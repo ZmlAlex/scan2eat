@@ -65,7 +65,7 @@ export const findRestaurant = async (
     restaurantI18N: transformTranslation<RestaurantTranslationField>(
       result.restaurantI18N
     ),
-    //temporary return first menu
+    //TODO: temporary return first menu
     menu: {
       ...result.menu[0],
       category: result.menu[0]?.category.map((record) => ({
@@ -119,7 +119,7 @@ export const findAllRestaurants = async (
 };
 
 export const createRestaurant = async (
-  input: CreateRestaurantInput & { userId: string },
+  input: CreateRestaurantInput & { userId: string; logoUrl?: string },
   prisma: PrismaClient
 ) => {
   const translations =
@@ -132,7 +132,7 @@ export const createRestaurant = async (
     data: {
       userId: input.userId,
       workingHours: input.workingHours,
-      logoUrl: input.logoUrl,
+      logoUrl: input.logoUrl ?? "",
       currencyCode: input.currencyCode,
       menu: {
         create: {},
@@ -188,14 +188,14 @@ export const createRestaurant = async (
 };
 
 export const updateRestaurant = async (
-  input: UpdateRestaurantInput,
+  input: Omit<UpdateRestaurantInput, "isImageDeleted"> & { logoUrl?: string },
   where: Partial<Prisma.RestaurantWhereUniqueInput>,
   prisma: PrismaClient
 ) => {
   const updatedData: Partial<Restaurant> = {
     workingHours: input.workingHours,
     currencyCode: input.currencyCode,
-    ...(input.logoUrl && { logoUrl: input.logoUrl }),
+    ...(typeof input.logoUrl === "string" && { logoUrl: input.logoUrl }),
   };
 
   const translations =

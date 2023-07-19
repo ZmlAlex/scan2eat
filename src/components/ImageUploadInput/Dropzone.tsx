@@ -49,8 +49,9 @@ const Dropzone = ({ onDrop, ...props }: DropzoneProps) => {
           type="file"
           className="hidden"
           {...props}
-          value={undefined}
           {...getInputProps()}
+          // workaround solution for custom input file with react-hook-form
+          value={undefined}
         />
       </label>
     </div>

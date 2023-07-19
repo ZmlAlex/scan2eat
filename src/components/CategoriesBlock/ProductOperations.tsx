@@ -123,12 +123,14 @@ export function ProductOperations({
       </AlertDialog>
 
       {/* Modal window */}
-      <ProductUpdateForm
-        isModalOpen={isModalUpdateOpen}
-        toggleModal={toggleModalUpdate}
-        restaurantId={restaurantId}
-        product={product}
-      />
+      {isModalUpdateOpen && (
+        <ProductUpdateForm
+          isModalOpen={isModalUpdateOpen}
+          toggleModal={toggleModalUpdate}
+          restaurantId={restaurantId}
+          product={product}
+        />
+      )}
     </>
   );
 }

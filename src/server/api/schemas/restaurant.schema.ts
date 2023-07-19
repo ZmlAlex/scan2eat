@@ -13,7 +13,7 @@ export const createRestaurantSchemaInput = z.object({
   description: z.string().optional(),
   address: z.string().optional(),
   workingHours: z.string(),
-  logoUrl: z.string(),
+  logoImageBase64: z.string().optional(),
   currencyCode: currencyCodeS,
   languageCode: languageCodeS,
 });
@@ -29,7 +29,8 @@ export const updateRestaurantSchemaInput = z.object({
   description: z.string().optional(),
   address: z.string().optional(),
   workingHours: z.string(),
-  logoUrl: z.string().optional(),
+  logoImageBase64: z.string().optional(),
+  isImageDeleted: z.boolean(),
   currencyCode: currencyCodeS,
   languageCode: languageCodeS,
 });

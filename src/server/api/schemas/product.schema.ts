@@ -12,7 +12,7 @@ export const createProductSchemaInput = z.object({
   measurmentValue: z.string().optional(),
   name: z.string(),
   description: z.string(),
-  imageBase64: z.string(),
+  imageBase64: z.string().optional(),
   languageCode: languageCodeS,
 });
 
@@ -24,7 +24,8 @@ export const updateProductSchemaInput = z.object({
   measurmentValue: z.string().optional(),
   name: z.string(),
   description: z.string(),
-  imageUrl: z.string().optional(),
+  imageBase64: z.string().optional(),
+  isImageDeleted: z.boolean(),
   languageCode: languageCodeS,
 });
 

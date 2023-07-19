@@ -14,7 +14,7 @@ type TestCaller = ReturnType<typeof appRouter.createCaller>;
 //TODO: MOVE IT TO THE MOCKS
 const createRestaurantInput: inferProcedureInput<
   AppRouter["restaurant"]["createRestaurant"]
-> = {
+> & { logoUrl: string } = {
   name: "Krusty Krab",
   address: "831 Bottom Feeder Lane",
   description: "best fastfood in the Bikini Bottom",

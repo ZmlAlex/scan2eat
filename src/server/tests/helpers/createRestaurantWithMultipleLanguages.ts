@@ -7,7 +7,7 @@ import { transformTranslation } from "~/server/helpers/formatTranslation";
 
 export const createRestaurantWithMultipleLanguages = async (
   userId: string,
-  input: CreateRestaurantInput
+  input: CreateRestaurantInput & { logoUrl: string }
 ) => {
   const translations =
     formatFieldsToTranslationTable<RestaurantTranslationField>(
