@@ -1,3 +1,7 @@
+/* advanced-cropper styles  https://advanced-cropper.github.io/react-advanced-cropper/docs/intro*/
+@import "react-advanced-cropper/dist/style.css";
+@import "react-advanced-cropper/dist/themes/classic.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

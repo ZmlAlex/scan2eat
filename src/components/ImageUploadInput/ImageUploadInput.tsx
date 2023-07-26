@@ -1,9 +1,8 @@
 import React from "react";
 
 import useModal from "~/hooks/useModal";
-import { toBase64 } from "~/utils/toBase64";
 
-import CropDialog from "./CropDialog";
+import CropperDialog from "./CropperDialog";
 import Dropzone from "./Dropzone";
 import ImagePreview from "./ImagePreview";
 
@@ -11,7 +10,7 @@ export type ImageUploadInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
 > & {
-  onChange: (file: string | ArrayBuffer) => void;
+  onChange: (file?: string | ArrayBuffer) => void;
   onImageDelete?: () => void;
   preselectedImageUrl?: string;
 };
@@ -32,15 +31,14 @@ const ImageUploadInput = (props: ImageUploadInputProps) => {
           onClick={() => {
             setCroppedImageUrl("");
             props.onImageDelete?.();
+            props.onChange?.();
           }}
         />
       ) : (
         <Dropzone
           {...props}
           onDrop={(files) => {
-            // TODO: COVER VALIDATION FOR SIZE
             const [imageFile] = files;
-
             if (imageFile) {
               const imageURLFromFile = URL.createObjectURL(imageFile);
               setNewUploadedImageUrl(imageURLFromFile);
@@ -51,21 +49,19 @@ const ImageUploadInput = (props: ImageUploadInputProps) => {
       )}
 
       {/* Modal to allow the user to zoom & crop the uploading image into appropriate aspect ratio  */}
-      <CropDialog
-        uploadedImageUrl={newUploadedImageUrl}
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        onCropFinish={async (croppedImageUrl, croppedImageBlob) => {
-          const base64File = await toBase64(croppedImageBlob);
-          setCroppedImageUrl(croppedImageUrl);
-          //CHANGE ON WHAT WE WANT SEND TO BE URL OR BLOB
+      {isModalOpen && (
+        <CropperDialog
+          uploadedImageUrl={newUploadedImageUrl}
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          onCropFinish={(croppedImageBase64) => {
+            setCroppedImageUrl(croppedImageBase64);
 
-          if (base64File) {
-            props.onChange?.(base64File);
+            props.onChange?.(croppedImageBase64);
             toggleModal();
-          }
-        }}
-      />
+          }}
+        />
+      )}
     </>
   );
 };

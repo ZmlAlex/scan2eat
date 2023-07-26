@@ -26,6 +26,7 @@ import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { imageInput } from "~/utils/formTypes/common";
 
 import { Icons } from "../../Icons";
 import type { ArrayElement } from "../../Menu/CategoryProduct";
@@ -34,8 +35,7 @@ const formSchema = z.object({
   name: z.string().trim().min(2),
   description: z.string(),
   price: z.number().nonnegative(),
-  // TODO:VALIDATION SIZE
-  imageBase64: z.string().optional(),
+  imageBase64: imageInput,
   isImageDeleted: z.boolean(),
 });
 

@@ -35,6 +35,7 @@ import {
   languageCodeS,
 } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
+import { imageInput } from "~/utils/formTypes/common";
 
 import { Icons } from "../../Icons";
 
@@ -46,7 +47,7 @@ const formSchema = z.object({
   currencyCode: currencyCodeS,
   phone: z.string().optional(),
   link: z.string().optional(),
-  logoImageBase64: z.string().optional(),
+  logoImageBase64: imageInput,
 });
 
 type Props = {
@@ -85,7 +86,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       address: "",
       description: "",
       phone: "",
-      logoImageBase64: "",
+      logoImageBase64: undefined,
     },
   });
 

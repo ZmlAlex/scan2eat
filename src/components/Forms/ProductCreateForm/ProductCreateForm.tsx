@@ -24,32 +24,16 @@ import { Input } from "~/components/ui/Input";
 import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { imageInput } from "~/utils/formTypes/common";
 
 import { Icons } from "../../Icons";
 import ImageUploadInput from "../../ImageUploadInput";
-
-//TODO MOVE IT TO REUSABLE PLACE
-// const MAX_FILE_SIZE = 500000;
-// const ACCEPTED_IMAGE_TYPES = [
-//   "image/jpeg",
-//   "image/jpg",
-//   "image/png",
-//   "image/webp",
-// ];
 
 const formSchema = z.object({
   name: z.string().trim().min(2),
   description: z.string(),
   price: z.number().nonnegative(),
-  // TODO:VALIDATION SIZE
-  imageBase64: z.string().optional(),
-  // image: z
-  //   .any()
-  //   .refine((file: Blob) => file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`) // this should be greater than or equals (>=) not less that or equals (<=)
-  //   .refine(
-  //     (file: Blob) => ACCEPTED_IMAGE_TYPES.includes(file.type),
-  //     ".jpg, .jpeg, .png and .webp files are accepted."
-  //   ),
+  imageBase64: imageInput,
 });
 
 type Props = {
@@ -98,7 +82,7 @@ const ProductCreateForm = ({
       name: "",
       description: "",
       price: 0,
-      imageBase64: "",
+      imageBase64: undefined,
     },
   });
 
