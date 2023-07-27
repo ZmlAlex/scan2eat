@@ -26,13 +26,6 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 
 import CategoryUpdateForm from "../Forms/CategoryUpdateForm";
 import type { ArrayElement } from "../Menu/CategoryProduct";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/Dialog";
 
 interface RestaurantOperationsProps {
   restaurantId: string;

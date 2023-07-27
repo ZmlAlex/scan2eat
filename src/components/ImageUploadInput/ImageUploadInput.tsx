@@ -15,55 +15,59 @@ export type ImageUploadInputProps = Omit<
   preselectedImageUrl?: string;
 };
 
-const ImageUploadInput = (props: ImageUploadInputProps) => {
-  const { isModalOpen, toggleModal } = useModal();
+const ImageUploadInput = React.forwardRef(
+  (props: ImageUploadInputProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+    const { isModalOpen, toggleModal } = useModal();
 
-  const [newUploadedImageUrl, setNewUploadedImageUrl] = React.useState("");
-  const [croppedImageUrl, setCroppedImageUrl] = React.useState(
-    props.preselectedImageUrl
-  );
+    const [newUploadedImageUrl, setNewUploadedImageUrl] = React.useState("");
+    const [croppedImageUrl, setCroppedImageUrl] = React.useState(
+      props.preselectedImageUrl
+    );
 
-  return (
-    <>
-      {croppedImageUrl ? (
-        <ImagePreview
-          croppedImageUrl={croppedImageUrl}
-          onClick={() => {
-            setCroppedImageUrl("");
-            props.onImageDelete?.();
-            props.onChange?.();
-          }}
-        />
-      ) : (
-        <Dropzone
-          {...props}
-          onDrop={(files) => {
-            const [imageFile] = files;
-            if (imageFile) {
-              const imageURLFromFile = URL.createObjectURL(imageFile);
-              setNewUploadedImageUrl(imageURLFromFile);
+    return (
+      <div ref={ref}>
+        {croppedImageUrl ? (
+          <ImagePreview
+            croppedImageUrl={croppedImageUrl}
+            onClick={() => {
+              setCroppedImageUrl("");
+              props.onImageDelete?.();
+              props.onChange?.();
+            }}
+          />
+        ) : (
+          <Dropzone
+            {...props}
+            onDrop={(files) => {
+              const [imageFile] = files;
+              if (imageFile) {
+                const imageURLFromFile = URL.createObjectURL(imageFile);
+                setNewUploadedImageUrl(imageURLFromFile);
+                toggleModal();
+              }
+            }}
+          />
+        )}
+
+        {/* Modal to allow the user to zoom & crop the uploading image into appropriate aspect ratio  */}
+        {isModalOpen && (
+          <CropperDialog
+            uploadedImageUrl={newUploadedImageUrl}
+            isModalOpen={isModalOpen}
+            toggleModal={toggleModal}
+            onCropFinish={(croppedImageBase64) => {
+              setCroppedImageUrl(croppedImageBase64);
+
+              props.onChange?.(croppedImageBase64);
               toggleModal();
-            }
-          }}
-        />
-      )}
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+);
 
-      {/* Modal to allow the user to zoom & crop the uploading image into appropriate aspect ratio  */}
-      {isModalOpen && (
-        <CropperDialog
-          uploadedImageUrl={newUploadedImageUrl}
-          isModalOpen={isModalOpen}
-          toggleModal={toggleModal}
-          onCropFinish={(croppedImageBase64) => {
-            setCroppedImageUrl(croppedImageBase64);
-
-            props.onChange?.(croppedImageBase64);
-            toggleModal();
-          }}
-        />
-      )}
-    </>
-  );
-};
+ImageUploadInput.displayName = "ImageUploadInput";
 
 export default ImageUploadInput;

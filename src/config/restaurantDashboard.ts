@@ -17,9 +17,15 @@ export const restaurantDashboardConfig = (
       icon: "chevronLeft",
     },
     {
+      title: "Details",
+      // TODO: CHANGE IT
+      href: `/dashboard/restaurants/${restaurantId}/details`,
+      icon: "store",
+    },
+    {
       title: "Categoies & Products",
       href: `/dashboard/restaurants/${restaurantId}`,
-      icon: "store",
+      icon: "pizza",
     },
     {
       title: "Settings",

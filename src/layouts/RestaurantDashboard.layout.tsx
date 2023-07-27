@@ -54,11 +54,26 @@ export default function RestaurantDashboardLayout({
 
           {/* Floating menu */}
           <div className="fixed bottom-4 left-0 w-full md:hidden">
+            {/* TODO: USE MAP FOR CONFIG */}
             <Tabs defaultValue={pathname} className="mx-2">
               <TabsList className="w-full">
                 <TabsTrigger className="flex-1" value="/dashboard">
                   <Link className="w-full" href={`/dashboard`}>
                     Back
+                  </Link>
+                </TabsTrigger>
+                <TabsTrigger
+                  className="flex-1"
+                  value="/dashboard/restaurants/[restaurantId]/details"
+                >
+                  <Link
+                    className="w-full"
+                    // TODO: CHANGE IT!
+                    href={`/dashboard/restaurants/${
+                      restaurantId as string
+                    }/details`}
+                  >
+                    Details
                   </Link>
                 </TabsTrigger>
                 <TabsTrigger

@@ -3,13 +3,6 @@ import React from "react";
 import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Accordion } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/Dialog";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
@@ -21,7 +14,7 @@ type Props = {
   restaurant: RestaurantWithDetails;
 };
 
-const CategoryBlock = ({ restaurant }: Props) => {
+const CategoriesBlock = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
   const hasCategories = !!restaurant.menu.category?.length;
@@ -81,4 +74,4 @@ const CategoryBlock = ({ restaurant }: Props) => {
   );
 };
 
-export default CategoryBlock;
+export default CategoriesBlock;
