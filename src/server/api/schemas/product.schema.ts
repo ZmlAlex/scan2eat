@@ -35,4 +35,4 @@ export const deleteProductSchemaInput = z.object({
 
 export type CreateProductInput = z.infer<typeof createProductSchemaInput>;
 export type UpdateProductInput = z.infer<typeof updateProductSchemaInput>;
-export type DeleteProducttInput = z.infer<typeof deleteProductSchemaInput>;
+export type DeleteProductInput = z.infer<typeof deleteProductSchemaInput>;

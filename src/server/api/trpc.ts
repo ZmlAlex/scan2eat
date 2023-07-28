@@ -42,6 +42,7 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   };
 };
 
+export type Context = inferAsyncReturnType<typeof createInnerTRPCContext>;
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
@@ -67,7 +68,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * errors on the backend.
  */
 import type { PrismaClient } from "@prisma/client";
-import { initTRPC, TRPCError } from "@trpc/server";
+import { type inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 

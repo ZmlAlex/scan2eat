@@ -51,9 +51,16 @@ export const deleteRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
 });
 
+export type GetRestaurantInput = z.infer<typeof getRestaurantSchemaInput>;
 export type CreateRestaurantInput = z.infer<typeof createRestaurantSchemaInput>;
 export type CreateRestaurantLanguageInput = z.infer<
   typeof createRestaurantLanguageSchemaInput
 >;
 export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchemaInput>;
 export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantSchemaInput>;
+export type SetPublishedRestaurantInput = z.infer<
+  typeof setPublishedRestaurantSchemaInput
+>;
+export type SetEnabledRestaurantLanguagesInput = z.infer<
+  typeof setEnabledRestaurantLanguagesSchemaInput
+>;
