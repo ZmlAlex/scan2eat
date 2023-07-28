@@ -145,7 +145,7 @@ export const deleteProduct = async (
   where: Prisma.ProductWhereUniqueInput,
   prisma: PrismaClient
 ) => {
-  return await prisma.category.delete({
+  return await prisma.product.delete({
     where,
   });
 };

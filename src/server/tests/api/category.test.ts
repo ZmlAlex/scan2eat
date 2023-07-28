@@ -62,7 +62,7 @@ describe("Category API", () => {
     });
   });
 
-  describe("When category is updated by id", () => {
+  describe("when category is updated by id", () => {
     it("should return category with new data", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
