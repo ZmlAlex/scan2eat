@@ -33,7 +33,7 @@ export const createProduct = async (
 
   return await prisma.product.create({
     data: {
-      price,
+      price: price * 100,
       isEnabled,
       imageUrl: input.imageUrl ?? "",
       menuId: input.menuId,
@@ -54,7 +54,7 @@ export const updateProduct = async (
   const { price, isEnabled, imageUrl, ...restInput } = input;
 
   const updatedData: Partial<Product> = {
-    price,
+    price: price * 100,
     isEnabled,
     measurementUnit: input.measurmentUnit,
     measurementValue: input.measurmentValue,

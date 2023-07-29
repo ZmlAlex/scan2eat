@@ -84,7 +84,7 @@ const ProductUpdateForm = ({
     defaultValues: {
       name: product.productI18N.name,
       description: product.productI18N.description,
-      price: product.price,
+      price: product.price / 100,
       isImageDeleted: false,
     },
   });
