@@ -1,3 +1,4 @@
+import { Currency } from "@prisma/client";
 import React from "react";
 
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
@@ -6,6 +7,8 @@ import CategoryProduct from "./CategoryProduct";
 
 type Props = {
   products: RestaurantWithDetails["menu"]["product"];
+  // TODO: TAKE IT FROM CONTEXT
+  currencyCode: Currency["code"];
   categoryId: string;
   name: string;
   setSelectedCategory: (category: string) => void;
@@ -15,6 +18,7 @@ const CategorySection = ({
   products,
   categoryId,
   name,
+  currencyCode,
   setSelectedCategory,
 }: Props) => {
   return (
@@ -30,7 +34,11 @@ const CategorySection = ({
         {products
           ?.filter((product) => product.categoryId === categoryId)
           .map((product, index) => (
-            <CategoryProduct key={index} product={product} />
+            <CategoryProduct
+              key={index}
+              product={product}
+              currencyCode={currencyCode}
+            />
           ))}
       </div>
     </section>

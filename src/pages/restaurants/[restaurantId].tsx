@@ -70,7 +70,10 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
             </div>
           </div>
 
-          <Menu menu={restaurant.menu} />
+          <Menu
+            menu={restaurant.menu}
+            currencyCode={restaurant.currency.code}
+          />
         </div>
       </RestaurantLayout>
     </>

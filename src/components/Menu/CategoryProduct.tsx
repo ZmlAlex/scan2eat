@@ -1,7 +1,9 @@
+import { Currency } from "@prisma/client";
 import React from "react";
 
 import { Dialog, DialogContent } from "~/components/ui/Dialog";
 import useModal from "~/hooks/useModal";
+import { formatPrice } from "~/utils/formatPrice";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { Badge } from "../ui/Badge";
@@ -13,9 +15,10 @@ type Product = ArrayElement<RestaurantWithDetails["menu"]["product"]>;
 
 type Props = {
   product: Product;
+  currencyCode: Currency["code"];
 };
 
-const CategoryProduct = ({ product }: Props) => {
+const CategoryProduct = ({ product, currencyCode }: Props) => {
   const {
     productI18N: { name, description },
     price,
@@ -34,7 +37,7 @@ const CategoryProduct = ({ product }: Props) => {
           <img src={imageUrl} alt="food" />
         </div>
         <div className="rounded-b-2xl border px-2  py-4 ">
-          <p className="mb-1 text-xl">{price}</p>
+          <p className="mb-1 text-xl">{formatPrice(price, currencyCode)}</p>
           <p className="mb-3">{name}</p>
           <p>300 g</p>
         </div>
@@ -51,7 +54,9 @@ const CategoryProduct = ({ product }: Props) => {
           </div>
           <div>
             <p className="mb-3 text-2xl">{name}</p>
-            <Badge className="mb-4 text-lg">{price}</Badge>
+            <Badge className="mb-4 text-lg">
+              {formatPrice(price, currencyCode)}
+            </Badge>
             <p className="text-lg">{description}</p>
           </div>
           {/* </DialogDescription> */}

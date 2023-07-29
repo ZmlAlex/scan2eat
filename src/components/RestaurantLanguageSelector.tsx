@@ -17,7 +17,7 @@ type Props = {
 };
 
 const RestaurantLanguageSelector = ({ restaurant }: Props) => {
-  const trpcCtx = api.useContext();
+  const trpcContext = api.useContext();
   const { selectedRestaurantLang } = parseCookies();
 
   const handleLanguageChange = async (language: string) => {
@@ -27,7 +27,7 @@ const RestaurantLanguageSelector = ({ restaurant }: Props) => {
     });
 
     //TODO: DO IT LOCALLY? WITH setData
-    await trpcCtx.restaurant.getRestaurant.invalidate({
+    await trpcContext.restaurant.getRestaurant.invalidate({
       restaurantId: restaurant.id,
     });
   };

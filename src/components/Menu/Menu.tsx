@@ -1,3 +1,4 @@
+import { Currency } from "@prisma/client";
 import React from "react";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 
@@ -8,9 +9,10 @@ import CategorySection from "./CategorySection";
 
 type Props = {
   menu: RestaurantWithDetails["menu"];
+  currencyCode: Currency["code"];
 };
 
-const Menu = ({ menu }: Props) => {
+const Menu = ({ menu, currencyCode }: Props) => {
   const { category = [], product = [] } = menu;
 
   const [selectedCategory, setSelectedCategory] = React.useState(
@@ -45,6 +47,7 @@ const Menu = ({ menu }: Props) => {
             key={id}
             categoryId={id}
             name={name}
+            currencyCode={currencyCode}
             setSelectedCategory={setSelectedCategory}
           />
         ))}
