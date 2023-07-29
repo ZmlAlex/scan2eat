@@ -66,7 +66,7 @@ describe("Product API", () => {
     } = await caller.product.createProduct(createProductInput);
 
     expect(product?.[0]).toMatchObject({
-      price: 1000,
+      price: 100000,
       isEnabled: true,
       imageUrl: expect.stringContaining("cloudinary") as string,
       productI18N: {
@@ -121,7 +121,7 @@ describe("Product API", () => {
       } = await caller.product.updateProduct(updateProductInput);
 
       expect(product?.[0]).toMatchObject({
-        price: 1500,
+        price: 150000,
         imageUrl: "mockUrl",
         isEnabled: true,
         productI18N: {
@@ -176,7 +176,7 @@ describe("Product API", () => {
       } = await caller.product.updateProduct(updateProductInput);
 
       expect(product?.[0]).toMatchObject({
-        price: 1500,
+        price: 150000,
         imageUrl: expect.not.stringContaining("originalUrl") as string,
         isEnabled: true,
         productI18N: {
@@ -314,7 +314,7 @@ describe("Product API", () => {
       } = await caller.product.createProduct(createProductInput);
 
       expect(product?.[0]).toMatchObject({
-        price: 1000,
+        price: 100000,
         isEnabled: true,
         imageUrl: expect.stringContaining("cloudinary") as string,
         productI18N: expect.objectContaining({

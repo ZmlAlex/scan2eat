@@ -189,7 +189,7 @@ export const createRestaurant = async (
 
 export const updateRestaurant = async (
   input: Omit<UpdateRestaurantInput, "isImageDeleted"> & { logoUrl?: string },
-  where: Partial<Prisma.RestaurantWhereUniqueInput>,
+  where: Prisma.RestaurantWhereUniqueInput,
   prisma: PrismaClient
 ) => {
   const updatedData: Partial<Restaurant> = {

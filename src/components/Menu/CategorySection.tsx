@@ -1,4 +1,4 @@
-import { Currency } from "@prisma/client";
+import type { Currency } from "@prisma/client";
 import React from "react";
 
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
