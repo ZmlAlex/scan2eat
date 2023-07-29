@@ -43,7 +43,7 @@ const formSchema = z.object({
   languageCode: languageCodeS,
   name: z.string().trim().min(2),
   address: z.string().trim().min(2),
-  description: z.string(),
+  description: z.string().optional(),
   currencyCode: currencyCodeS,
   phone: z.string().optional(),
   link: z.string().optional(),
@@ -97,6 +97,8 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       currencyCode: values.currencyCode,
       languageCode: values.languageCode,
       logoImageBase64: values.logoImageBase64,
+      description: values.description,
+      // TODO: ADD PHONE
       //TODO: REMOVE THIS FIELD
       workingHours: "24hrs",
     });

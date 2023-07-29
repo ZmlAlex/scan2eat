@@ -54,7 +54,7 @@ export const createRestaurantHandler = async ({
   const userId = ctx.session?.user.id;
 
   if (!userId) {
-    return "TODO: HANDLE EMPTY USER ID";
+    throw new Error("TODO: HANDLE EMPTY USER ID");
   }
 
   if (input.logoImageBase64) {
@@ -80,7 +80,7 @@ export const updateRestaurantHandler = async ({
   const userId = ctx.session?.user.id;
 
   if (!userId) {
-    return "TODO: HANDLE EMPTY USER ID";
+    throw new Error("TODO: HANDLE EMPTY USER ID");
   }
 
   //if image deleted we want to remove it from db, if not keep - original in db

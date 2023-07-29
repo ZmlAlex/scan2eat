@@ -69,7 +69,7 @@ const CropperDialog = ({
             <DialogTitle>Crop Image</DialogTitle>
           </DialogHeader>
 
-          <div className="w-ful flex h-72 items-center overflow-hidden rounded-md border bg-muted">
+          <div className="w-ful flex h-72 items-center justify-center overflow-hidden rounded-md border bg-muted">
             <FixedCropper
               ref={cropperRef}
               src={uploadedImageUrl}

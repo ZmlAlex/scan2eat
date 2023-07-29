@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-//TODO MOVE IT TO REUSABLE PLACE
-const MAX_FILE_SIZE = 50;
+const MAX_FILE_SIZE = 50000;
 
 export const imageInput = z
   .string()

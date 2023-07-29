@@ -114,6 +114,7 @@ const RestaurantUpdateForm = ({
       restaurantId: restaurant.id,
       address: values.address,
       name: values.name,
+      description: values.description,
       languageCode: selectedRestaurantLang as LanguageCode,
       currencyCode: values.currencyCode,
       logoImageBase64: values.logoImageBase64,
