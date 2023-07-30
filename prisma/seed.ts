@@ -27,6 +27,8 @@ async function main() {
     ],
   });
 }
+
+// TODO: ADD HERE BASIC RESTAURANT
 main()
   .then(async () => {
     await prisma.$disconnect();

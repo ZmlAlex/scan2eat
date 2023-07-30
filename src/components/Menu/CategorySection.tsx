@@ -22,15 +22,12 @@ const CategorySection = ({
   setSelectedCategory,
 }: Props) => {
   return (
-    <section key={categoryId}>
+    <section key={categoryId} id={categoryId} className="scroll-mt-[120px]">
       <h2 className="mb-4 font-heading text-3xl font-medium capitalize">
         {name}
       </h2>
       {/* TODO: USE INTERSECTION HOOK TO UPDATE VALUE */}
-      <div
-        id={categoryId}
-        className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6"
-      >
+      <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
         {products
           ?.filter((product) => product.categoryId === categoryId)
           .map((product, index) => (

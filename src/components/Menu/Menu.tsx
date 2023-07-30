@@ -1,6 +1,6 @@
-import { Currency } from "@prisma/client";
+import type { Currency } from "@prisma/client";
+import Link from "next/link";
 import React from "react";
-import AnchorLink from "react-anchor-link-smooth-scroll";
 
 import { Badge } from "~/components/ui/Badge";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
@@ -25,16 +25,15 @@ const Menu = ({ menu, currencyCode }: Props) => {
       <div className="sticky top-[60px] z-40 w-full bg-background  py-2">
         <div className="flex gap-3 overflow-x-auto no-scrollbar">
           {category.map(({ id, categoryI18N: { name } }) => (
-            <Badge
-              onClick={() => setSelectedCategory(id)}
-              key={name}
-              className="cursor-pointer px-4 py-1 text-lg"
-              variant={selectedCategory === id ? "default" : "secondary"}
-            >
-              <AnchorLink href={`#${id}`} offset={170}>
+            <Link href={`#${id}`} scroll={false} key={name}>
+              <Badge
+                onClick={() => setSelectedCategory(id)}
+                className="cursor-pointer px-4 py-1 text-lg"
+                variant={selectedCategory === id ? "default" : "secondary"}
+              >
                 {name}
-              </AnchorLink>
-            </Badge>
+              </Badge>
+            </Link>
           ))}
         </div>
       </div>
