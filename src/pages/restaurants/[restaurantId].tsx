@@ -16,7 +16,10 @@ import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
+const MOCK_URL =
+  "https://menusa.dodostatic.net/images/7740007bde8911ed8368719f3939c0be_11edcc86977e0ce38c1e0a0a21479180_1200_900.jpg";
 // Infer types from getServerSideProps
+
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Restaurant = ({ restaurant }: ServerSideProps) => {
@@ -48,7 +51,7 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
           <div className="grid grid-cols-1 gap-4  md:grid-cols-2">
             <div className=" relative h-80">
               <Image
-                src="https://menusa.dodostatic.net/images/7740007bde8911ed8368719f3939c0be_11edcc86977e0ce38c1e0a0a21479180_1200_900.jpg"
+                src={restaurant.logoUrl || MOCK_URL}
                 alt="Photo by DoDo"
                 fill
                 className="rounded-3xl object-cover"
@@ -56,7 +59,7 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
             </div>
             <div className="flex flex-col justify-center gap-5 rounded-3xl border p-5 ">
               <div className="flex gap-3">
-                <Icons.clock2 className="shrink-0" />{" "}
+                <Icons.clock2 className="shrink-0" /> {/* TODO: HANDLE TIME */}
                 <span className="font-semibold">from 9:00 to 21:00</span>
               </div>
               <div className="flex gap-3">
