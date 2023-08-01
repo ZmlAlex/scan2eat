@@ -31,7 +31,7 @@ export function LanguageToggle({ languages }: Props) {
           <DropdownMenuCheckboxItem
             className="capitalize"
             checked={language.languageCode === locale}
-            key="language"
+            key={language.languageCode}
             onClick={() =>
               push({ pathname, query }, asPath, {
                 locale: language.languageCode,
