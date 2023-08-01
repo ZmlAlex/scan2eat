@@ -5,13 +5,21 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 
 import CategoryProduct from "./CategoryProduct";
 
+// * when distance more than these values -> we should trigger selecting of category
+const TOP_OFFSET = 130;
+const BOTTOM_OFFSET = 130;
+
 type Props = {
   products: RestaurantWithDetails["menu"]["product"];
   // TODO: TAKE IT FROM CONTEXT
   currencyCode: Currency["code"];
   categoryId: string;
   name: string;
-  setSelectedCategory: (category: string) => void;
+  scrollDirection: "up" | "down";
+  isHigherCategorySelected: boolean;
+  isAutoScrollingInProgress: boolean;
+  isLowerCategorySelected: boolean;
+  setSelectedCategory: (categoryId: string) => void;
 };
 
 const CategorySection = ({
@@ -19,14 +27,70 @@ const CategorySection = ({
   categoryId,
   name,
   currencyCode,
+  scrollDirection,
   setSelectedCategory,
+  isHigherCategorySelected,
+  isLowerCategorySelected,
+  isAutoScrollingInProgress,
 }: Props) => {
+  const ref = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    // don't listen scroll event when user click on category in panel
+    if (isAutoScrollingInProgress) {
+      return;
+    }
+
+    const switchCategoryOnIntersection = () => {
+      const {
+        y: distanceToTop,
+        bottom: distanceBetweenBottomBorderCategorySectionAndTopPage,
+      } = ref.current?.getBoundingClientRect() || {};
+
+      // on scroll down
+      if (
+        scrollDirection === "down" &&
+        distanceToTop &&
+        distanceToTop <= TOP_OFFSET &&
+        !isLowerCategorySelected
+      ) {
+        setSelectedCategory(categoryId);
+      }
+      //  on scroll up
+      if (
+        scrollDirection === "up" &&
+        distanceBetweenBottomBorderCategorySectionAndTopPage &&
+        distanceBetweenBottomBorderCategorySectionAndTopPage > BOTTOM_OFFSET &&
+        !isHigherCategorySelected
+      ) {
+        setSelectedCategory(categoryId);
+      }
+    };
+
+    window.addEventListener("scroll", switchCategoryOnIntersection);
+
+    return () =>
+      window.removeEventListener("scroll", switchCategoryOnIntersection);
+  }, [
+    categoryId,
+    isHigherCategorySelected,
+    isLowerCategorySelected,
+    isAutoScrollingInProgress,
+    name,
+    scrollDirection,
+    setSelectedCategory,
+  ]);
+
   return (
-    <section key={categoryId} id={categoryId} className="scroll-mt-[120px]">
+    <section
+      ref={ref}
+      key={categoryId}
+      id={categoryId}
+      className="scroll-mt-[120px]"
+    >
       <h2 className="mb-4 font-heading text-3xl font-medium capitalize">
         {name}
       </h2>
-      {/* TODO: USE INTERSECTION HOOK TO UPDATE VALUE */}
       <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
         {products
           ?.filter((product) => product.categoryId === categoryId)
