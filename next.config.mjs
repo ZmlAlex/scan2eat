@@ -19,7 +19,8 @@ const config = {
     defaultLocale: "english",
   },
   images: {
-    domains: ["menusa.dodostatic.net"],
+    // TODO: REMOVE WHEN MOCK WILL BE REPLACED
+    domains: ["menusa.dodostatic.net", "res.cloudinary.com"],
   },
   experimental: {
     swcPlugins: [
