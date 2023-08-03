@@ -1,3 +1,4 @@
+import _ from "lodash";
 import * as React from "react";
 
 const THRESHOLD = 0;
@@ -35,9 +36,12 @@ const useScrollDirection = () => {
       }
     };
 
-    window.addEventListener("scroll", onScroll);
+    // * optimize scroll perfomance
+    const throttledOnScroll = _.throttle(onScroll, 200);
 
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", throttledOnScroll);
+
+    return () => window.removeEventListener("scroll", throttledOnScroll);
   }, [scrollDirection]);
 
   return scrollDirection;
