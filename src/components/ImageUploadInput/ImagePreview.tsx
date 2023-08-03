@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 import { Button } from "~/components/ui/Button";
@@ -21,10 +22,12 @@ const ImagePreview = ({ croppedImageUrl, onClick }: Props) => {
         >
           <Icons.trash />
         </Button>
-        <div>
-          {/* //TODO: REPLACE WITH NEXTJS COMPONENT */}
-          <img src={croppedImageUrl} />
-        </div>
+        <Image
+          className="object-contain"
+          src={croppedImageUrl}
+          alt="cropped image"
+          fill
+        />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import { Currency } from "@prisma/client";
+import type { Currency } from "@prisma/client";
+import Image from "next/image";
 import React from "react";
 
 import { Dialog, DialogContent } from "~/components/ui/Dialog";
@@ -32,13 +33,13 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         onClick={toggleModal}
         className="cursor-pointer overflow-hidden rounded-2xl "
       >
-        <div className="relative">
-          {/* //TODO: IMPLEMENT VIA IMAGE COMPONENT */}
-          <img src={imageUrl} alt="food" />
+        <div className="relative aspect-square">
+          <Image src={imageUrl} alt={name} fill />
         </div>
         <div className="rounded-b-2xl border px-2  py-4 ">
           <p className="mb-1 text-xl">{formatPrice(price, currencyCode)}</p>
           <p className="mb-3">{name}</p>
+          {/* TODO: REPLACE MOCK DATA */}
           <p>300 g</p>
         </div>
       </div>
@@ -48,9 +49,8 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         <DialogContent>
           {/* <DialogHeader> */}
           {/* <DialogTitle>{product.name}</DialogTitle> */}
-          <div className="relative overflow-hidden rounded-2xl">
-            {/* //TODO: IMPLEMENT VIA IMAGE COMPONENT */}
-            <img src={imageUrl} />
+          <div className="relative aspect-square overflow-hidden rounded-2xl">
+            <Image src={imageUrl} alt={name} fill />
           </div>
           <div>
             <p className="mb-3 text-2xl">{name}</p>
