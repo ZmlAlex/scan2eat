@@ -14,3 +14,5 @@ declare module "@uidotdev/usehooks" {
     }
   ];
 }
+
+declare module "tailwindcss-animate";
