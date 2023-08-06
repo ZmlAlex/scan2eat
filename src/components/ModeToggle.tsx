@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
-import { Button } from "~/components/ui/Button";
+import Button from "~/components/ui/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,

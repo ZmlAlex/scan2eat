@@ -1,12 +1,12 @@
 import React from "react";
 
+import Button from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import RestaurantLanguageCreateForm from "../Forms/RestaurantLanguageCreateForm";
 import RestaurantLanguageUpdateForm from "../Forms/RestaurantLanguageUpdateForm";
 import { Icons } from "../Icons";
-import { Button } from "../ui/Button";
 
 type Props = {
   restaurant: RestaurantWithDetails;

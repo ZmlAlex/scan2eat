@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/Accordion";
-import { Button } from "~/components/ui/Button";
+import Button from "~/components/ui/Button";
 import {
   Table,
   TableBody,

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import ImageUploadInput from "~/components/ImageUploadInput";
-import { Button } from "~/components/ui/Button";
+import Button from "~/components/ui/Button";
 import {
   Card,
   CardContent,

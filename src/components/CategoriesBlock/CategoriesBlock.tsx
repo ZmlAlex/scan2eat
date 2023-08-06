@@ -2,12 +2,12 @@ import React from "react";
 
 import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Accordion } from "~/components/ui/Accordion";
-// import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { EmptyPlaceholder } from "../EmptyPlaceholder";
 import { Icons } from "../Icons";
+import Button from "../ui/Button";
 import CategorySection from "./CategorySection";
 
 type Props = {
@@ -25,10 +25,10 @@ const CategoriesBlock = ({ restaurant }: Props) => {
         {/* //TODO: MOVE IT TO THE COMPONENT */}
         {hasCategories ? (
           <>
-            {/* <Button className="mb-4" onClick={toggleModal}>
+            <Button className="mb-4" onClick={toggleModal}>
               <Icons.add className="mr-2 h-4 w-4" />
               Create Category
-            </Button> */}
+            </Button>
 
             <Accordion
               type="multiple"
@@ -55,10 +55,10 @@ const CategoriesBlock = ({ restaurant }: Props) => {
             <EmptyPlaceholder.Description>
               You don&apos;t have any categories yet. Start creating content.
             </EmptyPlaceholder.Description>
-            {/* <Button variant="outline" onClick={toggleModal}>
+            <Button variant="outline" onClick={toggleModal}>
               <Icons.add className="mr-2 h-4 w-4" />
               New Category
-            </Button> */}
+            </Button>
           </EmptyPlaceholder>
         )}
       </div>

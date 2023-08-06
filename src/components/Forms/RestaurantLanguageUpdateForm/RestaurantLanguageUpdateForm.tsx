@@ -4,6 +4,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Switch } from "~/components//ui/Switch";
+import Button from "~/components/ui/Button";
 import {
   Form,
   FormControl,
@@ -11,12 +13,9 @@ import {
   FormItem,
   FormLabel,
 } from "~/components/ui/Form";
+import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
-
-import { Button } from "../../ui/Button";
-import { Switch } from "../../ui/Switch";
-import { toast } from "../../ui/useToast";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
 const formSchema = z.object({
