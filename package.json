@@ -97,7 +97,7 @@
     "initVersion": "7.13.0"
   },
   "engines": {
-    "node": ">=16.x"
+    "node": ">=18.x"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
