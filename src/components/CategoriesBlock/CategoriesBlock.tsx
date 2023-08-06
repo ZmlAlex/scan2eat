@@ -2,12 +2,12 @@ import React from "react";
 
 import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Accordion } from "~/components/ui/Accordion";
+import Button from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { EmptyPlaceholder } from "../EmptyPlaceholder";
 import { Icons } from "../Icons";
-import Button from "../ui/Button";
 import CategorySection from "./CategorySection";
 
 type Props = {
