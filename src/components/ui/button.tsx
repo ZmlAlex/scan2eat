@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
@@ -40,18 +39,15 @@ const buttonVariants = cva(
 //   asChild?: boolean;
 // }
 
-// type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-//   VariantProps<any> & { asChild?: boolean };
-
-type ButtonProps = any;
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants> & { asChild?: boolean };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  // @ts-ignore
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Component = asChild ? Slot : "button";
     return (
       <Component
-        // className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
