@@ -40,8 +40,10 @@ const buttonVariants = cva(
 //   asChild?: boolean;
 // }
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-  VariantProps<any> & { asChild?: boolean };
+// type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+//   VariantProps<any> & { asChild?: boolean };
+
+type ButtonProps = any;
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   // @ts-ignore
