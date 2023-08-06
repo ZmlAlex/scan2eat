@@ -37,6 +37,7 @@
     "**/*.cjs",
     "**/*.mjs",
     "src/server/script.mts",
+    ".next/types/**/*.ts",
     "src/**/*"
   ],
   "exclude": ["node_modules"]
