@@ -36,9 +36,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "src/server/script.mts",
-    ".next/types/**/*.ts",
-    "src/**/*"
+    "src/server/script.mts"
   ],
   "exclude": ["node_modules"]
 }

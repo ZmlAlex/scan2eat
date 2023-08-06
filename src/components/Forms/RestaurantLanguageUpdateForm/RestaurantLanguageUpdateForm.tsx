@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Switch } from "~/components//ui/Switch";
-import Button from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import {
   Form,
   FormControl,

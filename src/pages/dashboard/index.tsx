@@ -8,7 +8,7 @@ import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
 import RestaurantCreateForm from "~/components/Forms/RestaurantCreateForm";
 import { Icons } from "~/components/Icons";
 import RestaurantItem from "~/components/RestaurantItem";
-import Button from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";

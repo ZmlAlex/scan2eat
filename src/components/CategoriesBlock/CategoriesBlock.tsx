@@ -2,7 +2,7 @@ import React from "react";
 
 import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Accordion } from "~/components/ui/Accordion";
-import Button from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 

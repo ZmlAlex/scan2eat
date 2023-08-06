@@ -5,7 +5,7 @@ import {
   ImageRestriction,
 } from "react-advanced-cropper";
 
-import Button from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import {
   Dialog,
   DialogContent,

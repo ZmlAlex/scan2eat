@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 

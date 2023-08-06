@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import Button from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import MarketingLayout from "~/layouts/Marketing.layout";
 import { api } from "~/utils/api";
 
