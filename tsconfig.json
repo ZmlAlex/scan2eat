@@ -36,7 +36,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "src/server/script.mts"
+    "src/server/script.mts",
+    "src/**/*"
   ],
   "exclude": ["node_modules"]
 }
