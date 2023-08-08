@@ -20,7 +20,11 @@ const config = {
   },
   images: {
     // TODO: REMOVE WHEN MOCK WILL BE REPLACED
-    domains: ["menusa.dodostatic.net", "res.cloudinary.com"],
+    domains: [
+      "menusa-cdn.dodostatic.net",
+      "res.cloudinary.com",
+      "upload.wikimedia.org",
+    ],
   },
   experimental: {
     swcPlugins: [

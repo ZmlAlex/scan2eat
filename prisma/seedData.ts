@@ -44,15 +44,15 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
-    categoryIndex: 0,
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
   },
   {
     name: "Tomato Soup",
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 1,
   },
   {
@@ -60,7 +60,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 2,
   },
   {
@@ -68,7 +69,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 3,
   },
   {
@@ -76,7 +78,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 4,
   },
   {
@@ -84,7 +87,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 5,
   },
   {
@@ -92,7 +96,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 6,
   },
   {
@@ -100,7 +105,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 7,
   },
   {
@@ -108,7 +114,8 @@ export const products = [
     description: "",
     price: 10,
     imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+
     categoryIndex: 8,
   },
 ];
