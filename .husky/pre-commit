@@ -2,5 +2,6 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm run lint
+pnpm run build
 pnpm run test:back
 

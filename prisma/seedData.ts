@@ -45,6 +45,7 @@ export const products = [
     price: 10,
     imageUrl:
       "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+    categoryIndex: 0,
   },
   {
     name: "Tomato Soup",
