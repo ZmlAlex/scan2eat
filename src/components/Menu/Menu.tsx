@@ -7,6 +7,8 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 
 import CategorySection from "./CategorySection";
 
+const SCROLL_TO_CATEGORY_SECTION_DURATION = 300;
+
 type Props = {
   menu: RestaurantWithDetails["menu"];
   currencyCode: Currency["code"];
@@ -25,17 +27,6 @@ const Menu = ({ menu, currencyCode }: Props) => {
 
   const categoriesPanelRefs = React.useRef<Array<HTMLDivElement | null>>([]);
   const categoriesPanelContainerRef = React.useRef<HTMLDivElement>(null);
-
-  //* it's required for ability listen scroll event again in the category section
-  React.useEffect(() => {
-    const handleScrollEnd = () => {
-      setIsAutoScrollingInProgress(false);
-    };
-
-    window.addEventListener("scrollend", handleScrollEnd);
-
-    return () => window.addEventListener("scrollend", handleScrollEnd);
-  }, []);
 
   //* Scroll into viewport in middle of selected category in the categories panel
   React.useEffect(() => {
@@ -58,6 +49,22 @@ const Menu = ({ menu, currencyCode }: Props) => {
     }
   }, [isAutoScrollingInProgress, selectedCategory]);
 
+  const handleSelectCategory = (id: string) => () => {
+    const selectedCategorySection = document.getElementById(id);
+
+    setIsAutoScrollingInProgress(true);
+    setSelectedCategory(id);
+
+    selectedCategorySection?.scrollIntoView({
+      behavior: "smooth",
+    });
+
+    //* When scroll event is completed, we need to enable ability scroll into viewport for categories panel(see useEffect above)
+    setTimeout(() => {
+      setIsAutoScrollingInProgress(false);
+    }, SCROLL_TO_CATEGORY_SECTION_DURATION);
+  };
+
   const selectedCategoryIndex = categories.findIndex(
     (category) => category.id === selectedCategory
   );
@@ -75,22 +82,14 @@ const Menu = ({ menu, currencyCode }: Props) => {
               className="snap-center"
               key={name}
               id={`badge-${id}`}
-              // Push the ref onto the refs array.
+              //* Push the ref onto the refs array.
               ref={(ref) =>
                 !categoriesPanelRefs.current.includes(ref) &&
                 categoriesPanelRefs.current.push(ref)
               }
             >
               <Badge
-                onClick={() => {
-                  const selectedCategorySection = document.getElementById(id);
-
-                  setIsAutoScrollingInProgress(true);
-                  selectedCategorySection?.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                  setSelectedCategory(id);
-                }}
+                onClick={handleSelectCategory(id)}
                 className="cursor-pointer whitespace-nowrap px-4 py-1 text-lg"
                 variant={selectedCategory === id ? "default" : "secondary"}
               >

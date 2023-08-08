@@ -7,7 +7,7 @@ import CategoryProduct from "./CategoryProduct";
 
 // * when distance more than these values -> we should trigger selecting of category
 const TOP_OFFSET = 130;
-const BOTTOM_OFFSET = 130;
+const BOTTOM_OFFSET = 140;
 
 type Props = {
   products: RestaurantWithDetails["menu"]["product"];
