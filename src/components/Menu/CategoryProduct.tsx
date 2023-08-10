@@ -37,7 +37,7 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         className="cursor-pointer overflow-hidden rounded-2xl "
       >
         <div className="relative aspect-square">
-          <Image src={imageUrl} alt={name} fill />
+          <Image className="object-cover" src={imageUrl} alt={name} fill />
         </div>
         <div className="rounded-b-2xl border px-2  py-4 ">
           <p className="mb-1 text-xl">{formatPrice(price, currencyCode)}</p>
@@ -52,7 +52,7 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
       <Dialog open={isModalOpen} onOpenChange={toggleModal}>
         <DialogContent>
           <div className="relative  aspect-square overflow-hidden rounded-2xl">
-            <Image src={imageUrl} alt={name} fill />
+            <Image className="object-cover" src={imageUrl} alt={name} fill />
           </div>
           <div>
             <p className="mb-3 text-2xl">{name}</p>

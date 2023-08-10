@@ -1,25 +1,11 @@
 import { prisma } from "~/server/db";
 
-import { categories, currencies, languages, products } from "./seedData";
+import { burgerRestaurant, currencies, languages } from "./seedData";
 
-async function main() {
-  await prisma.language.createMany({
-    data: languages,
-  });
-
-  await prisma.currency.createMany({
-    data: currencies,
-  });
-
-  const basicUser = await prisma.user.create({
-    data: {
-      email: "amazonalexzml@gmail.comm",
-    },
-  });
-
+const createBurgerRestaurant = async (userId: string) => {
   const basicRestaurant = await prisma.restaurant.create({
     data: {
-      userId: basicUser.id,
+      userId,
       logoUrl: "",
       workingHours: "24hrs",
       currencyCode: "USD",
@@ -29,13 +15,13 @@ async function main() {
           data: [
             {
               fieldName: "name",
-              translation: "Subway",
+              translation: "Burger space",
               languageCode: "english",
             },
             {
               fieldName: "description",
               translation:
-                "Hearty doners in a pleasant atmosphere. You can quickly order on the way and without a queue through the application. We look forward to visiting!",
+                "Hearty burgers in a pleasant atmosphere. You can quickly order on the way and without a queue through the application. We look forward to visiting!",
               languageCode: "english",
             },
             {
@@ -52,7 +38,7 @@ async function main() {
     select: { menu: { select: { id: true } } },
   });
 
-  const basicCategoriesPromises = categories.map((category) =>
+  const basicCategoriesPromises = burgerRestaurant.categories.map((category) =>
     prisma.category.create({
       data: {
         menuId: basicRestaurant.menu[0]?.id ?? "",
@@ -63,7 +49,7 @@ async function main() {
 
   const basicCategories = await prisma.$transaction(basicCategoriesPromises);
 
-  const basicProductsPromises = products.map((product) => {
+  const basicProductsPromises = burgerRestaurant.products.map((product) => {
     const categoryId = basicCategories[product.categoryIndex]?.id ?? "";
 
     return prisma.product.create({
@@ -87,6 +73,24 @@ async function main() {
   });
 
   await prisma.$transaction(basicProductsPromises);
+};
+
+async function main() {
+  await prisma.language.createMany({
+    data: languages,
+  });
+
+  await prisma.currency.createMany({
+    data: currencies,
+  });
+
+  const basicUser = await prisma.user.create({
+    data: {
+      email: "amazonalexzml@gmail.com",
+    },
+  });
+
+  await createBurgerRestaurant(basicUser.id);
 }
 
 main()

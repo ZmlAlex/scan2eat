@@ -11,6 +11,7 @@ const BOTTOM_OFFSET = 140;
 
 type Props = {
   products: RestaurantWithDetails["menu"]["product"];
+  categorySectionsRefs: React.MutableRefObject<(HTMLElement | null)[]>;
   // TODO: TAKE IT FROM CONTEXT
   currencyCode: Currency["code"];
   categoryId: string;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 const CategorySection = ({
+  categorySectionsRefs,
   products,
   categoryId,
   name,
@@ -42,10 +44,14 @@ const CategorySection = ({
     }
 
     const switchCategoryOnIntersection = () => {
+      // find ref for current category sections
       const {
         y: distanceToTop,
         bottom: distanceBetweenBottomBorderCategorySectionAndTopPage,
-      } = ref.current?.getBoundingClientRect() || {};
+      } =
+        categorySectionsRefs.current
+          .find((elem) => elem?.id === categoryId)
+          ?.getBoundingClientRect() || {};
 
       // on scroll down
       if (
@@ -79,11 +85,15 @@ const CategorySection = ({
     name,
     scrollDirection,
     setSelectedCategory,
+    categorySectionsRefs,
   ]);
 
   return (
     <section
-      ref={ref}
+      ref={(ref) =>
+        !categorySectionsRefs.current.includes(ref) &&
+        categorySectionsRefs.current.push(ref)
+      }
       key={categoryId}
       id={categoryId}
       className="scroll-mt-[120px]"

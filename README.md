@@ -26,3 +26,9 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+## Database commands
+
+1. pnpm prisma db format - format tables schema after changes(spaces,relations)
+2. pnpm prisma db push - apply new changes for db
+3. pnpm prisma db seed - seed initial data

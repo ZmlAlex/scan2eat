@@ -22,6 +22,7 @@ const config = {
     // TODO: REMOVE WHEN MOCK WILL BE REPLACED
     domains: [
       "menusa-cdn.dodostatic.net",
+      "imageproxy.wolt.com",
       "res.cloudinary.com",
       "upload.wikimedia.org",
     ],

@@ -7,7 +7,8 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 
 import CategorySection from "./CategorySection";
 
-const SCROLL_TO_CATEGORY_SECTION_DURATION = 300;
+// !it can cause the wrong behaviour if duration is too short
+const SCROLL_TO_CATEGORY_SECTION_DURATION = 700;
 
 type Props = {
   menu: RestaurantWithDetails["menu"];
@@ -27,6 +28,7 @@ const Menu = ({ menu, currencyCode }: Props) => {
 
   const categoriesPanelRefs = React.useRef<Array<HTMLDivElement | null>>([]);
   const categoriesPanelContainerRef = React.useRef<HTMLDivElement>(null);
+  const categorySectionsRefs = React.useRef<Array<HTMLElement | null>>([]);
 
   //* Scroll into viewport in middle of selected category in the categories panel
   React.useEffect(() => {
@@ -50,7 +52,9 @@ const Menu = ({ menu, currencyCode }: Props) => {
   }, [isAutoScrollingInProgress, selectedCategory]);
 
   const handleSelectCategory = (id: string) => () => {
-    const selectedCategorySection = document.getElementById(id);
+    const selectedCategorySection = categorySectionsRefs.current.find(
+      (elem) => elem?.id === id
+    );
 
     setIsAutoScrollingInProgress(true);
     setSelectedCategory(id);
@@ -101,9 +105,10 @@ const Menu = ({ menu, currencyCode }: Props) => {
       </div>
 
       {/* products list */}
-      <div className="">
+      <div>
         {categories.map(({ id, categoryI18N: { name } }, index) => (
           <CategorySection
+            categorySectionsRefs={categorySectionsRefs}
             products={product}
             key={id}
             categoryId={id}
