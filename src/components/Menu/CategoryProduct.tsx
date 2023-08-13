@@ -38,16 +38,18 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
     <>
       <div
         onClick={toggleModal}
-        className="flex cursor-pointer flex-col overflow-hidden rounded-2xl"
+        className="flex cursor-pointer flex-col overflow-hidden rounded-2xl border"
       >
         <div className="relative aspect-[3/2]">
           <Image src={imageUrl} alt={name} fill />
         </div>
-        <div className="flex-1 rounded-b-2xl border px-2 py-4">
-          <p className="mb-1 text-xl">{formatPrice(price, currencyCode)}</p>
-          <p className="mb-3">{name}</p>
+        <div className="flex flex-1 flex-col border-t px-2 py-4">
+          <p className="mb-1 text-xl font-semibold">
+            {formatPrice(price, currencyCode)}
+          </p>
+          <p className="mb-3 font-medium md:text-lg">{name}</p>
           {/* TODO: REPLACE MOCK DATA */}
-          <p>300 g</p>
+          <p className="mt-auto">300 g</p>
         </div>
       </div>
 
@@ -60,11 +62,11 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
               <Image className="object-cover" src={imageUrl} alt={name} fill />
             </div>
             <div>
-              <p className="mb-3 text-2xl">{name}</p>
+              <p className="mb-3 text-2xl font-medium">{name}</p>
               <Badge className="mb-4 text-lg">
                 {formatPrice(price, currencyCode)}
               </Badge>
-              <p className="text-lg">{description}</p>
+              <p className="text-lg font-medium">{description}</p>
             </div>
           </DialogContent>
         </Dialog>
@@ -86,12 +88,12 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
                   />
                 </div>
                 <div className="space-y-4 p-4">
-                  <p className="text-2xl">{name}</p>
+                  <p className="text-2xl font-medium">{name}</p>
                   <Badge className="text-lg">
                     {formatPrice(price, currencyCode)}
                   </Badge>
 
-                  <p className="block max-h-[calc(80dvh-65vw)] overflow-y-scroll text-lg no-scrollbar">
+                  <p className="block max-h-[calc(80dvh-65vw)] overflow-y-scroll text-lg font-medium no-scrollbar">
                     {description}
                   </p>
                 </div>
