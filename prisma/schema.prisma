@@ -92,6 +92,8 @@ model Restaurant {
   menu               Menu[]
   user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   currency           Currency             @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 enum RestaurantTranslationField {
@@ -113,6 +115,7 @@ model RestaurantI18N {
   language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 
   @@unique([restaurantId, languageCode, fieldName])
+  @@index([restaurantId])
 }
 
 model RestaurantLanguage {
@@ -125,6 +128,8 @@ model RestaurantLanguage {
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   language   Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+
+  @@index([restaurantId, languageCode])
 }
 
 model Menu {
@@ -136,6 +141,8 @@ model Menu {
   category   Category[]
   product    Product[]
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@index([restaurantId])
 }
 
 model Category {
@@ -147,6 +154,8 @@ model Category {
   product      Product[]
   categoryI18N CategoryI18N[]
   menu         Menu           @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@index([menuId])
 }
 
 enum CategoryTranslationField {
@@ -166,6 +175,7 @@ model CategoryI18N {
   language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 
   @@unique([categoryId, languageCode, fieldName])
+  @@index([categoryId])
 }
 
 model Product {
@@ -183,6 +193,8 @@ model Product {
   productI18N ProductI18N[]
   menu        Menu          @relation(fields: [menuId], references: [id], onDelete: Cascade)
   category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([menuId, categoryId])
 }
 
 enum ProductTranslationField {
@@ -203,6 +215,7 @@ model ProductI18N {
   language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 
   @@unique([productId, languageCode, fieldName])
+  @@index([productId])
 }
 
 enum LanguageTitle {
