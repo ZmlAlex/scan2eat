@@ -16,7 +16,7 @@ import {
 import useForceUpdate from "~/hooks/useForceUpdate";
 
 const CROP_AREA_WIDTH = 225;
-const CROP_AREA_HEIGHT = 225;
+const CROP_AREA_HEIGHT = 150;
 
 type Props = {
   uploadedImageUrl: string;
@@ -78,7 +78,7 @@ const CropperDialog = ({
                 lines: true,
                 movable: false,
                 resizable: false,
-                aspectRatio: 1 / 1,
+                aspectRatio: 3 / 2,
               }}
               stencilSize={{
                 width: CROP_AREA_WIDTH,

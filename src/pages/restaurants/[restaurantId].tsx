@@ -19,7 +19,6 @@ import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTransla
 const MOCK_URL =
   "https://menusa-cdn.dodostatic.net/images/7740007bde8911ed8368719f3939c0be_11edcc86977e0ce38c1e0a0a21479180_1200_900.jpg";
 // Infer types from getServerSideProps
-
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Restaurant = ({ restaurant }: ServerSideProps) => {

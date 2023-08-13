@@ -38,12 +38,12 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
     <>
       <div
         onClick={toggleModal}
-        className="cursor-pointer overflow-hidden rounded-2xl "
+        className="flex cursor-pointer flex-col overflow-hidden rounded-2xl"
       >
-        <div className="relative aspect-square">
-          <Image className="object-cover" src={imageUrl} alt={name} fill />
+        <div className="relative aspect-[3/2]">
+          <Image src={imageUrl} alt={name} fill />
         </div>
-        <div className="rounded-b-2xl border px-2  py-4 ">
+        <div className="flex-1 rounded-b-2xl border px-2 py-4">
           <p className="mb-1 text-xl">{formatPrice(price, currencyCode)}</p>
           <p className="mb-3">{name}</p>
           {/* TODO: REPLACE MOCK DATA */}
@@ -56,7 +56,7 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
       {isSm && (
         <Dialog open={isModalOpen} onOpenChange={toggleModal}>
           <DialogContent>
-            <div className="relative  aspect-square overflow-hidden rounded-2xl">
+            <div className="relative  aspect-[3/2] overflow-hidden rounded-2xl">
               <Image className="object-cover" src={imageUrl} alt={name} fill />
             </div>
             <div>
@@ -75,16 +75,23 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
           <DrawerDialogContent open={isModalOpen} toggleModal={toggleModal}>
             <div className="relative rounded-t-2xl bg-background">
               <div className="absolute left-1/2 top-4 z-10 mx-auto h-1.5 w-12 -translate-x-1/2 rounded-full bg-zinc-300" />
+
               <div className="mx-auto max-w-screen-sm">
                 <div className="relative aspect-[3/2] overflow-hidden rounded-t-2xl">
-                  <Image src={imageUrl} alt={name} fill />
+                  <Image
+                    src={imageUrl}
+                    alt={name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 <div className="space-y-4 p-4">
                   <p className="text-2xl">{name}</p>
                   <Badge className="text-lg">
                     {formatPrice(price, currencyCode)}
                   </Badge>
-                  <p className="max-h-48 overflow-y-scroll text-lg">
+
+                  <p className="block max-h-[calc(80dvh-65vw)] overflow-y-scroll text-lg no-scrollbar">
                     {description}
                   </p>
                 </div>

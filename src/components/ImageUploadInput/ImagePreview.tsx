@@ -14,7 +14,7 @@ const ImagePreview = ({ croppedImageUrl, onClick }: Props) => {
     <div className="h-64 w-full">
       <div className="relative h-full overflow-hidden rounded-md border">
         <Button
-          className="absolute right-4 top-4"
+          className="absolute right-4 top-4 z-10"
           type="button"
           size="icon"
           variant="destructive"

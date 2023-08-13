@@ -78,7 +78,7 @@ const DrawerDialogContent = React.forwardRef<
           <DialogPrimitive.Content asChild ref={ref} {...props}>
             <motion.div
               className={cn(
-                "fixed z-50 flex max-h-[80vh] w-full flex-col gap-4 rounded-t-2xl bg-background",
+                "fixed z-50 flex max-h-[80dvh] w-full flex-col gap-4 rounded-t-2xl bg-background",
                 className
               )}
               initial={{ y: h }}
