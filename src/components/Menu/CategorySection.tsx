@@ -90,6 +90,7 @@ const CategorySection = ({
 
   return (
     <section
+      //* Push the ref onto the refs array.
       ref={(ref) =>
         !categorySectionsRefs.current.includes(ref) &&
         categorySectionsRefs.current.push(ref)

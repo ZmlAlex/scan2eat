@@ -45,6 +45,7 @@
     "cloudinary": "^1.37.0",
     "clsx": "^1.2.1",
     "deepl-node": "^1.10.2",
+    "framer-motion": "^10.15.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.240.0",
     "next": "^13.4.1",

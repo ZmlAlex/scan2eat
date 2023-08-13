@@ -78,7 +78,7 @@ const Menu = ({ menu, currencyCode }: Props) => {
       {/* categories panel */}
       <div className="sticky top-[60px] z-40 w-full bg-background  py-2">
         <div
-          className="flex snap-x gap-3 overflow-x-auto no-scrollbar"
+          className="-mx-8 flex snap-x gap-3 overflow-x-auto no-scrollbar md:mx-0"
           ref={categoriesPanelContainerRef}
         >
           {categories.map(({ id, categoryI18N: { name } }) => (
