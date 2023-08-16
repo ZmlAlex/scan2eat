@@ -3,12 +3,13 @@ import { z } from "zod";
 import { languageCodeS } from "./common.schema";
 
 export const createCategorySchemaInput = z.object({
-  menuId: z.string(),
+  restaurantId: z.string(),
   name: z.string(),
   languageCode: languageCodeS,
 });
 
 export const updateCategorySchemaInput = z.object({
+  restaurantId: z.string(),
   categoryId: z.string(),
   name: z.string(),
   languageCode: languageCodeS,

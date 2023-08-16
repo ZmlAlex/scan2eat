@@ -89,11 +89,12 @@ model Restaurant {
 
   restaurantI18N     RestaurantI18N[]
   restaurantLanguage RestaurantLanguage[]
-  menu               Menu[]
   user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   currency           Currency             @relation(fields: [currencyCode], references: [code], onDelete: Cascade)
+  Category           Category[]
+  Product            Product[]
 
-  @@index([userId])
+  @@index([userId, currencyCode])
 }
 
 enum RestaurantTranslationField {
@@ -132,30 +133,17 @@ model RestaurantLanguage {
   @@index([restaurantId, languageCode])
 }
 
-model Menu {
+model Category {
   id           String   @id @default(cuid())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   restaurantId String
 
-  category   Category[]
-  product    Product[]
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-
-  @@index([restaurantId])
-}
-
-model Category {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  menuId    String
-
   product      Product[]
   categoryI18N CategoryI18N[]
-  menu         Menu           @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
-  @@index([menuId])
+  @@index([restaurantId])
 }
 
 enum CategoryTranslationField {
@@ -171,30 +159,36 @@ model CategoryI18N {
   translation  String // translation text goes here
   categoryId   String
 
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+  category     Category                 @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  language     Language                 @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 
   @@unique([categoryId, languageCode, fieldName])
   @@index([categoryId])
 }
 
+enum ProductMeasurementUnit {
+  g
+  ml
+  pcs
+}
+
 model Product {
-  id               String   @id @default(cuid())
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  menuId           String
+  id               String                  @id @default(cuid())
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  restaurantId     String
   categoryId       String
-  isEnabled        Boolean  @default(true)
+  isEnabled        Boolean                 @default(true)
   price            Int
-  measurementUnit  String
-  measurementValue String
+  measurementUnit  ProductMeasurementUnit?
+  measurementValue String?
   imageUrl         String
 
   productI18N ProductI18N[]
-  menu        Menu          @relation(fields: [menuId], references: [id], onDelete: Cascade)
-  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  restaurant  Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  @@index([menuId, categoryId])
+  @@index([restaurantId, categoryId])
 }
 
 enum ProductTranslationField {

@@ -32,16 +32,14 @@ const createBurgerRestaurant = async (userId: string) => {
           ],
         },
       },
-
-      menu: { create: {} },
     },
-    select: { menu: { select: { id: true } } },
+    select: { id: true },
   });
 
   const basicCategoriesPromises = burgerRestaurant.categories.map((category) =>
     prisma.category.create({
       data: {
-        menuId: basicRestaurant.menu[0]?.id ?? "",
+        restaurantId: basicRestaurant.id,
         categoryI18N: { create: { fieldName: "name", translation: category } },
       },
     })
@@ -54,11 +52,12 @@ const createBurgerRestaurant = async (userId: string) => {
 
     return prisma.product.create({
       data: {
-        menuId: basicRestaurant.menu[0]?.id ?? "",
+        restaurantId: basicRestaurant.id,
+
         categoryId: categoryId,
         imageUrl: product.imageUrl,
-        measurementUnit: "",
-        measurementValue: "",
+        measurementUnit: "g",
+        measurementValue: "100",
         price: product.price,
         productI18N: {
           createMany: {

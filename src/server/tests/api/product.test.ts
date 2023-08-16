@@ -41,7 +41,8 @@ describe("Product API", () => {
     );
 
     const testCategory = await createCategory({
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
+
       name: "juices",
       languageCode: "english",
     });
@@ -49,21 +50,20 @@ describe("Product API", () => {
     const createProductInput: inferProcedureInput<
       AppRouter["product"]["createProduct"]
     > = {
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
+
       categoryId: testCategory.id,
       name: "apple juice",
       description: "amazing fresh drink",
       price: 1000,
       languageCode: "english",
-      measurmentUnit: "ml.",
-      measurmentValue: "250",
+      measurementUnit: "ml",
+      measurementValue: "250",
       imageBase64:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
     };
 
-    const {
-      menu: { product },
-    } = await caller.product.createProduct(createProductInput);
+    const { product } = await caller.product.createProduct(createProductInput);
 
     expect(product?.[0]).toMatchObject({
       price: 100000,
@@ -86,20 +86,22 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         name: "juices",
         languageCode: "english",
       });
 
       const testProduct = await createProduct({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
         price: 1000,
         languageCode: "english",
-        measurmentUnit: "ml.",
-        measurmentValue: "250",
+        measurementUnit: "ml",
+        measurementValue: "250",
         imageUrl: "mockUrl",
       });
 
@@ -116,9 +118,9 @@ describe("Product API", () => {
         isEnabled: true,
       };
 
-      const {
-        menu: { product },
-      } = await caller.product.updateProduct(updateProductInput);
+      const { product } = await caller.product.updateProduct(
+        updateProductInput
+      );
 
       expect(product?.[0]).toMatchObject({
         price: 150000,
@@ -140,20 +142,21 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         name: "juices",
         languageCode: "english",
       });
 
       const testProduct = await createProduct({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
         price: 1000,
         languageCode: "english",
-        measurmentUnit: "ml.",
-        measurmentValue: "250",
+        measurementUnit: "ml",
+        measurementValue: "250",
         imageUrl: "originalUrl",
       });
 
@@ -171,9 +174,9 @@ describe("Product API", () => {
         isImageDeleted: false,
       };
 
-      const {
-        menu: { product },
-      } = await caller.product.updateProduct(updateProductInput);
+      const { product } = await caller.product.updateProduct(
+        updateProductInput
+      );
 
       expect(product?.[0]).toMatchObject({
         price: 150000,
@@ -197,20 +200,22 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         name: "juices",
         languageCode: "english",
       });
 
       const testProduct = await createProduct({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
         price: 1000,
         languageCode: "english",
-        measurmentUnit: "ml.",
-        measurmentValue: "250",
+        measurementUnit: "ml",
+        measurementValue: "250",
         imageUrl: "mockUrl",
       });
 
@@ -226,9 +231,9 @@ describe("Product API", () => {
         isImageDeleted: false,
       };
 
-      const {
-        menu: { product },
-      } = await caller.product.updateProduct(updateProductInput);
+      const { product } = await caller.product.updateProduct(
+        updateProductInput
+      );
 
       console.log("product: ", product);
 
@@ -246,26 +251,27 @@ describe("Product API", () => {
     );
 
     const testCategory = await createCategory({
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
       name: "juices",
       languageCode: "english",
     });
 
     await createCategory({
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
       name: "soups",
       languageCode: "english",
     });
 
     const testProduct = await createProduct({
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
+
       categoryId: testCategory.id,
       name: "apple juice",
       description: "amazing fresh drink",
       price: 1000,
       languageCode: "english",
-      measurmentUnit: "ml.",
-      measurmentValue: "250",
+      measurementUnit: "ml",
+      measurementValue: "250",
       imageUrl: "mockUrl",
     });
 
@@ -273,9 +279,7 @@ describe("Product API", () => {
       productId: testProduct.id,
     };
 
-    const {
-      menu: { product },
-    } = await caller.product.deleteProduct(input);
+    const { product } = await caller.product.deleteProduct(input);
 
     expect(product).toHaveLength(0);
   });
@@ -289,7 +293,7 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
         name: "juices",
         languageCode: "english",
       });
@@ -297,21 +301,21 @@ describe("Product API", () => {
       const createProductInput: inferProcedureInput<
         AppRouter["product"]["createProduct"]
       > = {
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
         price: 1000,
         languageCode: "english",
-        measurmentUnit: "ml.",
-        measurmentValue: "250",
+        measurementUnit: "ml",
+        measurementValue: "250",
         imageBase64:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
       };
 
-      const {
-        menu: { product },
-      } = await caller.product.createProduct(createProductInput);
+      const { product } = await caller.product.createProduct(
+        createProductInput
+      );
 
       expect(product?.[0]).toMatchObject({
         price: 100000,

@@ -31,9 +31,6 @@ export const createRestaurantWithMultipleLanguages = async (
       workingHours: input.workingHours,
       logoUrl: input.logoUrl,
       currencyCode: input.currencyCode,
-      menu: {
-        create: {},
-      },
       restaurantLanguage: {
         createMany: {
           data: [
@@ -56,7 +53,6 @@ export const createRestaurantWithMultipleLanguages = async (
           languageCode: true,
         },
       },
-      menu: { select: { id: true } },
     },
   });
 

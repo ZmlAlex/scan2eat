@@ -84,7 +84,7 @@ const RestaurantUpdateForm = ({
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      currencyCode: restaurant.currency.code,
+      currencyCode: restaurant.currencyCode,
       phone: "",
       name: restaurant.restaurantI18N.name,
       address: restaurant.restaurantI18N.address,
@@ -96,7 +96,7 @@ const RestaurantUpdateForm = ({
 
   React.useEffect(() => {
     form.reset({
-      currencyCode: restaurant.currency.code,
+      currencyCode: restaurant.currencyCode,
       phone: "",
       name: restaurant.restaurantI18N.name,
       address: restaurant.restaurantI18N.address,

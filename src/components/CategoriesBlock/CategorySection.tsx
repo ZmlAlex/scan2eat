@@ -24,8 +24,8 @@ import CategoryProduct from "./CategoryProduct";
 
 type Props = {
   restaurantId: string;
-  products: RestaurantWithDetails["menu"]["product"];
-  category: ArrayElement<RestaurantWithDetails["menu"]["category"]>;
+  products: RestaurantWithDetails["product"];
+  category: ArrayElement<RestaurantWithDetails["category"]>;
 };
 
 //TODO: GET RESTAURANT ID FROM ROUTER
@@ -84,7 +84,6 @@ const CategorySection = ({ restaurantId, products, category }: Props) => {
         <ProductCreateForm
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
-          menuId={category.menuId}
           restaurantId={restaurantId}
           categoryId={category?.id || ""}
         />

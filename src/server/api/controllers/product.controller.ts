@@ -10,7 +10,7 @@ import type {
   UpdateProductInput,
 } from "../schemas/product.schema";
 import { createProduct, updateProduct } from "../services/product.service";
-import { findRestaurant } from "../services/restaurant.service";
+import { findRestaurantById } from "../services/restaurant.service";
 
 export const createProductHandler = async ({
   ctx,
@@ -26,10 +26,7 @@ export const createProductHandler = async ({
     "fieldName" | "languageCode" | "translation"
   >[] = [];
 
-  const restaurant = await findRestaurant(
-    { menu: { some: { id: input.menuId } } },
-    ctx.prisma
-  );
+  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
@@ -59,10 +56,7 @@ export const createProductHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurant(
-    { menu: { some: { id: createdProduct.menuId } } },
-    ctx.prisma
-  );
+  return await findRestaurantById(createdProduct.restaurantId, ctx.prisma);
 };
 
 export const updateProductHandler = async ({
@@ -88,12 +82,7 @@ export const updateProductHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurant(
-    {
-      menu: { some: { id: updatedProduct.menuId } },
-    },
-    ctx.prisma
-  );
+  return await findRestaurantById(updatedProduct.restaurantId, ctx.prisma);
 };
 
 export const deleteProductHandler = async ({
@@ -108,8 +97,5 @@ export const deleteProductHandler = async ({
       id: input.productId,
     },
   });
-  return await findRestaurant(
-    { menu: { some: { id: deletedProduct.menuId } } },
-    ctx.prisma
-  );
+  return await findRestaurantById(deletedProduct.restaurantId, ctx.prisma);
 };

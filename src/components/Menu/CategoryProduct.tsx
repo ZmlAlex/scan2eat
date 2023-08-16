@@ -17,7 +17,7 @@ import { Badge } from "../ui/Badge";
 //TODO: MOVE TO GLOBAL
 export type ArrayElement<T> = T extends (infer U)[] ? U : never;
 
-type Product = ArrayElement<RestaurantWithDetails["menu"]["product"]>;
+type Product = ArrayElement<RestaurantWithDetails["product"]>;
 
 type Props = {
   product: Product;
@@ -43,7 +43,7 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         <div className="relative aspect-[3/2]">
           <Image src={imageUrl} alt={name} fill />
         </div>
-        <div className="flex flex-1 flex-col border-t px-2 py-4">
+        <div className="flex flex-1 flex-col border-t p-2">
           <p className="mb-1 text-xl font-semibold">
             {formatPrice(price, currencyCode)}
           </p>

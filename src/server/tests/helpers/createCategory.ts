@@ -16,7 +16,7 @@ export const createCategory = async (input: CreateCategoryInput) => {
 
   const result = await prisma.category.create({
     data: {
-      menuId: input.menuId,
+      restaurantId: input.restaurantId,
       categoryI18N: {
         createMany: {
           data: translations,

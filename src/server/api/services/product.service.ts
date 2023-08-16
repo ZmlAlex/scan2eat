@@ -31,15 +31,15 @@ export const createProduct = async (
     restInput
   );
 
-  return await prisma.product.create({
+  return prisma.product.create({
     data: {
       price: price * 100,
       isEnabled,
       imageUrl: input.imageUrl ?? "",
-      menuId: input.menuId,
+      restaurantId: input.restaurantId,
       categoryId: input.categoryId,
-      measurementUnit: input.measurmentUnit ?? "",
-      measurementValue: input.measurmentValue ?? "",
+      measurementUnit: input.measurementUnit,
+      measurementValue: input.measurementValue ?? "",
       productI18N: {
         createMany: { data: [...translations, ...additionalTranslations] },
       },
@@ -56,8 +56,8 @@ export const updateProduct = async (
   const updatedData: Partial<Product> = {
     price: price * 100,
     isEnabled,
-    measurementUnit: input.measurmentUnit,
-    measurementValue: input.measurmentValue,
+    ...(input.measurementUnit && { measurementUnit: input.measurementUnit }),
+    ...(input.measurementValue && { measurementValue: input.measurementValue }),
     ...(typeof imageUrl === "string" && { imageUrl }),
   };
 

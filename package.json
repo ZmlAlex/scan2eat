@@ -8,7 +8,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "test:back": "node 'node_modules/jest/bin/jest.js' --testPathPattern=src/server/tests/*",
+    "test:back": "node 'node_modules/jest/bin/jest.js' --testPathPattern=src/server/tests/* --runInBand",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -88,7 +88,7 @@
     "postcss": "^8.4.21",
     "prettier": "^2.8.6",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "prisma": "^5.0.0",
+    "prisma": "^5.1.1",
     "tailwindcss": "^3.3.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",

@@ -32,14 +32,12 @@ type FormSchema = z.infer<typeof formSchema>;
 
 type Props = {
   isModalOpen: boolean;
-  menuId: string;
   restaurantId: string;
   toggleModal: () => void;
 };
 
 const CategoryCreateForm = ({
   isModalOpen,
-  menuId,
   restaurantId,
   toggleModal,
 }: Props) => {
@@ -75,7 +73,7 @@ const CategoryCreateForm = ({
 
   function onSubmit(values: FormSchema) {
     createCategory({
-      menuId,
+      restaurantId,
       name: values.name,
       languageCode: "english",
     });

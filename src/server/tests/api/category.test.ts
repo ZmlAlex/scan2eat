@@ -44,14 +44,14 @@ describe("Category API", () => {
     const createCategoryInput: inferProcedureInput<
       AppRouter["category"]["createCategory"]
     > = {
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
       name: "juices",
       languageCode: "english",
     };
 
-    const {
-      menu: { category },
-    } = await caller.category.createCategory(createCategoryInput);
+    const { category } = await caller.category.createCategory(
+      createCategoryInput
+    );
 
     expect(category?.[0]).toMatchObject({
       categoryI18N: {
@@ -70,7 +70,8 @@ describe("Category API", () => {
       );
 
       const testCategory = await createCategory({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         name: "juices",
         languageCode: "english",
       });
@@ -78,14 +79,15 @@ describe("Category API", () => {
       const updateCategoryInput: inferProcedureInput<
         AppRouter["category"]["updateCategory"]
       > = {
+        restaurantId: testRestaurant.id,
         categoryId: testCategory.id,
         name: "beverages",
         languageCode: "english",
       };
 
-      const {
-        menu: { category },
-      } = await caller.category.updateCategory(updateCategoryInput);
+      const { category } = await caller.category.updateCategory(
+        updateCategoryInput
+      );
 
       expect(category?.[0]).toMatchObject({
         categoryI18N: {
@@ -103,7 +105,7 @@ describe("Category API", () => {
       );
 
       const testCategory = await createCategory({
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
         name: "juices",
         languageCode: "english",
       });
@@ -111,14 +113,15 @@ describe("Category API", () => {
       const updateCategoryInput: inferProcedureInput<
         AppRouter["category"]["updateCategory"]
       > = {
+        restaurantId: testRestaurant.id,
         categoryId: testCategory.id,
         name: "соки",
         languageCode: "russian",
       };
 
-      const {
-        menu: { category },
-      } = await caller.category.updateCategory(updateCategoryInput);
+      const { category } = await caller.category.updateCategory(
+        updateCategoryInput
+      );
 
       expect(category?.[0]?.categoryI18N.russian).toMatchObject({
         name: "соки",
@@ -133,13 +136,13 @@ describe("Category API", () => {
     );
 
     const testCategory = await createCategory({
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
       name: "juices",
       languageCode: "english",
     });
 
     await createCategory({
-      menuId: testRestaurant.menu[0]?.id as string,
+      restaurantId: testRestaurant.id,
       name: "soups",
       languageCode: "english",
     });
@@ -149,9 +152,7 @@ describe("Category API", () => {
         categoryId: testCategory.id,
       };
 
-    const {
-      menu: { category },
-    } = await caller.category.deleteCategory(input);
+    const { category } = await caller.category.deleteCategory(input);
 
     expect(category).toHaveLength(1);
   });
@@ -166,14 +167,15 @@ describe("Category API", () => {
       const createCategoryInput: inferProcedureInput<
         AppRouter["category"]["createCategory"]
       > = {
-        menuId: testRestaurant.menu[0]?.id as string,
+        restaurantId: testRestaurant.id,
+
         name: "juices",
         languageCode: "english",
       };
 
-      const {
-        menu: { category },
-      } = await caller.category.createCategory(createCategoryInput);
+      const { category } = await caller.category.createCategory(
+        createCategoryInput
+      );
 
       expect(category?.[0]).toMatchObject({
         categoryI18N: expect.objectContaining({

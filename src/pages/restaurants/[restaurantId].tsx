@@ -22,7 +22,6 @@ const MOCK_URL =
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Restaurant = ({ restaurant }: ServerSideProps) => {
-  console.log("restaurant: ", restaurant);
   const { name, address, description } = restaurant.restaurantI18N;
 
   return (
@@ -73,8 +72,9 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
           </div>
 
           <Menu
-            menu={restaurant.menu}
-            currencyCode={restaurant.currency.code}
+            categories={restaurant.category}
+            products={restaurant.product}
+            currencyCode={restaurant.currencyCode}
           />
         </div>
       </RestaurantLayout>

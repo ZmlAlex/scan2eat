@@ -35,7 +35,7 @@ type Props = {
   toggleModal: () => void;
   restaurantId: string;
   //TODO: MOVE TO THE GLOBAL
-  category: ArrayElement<RestaurantWithDetails["menu"]["category"]>;
+  category: ArrayElement<RestaurantWithDetails["category"]>;
 };
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -79,6 +79,7 @@ const CategoryUpdateForm = ({
 
   function onSubmit(values: FormSchema) {
     updateCategory({
+      restaurantId,
       categoryId: category.id,
       name: values.name,
       //TODO: UPDATE ID

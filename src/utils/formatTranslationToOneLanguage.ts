@@ -2,7 +2,7 @@ import type { LanguageCode } from "@prisma/client";
 
 import type {
   findAllRestaurants,
-  findRestaurant,
+  findRestaurantById,
 } from "~/server/api/services/restaurant.service";
 
 export type RestaurantWithDetails = ReturnType<
@@ -11,7 +11,7 @@ export type RestaurantWithDetails = ReturnType<
 export type Restaurant = ReturnType<typeof formatTranslationToOneLanguage>;
 
 export const formatTranslationToOneLanguageWithDetails = (
-  restaurant: Awaited<ReturnType<typeof findRestaurant>>,
+  restaurant: Awaited<ReturnType<typeof findRestaurantById>>,
   locale: LanguageCode
 ) => {
   return {
@@ -22,25 +22,22 @@ export const formatTranslationToOneLanguageWithDetails = (
       restaurant.restaurantI18N[
         Object.keys(restaurant.restaurantI18N)[0] as LanguageCode
       ],
-    menu: {
-      ...restaurant.menu,
-      category: restaurant.menu.category?.map((category) => ({
-        ...category,
-        categoryI18N:
-          category.categoryI18N?.[locale] ||
-          category.categoryI18N[
-            Object.keys(category.categoryI18N)[0] as LanguageCode
-          ],
-      })),
-      product: restaurant.menu.product?.map((product) => ({
-        ...product,
-        productI18N:
-          product.productI18N?.[locale] ||
-          product.productI18N[
-            Object.keys(product.productI18N)[0] as LanguageCode
-          ],
-      })),
-    },
+    category: restaurant.category?.map((category) => ({
+      ...category,
+      categoryI18N:
+        category.categoryI18N?.[locale] ||
+        category.categoryI18N[
+          Object.keys(category.categoryI18N)[0] as LanguageCode
+        ],
+    })),
+    product: restaurant.product?.map((product) => ({
+      ...product,
+      productI18N:
+        product.productI18N?.[locale] ||
+        product.productI18N[
+          Object.keys(product.productI18N)[0] as LanguageCode
+        ],
+    })),
   };
 };
 

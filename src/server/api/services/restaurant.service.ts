@@ -16,71 +16,73 @@ import type {
   UpdateRestaurantInput,
 } from "../schemas/restaurant.schema";
 
-export const findRestaurant = async (
-  where: Partial<Prisma.RestaurantWhereInput>,
+export const findRestaurantById = async (
+  restaurantId: string,
   prisma: PrismaClient
 ) => {
-  const result = await prisma.restaurant.findFirstOrThrow({
-    where,
+  console.time("Restaurant");
+  const restaurantP = prisma.restaurant.findFirstOrThrow({
+    where: { id: restaurantId },
     select: {
       id: true,
       workingHours: true,
       logoUrl: true,
       isPublished: true,
-      restaurantLanguage: {
-        select: { languageCode: true, isEnabled: true },
-      },
-      restaurantI18N: {
-        select: {
-          fieldName: true,
-          translation: true,
-          languageCode: true,
-        },
-      },
-      currency: {
-        select: {
-          code: true,
-          title: true,
-        },
-      },
-      menu: {
-        include: {
-          category: {
-            include: {
-              categoryI18N: true,
-            },
-          },
-          product: {
-            include: {
-              productI18N: true,
-            },
-          },
-        },
-      },
+      currencyCode: true,
+    },
+  });
+  const restaurantLanguagesP = prisma.restaurantLanguage.findMany({
+    where: { restaurantId },
+  });
+  const restaurantI18NP = prisma.restaurantI18N.findMany({
+    where: { restaurantId },
+  });
+  const categoriesP = prisma.category.findMany({
+    where: { restaurantId },
+    include: {
+      categoryI18N: true,
+    },
+  });
+  const productsP = prisma.product.findMany({
+    where: { restaurantId },
+    include: {
+      productI18N: true,
     },
   });
 
+  const [
+    restaurant,
+    restaurantI18N,
+    restaurantLanguages,
+    categories,
+    products,
+  ] = await Promise.all([
+    restaurantP,
+    restaurantI18NP,
+    restaurantLanguagesP,
+    categoriesP,
+    productsP,
+  ]);
+
+  console.timeEnd("Restaurant");
+
   return {
-    ...result,
-    restaurantI18N: transformTranslation<RestaurantTranslationField>(
-      result.restaurantI18N
-    ),
-    //TODO: temporary return first menu
-    menu: {
-      ...result.menu[0],
-      category: result.menu[0]?.category.map((record) => ({
-        ...record,
-        categoryI18N: transformTranslation<CategoryTranslationField>(
-          record.categoryI18N
-        ),
-      })),
-      product: result.menu[0]?.product.map((record) => ({
-        ...record,
-        productI18N: transformTranslation<ProductTranslationField>(
-          record.productI18N
-        ),
-      })),
-    },
+    ...restaurant,
+    restaurantLanguage: restaurantLanguages,
+    restaurantI18N:
+      transformTranslation<RestaurantTranslationField>(restaurantI18N),
+    category: categories.map((record) => ({
+      ...record,
+      categoryI18N: transformTranslation<CategoryTranslationField>(
+        record.categoryI18N
+      ),
+    })),
+    product: products.map((record) => ({
+      ...record,
+      productI18N: transformTranslation<ProductTranslationField>(
+        record.productI18N
+      ),
+    })),
   };
 };
 
@@ -134,9 +136,6 @@ export const createRestaurant = async (
       workingHours: input.workingHours,
       logoUrl: input.logoUrl ?? "",
       currencyCode: input.currencyCode,
-      menu: {
-        create: {},
-      },
       restaurantLanguage: {
         create: {
           languageCode: input.languageCode,

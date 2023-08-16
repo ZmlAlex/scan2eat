@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-import { languageCodeS } from "./common.schema";
+import { languageCodeS, measurementUnitS } from "./common.schema";
 
 export const createProductSchemaInput = z.object({
-  menuId: z.string(),
+  restaurantId: z.string(),
   categoryId: z.string(),
   isEnabled: z.boolean().optional(),
   price: z.number(),
   //TODO: UPDATE IT
-  measurmentUnit: z.string().optional(),
-  measurmentValue: z.string().optional(),
+  measurementUnit: measurementUnitS.optional(),
+  measurementValue: z.string().optional(),
   name: z.string(),
   description: z.string(),
   imageBase64: z.string().optional(),
@@ -20,8 +20,8 @@ export const updateProductSchemaInput = z.object({
   productId: z.string(),
   price: z.number(),
   isEnabled: z.boolean(),
-  measurmentUnit: z.string().optional(),
-  measurmentValue: z.string().optional(),
+  measurementUnit: measurementUnitS.optional(),
+  measurementValue: z.string().optional(),
   name: z.string(),
   description: z.string(),
   imageBase64: z.string().optional(),

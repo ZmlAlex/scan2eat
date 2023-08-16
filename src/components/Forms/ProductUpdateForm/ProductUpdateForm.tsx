@@ -22,8 +22,16 @@ import {
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/Select";
 import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
+import { measurementUnitS } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 import { imageInput } from "~/utils/formTypes/common";
@@ -37,6 +45,9 @@ const formSchema = z.object({
   price: z.number().nonnegative(),
   imageBase64: imageInput,
   isImageDeleted: z.boolean(),
+  measurementValue: z.string(),
+  // TODO: FIX OPTIONAL VALUE
+  measurementUnit: measurementUnitS.optional(),
 });
 
 type Props = {
@@ -44,7 +55,7 @@ type Props = {
   toggleModal: () => void;
   restaurantId: string;
   //TODO: MOVE TO THE GLOBAL
-  product: ArrayElement<RestaurantWithDetails["menu"]["product"]>;
+  product: ArrayElement<RestaurantWithDetails["product"]>;
 };
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -84,6 +95,8 @@ const ProductUpdateForm = ({
     defaultValues: {
       name: product.productI18N.name,
       description: product.productI18N.description,
+      measurementUnit: product.measurementUnit ?? undefined,
+      measurementValue: product.measurementValue ?? "",
       price: product.price / 100,
       isImageDeleted: false,
     },
@@ -99,6 +112,8 @@ const ProductUpdateForm = ({
       price: values.price,
       languageCode: selectedRestaurantLang as LanguageCode,
       isEnabled: true,
+      measurementUnit: values.measurementUnit,
+      measurementValue: values.measurementValue,
       imageBase64: values.imageBase64,
       isImageDeleted: values.isImageDeleted,
     });
@@ -169,6 +184,45 @@ const ProductUpdateForm = ({
                 </FormItem>
               )}
             />
+
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name="measurementValue"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormControl>
+                      <Input placeholder="take from selected val" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="measurementUnit"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={product.measurementUnit ?? "g"}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a default measure unit" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="g">Weight, g</SelectItem>
+                        <SelectItem value="ml">Volume, ml</SelectItem>
+                        <SelectItem value="pcs">Quantity, pcs</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}

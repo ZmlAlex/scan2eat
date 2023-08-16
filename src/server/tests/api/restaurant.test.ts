@@ -69,12 +69,12 @@ describe("Restaurant API", () => {
 
       const [testCategory, testCategorySecond] = await Promise.all([
         createCategory({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           name: "hamburgers",
           languageCode: "english",
         }),
         createCategory({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           name: "juices",
           languageCode: "english",
         }),
@@ -82,26 +82,27 @@ describe("Restaurant API", () => {
 
       await Promise.all([
         createProduct({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
+
           categoryId: testCategory.id,
           name: "bigmac",
           description: "description",
           price: 1000,
           languageCode: "english",
-          measurmentUnit: "g.",
-          measurmentValue: "300",
+          measurementUnit: "g",
+          measurementValue: "300",
           imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         }),
         createProduct({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           categoryId: testCategorySecond.id,
           name: "apple juice",
           description: "amazing fresh drink",
           price: 1000,
           languageCode: "english",
-          measurmentUnit: "ml.",
-          measurmentValue: "250",
+          measurementUnit: "ml",
+          measurementValue: "250",
           imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         }),
@@ -253,12 +254,12 @@ describe("Restaurant API", () => {
 
       const [testCategory, testCategorySecond] = await Promise.all([
         createCategory({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           name: "hamburgers",
           languageCode: "english",
         }),
         createCategory({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           name: "juices",
           languageCode: "english",
         }),
@@ -266,26 +267,26 @@ describe("Restaurant API", () => {
 
       await Promise.all([
         createProduct({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           categoryId: testCategory.id,
           name: "bigmac",
           description: "description",
           price: 1000,
           languageCode: "english",
-          measurmentUnit: "g.",
-          measurmentValue: "300",
+          measurementUnit: "g",
+          measurementValue: "300",
           imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         }),
         createProduct({
-          menuId: testRestaurant.menu[0]?.id as string,
+          restaurantId: testRestaurant.id,
           categoryId: testCategorySecond.id,
           name: "apple juice",
           description: "amazing fresh drink",
           price: 1000,
           languageCode: "english",
-          measurmentUnit: "ml.",
-          measurmentValue: "250",
+          measurementUnit: "ml",
+          measurementValue: "250",
           imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         }),

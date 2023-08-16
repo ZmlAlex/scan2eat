@@ -29,7 +29,7 @@ import type { ArrayElement } from "../Menu/CategoryProduct";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
-  category: ArrayElement<RestaurantWithDetails["menu"]["category"]>;
+  category: ArrayElement<RestaurantWithDetails["category"]>;
 }
 
 export function CategoryOperations({

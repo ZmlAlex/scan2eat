@@ -10,7 +10,7 @@ import { ProductOperations } from "./ProductOperations";
 
 type Props = {
   restaurantId: string;
-  product: ArrayElement<RestaurantWithDetails["menu"]["product"]>;
+  product: ArrayElement<RestaurantWithDetails["product"]>;
 };
 
 const CategoryProduct = ({ product, restaurantId }: Props) => {
@@ -18,7 +18,7 @@ const CategoryProduct = ({ product, restaurantId }: Props) => {
 
   const currencyCode = tprcContext.restaurant.getRestaurant.getData({
     restaurantId,
-  })?.currency.code;
+  })?.currencyCode;
 
   return (
     <>

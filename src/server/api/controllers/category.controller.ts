@@ -12,7 +12,7 @@ import {
   deleteCategory,
   updateCategory,
 } from "../services/category.service";
-import { findRestaurant } from "../services/restaurant.service";
+import { findRestaurantById } from "../services/restaurant.service";
 import type { Context } from "../trpc";
 
 export const createCategoryHandler = async ({
@@ -27,10 +27,7 @@ export const createCategoryHandler = async ({
     "fieldName" | "languageCode" | "translation"
   >[] = [];
 
-  const restaurant = await findRestaurant(
-    { menu: { some: { id: input.menuId } } },
-    ctx.prisma
-  );
+  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
@@ -45,10 +42,7 @@ export const createCategoryHandler = async ({
 
   await createCategory(input, additionalTranslations, ctx.prisma);
 
-  return await findRestaurant(
-    { menu: { some: { id: input.menuId } } },
-    ctx.prisma
-  );
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const updateCategoryHandler = async ({
@@ -59,11 +53,7 @@ export const updateCategoryHandler = async ({
   input: UpdateCategoryInput;
 }) => {
   await updateCategory(input, ctx.prisma);
-
-  return await findRestaurant(
-    { menu: { some: { category: { some: { id: input.categoryId } } } } },
-    ctx.prisma
-  );
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const deleteCategoryHandler = async ({
@@ -78,8 +68,5 @@ export const deleteCategoryHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurant(
-    { menu: { some: { id: deletedCategory.menuId } } },
-    ctx.prisma
-  );
+  return await findRestaurantById(deletedCategory.restaurantId, ctx.prisma);
 };

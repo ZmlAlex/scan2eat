@@ -17,7 +17,7 @@ type Props = {
 const CategoriesBlock = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
-  const hasCategories = !!restaurant.menu.category?.length;
+  const hasCategories = !!restaurant.category?.length;
 
   return (
     <>
@@ -34,12 +34,12 @@ const CategoriesBlock = ({ restaurant }: Props) => {
               type="multiple"
               className="divide-y divide-border rounded-md border px-4"
             >
-              {restaurant.menu.category?.map((category) => (
+              {restaurant.category?.map((category) => (
                 <CategorySection
                   key={category.id}
                   restaurantId={restaurant.id || ""}
                   category={category}
-                  products={restaurant.menu.product?.filter(
+                  products={restaurant.product?.filter(
                     (product) => product.categoryId === category.id
                   )}
                 />
@@ -67,7 +67,6 @@ const CategoriesBlock = ({ restaurant }: Props) => {
       <CategoryCreateForm
         isModalOpen={isModalOpen}
         toggleModal={toggleModal}
-        menuId={restaurant?.menu.id || ""}
         restaurantId={restaurant?.id || ""}
       />
     </>

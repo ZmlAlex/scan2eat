@@ -21,9 +21,6 @@ export const createRestaurant = async (
       workingHours: input.workingHours,
       logoUrl: input.logoUrl,
       currencyCode: input.currencyCode,
-      menu: {
-        create: {},
-      },
       restaurantLanguage: {
         create: {
           languageCode: input.languageCode,
@@ -43,7 +40,6 @@ export const createRestaurant = async (
           languageCode: true,
         },
       },
-      menu: { select: { id: true } },
     },
   });
 

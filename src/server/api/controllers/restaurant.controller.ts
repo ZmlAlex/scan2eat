@@ -23,7 +23,7 @@ import {
   createRestaurant,
   deleteRestaurant,
   findAllRestaurants,
-  findRestaurant,
+  findRestaurantById,
   updateRestaurant,
 } from "../services/restaurant.service";
 import type { Context } from "../trpc";
@@ -35,8 +35,7 @@ export const getRestaurantHandler = async ({
   ctx: Context;
   input: GetRestaurantInput;
 }) => {
-  // TODO: MOVE IT TO CONTROLERS
-  return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const getAllRestaurantsHandler = async ({ ctx }: { ctx: Context }) => {
@@ -62,7 +61,6 @@ export const createRestaurantHandler = async ({
     uploadedImageUrl = uploadedImage.url;
   }
 
-  //TODO: MOVE IT TO CONTROLERS
   return await createRestaurant(
     { ...input, userId, logoUrl: uploadedImageUrl },
     ctx.prisma
@@ -76,7 +74,6 @@ export const updateRestaurantHandler = async ({
   ctx: Context;
   input: UpdateRestaurantInput;
 }) => {
-  //TODO: MOVE IT TO CONTROLERS
   const userId = ctx.session?.user.id;
 
   if (!userId) {
@@ -97,12 +94,7 @@ export const updateRestaurantHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurant(
-    {
-      id: input.restaurantId,
-    },
-    ctx.prisma
-  );
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const setPublishedRestaurantHandler = async ({
@@ -117,12 +109,7 @@ export const setPublishedRestaurantHandler = async ({
     data: { isPublished: input.isPublished },
   });
 
-  return await findRestaurant(
-    {
-      id: input.restaurantId,
-    },
-    ctx.prisma
-  );
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const deleteRestaurantHandler = async ({
@@ -146,10 +133,9 @@ export const createRestaurantLanguageHandler = async ({
   ctx: Context;
   input: CreateRestaurantLanguageInput;
 }) => {
-  const restaurant = await findRestaurant(
-    {
-      id: input.restaurantId,
-    },
+  const restaurant = await findRestaurantById(
+    input.restaurantId,
+
     ctx.prisma
   );
 
@@ -160,7 +146,7 @@ export const createRestaurantLanguageHandler = async ({
   const categoriesTextForTranslationPromises =
     createFieldTranslationsForNewLanguage<CategoryTranslationField>({
       defaultLanguage: defaultRestaurantLanguage,
-      items: restaurant.menu.category ?? [],
+      items: restaurant.category ?? [],
       itemKey: "categoryI18N",
       itemIdIdentificator: "categoryId",
       targetLanguage: input.languageCode,
@@ -169,7 +155,7 @@ export const createRestaurantLanguageHandler = async ({
   const productsTextForTranslationPromises =
     createFieldTranslationsForNewLanguage<ProductTranslationField>({
       defaultLanguage: defaultRestaurantLanguage,
-      items: restaurant.menu.product ?? [],
+      items: restaurant.product ?? [],
       itemKey: "productI18N",
       itemIdIdentificator: "productId",
       targetLanguage: input.languageCode,
@@ -209,7 +195,7 @@ export const createRestaurantLanguageHandler = async ({
     await updateManyProductTranslations(productsResult, tx);
   });
 
-  return await findRestaurant({ id: input.restaurantId }, ctx.prisma);
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const setEnabledRestaurantLanguagesHandler = async ({
@@ -233,10 +219,5 @@ export const setEnabledRestaurantLanguagesHandler = async ({
 
   await prisma.$transaction(restaurantLanguageTransactions);
 
-  return await findRestaurant(
-    {
-      id: input.restaurantId,
-    },
-    ctx.prisma
-  );
+  return await findRestaurantById(input.restaurantId, ctx.prisma);
 };

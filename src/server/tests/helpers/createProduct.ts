@@ -19,11 +19,11 @@ export const createProduct = async (
 
   const result = await prisma.product.create({
     data: {
-      menuId: input.menuId,
+      restaurantId: input.restaurantId,
       categoryId: input.categoryId,
       imageUrl: input.imageUrl,
-      measurementUnit: input.measurmentUnit ?? "",
-      measurementValue: input.measurmentValue ?? "",
+      measurementUnit: input.measurementUnit,
+      measurementValue: input.measurementValue ?? "",
       price,
       productI18N: {
         createMany: {

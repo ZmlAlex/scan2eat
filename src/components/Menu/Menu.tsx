@@ -7,17 +7,17 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 
 import CategorySection from "./CategorySection";
 
+// TODO: ADD HERE CONDITION MOBILE OR DESKTOP
 // !it can cause the wrong behaviour if duration is too short
 const SCROLL_TO_CATEGORY_SECTION_DURATION = 700;
 
 type Props = {
-  menu: RestaurantWithDetails["menu"];
+  categories: RestaurantWithDetails["category"];
+  products: RestaurantWithDetails["product"];
   currencyCode: Currency["code"];
 };
 
-const Menu = ({ menu, currencyCode }: Props) => {
-  const { category: categories = [], product = [] } = menu;
-
+const Menu = ({ categories = [], products = [], currencyCode }: Props) => {
   const scrollDirection = useScrollDirection();
 
   const [selectedCategory, setSelectedCategory] = React.useState(
@@ -76,7 +76,7 @@ const Menu = ({ menu, currencyCode }: Props) => {
   return (
     <>
       {/* categories panel */}
-      <div className="sticky top-[60px] z-40 w-full bg-background  py-2">
+      <div className="sticky top-[60px] z-40 w-full bg-background py-2">
         <div
           className="-mx-8 flex snap-x gap-3 overflow-x-auto no-scrollbar md:mx-0"
           ref={categoriesPanelContainerRef}
@@ -109,7 +109,7 @@ const Menu = ({ menu, currencyCode }: Props) => {
         {categories.map(({ id, categoryI18N: { name } }, index) => (
           <CategorySection
             categorySectionsRefs={categorySectionsRefs}
-            products={product}
+            products={products}
             key={id}
             categoryId={id}
             name={name}

@@ -10,7 +10,7 @@ const TOP_OFFSET = 130;
 const BOTTOM_OFFSET = 140;
 
 type Props = {
-  products: RestaurantWithDetails["menu"]["product"];
+  products: RestaurantWithDetails["product"];
   categorySectionsRefs: React.MutableRefObject<(HTMLElement | null)[]>;
   // TODO: TAKE IT FROM CONTEXT
   currencyCode: Currency["code"];
@@ -35,8 +35,6 @@ const CategorySection = ({
   isLowerCategorySelected,
   isAutoScrollingInProgress,
 }: Props) => {
-  const ref = React.useRef<HTMLElement>(null);
-
   React.useEffect(() => {
     // don't listen scroll event when user click on category in panel
     if (isAutoScrollingInProgress) {
