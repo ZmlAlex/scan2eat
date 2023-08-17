@@ -23,6 +23,8 @@ const formSchema = z.object({
   russian: z.boolean().optional(),
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 type Props = {
   restaurantId: string;
   //TODO: CHANGE WITH LANGUAGES TYPE
@@ -58,7 +60,7 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
     return { ...acc, [cur.languageCode]: cur.isEnabled };
   }, {});
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultFormValues,
   });
@@ -70,7 +72,7 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
     );
   }, [form, restaurant.restaurantLanguage]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: FormSchema) {
     const languageCodes = Object.entries(values)
       .filter((language) => language[1] !== undefined)
       .map((language) => ({

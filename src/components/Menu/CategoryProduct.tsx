@@ -29,6 +29,8 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
     productI18N: { name, description },
     price,
     imageUrl,
+    measurementUnit,
+    measurementValue,
   } = product;
 
   const { isModalOpen, toggleModal } = useModal();
@@ -47,9 +49,12 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
           <p className="mb-1 text-xl font-semibold">
             {formatPrice(price, currencyCode)}
           </p>
-          <p className="mb-3 font-medium md:text-lg">{name}</p>
-          {/* TODO: REPLACE MOCK DATA */}
-          <p className="mt-auto">300 g</p>
+          <p className="mb-2 font-medium md:text-lg">{name}</p>
+          {!!measurementValue && (
+            <p className="mt-auto">
+              {measurementValue} {measurementUnit}
+            </p>
+          )}
         </div>
       </div>
 

@@ -46,6 +46,8 @@ const formSchema = z.object({
   measurementUnit: measurementUnitS,
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
@@ -53,8 +55,6 @@ type Props = {
 
   categoryId: string;
 };
-
-type FormSchema = z.infer<typeof formSchema>;
 
 const ProductCreateForm = ({
   restaurantId,
@@ -90,6 +90,7 @@ const ProductCreateForm = ({
     defaultValues: {
       name: "",
       description: "",
+      measurementValue: "g",
       price: 0,
       imageBase64: undefined,
     },

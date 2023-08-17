@@ -36,11 +36,14 @@ const formSchema = z.object({
   languageCode: languageCodeS,
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 type Props = {
   restaurantId: string;
   toggleModal: () => void;
   isModalOpen: boolean;
 };
+
 const RestaurantLanguageCreateForm = ({
   restaurantId,
   isModalOpen,
@@ -70,11 +73,11 @@ const RestaurantLanguageCreateForm = ({
       },
     });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: FormSchema) {
     createRestaurantLanguage({
       languageCode: values.languageCode,
       restaurantId,

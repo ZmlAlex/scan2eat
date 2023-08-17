@@ -22,6 +22,8 @@ const MOCK_URL =
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Restaurant = ({ restaurant }: ServerSideProps) => {
+  const { category, product, currencyCode, restaurantLanguage, workingHours } =
+    restaurant;
   const { name, address, description } = restaurant.restaurantI18N;
 
   return (
@@ -41,7 +43,7 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
               <ModeToggle />
             </div>
 
-            {restaurant.restaurantLanguage.length > 1 && (
+            {restaurantLanguage.length > 1 && (
               <LanguageToggle languages={restaurant.restaurantLanguage} />
             )}
           </div>
@@ -56,25 +58,32 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
               />
             </div>
             <div className="flex flex-col justify-center gap-5 rounded-3xl border p-5 ">
-              <div className="flex gap-3">
-                <Icons.clock2 className="shrink-0" /> {/* TODO: HANDLE TIME */}
-                <span className="font-semibold">from 9:00 to 21:00</span>
-              </div>
-              <div className="flex gap-3">
-                <Icons.mapPin className="shrink-0" />
-                <span className="font-semibold">{address}</span>
-              </div>
-              <div className="flex gap-3">
-                <Icons.store className="shrink-0" />
-                <span className="font-semibold">{description}</span>
-              </div>
+              {!!workingHours && (
+                <div className="flex gap-3">
+                  <Icons.clock2 className="shrink-0" />
+                  {/* TODO: HANDLE TIME */}
+                  <span className="font-semibold">{workingHours}</span>
+                </div>
+              )}
+              {!!address && (
+                <div className="flex gap-3">
+                  <Icons.mapPin className="shrink-0" />
+                  <span className="font-semibold">{address}</span>
+                </div>
+              )}
+              {!!description && (
+                <div className="flex gap-3">
+                  <Icons.store className="shrink-0" />
+                  <span className="font-semibold">{description}</span>
+                </div>
+              )}
             </div>
           </div>
 
           <Menu
-            categories={restaurant.category}
-            products={restaurant.product}
-            currencyCode={restaurant.currencyCode}
+            categories={category}
+            products={product}
+            currencyCode={currencyCode}
           />
         </div>
       </RestaurantLayout>

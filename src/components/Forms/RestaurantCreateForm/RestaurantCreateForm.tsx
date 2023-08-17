@@ -43,6 +43,7 @@ const formSchema = z.object({
   languageCode: languageCodeS,
   name: z.string().trim().min(2),
   address: z.string().trim().min(2),
+  workingHours: z.string(),
   description: z.string().optional(),
   currencyCode: currencyCodeS,
   phone: z.string().optional(),
@@ -50,10 +51,13 @@ const formSchema = z.object({
   logoImageBase64: imageInput,
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
 };
+
 const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
   const trpcContext = api.useContext();
 
@@ -73,24 +77,25 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
         );
 
         toast({
-          title: "Restaurant has been updated.",
+          title: "Restaurant has been created.",
         });
         toggleModal();
       },
     });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       address: "",
       description: "",
+      workingHours: "",
       phone: "",
       logoImageBase64: undefined,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: FormSchema) {
     createRestaurant({
       address: values.address,
       name: values.name,
@@ -100,7 +105,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       description: values.description,
       // TODO: ADD PHONE
       //TODO: REMOVE THIS FIELD
-      workingHours: "24hrs",
+      workingHours: "from 9:00 to 21:00",
     });
   }
 
@@ -149,6 +154,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="name"
@@ -161,6 +167,20 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                   {/* <FormDescription>
                 This is your public display name.
               </FormDescription> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="workingHours"
+              render={({ field }) => (
+                <FormItem>
+                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormControl>
+                    <Input placeholder="Working hours" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

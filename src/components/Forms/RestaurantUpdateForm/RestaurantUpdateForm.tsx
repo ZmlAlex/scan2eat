@@ -48,6 +48,7 @@ const formSchema = z.object({
   link: z.string().optional(),
   logoImageBase64: imageInput,
   isImageDeleted: z.boolean(),
+  workingHours: z.string(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -89,25 +90,13 @@ const RestaurantUpdateForm = ({
       name: restaurant.restaurantI18N.name,
       address: restaurant.restaurantI18N.address,
       description: restaurant.restaurantI18N.description,
+      workingHours: restaurant.workingHours,
       logoImageBase64: undefined,
       isImageDeleted: false,
     },
   });
 
-  React.useEffect(() => {
-    form.reset({
-      currencyCode: restaurant.currencyCode,
-      phone: "",
-      name: restaurant.restaurantI18N.name,
-      address: restaurant.restaurantI18N.address,
-      description: restaurant.restaurantI18N.description ?? "",
-      logoImageBase64: undefined,
-      isImageDeleted: false,
-    });
-  }, [form, restaurant]);
-
   function onSubmit(values: FormSchema) {
-    console.log("values: ", values);
     const { selectedRestaurantLang } = parseCookies();
 
     updateRestaurant({
@@ -118,8 +107,7 @@ const RestaurantUpdateForm = ({
       languageCode: selectedRestaurantLang as LanguageCode,
       currencyCode: values.currencyCode,
       logoImageBase64: values.logoImageBase64,
-      //TODO: REMOVE THIS FIELD
-      workingHours: "24hrs",
+      workingHours: values.workingHours,
       isImageDeleted: values.isImageDeleted,
     });
   }
@@ -152,6 +140,19 @@ const RestaurantUpdateForm = ({
                   {/* <FormDescription>
                 This is your public display name.
               </FormDescription> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="workingHours"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Working hours" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

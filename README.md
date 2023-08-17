@@ -30,5 +30,7 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 ## Database commands
 
 1. pnpm prisma db format - format tables schema after changes(spaces,relations)
-2. pnpm prisma db push - apply new changes for db
-3. pnpm prisma db seed - seed initial data
+2. pnpm prisma db push - apply new changes for db (dev)
+3. pnpm prisma migrate dev - apply new changes for db (dev), it produces changes between old and new schema
+4. pnpm prisma migrate deploy - sync dev/prod tables
+5. pnpm prisma db seed - seed initial data
