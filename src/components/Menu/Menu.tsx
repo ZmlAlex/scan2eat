@@ -1,5 +1,6 @@
 import type { Currency } from "@prisma/client";
 import React from "react";
+import { isMobile } from "react-device-detect";
 
 import { Badge } from "~/components/ui/Badge";
 import useScrollDirection from "~/hooks/useScrollDirection";
@@ -7,9 +8,8 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 
 import CategorySection from "./CategorySection";
 
-// TODO: ADD HERE CONDITION MOBILE OR DESKTOP
 // !it can cause the wrong behaviour if duration is too short
-const SCROLL_TO_CATEGORY_SECTION_DURATION = 700;
+const SCROLL_TO_CATEGORY_SECTION_DURATION = isMobile ? 200 : 600;
 
 type Props = {
   categories: RestaurantWithDetails["category"];

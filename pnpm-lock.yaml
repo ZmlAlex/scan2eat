@@ -118,6 +118,9 @@ dependencies:
   next-intl:
     specifier: ^2.14.6
     version: 2.14.6(next@13.4.2)(react@18.2.0)
+  next-seo:
+    specifier: ^6.1.0
+    version: 6.1.0(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)
   next-superjson-plugin:
     specifier: ^0.5.8
     version: 0.5.8(next@13.4.2)(superjson@1.12.2)
@@ -136,6 +139,9 @@ dependencies:
   react-advanced-cropper:
     specifier: ^0.19.3
     version: 0.19.3(react@18.2.0)
+  react-device-detect:
+    specifier: ^2.2.3
+    version: 2.2.3(react-dom@18.2.0)(react@18.2.0)
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
@@ -5221,6 +5227,18 @@ packages:
       use-intl: 2.14.6(react@18.2.0)
     dev: false
 
+  /next-seo@6.1.0(next@13.4.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-iMBpFoJsR5zWhguHJvsoBDxDSmdYTHtnVPB1ij+CD0NReQCP78ZxxbdL9qkKIf4oEuZEqZkrjAQLB0bkII7RYA==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /next-superjson-plugin@0.5.8(next@13.4.2)(superjson@1.12.2):
     resolution: {integrity: sha512-a6znMUzHWRAaxmQNHkgANJORdI0gjSC0JvsxRRKba6vb4BJRs/i2KpwEg/s91JYDhHsnZS+tkeb3MDCJWXJY4w==}
     peerDependencies:
@@ -5901,6 +5919,17 @@ packages:
       classnames: 2.3.2
       react: 18.2.0
       tslib: 2.5.0
+    dev: false
+
+  /react-device-detect@2.2.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==}
+    peerDependencies:
+      react: '>= 0.14.0'
+      react-dom: '>= 0.14.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      ua-parser-js: 1.0.35
     dev: false
 
   /react-dom@18.2.0(react@18.2.0):
@@ -6674,6 +6703,10 @@ packages:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
+
+  /ua-parser-js@1.0.35:
+    resolution: {integrity: sha512-fKnGuqmTBnIE+/KXSzCn4db8RTigUzw1AN0DmdU6hJovUTbYJKyqj+8Mt1c4VfRDnOVJnENmfYkIPZ946UrSAA==}
+    dev: false
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
