@@ -84,6 +84,10 @@ module.exports = {
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
     plugin(function ({ addUtilities }) {
+      /**
+       * Object containing utilities for trimmed lines.
+       * @type {Object.<string, Object<string,string>>}
+       */
       const trimmedLineUtilites = {};
 
       for (let i = 1; i <= 4; i++) {
