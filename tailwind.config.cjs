@@ -54,6 +54,13 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      lineClamp: {
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        // ... add more as needed
+      },
       fontFamily: {
         heading: ["font-heading", ...fontFamily.sans],
       },
@@ -77,6 +84,17 @@ module.exports = {
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
     plugin(function ({ addUtilities }) {
+      const trimmedLineUtilites = {};
+
+      for (let i = 1; i <= 4; i++) {
+        trimmedLineUtilites[`.trimmed-line-${i}`] = {
+          display: "-webkit-box",
+          "-webkit-line-clamp": `${i}`,
+          "-webkit-box-orient": "vertical",
+          overflow: "hidden",
+        };
+      }
+
       addUtilities({
         ".no-scrollbar": {
           /* IE and Edge */
@@ -90,6 +108,7 @@ module.exports = {
             display: "none",
           },
         },
+        ...trimmedLineUtilites,
       });
     }),
   ],

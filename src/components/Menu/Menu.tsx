@@ -9,7 +9,7 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 import CategorySection from "./CategorySection";
 
 // !it can cause the wrong behaviour if duration is too short
-const SCROLL_TO_CATEGORY_SECTION_DURATION = isMobile ? 200 : 600;
+const SCROLL_TO_CATEGORY_SECTION_DURATION = isMobile ? 200 : 700;
 
 type Props = {
   categories: RestaurantWithDetails["category"];

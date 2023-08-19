@@ -2,6 +2,7 @@ import type { Currency } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 
+import { Badge } from "~/components/ui/Badge";
 import { Dialog, DialogContent } from "~/components/ui/Dialog";
 import {
   DrawerDialog,
@@ -11,8 +12,6 @@ import { useBreakpoint } from "~/hooks/useBreakpoints";
 import useModal from "~/hooks/useModal";
 import { formatPrice } from "~/utils/formatPrice";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
-
-import { Badge } from "../ui/Badge";
 
 //TODO: MOVE TO GLOBAL
 export type ArrayElement<T> = T extends (infer U)[] ? U : never;
@@ -43,13 +42,13 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         className="flex cursor-pointer flex-col overflow-hidden rounded-2xl border"
       >
         <div className="relative aspect-[3/2]">
-          <Image src={imageUrl} alt={name} fill />
+          <Image src={imageUrl} alt={name} fill loading="lazy" />
         </div>
         <div className="flex flex-1 flex-col border-t p-2">
           <p className="mb-1 text-xl font-semibold">
             {formatPrice(price, currencyCode)}
           </p>
-          <p className="mb-2 font-medium md:text-lg">{name}</p>
+          <p className="mb-2 font-medium trimmed-line-3 md:text-lg">{name}</p>
           {!!measurementValue && (
             <p className="mt-auto">
               {measurementValue} {measurementUnit}

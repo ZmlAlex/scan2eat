@@ -28,6 +28,7 @@ const config = {
     ],
   },
   experimental: {
+    scrollRestoration: true,
     swcPlugins: [
       [
         "next-superjson-plugin",

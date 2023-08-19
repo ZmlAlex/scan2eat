@@ -48,10 +48,11 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
           <div className="grid grid-cols-1 gap-4  md:grid-cols-2">
             <div className=" relative h-80">
               <Image
-                src={restaurant.logoUrl || MOCK_URL}
-                alt="Photo by DoDo"
-                fill
                 className="rounded-3xl object-cover"
+                src={restaurant.logoUrl || MOCK_URL}
+                alt="Restaurant"
+                fill
+                loading="lazy"
               />
             </div>
             <div className="flex flex-col justify-center gap-5 rounded-3xl border p-5 ">
