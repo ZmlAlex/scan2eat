@@ -28,18 +28,18 @@ import {
 } from "../services/restaurant.service";
 import type { Context } from "../trpc";
 
-export const getRestaurantHandler = async ({
+export const getRestaurantHandler = ({
   ctx,
   input,
 }: {
   ctx: Context;
   input: GetRestaurantInput;
 }) => {
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
-export const getAllRestaurantsHandler = async ({ ctx }: { ctx: Context }) => {
-  return await findAllRestaurants({ userId: ctx.session?.user.id }, ctx.prisma);
+export const getAllRestaurantsHandler = ({ ctx }: { ctx: Context }) => {
+  return findAllRestaurants({ userId: ctx.session?.user.id }, ctx.prisma);
 };
 
 export const createRestaurantHandler = async ({
@@ -61,7 +61,7 @@ export const createRestaurantHandler = async ({
     uploadedImageUrl = uploadedImage.url;
   }
 
-  return await createRestaurant(
+  return createRestaurant(
     { ...input, userId, logoUrl: uploadedImageUrl },
     ctx.prisma
   );
@@ -94,7 +94,7 @@ export const updateRestaurantHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const setPublishedRestaurantHandler = async ({
@@ -109,7 +109,7 @@ export const setPublishedRestaurantHandler = async ({
     data: { isPublished: input.isPublished },
   });
 
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const deleteRestaurantHandler = async ({
@@ -121,7 +121,7 @@ export const deleteRestaurantHandler = async ({
 }) => {
   await deleteRestaurant({ id: input.restaurantId }, ctx.prisma);
 
-  return await findAllRestaurants({ userId: ctx.session?.user.id }, ctx.prisma);
+  return findAllRestaurants({ userId: ctx.session?.user.id }, ctx.prisma);
 };
 
 // Restaurant Language handlers
@@ -195,7 +195,7 @@ export const createRestaurantLanguageHandler = async ({
     await updateManyProductTranslations(productsResult, tx);
   });
 
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const setEnabledRestaurantLanguagesHandler = async ({
@@ -219,5 +219,5 @@ export const setEnabledRestaurantLanguagesHandler = async ({
 
   await prisma.$transaction(restaurantLanguageTransactions);
 
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };

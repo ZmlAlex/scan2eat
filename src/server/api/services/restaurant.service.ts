@@ -7,83 +7,92 @@ import type {
   Restaurant,
   RestaurantTranslationField,
 } from "@prisma/client";
-
-import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
-import { transformTranslation } from "~/server/helpers/formatTranslation";
+import { TRPCError } from "@trpc/server";
 
 import type {
   CreateRestaurantInput,
   UpdateRestaurantInput,
-} from "../schemas/restaurant.schema";
+} from "~/server/api/schemas/restaurant.schema";
+import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
+import { transformTranslation } from "~/server/helpers/formatTranslation";
 
 export const findRestaurantById = async (
   restaurantId: string,
   prisma: PrismaClient
 ) => {
-  console.time("Restaurant");
-  const restaurantP = prisma.restaurant.findFirstOrThrow({
-    where: { id: restaurantId },
-    select: {
-      id: true,
-      workingHours: true,
-      logoUrl: true,
-      isPublished: true,
-      currencyCode: true,
-    },
-  });
-  const restaurantLanguagesP = prisma.restaurantLanguage.findMany({
-    where: { restaurantId },
-  });
-  const restaurantI18NP = prisma.restaurantI18N.findMany({
-    where: { restaurantId },
-  });
-  const categoriesP = prisma.category.findMany({
-    where: { restaurantId },
-    include: {
-      categoryI18N: true,
-    },
-  });
-  const productsP = prisma.product.findMany({
-    where: { restaurantId },
-    include: {
-      productI18N: true,
-    },
-  });
+  try {
+    console.time("Restaurant");
+    const restaurantP = prisma.restaurant.findFirstOrThrow({
+      where: { id: restaurantId },
+      select: {
+        id: true,
+        workingHours: true,
+        logoUrl: true,
+        isPublished: true,
+        currencyCode: true,
+      },
+    });
+    const restaurantLanguagesP = prisma.restaurantLanguage.findMany({
+      where: { restaurantId },
+    });
+    const restaurantI18NP = prisma.restaurantI18N.findMany({
+      where: { restaurantId },
+    });
+    const categoriesP = prisma.category.findMany({
+      where: { restaurantId },
+      include: {
+        categoryI18N: true,
+      },
+    });
+    const productsP = prisma.product.findMany({
+      where: { restaurantId },
+      include: {
+        productI18N: true,
+      },
+    });
 
-  const [
-    restaurant,
-    restaurantI18N,
-    restaurantLanguages,
-    categories,
-    products,
-  ] = await Promise.all([
-    restaurantP,
-    restaurantI18NP,
-    restaurantLanguagesP,
-    categoriesP,
-    productsP,
-  ]);
+    const [
+      restaurant,
+      restaurantI18N,
+      restaurantLanguages,
+      categories,
+      products,
+    ] = await Promise.all([
+      restaurantP,
+      restaurantI18NP,
+      restaurantLanguagesP,
+      categoriesP,
+      productsP,
+    ]);
 
-  console.timeEnd("Restaurant");
+    console.timeEnd("Restaurant");
 
-  return {
-    ...restaurant,
-    restaurantLanguage: restaurantLanguages,
-    restaurantI18N:
-      transformTranslation<RestaurantTranslationField>(restaurantI18N),
-    category: categories.map((record) => ({
-      ...record,
-      categoryI18N: transformTranslation<CategoryTranslationField>(
-        record.categoryI18N
-      ),
-    })),
-    product: products.map((record) => ({
-      ...record,
-      productI18N: transformTranslation<ProductTranslationField>(
-        record.productI18N
-      ),
-    })),
-  };
+    return {
+      ...restaurant,
+      restaurantLanguage: restaurantLanguages,
+      restaurantI18N:
+        transformTranslation<RestaurantTranslationField>(restaurantI18N),
+      category: categories.map((record) => ({
+        ...record,
+        categoryI18N: transformTranslation<CategoryTranslationField>(
+          record.categoryI18N
+        ),
+      })),
+      product: products.map((record) => ({
+        ...record,
+        productI18N: transformTranslation<ProductTranslationField>(
+          record.productI18N
+        ),
+      })),
+    };
+  } catch (e) {
+    // TODO: THINK ABOUT OTHER ERROR CODES
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Restaurant not found",
+      cause: e,
+    });
+  }
 };
 
 export const findAllRestaurants = async (

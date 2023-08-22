@@ -1,19 +1,18 @@
 import type { CategoryI18N, CategoryTranslationField } from "@prisma/client";
 
-import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
-
 import type {
   CreateCategoryInput,
   DeleteCategorytInput,
   UpdateCategoryInput,
-} from "../schemas/category.schema";
+} from "~/server/api/schemas/category.schema";
 import {
   createCategory,
   deleteCategory,
   updateCategory,
-} from "../services/category.service";
-import { findRestaurantById } from "../services/restaurant.service";
-import type { Context } from "../trpc";
+} from "~/server/api/services/category.service";
+import { findRestaurantById } from "~/server/api/services/restaurant.service";
+import type { Context } from "~/server/api/trpc";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 
 export const createCategoryHandler = async ({
   ctx,
@@ -42,7 +41,7 @@ export const createCategoryHandler = async ({
 
   await createCategory(input, additionalTranslations, ctx.prisma);
 
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const updateCategoryHandler = async ({
@@ -53,7 +52,7 @@ export const updateCategoryHandler = async ({
   input: UpdateCategoryInput;
 }) => {
   await updateCategory(input, ctx.prisma);
-  return await findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
 export const deleteCategoryHandler = async ({
@@ -68,5 +67,5 @@ export const deleteCategoryHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurantById(deletedCategory.restaurantId, ctx.prisma);
+  return findRestaurantById(deletedCategory.restaurantId, ctx.prisma);
 };

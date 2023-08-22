@@ -1,16 +1,18 @@
 import type { ProductI18N, ProductTranslationField } from "@prisma/client";
 
-import type { Context } from "~/server/api/trpc";
-import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
-import { uploadImage } from "~/server/utils/cloudinary";
-
 import type {
   CreateProductInput,
   DeleteProductInput,
   UpdateProductInput,
-} from "../schemas/product.schema";
-import { createProduct, updateProduct } from "../services/product.service";
-import { findRestaurantById } from "../services/restaurant.service";
+} from "~/server/api/schemas/product.schema";
+import {
+  createProduct,
+  updateProduct,
+} from "~/server/api/services/product.service";
+import { findRestaurantById } from "~/server/api/services/restaurant.service";
+import type { Context } from "~/server/api/trpc";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
+import { uploadImage } from "~/server/utils/cloudinary";
 
 export const createProductHandler = async ({
   ctx,
@@ -56,7 +58,7 @@ export const createProductHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurantById(createdProduct.restaurantId, ctx.prisma);
+  return findRestaurantById(createdProduct.restaurantId, ctx.prisma);
 };
 
 export const updateProductHandler = async ({
@@ -82,7 +84,7 @@ export const updateProductHandler = async ({
     ctx.prisma
   );
 
-  return await findRestaurantById(updatedProduct.restaurantId, ctx.prisma);
+  return findRestaurantById(updatedProduct.restaurantId, ctx.prisma);
 };
 
 export const deleteProductHandler = async ({
@@ -97,5 +99,5 @@ export const deleteProductHandler = async ({
       id: input.productId,
     },
   });
-  return await findRestaurantById(deletedProduct.restaurantId, ctx.prisma);
+  return findRestaurantById(deletedProduct.restaurantId, ctx.prisma);
 };

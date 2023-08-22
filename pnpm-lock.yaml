@@ -61,6 +61,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^4.28.0
     version: 4.29.5(react-dom@18.2.0)(react@18.2.0)
+  '@tanstack/react-query-devtools':
+    specifier: ^4.33.0
+    version: 4.33.0(@tanstack/react-query@4.29.5)(react-dom@18.2.0)(react@18.2.0)
   '@trpc/client':
     specifier: ^10.18.0
     version: 10.26.0(@trpc/server@10.26.0)
@@ -2036,8 +2039,30 @@ packages:
       tailwindcss: 3.3.2(ts-node@10.9.1)
     dev: false
 
+  /@tanstack/match-sorter-utils@8.8.4:
+    resolution: {integrity: sha512-rKH8LjZiszWEvmi01NR72QWZ8m4xmXre0OOwlRGnjU01Eqz/QnN+cqpty2PJ0efHblq09+KilvyR7lsbzmXVEw==}
+    engines: {node: '>=12'}
+    dependencies:
+      remove-accents: 0.4.2
+    dev: false
+
   /@tanstack/query-core@4.29.5:
     resolution: {integrity: sha512-xXIiyQ/4r9KfaJ3k6kejqcaqFXXBTzN2aOJ5H1J6aTJE9hl/nbgAdfF6oiIu0CD5xowejJEJ6bBg8TO7BN4NuQ==}
+    dev: false
+
+  /@tanstack/react-query-devtools@4.33.0(@tanstack/react-query@4.29.5)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-6gegkuDmOoiY5e6ZKj1id48vlCXchjfE/6tIpYO8dFlVMQ7t1bYna/Ce6qQJ69+kfEHbYiTTn2lj+FDjIBH7Hg==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.33.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tanstack/match-sorter-utils': 8.8.4
+      '@tanstack/react-query': 4.29.5(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      superjson: 1.12.2
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /@tanstack/react-query@4.29.5(react-dom@18.2.0)(react@18.2.0):
@@ -6068,6 +6093,10 @@ packages:
       define-properties: 1.2.0
       functions-have-names: 1.2.3
     dev: true
+
+  /remove-accents@0.4.2:
+    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
+    dev: false
 
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}

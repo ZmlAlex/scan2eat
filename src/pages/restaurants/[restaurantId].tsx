@@ -14,6 +14,7 @@ import { ModeToggle } from "~/components/ModeToggle";
 import RestaurantLayout from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
+import { isTRPCError } from "~/server/helpers/isTRPCError";
 import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 const MOCK_URL =
@@ -94,17 +95,25 @@ export default Restaurant;
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const trpc = appRouter.createCaller({ session: null, prisma });
 
-  //TODO: HANDLE CASE WHEN IT CAN BE NON VALID VALUE
-  const restaurant = await trpc.restaurant.getRestaurant({
-    restaurantId: (ctx.params?.restaurantId as string) ?? "",
-  });
+  //TODO: MOVE IT TO THE APP FOLDER
+  try {
+    const restaurant = await trpc.restaurant.getRestaurant({
+      restaurantId: (ctx.params?.restaurantId as string) ?? "",
+    });
 
-  return {
-    props: {
-      restaurant: formatTranslationToOneLanguageWithDetails(
-        restaurant,
-        ctx.locale as LanguageCode
-      ),
-    },
-  };
+    return {
+      props: {
+        restaurant: formatTranslationToOneLanguageWithDetails(
+          restaurant,
+          ctx.locale as LanguageCode
+        ),
+      },
+    };
+  } catch (e) {
+    if (isTRPCError(e) && e.code === "NOT_FOUND") {
+      return { redirect: { destination: "/404" } };
+    }
+
+    return { redirect: { destination: "/" } };
+  }
 };
