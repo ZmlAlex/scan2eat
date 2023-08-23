@@ -65,8 +65,15 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
             <div className="relative  aspect-[3/2] overflow-hidden rounded-2xl">
               <Image className="object-cover" src={imageUrl} alt={name} fill />
             </div>
-            <div>
-              <p className="mb-3 text-2xl font-medium">{name}</p>
+            <div className="space-y-4">
+              <div className="space-x-2">
+                <span className="text-2xl font-medium">{name}</span>
+                {!!measurementValue && (
+                  <span className="font-medium">
+                    {measurementValue} {measurementUnit}
+                  </span>
+                )}
+              </div>
               <Badge className="mb-4 text-lg">
                 {formatPrice(price, currencyCode)}
               </Badge>
@@ -92,7 +99,15 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
                   />
                 </div>
                 <div className="space-y-4 p-4">
-                  <p className="text-2xl font-medium">{name}</p>
+                  <div className="space-x-2">
+                    <span className="text-2xl font-medium">{name}</span>
+                    {!!measurementValue && (
+                      <span className="font-medium">
+                        {measurementValue} {measurementUnit}
+                      </span>
+                    )}
+                  </div>
+
                   <Badge className="text-lg">
                     {formatPrice(price, currencyCode)}
                   </Badge>

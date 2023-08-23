@@ -36,7 +36,7 @@ const CategorySection = ({
   isAutoScrollingInProgress,
 }: Props) => {
   React.useEffect(() => {
-    // don't listen scroll event when user click on category in panel
+    // don't listen scroll event when user click on a category in the panel
     if (isAutoScrollingInProgress) {
       return;
     }
