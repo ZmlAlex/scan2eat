@@ -73,7 +73,7 @@ export function DragHandle() {
 
   return (
     <div
-      className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-muted"
+      className="action flex h-8 w-8 touch-none items-center justify-center rounded-md hover:bg-muted"
       ref={ref}
       {...attributes}
       {...listeners}
