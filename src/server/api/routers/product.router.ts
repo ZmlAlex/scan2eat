@@ -1,15 +1,16 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-
 import {
   createProductHandler,
   deleteProductHandler,
   updateProductHandler,
-} from "../controllers/product.controller";
+  updateProductsPositionHandler,
+} from "~/server/api/controllers/product.controller";
 import {
   createProductSchemaInput,
   deleteProductSchemaInput,
   updateProductSchemaInput,
-} from "../schemas/product.schema";
+  updateProductsPositionSchemaInput,
+} from "~/server/api/schemas/product.schema";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
@@ -18,6 +19,11 @@ export const productRouter = createTRPCRouter({
   updateProduct: protectedProcedure
     .input(updateProductSchemaInput)
     .mutation(({ ctx, input }) => updateProductHandler({ ctx, input })),
+  updateProductsPosition: protectedProcedure
+    .input(updateProductsPositionSchemaInput)
+    .mutation(({ ctx, input }) =>
+      updateProductsPositionHandler({ ctx, input })
+    ),
   deleteProduct: protectedProcedure
     .input(deleteProductSchemaInput)
     .mutation(({ ctx, input }) => deleteProductHandler({ ctx, input })),

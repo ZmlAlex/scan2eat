@@ -3,6 +3,7 @@ import type { CategoryI18N, CategoryTranslationField } from "@prisma/client";
 import type {
   CreateCategoryInput,
   DeleteCategorytInput,
+  UpdateCategoriesPositionInput,
   UpdateCategoryInput,
 } from "~/server/api/schemas/category.schema";
 import {
@@ -53,6 +54,26 @@ export const updateCategoryHandler = async ({
 }) => {
   await updateCategory(input, ctx.prisma);
   return findRestaurantById(input.restaurantId, ctx.prisma);
+};
+
+export const updateCategoriesPositionHandler = async ({
+  ctx,
+  input,
+}: {
+  ctx: Context;
+  input: UpdateCategoriesPositionInput;
+}) => {
+  // TODO: MOVE TO THE SERVICE?
+  const [updatedCategory] = await ctx.prisma.$transaction(
+    input.map((item) =>
+      ctx.prisma.category.update({
+        data: { position: item.position },
+        where: { id: item.id },
+      })
+    )
+  );
+
+  return findRestaurantById(updatedCategory?.restaurantId ?? "", ctx.prisma);
 };
 
 export const deleteCategoryHandler = async ({

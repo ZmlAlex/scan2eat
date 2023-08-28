@@ -33,36 +33,71 @@ describe("Category API", () => {
     caller = createProtectedCaller(testUser);
   });
 
-  it("should create category", async () => {
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
+  describe("createCategory route", () => {
+    it("should create category", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
 
-    console.log("testRestaurant: ", testRestaurant);
+      console.log("testRestaurant: ", testRestaurant);
 
-    const createCategoryInput: inferProcedureInput<
-      AppRouter["category"]["createCategory"]
-    > = {
-      restaurantId: testRestaurant.id,
-      name: "juices",
-      languageCode: "english",
-    };
+      const createCategoryInput: inferProcedureInput<
+        AppRouter["category"]["createCategory"]
+      > = {
+        restaurantId: testRestaurant.id,
+        name: "juices",
+        languageCode: "english",
+      };
 
-    const { category } = await caller.category.createCategory(
-      createCategoryInput
-    );
+      const { category } = await caller.category.createCategory(
+        createCategoryInput
+      );
 
-    expect(category?.[0]).toMatchObject({
-      categoryI18N: {
-        english: expect.objectContaining({
+      expect(category?.[0]).toMatchObject({
+        categoryI18N: {
+          english: expect.objectContaining({
+            name: "juices",
+          }) as unknown,
+        },
+      });
+    });
+
+    describe("when restaurant has multiple languages", () => {
+      it("should create category with translations", async () => {
+        const testRestaurant = await createRestaurantWithMultipleLanguages(
+          testUser.id,
+          createRestaurantInput
+        );
+
+        const createCategoryInput: inferProcedureInput<
+          AppRouter["category"]["createCategory"]
+        > = {
+          restaurantId: testRestaurant.id,
+
           name: "juices",
-        }) as unknown,
-      },
+          languageCode: "english",
+        };
+
+        const { category } = await caller.category.createCategory(
+          createCategoryInput
+        );
+
+        expect(category?.[0]).toMatchObject({
+          categoryI18N: expect.objectContaining({
+            english: {
+              name: "juices",
+            },
+            russian: {
+              name: "соки",
+            },
+          }) as unknown,
+        });
+      });
     });
   });
 
-  describe("when category is updated by id", () => {
+  describe("updateCategory route", () => {
     it("should return category with new data", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
@@ -129,64 +164,76 @@ describe("Category API", () => {
     });
   });
 
-  it("should delete restaurant by id", async () => {
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
-
-    const testCategory = await createCategory({
-      restaurantId: testRestaurant.id,
-      name: "juices",
-      languageCode: "english",
-    });
-
-    await createCategory({
-      restaurantId: testRestaurant.id,
-      name: "soups",
-      languageCode: "english",
-    });
-
-    const input: inferProcedureInput<AppRouter["category"]["deleteCategory"]> =
-      {
-        categoryId: testCategory.id,
-      };
-
-    const { category } = await caller.category.deleteCategory(input);
-
-    expect(category).toHaveLength(1);
-  });
-
-  describe("when restaurant has multiple languages", () => {
-    it("should create category with translations", async () => {
-      const testRestaurant = await createRestaurantWithMultipleLanguages(
+  describe("updateCategoriesPosition route", () => {
+    it("should update categories position", async () => {
+      const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
       );
 
-      const createCategoryInput: inferProcedureInput<
-        AppRouter["category"]["createCategory"]
-      > = {
-        restaurantId: testRestaurant.id,
+      const [testCategory, testCategorySecond] = await Promise.all([
+        createCategory({
+          restaurantId: testRestaurant.id,
+          name: "soups",
+          languageCode: "english",
+        }),
+        createCategory({
+          restaurantId: testRestaurant.id,
+          name: "soups",
+          languageCode: "english",
+        }),
+      ]);
 
-        name: "juices",
-        languageCode: "english",
-      };
-
-      const { category } = await caller.category.createCategory(
-        createCategoryInput
+      const updateProductsPositionInput: inferProcedureInput<
+        AppRouter["category"]["updateCategoriesPosition"]
+      > = [
+        { id: testCategory.id, position: 1 },
+        { id: testCategorySecond.id, position: 0 },
+      ];
+      const { category } = await caller.category.updateCategoriesPosition(
+        updateProductsPositionInput
       );
 
+      // categories are returned in asc sequnce -> 0,1,2...
       expect(category?.[0]).toMatchObject({
-        categoryI18N: expect.objectContaining({
-          english: {
-            name: "juices",
-          },
-          russian: {
-            name: "соки",
-          },
-        }) as unknown,
+        id: testCategorySecond.id,
+        position: 0,
       });
+      expect(category?.[1]).toMatchObject({
+        id: testCategory.id,
+        position: 1,
+      });
+    });
+  });
+
+  describe("deleteСategory route", () => {
+    it("should delete category by id", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const testCategory = await createCategory({
+        restaurantId: testRestaurant.id,
+        name: "juices",
+        languageCode: "english",
+      });
+
+      await createCategory({
+        restaurantId: testRestaurant.id,
+        name: "soups",
+        languageCode: "english",
+      });
+
+      const input: inferProcedureInput<
+        AppRouter["category"]["deleteCategory"]
+      > = {
+        categoryId: testCategory.id,
+      };
+
+      const { category } = await caller.category.deleteCategory(input);
+
+      expect(category).toHaveLength(1);
     });
   });
 

@@ -39,28 +39,30 @@ describe("Restaurant API", () => {
     caller = createProtectedCaller(testUser);
   });
 
-  it("should create restaurant", async () => {
-    const result = await caller.restaurant.createRestaurant(
-      createRestaurantInput
-    );
+  describe("createRestaurant route", () => {
+    it("should create restaurant", async () => {
+      const result = await caller.restaurant.createRestaurant(
+        createRestaurantInput
+      );
 
-    console.log("result: ", result);
+      console.log("result: ", result);
 
-    expect(result).toMatchObject({
-      logoUrl: expect.stringContaining("cloudinary") as string,
-      workingHours: "24hrs",
-      isPublished: false,
-      restaurantI18N: {
-        english: expect.objectContaining({
-          name: "Krusty Krab",
-          address: "831 Bottom Feeder Lane",
-          description: "best fastfood in the Bikini Bottom",
-        }) as unknown,
-      },
+      expect(result).toMatchObject({
+        logoUrl: expect.stringContaining("cloudinary") as string,
+        workingHours: "24hrs",
+        isPublished: false,
+        restaurantI18N: {
+          english: expect.objectContaining({
+            name: "Krusty Krab",
+            address: "831 Bottom Feeder Lane",
+            description: "best fastfood in the Bikini Bottom",
+          }) as unknown,
+        },
+      });
     });
   });
 
-  describe("when new restaurant language is created", () => {
+  describe("createRestaurantLanguage route", () => {
     it("should returns restaurant with new language", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
@@ -176,7 +178,7 @@ describe("Restaurant API", () => {
     });
   });
 
-  describe("when restaurant language is toggled", () => {
+  describe("setPublishedRestaurant route", () => {
     it("should returns restaurant with updated restaurant's languages settings", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
@@ -212,7 +214,7 @@ describe("Restaurant API", () => {
     });
   });
 
-  describe("when restaurant is gotten by id", () => {
+  describe("getRestaurant route", () => {
     it("should returns restaurant after creation", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
@@ -319,18 +321,20 @@ describe("Restaurant API", () => {
     });
   });
 
-  it("should get all restaurants by id", async () => {
-    await Promise.all([
-      createRestaurant(testUser.id, createRestaurantInput),
-      createRestaurant(testUser.id, createRestaurantInput),
-    ]);
+  describe("getAllRestaurants route", () => {
+    it("should get all restaurants by id", async () => {
+      await Promise.all([
+        createRestaurant(testUser.id, createRestaurantInput),
+        createRestaurant(testUser.id, createRestaurantInput),
+      ]);
 
-    const result = await caller.restaurant.getAllRestaurants();
+      const result = await caller.restaurant.getAllRestaurants();
 
-    expect(result).toHaveLength(2);
+      expect(result).toHaveLength(2);
+    });
   });
 
-  describe("When restaurant is updated by id", () => {
+  describe("updateRestaurant route", () => {
     it("should returns restaurant with new data and old logoUrl", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
@@ -466,22 +470,24 @@ describe("Restaurant API", () => {
     });
   });
 
-  it("should delete restaurant by id", async () => {
-    const [testRestaurant, testRestaurantSecond] = await Promise.all([
-      createRestaurant(testUser.id, createRestaurantInput),
-      createRestaurant(testUser.id, createRestaurantInput),
-    ]);
+  describe("deleteRestaurant route", () => {
+    it("should delete restaurant by id", async () => {
+      const [testRestaurant, testRestaurantSecond] = await Promise.all([
+        createRestaurant(testUser.id, createRestaurantInput),
+        createRestaurant(testUser.id, createRestaurantInput),
+      ]);
 
-    const input: inferProcedureInput<
-      AppRouter["restaurant"]["deleteRestaurant"]
-    > = {
-      restaurantId: testRestaurant.id,
-    };
+      const input: inferProcedureInput<
+        AppRouter["restaurant"]["deleteRestaurant"]
+      > = {
+        restaurantId: testRestaurant.id,
+      };
 
-    const result = await caller.restaurant.deleteRestaurant(input);
+      const result = await caller.restaurant.deleteRestaurant(input);
 
-    expect(result).toHaveLength(1);
-    expect(result[0]?.id).toEqual(testRestaurantSecond.id);
+      expect(result).toHaveLength(1);
+      expect(result[0]?.id).toEqual(testRestaurantSecond.id);
+    });
   });
 
   //TODO: DESCRIBE WITH ERROR CASES

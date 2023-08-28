@@ -4,6 +4,7 @@ import type {
   CreateProductInput,
   DeleteProductInput,
   UpdateProductInput,
+  UpdateProductsPositionInput,
 } from "~/server/api/schemas/product.schema";
 import {
   createProduct,
@@ -85,6 +86,26 @@ export const updateProductHandler = async ({
   );
 
   return findRestaurantById(updatedProduct.restaurantId, ctx.prisma);
+};
+
+export const updateProductsPositionHandler = async ({
+  ctx,
+  input,
+}: {
+  ctx: Context;
+  input: UpdateProductsPositionInput;
+}) => {
+  // TODO: MOVE TO THE SERVICE?
+  const [updatedProduct] = await ctx.prisma.$transaction(
+    input.map((item) =>
+      ctx.prisma.product.update({
+        data: { position: item.position },
+        where: { id: item.id },
+      })
+    )
+  );
+
+  return findRestaurantById(updatedProduct?.restaurantId ?? "", ctx.prisma);
 };
 
 export const deleteProductHandler = async ({

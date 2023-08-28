@@ -29,10 +29,17 @@ export const updateProductSchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
+export const updateProductsPositionSchemaInput = z.array(
+  z.object({ id: z.string(), position: z.number() })
+);
+
 export const deleteProductSchemaInput = z.object({
   productId: z.string(),
 });
 
 export type CreateProductInput = z.infer<typeof createProductSchemaInput>;
 export type UpdateProductInput = z.infer<typeof updateProductSchemaInput>;
+export type UpdateProductsPositionInput = z.infer<
+  typeof updateProductsPositionSchemaInput
+>;
 export type DeleteProductInput = z.infer<typeof deleteProductSchemaInput>;

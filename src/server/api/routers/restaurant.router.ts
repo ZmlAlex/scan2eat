@@ -1,10 +1,4 @@
 import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
-
-import {
   createRestaurantHandler,
   createRestaurantLanguageHandler,
   deleteRestaurantHandler,
@@ -13,7 +7,7 @@ import {
   setEnabledRestaurantLanguagesHandler,
   setPublishedRestaurantHandler,
   updateRestaurantHandler,
-} from "../controllers/restaurant.controller";
+} from "~/server/api/controllers/restaurant.controller";
 import {
   createRestaurantLanguageSchemaInput,
   createRestaurantSchemaInput,
@@ -22,7 +16,12 @@ import {
   setEnabledRestaurantLanguagesSchemaInput,
   setPublishedRestaurantSchemaInput,
   updateRestaurantSchemaInput,
-} from "../schemas/restaurant.schema";
+} from "~/server/api/schemas/restaurant.schema";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const restaurantRouter = createTRPCRouter({
   getRestaurant: publicProcedure

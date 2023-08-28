@@ -138,6 +138,7 @@ model Category {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   restaurantId String
+  position     Int      @default(autoincrement())
 
   product      Product[]
   categoryI18N CategoryI18N[]
@@ -159,8 +160,8 @@ model CategoryI18N {
   translation  String // translation text goes here
   categoryId   String
 
-  category     Category                 @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  language     Language                 @relation(fields: [languageCode], references: [code], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  language Language @relation(fields: [languageCode], references: [code], onDelete: Cascade)
 
   @@unique([categoryId, languageCode, fieldName])
   @@index([categoryId])
@@ -178,6 +179,7 @@ model Product {
   updatedAt        DateTime                @updatedAt
   restaurantId     String
   categoryId       String
+  position         Int                     @default(autoincrement())
   isEnabled        Boolean                 @default(true)
   price            Int
   measurementUnit  ProductMeasurementUnit?
@@ -186,7 +188,7 @@ model Product {
 
   productI18N ProductI18N[]
   restaurant  Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@index([restaurantId, categoryId])
 }

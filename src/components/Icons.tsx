@@ -11,6 +11,7 @@ import {
   File,
   FileText,
   Globe,
+  GripVertical,
   HelpCircle,
   Image,
   Languages,
@@ -63,6 +64,7 @@ export const Icons = {
   store: Store,
   laptop: Laptop,
   uploadCloud: UploadCloud,
+  gripVertical: GripVertical,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

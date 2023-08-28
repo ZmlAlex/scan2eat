@@ -1,15 +1,16 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-
 import {
   createCategoryHandler,
   deleteCategoryHandler,
+  updateCategoriesPositionHandler,
   updateCategoryHandler,
-} from "../controllers/category.controller";
+} from "~/server/api/controllers/category.controller";
 import {
   createCategorySchemaInput,
   deleteCategorySchemaInput,
+  updateCategoriesPositionSchemaInput,
   updateCategorySchemaInput,
-} from "../schemas/category.schema";
+} from "~/server/api/schemas/category.schema";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const categoryRouter = createTRPCRouter({
   createCategory: protectedProcedure
@@ -18,6 +19,11 @@ export const categoryRouter = createTRPCRouter({
   updateCategory: protectedProcedure
     .input(updateCategorySchemaInput)
     .mutation(async ({ ctx, input }) => updateCategoryHandler({ ctx, input })),
+  updateCategoriesPosition: protectedProcedure
+    .input(updateCategoriesPositionSchemaInput)
+    .mutation(({ ctx, input }) =>
+      updateCategoriesPositionHandler({ ctx, input })
+    ),
   deleteCategory: protectedProcedure
     .input(deleteCategorySchemaInput)
     .mutation(async ({ ctx, input }) => deleteCategoryHandler({ ctx, input })),

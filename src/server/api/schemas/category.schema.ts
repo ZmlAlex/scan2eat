@@ -15,10 +15,17 @@ export const updateCategorySchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
+export const updateCategoriesPositionSchemaInput = z.array(
+  z.object({ id: z.string(), position: z.number() })
+);
+
 export const deleteCategorySchemaInput = z.object({
   categoryId: z.string(),
 });
 
 export type CreateCategoryInput = z.infer<typeof createCategorySchemaInput>;
 export type UpdateCategoryInput = z.infer<typeof updateCategorySchemaInput>;
+export type UpdateCategoriesPositionInput = z.infer<
+  typeof updateCategoriesPositionSchemaInput
+>;
 export type DeleteCategorytInput = z.infer<typeof deleteCategorySchemaInput>;

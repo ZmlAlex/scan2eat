@@ -43,12 +43,14 @@ export const findRestaurantById = async (
       include: {
         categoryI18N: true,
       },
+      orderBy: { position: "asc" },
     });
     const productsP = prisma.product.findMany({
       where: { restaurantId },
       include: {
         productI18N: true,
       },
+      orderBy: { position: "asc" },
     });
 
     const [

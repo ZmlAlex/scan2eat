@@ -34,51 +34,105 @@ describe("Product API", () => {
     caller = createProtectedCaller(testUser);
   });
 
-  it("should create product", async () => {
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
+  describe("createProduct route", () => {
+    it("should create product", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
 
-    const testCategory = await createCategory({
-      restaurantId: testRestaurant.id,
+      const testCategory = await createCategory({
+        restaurantId: testRestaurant.id,
 
-      name: "juices",
-      languageCode: "english",
+        name: "juices",
+        languageCode: "english",
+      });
+
+      const createProductInput: inferProcedureInput<
+        AppRouter["product"]["createProduct"]
+      > = {
+        restaurantId: testRestaurant.id,
+
+        categoryId: testCategory.id,
+        name: "apple juice",
+        description: "amazing fresh drink",
+        price: 1000,
+        languageCode: "english",
+        measurementUnit: "ml",
+        measurementValue: "250",
+        imageBase64:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+      };
+
+      const { product } = await caller.product.createProduct(
+        createProductInput
+      );
+
+      expect(product?.[0]).toMatchObject({
+        price: 100000,
+        isEnabled: true,
+        imageUrl: expect.stringContaining("cloudinary") as string,
+        productI18N: {
+          english: expect.objectContaining({
+            name: "apple juice",
+            description: "amazing fresh drink",
+          }) as unknown,
+        },
+      });
     });
 
-    const createProductInput: inferProcedureInput<
-      AppRouter["product"]["createProduct"]
-    > = {
-      restaurantId: testRestaurant.id,
+    describe("when restaurant has multiple languages", () => {
+      it("should create product with translations", async () => {
+        const testRestaurant = await createRestaurantWithMultipleLanguages(
+          testUser.id,
+          createRestaurantInput
+        );
 
-      categoryId: testCategory.id,
-      name: "apple juice",
-      description: "amazing fresh drink",
-      price: 1000,
-      languageCode: "english",
-      measurementUnit: "ml",
-      measurementValue: "250",
-      imageBase64:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
-    };
+        const testCategory = await createCategory({
+          restaurantId: testRestaurant.id,
+          name: "juices",
+          languageCode: "english",
+        });
 
-    const { product } = await caller.product.createProduct(createProductInput);
-
-    expect(product?.[0]).toMatchObject({
-      price: 100000,
-      isEnabled: true,
-      imageUrl: expect.stringContaining("cloudinary") as string,
-      productI18N: {
-        english: expect.objectContaining({
+        const createProductInput: inferProcedureInput<
+          AppRouter["product"]["createProduct"]
+        > = {
+          restaurantId: testRestaurant.id,
+          categoryId: testCategory.id,
           name: "apple juice",
           description: "amazing fresh drink",
-        }) as unknown,
-      },
+          price: 1000,
+          languageCode: "english",
+          measurementUnit: "ml",
+          measurementValue: "250",
+          imageBase64:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+        };
+
+        const { product } = await caller.product.createProduct(
+          createProductInput
+        );
+
+        expect(product?.[0]).toMatchObject({
+          price: 100000,
+          isEnabled: true,
+          imageUrl: expect.stringContaining("cloudinary") as string,
+          productI18N: expect.objectContaining({
+            english: {
+              name: "apple juice",
+              description: "amazing fresh drink",
+            },
+            russian: {
+              name: "яблочный сок",
+              description: "потрясающий свежий напиток",
+            },
+          }) as unknown,
+        });
+      });
     });
   });
 
-  describe("When product is updated by id", () => {
+  describe("updateProduct route", () => {
     it("should return product with new data and old imageUrl", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
@@ -244,50 +298,9 @@ describe("Product API", () => {
     });
   });
 
-  it("should delete product by id", async () => {
-    const testRestaurant = await createRestaurant(
-      testUser.id,
-      createRestaurantInput
-    );
-
-    const testCategory = await createCategory({
-      restaurantId: testRestaurant.id,
-      name: "juices",
-      languageCode: "english",
-    });
-
-    await createCategory({
-      restaurantId: testRestaurant.id,
-      name: "soups",
-      languageCode: "english",
-    });
-
-    const testProduct = await createProduct({
-      restaurantId: testRestaurant.id,
-
-      categoryId: testCategory.id,
-      name: "apple juice",
-      description: "amazing fresh drink",
-      price: 1000,
-      languageCode: "english",
-      measurementUnit: "ml",
-      measurementValue: "250",
-      imageUrl: "mockUrl",
-    });
-
-    const input: inferProcedureInput<AppRouter["product"]["deleteProduct"]> = {
-      productId: testProduct.id,
-    };
-
-    const { product } = await caller.product.deleteProduct(input);
-
-    expect(product).toHaveLength(0);
-  });
-
-  //MULTIPLE LANGUAGES
-  describe("when restaurant has multiple languages", () => {
-    it("should create product with translations", async () => {
-      const testRestaurant = await createRestaurantWithMultipleLanguages(
+  describe("updateProductsPosition route", () => {
+    it("should update positions of products", async () => {
+      const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
       );
@@ -298,10 +311,75 @@ describe("Product API", () => {
         languageCode: "english",
       });
 
-      const createProductInput: inferProcedureInput<
-        AppRouter["product"]["createProduct"]
-      > = {
+      const [testProduct, testProductSecond] = await Promise.all([
+        createProduct({
+          restaurantId: testRestaurant.id,
+          categoryId: testCategory.id,
+          name: "apple juice",
+          description: "amazing fresh drink",
+          price: 1000,
+          languageCode: "english",
+          measurementUnit: "ml",
+          measurementValue: "250",
+          imageUrl: "mockUrl",
+        }),
+        createProduct({
+          restaurantId: testRestaurant.id,
+          categoryId: testCategory.id,
+          name: "apple juice",
+          description: "amazing fresh drink",
+          price: 1000,
+          languageCode: "english",
+          measurementUnit: "ml",
+          measurementValue: "250",
+          imageUrl: "mockUrl",
+        }),
+      ]);
+
+      const updateProductsPositionInput: inferProcedureInput<
+        AppRouter["product"]["updateProductsPosition"]
+      > = [
+        { id: testProduct.id, position: 1 },
+        { id: testProductSecond.id, position: 0 },
+      ];
+      const { product } = await caller.product.updateProductsPosition(
+        updateProductsPositionInput
+      );
+
+      // orders are returned in asc sequnce -> 0,1,2...
+      expect(product?.[0]).toMatchObject({
+        id: testProductSecond.id,
+        position: 0,
+      });
+      expect(product?.[1]).toMatchObject({
+        id: testProduct.id,
+        position: 1,
+      });
+    });
+  });
+
+  describe("deleteProduct route", () => {
+    it("should delete product by id", async () => {
+      const testRestaurant = await createRestaurant(
+        testUser.id,
+        createRestaurantInput
+      );
+
+      const testCategory = await createCategory({
         restaurantId: testRestaurant.id,
+        name: "juices",
+        languageCode: "english",
+      });
+
+      await createCategory({
+        restaurantId: testRestaurant.id,
+        name: "soups",
+        languageCode: "english",
+      });
+
+      const testProduct = await createProduct({
+        restaurantId: testRestaurant.id,
+
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
@@ -309,29 +387,17 @@ describe("Product API", () => {
         languageCode: "english",
         measurementUnit: "ml",
         measurementValue: "250",
-        imageBase64:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      };
-
-      const { product } = await caller.product.createProduct(
-        createProductInput
-      );
-
-      expect(product?.[0]).toMatchObject({
-        price: 100000,
-        isEnabled: true,
-        imageUrl: expect.stringContaining("cloudinary") as string,
-        productI18N: expect.objectContaining({
-          english: {
-            name: "apple juice",
-            description: "amazing fresh drink",
-          },
-          russian: {
-            name: "яблочный сок",
-            description: "потрясающий свежий напиток",
-          },
-        }) as unknown,
+        imageUrl: "mockUrl",
       });
+
+      const input: inferProcedureInput<AppRouter["product"]["deleteProduct"]> =
+        {
+          productId: testProduct.id,
+        };
+
+      const { product } = await caller.product.deleteProduct(input);
+
+      expect(product).toHaveLength(0);
     });
   });
 
