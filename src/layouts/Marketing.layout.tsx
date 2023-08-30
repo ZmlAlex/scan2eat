@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { MainNav } from "~/components/MainNav";
+import { Icons } from "~/components/Icons";
 import { ModeToggle } from "~/components/ModeToggle";
 import { SiteFooter } from "~/components/SiteFooter";
 import { buttonVariants } from "~/components/ui/Button";
-import { marketingConfig } from "~/config/marketing";
+import { siteConfig } from "~/config/site";
 import { cn } from "~/utils/cn";
 
 interface MarketingLayoutProps {
@@ -16,7 +16,12 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
     <div className="flex min-h-screen flex-col">
       <header className="container z-40 bg-background">
         <div className="flex h-20 items-center justify-between gap-x-4 py-6">
-          <MainNav items={marketingConfig.mainNav} />
+          <Link href="/" className="flex items-center space-x-2">
+            <Icons.logo />
+            <span className="inline-block text-lg font-bold md:text-2xl">
+              {siteConfig.name}
+            </span>
+          </Link>
 
           <div className="ml-auto">
             <ModeToggle />
