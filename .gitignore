@@ -17,6 +17,9 @@
 /out/
 next-env.d.ts
 
+# react-email
+/.react-email
+
 # production
 /build
 

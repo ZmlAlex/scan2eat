@@ -34,3 +34,7 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 3. pnpm prisma migrate dev - apply new changes for db (dev), it produces changes between old and new schema
 4. pnpm prisma migrate deploy - sync dev/prod tables
 5. pnpm prisma db seed - seed initial data
+
+## Email templates commands
+
+1. pnpm dev:email - start server to add/edit templates on localhost:3000

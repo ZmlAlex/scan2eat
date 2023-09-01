@@ -9,6 +9,9 @@ import EmailProvider from "next-auth/providers/email";
 
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
+import { resend } from "~/server/utils/resend";
+
+import LoginEmail from "../../emails/LoginEmail";
 
 declare module "next-auth/jwt" {
   interface JWT {
@@ -85,10 +88,15 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-      server: env.EMAIL_SERVER,
-      from: env.EMAIL_FROM,
-
-      // TODO: FOR DEVELOPMENT
+      sendVerificationRequest: async ({ identifier, url }) => {
+        await resend.emails.send({
+          from: `FoodMate App <${env.EMAIL_FROM}>`,
+          to: identifier,
+          subject: "Sign-in link for FoodMate",
+          react: LoginEmail({ magicLink: url }),
+        });
+      },
+      //  FOR DEVELOPMENT
       // ...(process.env.NODE_ENV !== "production"
       //   ? {
       //       sendVerificationRequest({ url }) {
