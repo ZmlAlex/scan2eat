@@ -6,7 +6,7 @@ import type {
 
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
-import { uploadImage } from "~/server/utils/cloudinary";
+import { uploadImage } from "~/server/libs/cloudinary";
 
 import type {
   CreateRestaurantInput,
@@ -172,6 +172,7 @@ export const createRestaurantLanguageHandler = async ({
   const restaurantResult = await Promise.all(
     restaurantTextForTranslationPromises
   );
+
   const categoriesResult = await Promise.all(
     categoriesTextForTranslationPromises
   );

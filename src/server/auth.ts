@@ -9,7 +9,7 @@ import EmailProvider from "next-auth/providers/email";
 
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
-import { resend } from "~/server/utils/resend";
+import { resend } from "~/server/libs/resend";
 
 import LoginEmail from "../../emails/LoginEmail";
 

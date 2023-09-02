@@ -13,7 +13,7 @@ import {
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { Context } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
-import { uploadImage } from "~/server/utils/cloudinary";
+import { uploadImage } from "~/server/libs/cloudinary";
 
 export const createProductHandler = async ({
   ctx,

@@ -1,6 +1,6 @@
 import { type LanguageCode } from "@prisma/client";
 
-import { translate } from "../utils/awsSdk";
+import { translate } from "~/server/libs/awsSdkClientTranslate";
 
 type I18N = Record<string, Record<string, string>>;
 
@@ -52,7 +52,7 @@ export const createFieldTranslationsForNewLanguage = <T>({
       return {
         ...(itemIdIdentificator && { [itemIdIdentificator]: item.id }),
         fieldName: fieldName as T,
-        translation: translatedText,
+        translation: translatedText ?? "",
         languageCode: targetLanguage,
       };
     });

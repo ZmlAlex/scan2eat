@@ -270,7 +270,7 @@ export const burgerRestaurant = {
       description: "",
       price: 37,
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1690921329/foodmate-development/clksqdgat00083s3wm7pu76dl/7301641e42907e2f83035b15ef7b6108214164d1.png",
+        "https://imageproxy.wolt.com/menu/menu-images/60c86051332d27247389702c/08e2e556-73d6-11ec-b6f8-be7c78c29a5d_img_0265.jpeg",
       categoryIndex: 6,
     },
     {

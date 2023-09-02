@@ -6,7 +6,8 @@ const createBurgerRestaurant = async (userId: string) => {
   const basicRestaurant = await prisma.restaurant.create({
     data: {
       userId,
-      logoUrl: "",
+      logoUrl:
+        "https://imageproxy.wolt.com/venue/60c85dc2217f0acff63e8d85/04f1979c-f066-11eb-bc14-1e9e0d11d27c_e2caff18_f061_11eb_a1db_4ea078b3f7fb_cover_photo_1.jpeg",
       workingHours: "24hrs",
       currencyCode: "USD",
       restaurantLanguage: { create: { languageCode: "english" } },
@@ -40,7 +41,13 @@ const createBurgerRestaurant = async (userId: string) => {
     prisma.category.create({
       data: {
         restaurantId: basicRestaurant.id,
-        categoryI18N: { create: { fieldName: "name", translation: category } },
+        categoryI18N: {
+          create: {
+            fieldName: "name",
+            translation: category,
+            languageCode: "english",
+          },
+        },
       },
     })
   );
@@ -62,8 +69,16 @@ const createBurgerRestaurant = async (userId: string) => {
         productI18N: {
           createMany: {
             data: [
-              { fieldName: "name", translation: product.name },
-              { fieldName: "description", translation: product.description },
+              {
+                fieldName: "name",
+                translation: product.name,
+                languageCode: "english",
+              },
+              {
+                fieldName: "description",
+                translation: product.description,
+                languageCode: "english",
+              },
             ],
           },
         },
@@ -75,21 +90,22 @@ const createBurgerRestaurant = async (userId: string) => {
 };
 
 async function main() {
-  await prisma.language.createMany({
-    data: languages,
-  });
+  // await prisma.language.createMany({
+  //   data: languages,
+  // });
 
-  await prisma.currency.createMany({
-    data: currencies,
-  });
+  // await prisma.currency.createMany({
+  //   data: currencies,
+  // });
 
-  const basicUser = await prisma.user.create({
-    data: {
-      email: "amazonalexzml@gmail.com",
-    },
-  });
+  // const basicUser = await prisma.user.create({
+  //   data: {
+  //     email: "amazonalexzml@gmail.com",
+  //   },
+  // });
 
-  await createBurgerRestaurant(basicUser.id);
+  // await createBurgerRestaurant(basicUser.id);
+  await createBurgerRestaurant("clm1vekrv00003s7o7awpaw70");
 }
 
 main()

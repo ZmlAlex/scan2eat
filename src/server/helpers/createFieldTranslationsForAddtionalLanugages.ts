@@ -1,6 +1,6 @@
 import type { LanguageCode, RestaurantLanguage } from "@prisma/client";
 
-import { translate } from "../utils/awsSdk";
+import { translate } from "~/server/libs/awsSdkClientTranslate";
 
 /**  Use it when you want to create new product or category for restaurant with all restaurant's languages. */
 const createFieldTranslationsForAdditionalLanguages = async <T>({
@@ -52,7 +52,7 @@ const createFieldTranslationsForAdditionalLanguages = async <T>({
 
     return {
       fieldName: product.fieldName,
-      translation: translatedText,
+      translation: translatedText ?? "",
       languageCode: product.targetLanguage,
     };
   });

@@ -170,8 +170,8 @@ describe("Restaurant API", () => {
           },
           russian: {
             name: "Красти Краб",
-            description: "лучший фастфуд в Бикини Боттом",
-            address: "831 Нижняя фидерная дорожка",
+            description: "лучший фастфуд в бикини",
+            address: "831 Нижняя фидерная полоса",
           },
         },
       });
@@ -233,10 +233,7 @@ describe("Restaurant API", () => {
       expect(result).toMatchObject({
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
-        currency: {
-          code: "RUB",
-          title: "рубль",
-        },
+        currencyCode: "RUB",
         restaurantI18N: {
           english: expect.objectContaining({
             name: "Krusty Krab",
@@ -306,10 +303,7 @@ describe("Restaurant API", () => {
       expect(result).toMatchObject({
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
-        currency: {
-          code: "RUB",
-          title: "рубль",
-        },
+        currencyCode: "RUB",
         restaurantI18N: {
           english: expect.objectContaining({
             name: "Krusty Krab",
@@ -357,10 +351,7 @@ describe("Restaurant API", () => {
       expect(result).toMatchObject({
         logoUrl: expect.stringContaining("Olympic") as string,
         workingHours: "24hrs",
-        currency: {
-          code: "RUB",
-          title: "рубль",
-        },
+        currencyCode: "RUB",
         restaurantI18N: {
           english: expect.objectContaining({
             name: "Chum Bucket",
@@ -396,10 +387,7 @@ describe("Restaurant API", () => {
         logoUrl: expect.stringContaining("cloudinary") as string,
 
         workingHours: "24hrs",
-        currency: {
-          code: "RUB",
-          title: "рубль",
-        },
+        currencyCode: "RUB",
         restaurantI18N: {
           english: expect.objectContaining({
             name: "Chum Bucket",
@@ -442,10 +430,7 @@ describe("Restaurant API", () => {
             description: "лучшие бургеры",
           }) as unknown,
         },
-        currency: {
-          code: "RUB",
-          title: "рубль",
-        },
+        currencyCode: "RUB",
       });
     });
 
