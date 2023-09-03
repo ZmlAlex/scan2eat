@@ -28,9 +28,19 @@ export const createCategory = async (
     input
   );
 
+  const { position: biggestPosition } =
+    (await prisma.category.findFirst({
+      where: { restaurantId: input.restaurantId },
+      select: { position: true },
+      orderBy: { position: "desc" },
+    })) ?? {};
+
+  const nextPosition = biggestPosition ? biggestPosition + 1 : 0;
+
   return await prisma.category.create({
     data: {
       restaurantId: input.restaurantId,
+      position: nextPosition,
       categoryI18N: {
         createMany: { data: [...translations, ...additionalTranslations] },
       },

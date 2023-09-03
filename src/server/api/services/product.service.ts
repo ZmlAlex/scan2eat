@@ -31,15 +31,25 @@ export const createProduct = async (
     restInput
   );
 
+  const { position: biggestPosition } =
+    (await prisma.product.findFirst({
+      where: { categoryId: input.categoryId },
+      select: { position: true },
+      orderBy: { position: "desc" },
+    })) ?? {};
+
+  const nextPosition = biggestPosition ? biggestPosition + 1 : 0;
+
   return prisma.product.create({
     data: {
-      price: price * 100,
       isEnabled,
+      price: price * 100,
       imageUrl: input.imageUrl ?? "",
       restaurantId: input.restaurantId,
       categoryId: input.categoryId,
       measurementUnit: input.measurementUnit,
-      measurementValue: input.measurementValue ?? "",
+      measurementValue: input.measurementValue,
+      position: nextPosition,
       productI18N: {
         createMany: { data: [...translations, ...additionalTranslations] },
       },

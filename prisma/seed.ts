@@ -37,19 +37,21 @@ const createBurgerRestaurant = async (userId: string) => {
     select: { id: true },
   });
 
-  const basicCategoriesPromises = burgerRestaurant.categories.map((category) =>
-    prisma.category.create({
-      data: {
-        restaurantId: basicRestaurant.id,
-        categoryI18N: {
-          create: {
-            fieldName: "name",
-            translation: category,
-            languageCode: "english",
+  const basicCategoriesPromises = burgerRestaurant.categories.map(
+    (category, index) =>
+      prisma.category.create({
+        data: {
+          restaurantId: basicRestaurant.id,
+          position: index,
+          categoryI18N: {
+            create: {
+              fieldName: "name",
+              translation: category,
+              languageCode: "english",
+            },
           },
         },
-      },
-    })
+      })
   );
 
   const basicCategories = await prisma.$transaction(basicCategoriesPromises);
@@ -60,8 +62,8 @@ const createBurgerRestaurant = async (userId: string) => {
     return prisma.product.create({
       data: {
         restaurantId: basicRestaurant.id,
-
         categoryId: categoryId,
+        position: product.position,
         imageUrl: product.imageUrl,
         measurementUnit: "g",
         measurementValue: "100",
@@ -90,22 +92,21 @@ const createBurgerRestaurant = async (userId: string) => {
 };
 
 async function main() {
-  // await prisma.language.createMany({
-  //   data: languages,
-  // });
+  await prisma.language.createMany({
+    data: languages,
+  });
 
-  // await prisma.currency.createMany({
-  //   data: currencies,
-  // });
+  await prisma.currency.createMany({
+    data: currencies,
+  });
 
-  // const basicUser = await prisma.user.create({
-  //   data: {
-  //     email: "amazonalexzml@gmail.com",
-  //   },
-  // });
+  const basicUser = await prisma.user.create({
+    data: {
+      email: "amazonalexzml@gmail.com",
+    },
+  });
 
-  // await createBurgerRestaurant(basicUser.id);
-  await createBurgerRestaurant("clm1vekrv00003s7o7awpaw70");
+  await createBurgerRestaurant(basicUser.id);
 }
 
 main()

@@ -43,7 +43,7 @@ const formSchema = z.object({
   price: z.number().nonnegative(),
   imageBase64: imageInput,
   measurementValue: z.string().optional(),
-  measurementUnit: measurementUnitS,
+  measurementUnit: measurementUnitS.optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -90,8 +90,7 @@ const ProductCreateForm = ({
     defaultValues: {
       name: "",
       description: "",
-      measurementValue: "g",
-      price: 0,
+      measurementValue: "",
       imageBase64: undefined,
     },
   });
@@ -187,7 +186,7 @@ const ProductCreateForm = ({
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormControl>
-                      <Input placeholder="take from selected val" {...field} />
+                      <Input placeholder="Measurement value" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -198,10 +197,10 @@ const ProductCreateForm = ({
                 name="measurementUnit"
                 render={({ field }) => (
                   <FormItem className="">
-                    <Select onValueChange={field.onChange} defaultValue="g">
+                    <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a default measure unit" />
+                          <SelectValue placeholder="unit" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
