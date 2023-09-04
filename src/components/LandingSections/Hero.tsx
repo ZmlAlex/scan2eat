@@ -72,7 +72,6 @@ const Hero = () => {
             <Link
               href={siteConfig.links.restaurantExample}
               target="_blank"
-              rel="noreferrer"
               className={cn(
                 buttonVariants({ variant: "secondary", size: "default" })
               )}
