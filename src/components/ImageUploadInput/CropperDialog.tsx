@@ -74,6 +74,7 @@ const CropperDialog = ({
               ref={cropperRef}
               src={uploadedImageUrl}
               stencilProps={{
+                grid: true,
                 handlers: false,
                 lines: true,
                 movable: false,

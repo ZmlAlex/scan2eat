@@ -1,3 +1,5 @@
+import { getBaseUrl } from "~/utils/api";
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -6,6 +8,7 @@ export type SiteConfig = {
   links: {
     twitter: string;
     github: string;
+    restaurantExample: string;
   };
 };
 
@@ -17,5 +20,9 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: "https://twitter.com/shadcn",
     github: "https://github.com/shadcn/taxonomy",
+    restaurantExample:
+      process.env.NODE_ENV === "production"
+        ? `${getBaseUrl()}/restaurants/clm3noiqw00013sl3rd9sbk5h`
+        : `${getBaseUrl()}/restaurants/clm3eehzm00013s1rlfw49y38`,
   },
 };

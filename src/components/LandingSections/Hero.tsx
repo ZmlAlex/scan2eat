@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 import { buttonVariants } from "~/components/ui/Button";
+import { siteConfig } from "~/config/site";
 import { cn } from "~/utils/cn";
 
 const items = [
@@ -69,7 +70,7 @@ const Hero = () => {
               Get Started
             </Link>
             <Link
-              href="#"
+              href={siteConfig.links.restaurantExample}
               target="_blank"
               rel="noreferrer"
               className={cn(

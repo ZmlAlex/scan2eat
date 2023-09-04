@@ -8,8 +8,13 @@ jest.mock("./emails/LoginEmail", () => {
   };
 });
 
-// TODO: DO NOT DELETE ONE RESTAURANT
 beforeAll(async () => {
-  await prisma.user.deleteMany();
+  await prisma.user.deleteMany({
+    where: {
+      NOT: {
+        name: "example",
+      },
+    },
+  });
   await prisma.$disconnect();
 });
