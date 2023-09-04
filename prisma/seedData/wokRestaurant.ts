@@ -1,3 +1,5 @@
+import type { ProductMeasurementUnit } from "@prisma/client";
+
 import { prisma } from "~/server/db";
 
 export const createWokRestaurant = async (userId: string) => {
