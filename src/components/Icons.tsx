@@ -14,6 +14,7 @@ import {
   GripVertical,
   HelpCircle,
   Image,
+  ImageOff,
   Languages,
   Laptop,
   LayoutList,
@@ -64,6 +65,7 @@ export const Icons = {
   store: Store,
   laptop: Laptop,
   uploadCloud: UploadCloud,
+  imageOff: ImageOff,
   gripVertical: GripVertical,
   gitHub: ({ ...props }: LucideProps) => (
     <svg

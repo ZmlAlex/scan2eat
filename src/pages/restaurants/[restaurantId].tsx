@@ -11,6 +11,7 @@ import { Icons } from "~/components/Icons";
 import { LanguageToggle } from "~/components/LanguageToggle";
 import Menu from "~/components/Menu";
 import { ModeToggle } from "~/components/ModeToggle";
+import { Placeholder } from "~/components/ui/Placeholder";
 import RestaurantLayout from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
@@ -23,8 +24,14 @@ const MOCK_URL =
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Restaurant = ({ restaurant }: ServerSideProps) => {
-  const { category, product, currencyCode, restaurantLanguage, workingHours } =
-    restaurant;
+  const {
+    category,
+    product,
+    currencyCode,
+    restaurantLanguage,
+    workingHours,
+    logoUrl,
+  } = restaurant;
   const { name, address, description } = restaurant.restaurantI18N;
 
   return (
@@ -47,14 +54,18 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
           </div>
           {/* general info */}
           <div className="grid grid-cols-1 gap-4  md:grid-cols-2">
-            <div className=" relative h-80">
-              <Image
-                className="rounded-3xl object-cover"
-                src={restaurant.logoUrl || MOCK_URL}
-                alt="Restaurant"
-                fill
-                loading="lazy"
-              />
+            <div className="relative h-80 overflow-hidden rounded-3xl">
+              {logoUrl ? (
+                <Image
+                  className="object-cover"
+                  src={logoUrl || MOCK_URL}
+                  alt="Restaurant"
+                  fill
+                  loading="lazy"
+                />
+              ) : (
+                <Placeholder />
+              )}
             </div>
             <div className="flex flex-col justify-center gap-5 rounded-3xl border p-5 ">
               {!!workingHours && (

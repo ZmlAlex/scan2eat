@@ -91,7 +91,7 @@ const DrawerDialogContent = React.forwardRef<
               drag="y"
               dragConstraints={{ top: 0 }}
               onDragEnd={(e, { offset, velocity }) => {
-                if (offset.y > window.innerHeight * 0.75 || velocity.y > 10) {
+                if (offset.y > window.innerHeight * 0.75 || velocity.y > 50) {
                   toggleModal();
                 } else {
                   void animate(y, 0, { ...inertiaTransition, min: 0, max: 0 });

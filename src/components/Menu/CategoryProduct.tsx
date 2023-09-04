@@ -8,6 +8,7 @@ import {
   DrawerDialog,
   DrawerDialogContent,
 } from "~/components/ui/DrawerDialog";
+import { Placeholder } from "~/components/ui/Placeholder";
 import { useBreakpoint } from "~/hooks/useBreakpoints";
 import useModal from "~/hooks/useModal";
 import { formatPrice } from "~/utils/formatPrice";
@@ -42,7 +43,11 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         className="flex cursor-pointer flex-col overflow-hidden rounded-2xl border"
       >
         <div className="relative aspect-[3/2]">
-          <Image src={imageUrl} alt={name} fill loading="lazy" />
+          {imageUrl ? (
+            <Image src={imageUrl} alt={name} fill loading="lazy" />
+          ) : (
+            <Placeholder />
+          )}
         </div>
         <div className="flex flex-1 flex-col border-t p-2">
           <p className="mb-1 text-xl font-semibold">
@@ -63,7 +68,16 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
         <Dialog open={isModalOpen} onOpenChange={toggleModal}>
           <DialogContent>
             <div className="relative  aspect-[3/2] overflow-hidden rounded-2xl">
-              <Image className="object-cover" src={imageUrl} alt={name} fill />
+              {imageUrl ? (
+                <Image
+                  className="object-cover"
+                  src={imageUrl}
+                  alt={name}
+                  fill
+                />
+              ) : (
+                <Placeholder />
+              )}
             </div>
             <div className="space-y-4">
               <div className="space-x-2">
@@ -91,12 +105,16 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
 
               <div className="mx-auto max-w-screen-sm">
                 <div className="relative aspect-[3/2] overflow-hidden rounded-t-2xl">
-                  <Image
-                    src={imageUrl}
-                    alt={name}
-                    fill
-                    className="object-cover"
-                  />
+                  {imageUrl ? (
+                    <Image
+                      className="object-cover"
+                      src={imageUrl}
+                      alt={name}
+                      fill
+                    />
+                  ) : (
+                    <Placeholder />
+                  )}
                 </div>
                 <div className="space-y-4 p-4">
                   <div className="space-x-2">
