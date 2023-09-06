@@ -10,7 +10,7 @@ export const createProductSchemaInput = z.object({
   measurementUnit: measurementUnitS.optional(),
   measurementValue: z.string().optional(),
   name: z.string().trim().min(2).max(50),
-  description: z.string().trim().max(150).optional(),
+  description: z.string().trim().max(150),
   imageBase64: z.string().optional(),
   languageCode: languageCodeS,
 });
@@ -22,7 +22,7 @@ export const updateProductSchemaInput = z.object({
   measurementUnit: measurementUnitS.optional(),
   measurementValue: z.string().optional(),
   name: z.string().trim().min(2).max(50),
-  description: z.string().trim().max(150).optional(),
+  description: z.string().trim().max(150),
   imageBase64: z.string().optional(),
   isImageDeleted: z.boolean(),
   languageCode: languageCodeS,

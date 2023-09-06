@@ -39,7 +39,7 @@ import ImageUploadInput from "../../ImageUploadInput";
 
 const formSchema = z.object({
   name: z.string().trim().min(2).max(50),
-  description: z.string().trim().max(150).optional(),
+  description: z.string().trim().max(150),
   price: z.number().nonnegative(),
   imageBase64: imageInput,
   measurementValue: z.string().optional(),
