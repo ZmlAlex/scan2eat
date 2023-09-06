@@ -40,8 +40,8 @@ import { Icons } from "../../Icons";
 import type { ArrayElement } from "../../Menu/CategoryProduct";
 
 const formSchema = z.object({
-  name: z.string().trim().min(2),
-  description: z.string(),
+  name: z.string().trim().min(2).max(50),
+  description: z.string().trim().max(150).optional(),
   price: z.number().nonnegative(),
   imageBase64: imageInput,
   isImageDeleted: z.boolean(),

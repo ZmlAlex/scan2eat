@@ -27,7 +27,7 @@ import { Icons } from "../../Icons";
 import type { ArrayElement } from "../../Menu/CategoryProduct";
 
 const formSchema = z.object({
-  name: z.string().trim().min(2),
+  name: z.string().trim().min(1).max(30),
 });
 
 type Props = {

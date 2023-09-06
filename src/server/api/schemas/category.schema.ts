@@ -4,14 +4,14 @@ import { languageCodeS } from "./common.schema";
 
 export const createCategorySchemaInput = z.object({
   restaurantId: z.string(),
-  name: z.string(),
+  name: z.string().min(1).max(30),
   languageCode: languageCodeS,
 });
 
 export const updateCategorySchemaInput = z.object({
   restaurantId: z.string(),
   categoryId: z.string(),
-  name: z.string(),
+  name: z.string().min(1).max(30),
   languageCode: languageCodeS,
 });
 

@@ -9,9 +9,9 @@ export const getRestaurantSchemaInput = z.object({
 // export const getAllRestaurantsSchemaInput = z.object({});
 
 export const createRestaurantSchemaInput = z.object({
-  name: z.string(),
-  description: z.string().optional(),
-  address: z.string().optional(),
+  name: z.string().min(2).max(30),
+  description: z.string().min(2).max(150).optional(),
+  address: z.string().max(50).optional(),
   workingHours: z.string(),
   logoImageBase64: z.string().optional(),
   currencyCode: currencyCodeS,
@@ -25,9 +25,9 @@ export const createRestaurantLanguageSchemaInput = z.object({
 
 export const updateRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
-  name: z.string(),
-  description: z.string().optional(),
-  address: z.string().optional(),
+  name: z.string().min(2).max(30),
+  description: z.string().min(2).max(150).optional(),
+  address: z.string().max(50).optional(),
   workingHours: z.string(),
   logoImageBase64: z.string().optional(),
   isImageDeleted: z.boolean(),

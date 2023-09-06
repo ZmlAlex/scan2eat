@@ -25,7 +25,7 @@ import { api } from "~/utils/api";
 import { Icons } from "../../Icons";
 
 const formSchema = z.object({
-  name: z.string().trim().min(2),
+  name: z.string().trim().min(1).max(30),
 });
 
 type FormSchema = z.infer<typeof formSchema>;

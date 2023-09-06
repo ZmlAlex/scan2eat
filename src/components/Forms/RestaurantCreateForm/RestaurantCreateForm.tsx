@@ -41,10 +41,10 @@ import { Icons } from "../../Icons";
 
 const formSchema = z.object({
   languageCode: languageCodeS,
-  name: z.string().trim().min(2),
-  address: z.string().trim().min(2),
+  name: z.string().trim().min(2).max(30),
+  address: z.string().trim().min(2).max(50),
   workingHours: z.string(),
-  description: z.string().optional(),
+  description: z.string().trim().max(150).optional(),
   currencyCode: currencyCodeS,
   phone: z.string().optional(),
   link: z.string().optional(),
