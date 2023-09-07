@@ -129,8 +129,8 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
                   <Badge className="text-lg">
                     {formatPrice(price, currencyCode)}
                   </Badge>
-
-                  <p className="block max-h-[calc(80dvh-65vw)] overflow-y-scroll text-lg font-medium no-scrollbar">
+                  {/* todo max 200px */}
+                  <p className="block max-h-[30dvh] overflow-y-scroll text-lg font-medium no-scrollbar">
                     {description}
                   </p>
                 </div>
