@@ -40,6 +40,7 @@ export const createWokRestaurant = async (userId: string) => {
     (category, index) =>
       prisma.category.create({
         data: {
+          userId,
           restaurantId: basicRestaurant.id,
           position: index,
           categoryI18N: {
@@ -60,6 +61,8 @@ export const createWokRestaurant = async (userId: string) => {
 
     return prisma.product.create({
       data: {
+        userId,
+
         restaurantId: basicRestaurant.id,
         categoryId: categoryId,
         position: product.position,

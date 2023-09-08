@@ -105,8 +105,8 @@ describe("Category API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         name: "juices",
         languageCode: "english",
       });
@@ -140,6 +140,7 @@ describe("Category API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
         name: "juices",
         languageCode: "english",
@@ -173,11 +174,13 @@ describe("Category API", () => {
 
       const [testCategory, testCategorySecond] = await Promise.all([
         createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "soups",
           languageCode: "english",
         }),
         createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "soups",
           languageCode: "english",
@@ -214,12 +217,14 @@ describe("Category API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
         name: "juices",
         languageCode: "english",
       });
 
       await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
         name: "soups",
         languageCode: "english",

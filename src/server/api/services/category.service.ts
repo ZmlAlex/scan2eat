@@ -16,7 +16,7 @@ import type {
 import type { PrismaTransactionClient } from "./types";
 
 export const createCategory = async (
-  input: CreateCategoryInput,
+  input: CreateCategoryInput & { userId: string },
   additionalTranslations: Pick<
     CategoryI18N,
     "fieldName" | "languageCode" | "translation"
@@ -39,6 +39,7 @@ export const createCategory = async (
 
   return await prisma.category.create({
     data: {
+      userId: input.userId,
       restaurantId: input.restaurantId,
       position: nextPosition,
       categoryI18N: {
@@ -50,7 +51,7 @@ export const createCategory = async (
 
 //TODO: USE IT FOR LANGUAGES
 export const updateCategory = async (
-  input: UpdateCategoryInput,
+  input: UpdateCategoryInput & { userId: string },
   prisma: PrismaClient
 ) => {
   // const translationFields: CategoryTranslationField[] = ["name"];

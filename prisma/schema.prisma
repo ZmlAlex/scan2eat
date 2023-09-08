@@ -50,6 +50,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   restaurant    Restaurant[]
+  Category      Category[]
+  Product       Product[]
 }
 
 model VerificationToken {
@@ -137,11 +139,13 @@ model Category {
   id           String   @id @default(cuid())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  userId       String
   restaurantId String
   position     Int      @default(autoincrement())
 
   product      Product[]
   categoryI18N CategoryI18N[]
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
   @@index([restaurantId])
@@ -177,6 +181,7 @@ model Product {
   id               String                  @id @default(cuid())
   createdAt        DateTime                @default(now())
   updatedAt        DateTime                @updatedAt
+  userId           String
   restaurantId     String
   categoryId       String
   position         Int                     @default(autoincrement())
@@ -187,6 +192,7 @@ model Product {
   imageUrl         String
 
   productI18N ProductI18N[]
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   restaurant  Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 

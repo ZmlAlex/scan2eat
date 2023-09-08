@@ -8,7 +8,9 @@ import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
 
-export const createCategory = async (input: CreateCategoryInput) => {
+export const createCategory = async (
+  input: CreateCategoryInput & { userId: string }
+) => {
   const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
     ["name"],
     input
@@ -16,6 +18,7 @@ export const createCategory = async (input: CreateCategoryInput) => {
 
   const result = await prisma.category.create({
     data: {
+      userId: input.userId,
       restaurantId: input.restaurantId,
       categoryI18N: {
         createMany: {

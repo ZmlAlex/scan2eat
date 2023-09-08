@@ -22,6 +22,7 @@ export const createProductHandler = async ({
   ctx: Context;
   input: CreateProductInput;
 }) => {
+  const userId = ctx.session?.user.id ?? "";
   let uploadedImageUrl;
 
   let additionalTranslations: Pick<
@@ -45,16 +46,13 @@ export const createProductHandler = async ({
       );
   }
 
-  if (input.imageBase64 && ctx.session?.user.id) {
-    const uploadedImage = await uploadImage(
-      input.imageBase64,
-      ctx.session.user.id
-    );
+  if (input.imageBase64) {
+    const uploadedImage = await uploadImage(input.imageBase64, userId);
     uploadedImageUrl = uploadedImage.url;
   }
 
   const createdProduct = await createProduct(
-    { ...input, imageUrl: uploadedImageUrl },
+    { ...input, userId, imageUrl: uploadedImageUrl },
     additionalTranslations,
     ctx.prisma
   );
@@ -69,19 +67,17 @@ export const updateProductHandler = async ({
   ctx: Context;
   input: UpdateProductInput;
 }) => {
+  const userId = ctx.session?.user.id ?? "";
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
 
-  if (input.imageBase64 && ctx.session?.user.id) {
-    const uploadedImage = await uploadImage(
-      input.imageBase64,
-      ctx.session.user.id
-    );
+  if (input.imageBase64) {
+    const uploadedImage = await uploadImage(input.imageBase64, userId);
     uploadedImageUrl = uploadedImage.url;
   }
 
   const updatedProduct = await updateProduct(
-    { ...input, imageUrl: uploadedImageUrl },
+    { ...input, userId, imageUrl: uploadedImageUrl },
     ctx.prisma
   );
 
@@ -95,12 +91,13 @@ export const updateProductsPositionHandler = async ({
   ctx: Context;
   input: UpdateProductsPositionInput;
 }) => {
+  const userId = ctx.session?.user.id ?? "";
   // TODO: MOVE TO THE SERVICE?
   const [updatedProduct] = await ctx.prisma.$transaction(
     input.map((item) =>
       ctx.prisma.product.update({
         data: { position: item.position },
-        where: { id: item.id },
+        where: { id: item.id, userId },
       })
     )
   );
@@ -115,9 +112,12 @@ export const deleteProductHandler = async ({
   ctx: Context;
   input: DeleteProductInput;
 }) => {
+  const userId = ctx.session?.user.id ?? "";
+
   const deletedProduct = await ctx.prisma.product.delete({
     where: {
       id: input.productId,
+      userId,
     },
   });
   return findRestaurantById(deletedProduct.restaurantId, ctx.prisma);

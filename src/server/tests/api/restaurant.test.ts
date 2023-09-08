@@ -71,11 +71,13 @@ describe("Restaurant API", () => {
 
       const [testCategory, testCategorySecond] = await Promise.all([
         createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "hamburgers",
           languageCode: "english",
         }),
         createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "juices",
           languageCode: "english",
@@ -84,8 +86,8 @@ describe("Restaurant API", () => {
 
       await Promise.all([
         createProduct({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
-
           categoryId: testCategory.id,
           name: "bigmac",
           description: "description",
@@ -97,6 +99,7 @@ describe("Restaurant API", () => {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         }),
         createProduct({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           categoryId: testCategorySecond.id,
           name: "apple juice",
@@ -253,11 +256,13 @@ describe("Restaurant API", () => {
 
       const [testCategory, testCategorySecond] = await Promise.all([
         createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "hamburgers",
           languageCode: "english",
         }),
         createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "juices",
           languageCode: "english",
@@ -266,6 +271,7 @@ describe("Restaurant API", () => {
 
       await Promise.all([
         createProduct({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           categoryId: testCategory.id,
           name: "bigmac",
@@ -278,6 +284,7 @@ describe("Restaurant API", () => {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         }),
         createProduct({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           categoryId: testCategorySecond.id,
           name: "apple juice",

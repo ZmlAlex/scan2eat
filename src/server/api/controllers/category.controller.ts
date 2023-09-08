@@ -26,7 +26,7 @@ export const createCategoryHandler = async ({
     CategoryI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-
+  const userId = ctx.session?.user.id ?? "";
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   if (restaurant.restaurantLanguage.length > 1) {
@@ -40,7 +40,11 @@ export const createCategoryHandler = async ({
       );
   }
 
-  await createCategory(input, additionalTranslations, ctx.prisma);
+  await createCategory(
+    { ...input, userId },
+    additionalTranslations,
+    ctx.prisma
+  );
 
   return findRestaurantById(input.restaurantId, ctx.prisma);
 };
@@ -52,7 +56,9 @@ export const updateCategoryHandler = async ({
   ctx: Context;
   input: UpdateCategoryInput;
 }) => {
-  await updateCategory(input, ctx.prisma);
+  const userId = ctx.session?.user.id ?? "";
+
+  await updateCategory({ ...input, userId }, ctx.prisma);
   return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
@@ -63,12 +69,14 @@ export const updateCategoriesPositionHandler = async ({
   ctx: Context;
   input: UpdateCategoriesPositionInput;
 }) => {
+  const userId = ctx.session?.user.id ?? "";
+
   // TODO: MOVE TO THE SERVICE?
   const [updatedCategory] = await ctx.prisma.$transaction(
     input.map((item) =>
       ctx.prisma.category.update({
         data: { position: item.position },
-        where: { id: item.id },
+        where: { id: item.id, userId },
       })
     )
   );
@@ -83,8 +91,10 @@ export const deleteCategoryHandler = async ({
   ctx: Context;
   input: DeleteCategorytInput;
 }) => {
+  const userId = ctx.session?.user.id ?? "";
+
   const deletedCategory = await deleteCategory(
-    { id: input.categoryId },
+    { id: input.categoryId, userId },
     ctx.prisma
   );
 

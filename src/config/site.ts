@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
     github: "https://github.com/shadcn/taxonomy",
     restaurantExample:
       process.env.NODE_ENV === "production"
-        ? "/restaurants/clm3noiqw00013sl3rd9sbk5h"
-        : "/restaurants/clm3eehzm00013s1rlfw49y38",
+        ? "/restaurants/clmaav1bs004t3s6wk7sxlxrz"
+        : "/restaurants/clmaaf1wd004t3sa35fkallcm",
   },
 };

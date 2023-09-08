@@ -17,14 +17,14 @@ import type {
 import { type PrismaTransactionClient } from "./types";
 
 export const createProduct = async (
-  input: CreateProductInput & { imageUrl?: string },
+  input: CreateProductInput & { imageUrl?: string; userId: string },
   additionalTranslations: Pick<
     ProductI18N,
     "fieldName" | "languageCode" | "translation"
   >[],
   prisma: PrismaClient
 ) => {
-  const { price, isEnabled, ...restInput } = input;
+  const { userId, price, isEnabled, ...restInput } = input;
 
   const translations = formatFieldsToTranslationTable<ProductTranslationField>(
     ["name", "description"],
@@ -42,6 +42,7 @@ export const createProduct = async (
 
   return prisma.product.create({
     data: {
+      userId,
       isEnabled,
       price: price * 100,
       imageUrl: input.imageUrl ?? "",
@@ -58,10 +59,13 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-  input: Omit<UpdateProductInput, "isImageDeleted"> & { imageUrl?: string },
+  input: Omit<UpdateProductInput, "isImageDeleted"> & {
+    imageUrl?: string;
+    userId: string;
+  },
   prisma: PrismaClient
 ) => {
-  const { price, isEnabled, imageUrl, ...restInput } = input;
+  const { userId, price, isEnabled, imageUrl, ...restInput } = input;
 
   const updatedData: Partial<Product> = {
     price: price * 100,
@@ -101,7 +105,7 @@ export const updateProduct = async (
 
   const [updatedProduct] = await prisma.$transaction([
     prisma.product.update({
-      where: { id: input.productId },
+      where: { id: input.productId, userId },
       data: updatedData,
     }),
     ...transactions,

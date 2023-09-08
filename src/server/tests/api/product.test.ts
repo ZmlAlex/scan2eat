@@ -42,8 +42,8 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         name: "juices",
         languageCode: "english",
       });
@@ -89,6 +89,7 @@ describe("Product API", () => {
         );
 
         const testCategory = await createCategory({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           name: "juices",
           languageCode: "english",
@@ -140,15 +141,15 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         name: "juices",
         languageCode: "english",
       });
 
       const testProduct = await createProduct({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
@@ -196,13 +197,15 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         name: "juices",
         languageCode: "english",
       });
 
       const testProduct = await createProduct({
+        userId: testUser.id,
+
         restaurantId: testRestaurant.id,
         categoryId: testCategory.id,
         name: "apple juice",
@@ -254,6 +257,7 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
 
         name: "juices",
@@ -261,8 +265,8 @@ describe("Product API", () => {
       });
 
       const testProduct = await createProduct({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
@@ -306,6 +310,7 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
         name: "juices",
         languageCode: "english",
@@ -313,6 +318,7 @@ describe("Product API", () => {
 
       const [testProduct, testProductSecond] = await Promise.all([
         createProduct({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           categoryId: testCategory.id,
           name: "apple juice",
@@ -324,6 +330,7 @@ describe("Product API", () => {
           imageUrl: "mockUrl",
         }),
         createProduct({
+          userId: testUser.id,
           restaurantId: testRestaurant.id,
           categoryId: testCategory.id,
           name: "apple juice",
@@ -366,20 +373,22 @@ describe("Product API", () => {
       );
 
       const testCategory = await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
         name: "juices",
         languageCode: "english",
       });
 
       await createCategory({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
         name: "soups",
         languageCode: "english",
       });
 
       const testProduct = await createProduct({
+        userId: testUser.id,
         restaurantId: testRestaurant.id,
-
         categoryId: testCategory.id,
         name: "apple juice",
         description: "amazing fresh drink",
