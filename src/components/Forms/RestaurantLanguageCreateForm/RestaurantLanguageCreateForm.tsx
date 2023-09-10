@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { LanguageCode } from "@prisma/client";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { toast } from "~/components//ui/useToast";
+import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -30,8 +32,6 @@ import {
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
 
-import { Icons } from "../../Icons";
-
 const formSchema = z.object({
   languageCode: languageCodeS,
 });
@@ -39,12 +39,15 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 type Props = {
-  restaurantId: string;
   toggleModal: () => void;
   isModalOpen: boolean;
+  availableLanguages: LanguageCode[];
+  restaurantId: string;
 };
 
 const RestaurantLanguageCreateForm = ({
+  availableLanguages,
+  // TODO: GET FROM QUERY?
   restaurantId,
   isModalOpen,
   toggleModal,
@@ -112,9 +115,15 @@ const RestaurantLanguageCreateForm = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {/* TODO: ADD HERE FILTERING  */}
-                      <SelectItem value="english">English</SelectItem>
-                      <SelectItem value="russian">Russian</SelectItem>
+                      {availableLanguages.map((language) => (
+                        <SelectItem
+                          className="capitalize"
+                          key={language}
+                          value={language}
+                        >
+                          {language}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>

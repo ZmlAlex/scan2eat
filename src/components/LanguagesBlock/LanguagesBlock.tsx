@@ -1,31 +1,45 @@
 import React from "react";
 
+import RestaurantLanguageCreateForm from "~/components/Forms/RestaurantLanguageCreateForm";
+import RestaurantLanguageUpdateForm from "~/components/Forms/RestaurantLanguageUpdateForm";
+import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
-import RestaurantLanguageCreateForm from "../Forms/RestaurantLanguageCreateForm";
-import RestaurantLanguageUpdateForm from "../Forms/RestaurantLanguageUpdateForm";
-import { Icons } from "../Icons";
-
+// TODO: GET IT FROM CONTEXT
 type Props = {
   restaurant: RestaurantWithDetails;
 };
 
+const LANGUAGES: LanguageCode[] = ["english", "russian"];
+
 const LanguagesBlock = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
+
+  const restaurantLanguages = restaurant.restaurantLanguage.map(
+    (language) => language.languageCode
+  );
+  const availableLanguages = LANGUAGES.filter(
+    (language) => !restaurantLanguages.includes(language)
+  );
 
   return (
     <>
       <div>
-        <Button onClick={toggleModal} className="mb-4">
+        <Button
+          onClick={toggleModal}
+          className="mb-4"
+          disabled={!availableLanguages.length}
+        >
           <Icons.add className="mr-2 h-4 w-4" />
           Add new language
         </Button>
 
         <div>
+          {/* // TODO: GET IT FROM CONTEXT */}
           <RestaurantLanguageUpdateForm
-            restaurant={restaurant}
+            restaurantLanguages={restaurant.restaurantLanguage}
             restaurantId={restaurant.id}
           />
         </div>
@@ -37,6 +51,7 @@ const LanguagesBlock = ({ restaurant }: Props) => {
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
           restaurantId={restaurant.id}
+          availableLanguages={availableLanguages}
         />
       )}
     </>

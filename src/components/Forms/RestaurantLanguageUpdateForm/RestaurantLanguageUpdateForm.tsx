@@ -27,12 +27,14 @@ type FormSchema = z.infer<typeof formSchema>;
 
 type Props = {
   restaurantId: string;
-  //TODO: CHANGE WITH LANGUAGES TYPE
-  restaurant: RestaurantWithDetails;
+  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
   onSuccessCallback?: () => void;
 };
 
-const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
+const RestaurantLanguageUpdateForm = ({
+  restaurantId,
+  restaurantLanguages,
+}: Props) => {
   const trpcContext = api.useContext();
 
   const { mutate: setEnabledRestaurantLanguages, isLoading } =
@@ -56,7 +58,7 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
       },
     });
 
-  const defaultFormValues = restaurant.restaurantLanguage.reduce((acc, cur) => {
+  const defaultFormValues = restaurantLanguages.reduce((acc, cur) => {
     return { ...acc, [cur.languageCode]: cur.isEnabled };
   }, {});
 
@@ -67,10 +69,10 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
 
   // It requires when we add new language to get relevant value for switch component
   React.useEffect(() => {
-    restaurant.restaurantLanguage.forEach((language) =>
+    restaurantLanguages.forEach((language) =>
       form.setValue(language.languageCode, language.isEnabled)
     );
-  }, [form, restaurant.restaurantLanguage]);
+  }, [form, restaurantLanguages]);
 
   function onSubmit(values: FormSchema) {
     const languageCodes = Object.entries(values)
@@ -92,7 +94,7 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
         <div>
           <h3 className="mb-4 text-lg font-medium">Language visibility</h3>
           <div className="space-y-4">
-            {restaurant.restaurantLanguage.map((language) => (
+            {restaurantLanguages.map((language) => (
               <FormField
                 key={language.languageCode}
                 control={form.control}
@@ -100,7 +102,7 @@ const RestaurantLanguageUpdateForm = ({ restaurantId, restaurant }: Props) => {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">
+                      <FormLabel className="text-base capitalize">
                         {language.languageCode}
                       </FormLabel>
                       {/* <FormDescription>

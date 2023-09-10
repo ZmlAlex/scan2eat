@@ -1,5 +1,3 @@
-import { getBaseUrl } from "~/utils/api";
-
 export type SiteConfig = {
   name: string;
   description: string;
