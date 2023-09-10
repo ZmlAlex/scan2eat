@@ -1,3 +1,4 @@
+import type { LanguageCode } from "@prisma/client";
 import React from "react";
 
 import RestaurantLanguageCreateForm from "~/components/Forms/RestaurantLanguageCreateForm";
