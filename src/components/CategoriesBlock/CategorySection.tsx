@@ -99,7 +99,7 @@ const CategorySection = ({
                     <TableHead className="px-1 py-2 text-right"> </TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody className="[text-wrap:nowrap]">
+                <TableBody className="whitespace-nowrap">
                   <SortableList
                     items={sortableProducts}
                     onChange={(updatedProducts) => {
