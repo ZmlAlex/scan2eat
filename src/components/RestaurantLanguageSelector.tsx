@@ -37,13 +37,14 @@ const RestaurantLanguageSelector = ({ restaurant }: Props) => {
       onValueChange={handleLanguageChange}
       defaultValue={selectedRestaurantLang}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-fit capitalize">
         <SelectValue placeholder="Select a language" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           {restaurant.restaurantLanguage.map((language) => (
             <SelectItem
+              className="capitalize"
               key={language.languageCode}
               value={language.languageCode}
             >

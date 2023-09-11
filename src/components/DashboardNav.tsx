@@ -6,6 +6,7 @@ import { cn } from "~/utils/cn";
 
 export type SidebarNavItem = {
   title: string;
+  titleMobile: string;
   disabled?: boolean;
   external?: boolean;
   icon?: keyof typeof Icons;

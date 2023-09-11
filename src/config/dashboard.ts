@@ -11,11 +11,14 @@ export const dashboardConfig: DashboardConfig = {
   sidebarNav: [
     {
       title: "Restaurants",
+      // TODO: THINK ABOUT MOBILE VIEW
+      titleMobile: "Restaurants",
       href: "/dashboard",
       icon: "store",
     },
     {
       title: "Settings",
+      titleMobile: "Settings",
       href: "/dashboard/settings",
       icon: "settings",
     },

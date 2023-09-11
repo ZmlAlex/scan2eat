@@ -76,7 +76,7 @@ const CategorySection = ({
         value={category.id}
         className="border-b-0"
       >
-        <AccordionTrigger className="gap-x-4 capitalize">
+        <AccordionTrigger className="gap-x-4 p-4 capitalize">
           {dragHandler}
           <span>{category.categoryI18N.name}</span>
           <div className="ml-auto">
@@ -86,20 +86,20 @@ const CategorySection = ({
             />
           </div>
         </AccordionTrigger>
-        <AccordionContent>
+        <AccordionContent className="p-0">
           <div className="space-y-4">
             {!!products?.length && (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead />
-                    <TableHead>Name</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead className="text-right"> </TableHead>
+                    <TableHead className="px-1 py-2" />
+                    <TableHead className="px-1 py-2">Name</TableHead>
+                    <TableHead className="px-1 py-2">Price</TableHead>
+                    <TableHead className="px-1 py-2">Description</TableHead>
+                    <TableHead className="px-1 py-2 text-right"> </TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="[text-wrap:nowrap]">
                   <SortableList
                     items={sortableProducts}
                     onChange={(updatedProducts) => {
@@ -127,7 +127,7 @@ const CategorySection = ({
                 </TableBody>
               </Table>
             )}
-            <Button onClick={toggleModal}>
+            <Button className="mx-4" onClick={toggleModal}>
               <Icons.add className="mr-2 h-4 w-4" />
               Add Product
             </Button>

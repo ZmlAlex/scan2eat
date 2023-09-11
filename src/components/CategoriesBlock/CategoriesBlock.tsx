@@ -64,8 +64,6 @@ const CategoriesBlock = ({ restaurant }: Props) => {
             <Icons.add className="mr-2 h-4 w-4" />
             Create Category
           </Button>
-
-          {/* TODO: HANDLE CLOSE ON DRAG START */}
           <Accordion
             // type="multiple"
             type="single"
