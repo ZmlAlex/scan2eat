@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
+import DashboardRestaurantHeaderContent from "~/components/DashboardRestaurantHeaderContent";
 import LanguagesBlock from "~/components/LanguagesBlock";
 import useGetRestaurant from "~/hooks/useGetRestaurant";
 import DashboardLayout from "~/layouts/Dashboard.layout";
@@ -22,21 +23,25 @@ const RestaurantSettings = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DashboardLayout>
-        <DashboardHeader
-          heading="Settings"
-          text="Manage restaurant settings."
-        />
-        <div className="grid gap-10">
-          {status === "loading" && <div>loading</div>}
-          {status === "success" && (
-            <>
-              {/* // Language block */}
-              <div>
-                <LanguagesBlock restaurant={restaurant} />
-              </div>
-            </>
-          )}
-        </div>
+        {status === "loading" && <div>loading</div>}
+        {status === "success" && (
+          <>
+            <DashboardHeader
+              heading="Settings"
+              text="Manage restaurant settings."
+            >
+              <DashboardRestaurantHeaderContent restaurant={restaurant} />
+            </DashboardHeader>
+            <div className="grid gap-10">
+              <>
+                {/* // Language block */}
+                <div>
+                  <LanguagesBlock restaurant={restaurant} />
+                </div>
+              </>
+            </div>
+          </>
+        )}
       </DashboardLayout>
     </>
   );

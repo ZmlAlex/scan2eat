@@ -4,12 +4,13 @@ import React from "react";
 
 import CategoriesBlock from "~/components/CategoriesBlock";
 import { DashboardHeader } from "~/components/DashboardHeader";
-import RestaurantLanguageSelector from "~/components/RestaurantLanguageSelector";
+import DashboardRestaurantHeaderContent from "~/components/DashboardRestaurantHeaderContent";
 import useGetRestaurant from "~/hooks/useGetRestaurant";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 
 const RestaurantCategoriesAndProducts = () => {
   const router = useRouter();
+
   const { data: restaurant, status } = useGetRestaurant(
     router.query.restaurantId as string
   );
@@ -22,25 +23,25 @@ const RestaurantCategoriesAndProducts = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DashboardLayout>
-        <DashboardHeader
-          heading={`${(restaurant?.restaurantI18N.name as string) || ""}`}
-          text="Manage restaurant"
-        >
-          {!!restaurant && (
-            <RestaurantLanguageSelector restaurant={restaurant} />
-          )}
-        </DashboardHeader>
-        <div className="grid gap-10">
-          {status === "loading" && <div>loading</div>}
-          {status === "success" && (
-            <>
-              {/* // Category block */}
-              <div className="min-w-0">
-                <CategoriesBlock restaurant={restaurant} />
-              </div>
-            </>
-          )}
-        </div>
+        {status === "loading" && <div>loading</div>}
+        {status === "success" && (
+          <>
+            <DashboardHeader
+              heading={`${restaurant.restaurantI18N.name}`}
+              text="Manage restaurant"
+            >
+              <DashboardRestaurantHeaderContent restaurant={restaurant} />
+            </DashboardHeader>
+            <div className="grid gap-10">
+              <>
+                {/* // Category block */}
+                <div className="min-w-0">
+                  <CategoriesBlock restaurant={restaurant} />
+                </div>
+              </>
+            </div>
+          </>
+        )}
       </DashboardLayout>
     </>
   );

@@ -65,7 +65,6 @@ const CategoriesBlock = ({ restaurant }: Props) => {
             Create Category
           </Button>
           <Accordion
-            // type="multiple"
             type="single"
             value={activeAccordionSection}
             onValueChange={setActiveAccordionSection}
@@ -118,11 +117,13 @@ const CategoriesBlock = ({ restaurant }: Props) => {
       )}
 
       {/* Modal window */}
-      <CategoryCreateForm
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        restaurantId={restaurant?.id || ""}
-      />
+      {isModalOpen && (
+        <CategoryCreateForm
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          restaurantId={restaurant?.id || ""}
+        />
+      )}
     </>
   );
 };

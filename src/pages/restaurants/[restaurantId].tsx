@@ -114,6 +114,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       restaurantId: (ctx.params?.restaurantId as string) ?? "",
     });
 
+    if (!restaurant.isPublished) {
+      return { redirect: { destination: "/404" } };
+    }
+
     return {
       props: {
         restaurant: formatTranslationToOneLanguageWithDetails(

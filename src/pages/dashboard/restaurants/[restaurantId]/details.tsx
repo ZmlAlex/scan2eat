@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
+import DashboardRestaurantHeaderContent from "~/components/DashboardRestaurantHeaderContent";
 import RestaurantUpdateForm from "~/components/Forms/RestaurantUpdateForm";
-import RestaurantLanguageSelector from "~/components/RestaurantLanguageSelector";
 import useGetRestaurant from "~/hooks/useGetRestaurant";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 
@@ -22,25 +22,23 @@ const RestaurantDetails = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DashboardLayout>
-        <DashboardHeader
-          heading={`${(restaurant?.restaurantI18N.name as string) || ""}`}
-          text="Manage restaurant"
-        >
-          {!!restaurant && (
-            <RestaurantLanguageSelector restaurant={restaurant} />
-          )}
-        </DashboardHeader>
-        <div className="grid gap-10">
-          {status === "loading" && <div>loading</div>}
-          {status === "success" && (
-            <>
+        {status === "loading" && <div>loading</div>}
+        {status === "success" && (
+          <>
+            <DashboardHeader
+              heading={restaurant.restaurantI18N.name}
+              text="Manage restaurant"
+            >
+              <DashboardRestaurantHeaderContent restaurant={restaurant} />
+            </DashboardHeader>
+            <div className="grid gap-10">
               {/*  Update main details */}
               <div>
                 <RestaurantUpdateForm restaurant={restaurant} />
               </div>
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </DashboardLayout>
     </>
   );
