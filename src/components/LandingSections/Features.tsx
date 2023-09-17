@@ -1,3 +1,5 @@
+import { Icons } from "~/components/Icons";
+
 const features = [
   {
     icon: "🚄",
@@ -23,7 +25,7 @@ const features = [
       "FoodMate provides an intuitive interface to easily manage your restaurants.",
   },
   {
-    icon: "🖇️",
+    icon: <Icons.qrCode className="mx-auto h-[60px] w-[60px] sm:mx-0" />,
     title: "QR code",
     description:
       "Generate a QR code, print and share it by simply placing it on your restaurant tables.",
