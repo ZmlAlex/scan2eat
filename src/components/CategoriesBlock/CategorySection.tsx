@@ -93,6 +93,7 @@ const CategorySection = ({
                 <TableHeader>
                   <TableRow>
                     <TableHead className="px-1 py-2" />
+                    <TableHead className="px-1 py-2" />
                     <TableHead className="px-1 py-2">Name</TableHead>
                     <TableHead className="px-1 py-2">Price</TableHead>
                     <TableHead className="px-1 py-2">Description</TableHead>
