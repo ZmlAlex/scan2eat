@@ -48,6 +48,7 @@
     "@trpc/server": "^10.18.0",
     "@types/lodash": "^4.14.196",
     "@uidotdev/usehooks": "^2.0.1",
+    "@vercel/analytics": "^1.0.2",
     "@vitalets/google-translate-api": "^9.2.0",
     "babel-plugin-superjson-next": "^0.4.5",
     "class-variance-authority": "^0.6.0",

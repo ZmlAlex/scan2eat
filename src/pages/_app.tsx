@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/react";
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
@@ -19,6 +20,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Component {...pageProps} />
         <Toaster />
         <ReactQueryDevtools initialIsOpen={false} />
+        <Analytics />
       </SessionProvider>
     </ThemeProvider>
   );
