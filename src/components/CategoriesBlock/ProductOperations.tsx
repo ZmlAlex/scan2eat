@@ -1,4 +1,5 @@
-import { Copy, Pen, Trash } from "lucide-react";
+import { Pen, Trash } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -40,15 +41,15 @@ export function ProductOperations({
     useModal();
   const { isModalOpen: isModalUpdateOpen, toggleModal: toggleModalUpdate } =
     useModal();
-
+  const t = useTranslations("Dashboard.productOperations");
   const trpcContext = api.useContext();
 
   const { mutate: deleteProduct, isLoading } =
     api.product.deleteProduct.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description: "Your delete product request failed. Please try again.",
+          title: t("deleteProductMutation.error.title"),
+          description: t("deleteProductMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -58,7 +59,7 @@ export function ProductOperations({
         );
 
         toast({
-          title: "Product has been deleted.",
+          title: t("deleteProductMutation.success.title"),
         });
       },
     });
@@ -73,12 +74,13 @@ export function ProductOperations({
         <DropdownMenuContent align="end" className="w-[160px]">
           <DropdownMenuItem onClick={toggleModalUpdate}>
             <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Edit
+            {t("editLabel")}
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          {/* TODO: THINK ABOUT THIS OPTION */}
+          {/* <DropdownMenuItem>
             <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Make a copy
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
@@ -86,7 +88,7 @@ export function ProductOperations({
             onClick={toggleModalDelete}
           >
             <Trash className="mr-2 h-3.5 w-3.5 text-destructive" />
-            Delete
+            {t("deleteLabel")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -95,15 +97,15 @@ export function ProductOperations({
       <AlertDialog open={isModalDeleteOpen} onOpenChange={toggleModalDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you sure you want to delete this product?
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone.
+              {t("deleteDialog.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("deleteDialog.secondayButtonLabel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={(event) => {
                 event.preventDefault();
@@ -116,7 +118,7 @@ export function ProductOperations({
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>Delete</span>
+              <span>{t("deleteDialog.primaryButtonLabel")}</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -42,13 +43,14 @@ const CategoryCreateForm = ({
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.categoryCreate");
 
   const { mutate: createCategory, isLoading } =
     api.category.createCategory.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description: "Your create category request failed. Please try again.",
+          title: t("createCategoryMutation.error.title"),
+          description: t("createCategoryMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -58,7 +60,7 @@ const CategoryCreateForm = ({
         );
 
         toast({
-          title: "Category has been created.",
+          title: t("createCategoryMutation.success.title"),
         });
         toggleModal();
       },
@@ -83,11 +85,8 @@ const CategoryCreateForm = ({
     <Dialog open={isModalOpen} onOpenChange={toggleModal}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create category</DialogTitle>
-          <DialogDescription>
-            Add details about your category here. Click save when you&apos;re
-            done.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -99,7 +98,7 @@ const CategoryCreateForm = ({
                 <FormItem>
                   {/* <FormLabel>Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +109,7 @@ const CategoryCreateForm = ({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save changes
+              {t("primaryButtonLabel")}
             </Button>
           </form>
         </Form>

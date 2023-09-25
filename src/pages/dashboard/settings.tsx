@@ -1,10 +1,13 @@
 import Head from "next/head";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
 import DashboardLayout from "~/layouts/Dashboard.layout";
+import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
 
 const Settings = () => {
+  const t = useTranslations("Dashboard.page.settings");
   return (
     <>
       <Head>
@@ -13,10 +16,7 @@ const Settings = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DashboardLayout>
-        <DashboardHeader
-          heading="Settings"
-          text="Manage account and website settings."
-        />
+        <DashboardHeader heading={t("title")} text={t("description")} />
         <div className="grid gap-10">
           {/* <UserNameForm user={{ id: user.id, name: user.name || "" }} /> */}
         </div>
@@ -24,5 +24,7 @@ const Settings = () => {
     </>
   );
 };
+
+export const getServerSideProps = getServerSidePropsWithLanguage;
 
 export default Settings;

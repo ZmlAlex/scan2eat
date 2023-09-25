@@ -1,17 +1,17 @@
-import { type NextPage } from "next";
+import type { NextPage } from "next";
+import { useTranslations } from "next-intl";
 import { NextSeo } from "next-seo";
 
 import Features from "~/components/LandingSections/Features";
 import Hero from "~/components/LandingSections/Hero";
 import MarketingLayout from "~/layouts/Marketing.layout";
+import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
+  const t = useTranslations("SEO.homePage");
   return (
     <>
-      <NextSeo
-        title="FoodMate - Digital menu generator"
-        description="Manage your digital menu in the personal dashboard in an easy, let your customers view the menu on their own device, without any app installation."
-      />
+      <NextSeo title={t("title")} description={t("description")} />
 
       <MarketingLayout>
         <Hero />
@@ -21,4 +21,6 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export const getServerSideProps = getServerSidePropsWithLanguage;
+
+export default HomePage;

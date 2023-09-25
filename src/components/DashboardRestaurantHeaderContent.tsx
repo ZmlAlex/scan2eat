@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -15,6 +16,8 @@ type Props = {
 const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
+  const t = useTranslations("Form.restaurantPublish.publishButton");
+
   return (
     <>
       <div className="flex gap-2">
@@ -27,7 +30,7 @@ const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
           ) : (
             <Icons.eyeOff className="mr-2" />
           )}
-          {restaurant.isPublished ? "Published" : " Not Published"}
+          {restaurant.isPublished ? t("publishedLabel") : t("unpublishedLabel")}
         </Button>
 
         {!!restaurant && <RestaurantLanguageSelector restaurant={restaurant} />}

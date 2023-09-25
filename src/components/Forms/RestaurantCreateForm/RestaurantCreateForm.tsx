@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -60,14 +61,14 @@ type Props = {
 
 const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.restaurantCreate");
 
   const { mutate: createRestaurant, isLoading } =
     api.restaurant.createRestaurant.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description:
-            "Your create restaurant request failed. Please try again.",
+          title: t("createRestaurantMutation.error.title"),
+          description: t("createRestaurantMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (newRestaurant) => {
@@ -77,7 +78,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
         );
 
         toast({
-          title: "Restaurant has been created.",
+          title: t("createRestaurantMutation.success.title"),
         });
         toggleModal();
       },
@@ -113,11 +114,8 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
     <Dialog open={isModalOpen} onOpenChange={toggleModal}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create restaurant</DialogTitle>
-          <DialogDescription>
-            Add details about your restaurant here. Click save when you&apos;re
-            done.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -138,17 +136,19 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a default language" />
+                        <SelectValue
+                          placeholder={t("inputs.languageSelect.placeholder")}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      {/* TODO: REPLACE */}
                       <SelectItem value="english">English</SelectItem>
                       <SelectItem value="russian">Russian</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Default language for your restaurant. After creating you can
-                    add aditional languages
+                    {t("inputs.languageSelect.description")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -162,7 +162,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                 <FormItem>
                   {/* <FormLabel>Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
                   {/* <FormDescription>
                 This is your public display name.
@@ -179,7 +179,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                 <FormItem>
                   {/* <FormLabel>Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="Working hours" {...field} />
+                    <Input placeholder={t("inputs.workingHours")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -191,7 +191,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Address" {...field} />
+                    <Input placeholder={t("inputs.address")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -204,7 +204,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                 <FormItem>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about your restaurant"
+                      placeholder={t("inputs.description")}
                       className="resize-none"
                       {...field}
                     />
@@ -219,7 +219,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Phone" {...field} />
+                    <Input placeholder={t("inputs.phone")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -251,7 +251,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a currency" />
+                        <SelectValue placeholder={t("inputs.currencySelect")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -282,7 +282,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save changes
+              {t("primaryButtonLabel")}
             </Button>
           </form>
         </Form>

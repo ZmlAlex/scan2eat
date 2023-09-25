@@ -18,12 +18,9 @@ import { prisma } from "~/server/db";
 import { isTRPCError } from "~/server/helpers/isTRPCError";
 import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
-const MOCK_URL =
-  "https://menusa-cdn.dodostatic.net/images/7740007bde8911ed8368719f3939c0be_11edcc86977e0ce38c1e0a0a21479180_1200_900.jpg";
-// Infer types from getServerSideProps
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Restaurant = ({ restaurant }: ServerSideProps) => {
+const RestaurantPage = ({ restaurant }: ServerSideProps) => {
   const {
     category,
     product,
@@ -50,7 +47,8 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
               <ModeToggle />
             </div>
 
-            {restaurantLanguage.length > 1 && (
+            {restaurantLanguage.filter((language) => language.isEnabled)
+              .length > 1 && (
               <LanguageToggle languages={restaurant.restaurantLanguage} />
             )}
           </div>
@@ -60,7 +58,7 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
               {logoUrl ? (
                 <Image
                   className="object-cover"
-                  src={logoUrl || MOCK_URL}
+                  src={logoUrl}
                   alt="Restaurant"
                   fill
                   loading="lazy"
@@ -103,7 +101,7 @@ const Restaurant = ({ restaurant }: ServerSideProps) => {
   );
 };
 
-export default Restaurant;
+export default RestaurantPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const trpc = appRouter.createCaller({ session: null, prisma });
@@ -124,6 +122,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
           restaurant,
           ctx.locale as LanguageCode
         ),
+        messages: (await import(
+          `~/lang/${ctx.locale as string}.json`
+        )) as IntlMessages,
       },
     };
   } catch (e) {

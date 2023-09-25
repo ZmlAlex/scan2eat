@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,7 +21,10 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 type FormData = z.infer<typeof userAuthSchema>;
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export default function UserAuthForm({
+  className,
+  ...props
+}: UserAuthFormProps) {
   const {
     register,
     handleSubmit,
@@ -30,6 +34,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
+
+  const t = useTranslations("Form.userAuthForm");
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -44,15 +50,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     if (!signInResult?.ok) {
       return toast({
-        title: "Something went wrong.",
-        description: "Your sign in request failed. Please try again.",
+        title: t("signInMutation.error.title"),
+        description: t("signInMutation.error.description"),
         variant: "destructive",
       });
     }
 
     return toast({
-      title: "Check your email",
-      description: "We sent you a login link. Be sure to check your spam too.",
+      title: t("signInMutation.success.title"),
+      description: t("signInMutation.success.description"),
     });
   }
 
@@ -62,11 +68,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
-              Email
+              {t("inputs.email.label")}
             </Label>
             <Input
               id="email"
-              placeholder="name@example.com"
+              placeholder={t("inputs.email.placeholder")}
               type="email"
               autoCapitalize="none"
               autoComplete="email"
@@ -84,7 +90,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            {t("primaryButtonLabel")}
           </button>
         </div>
       </form>

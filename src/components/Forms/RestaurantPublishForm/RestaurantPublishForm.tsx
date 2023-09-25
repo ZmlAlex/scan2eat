@@ -1,6 +1,7 @@
 import downloadjs from "downloadjs";
 import html2canvas from "html2canvas";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import React from "react";
 import QRCode from "react-qr-code";
 
@@ -37,14 +38,14 @@ const RestaurantPublishForm = ({
   const qrCode = React.useRef(null);
 
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.restaurantPublish");
 
-  const { mutate: publishRestaurant, isLoading } =
+  const { mutate: setPublishRestaurant, isLoading } =
     api.restaurant.setPublishedRestaurant.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description:
-            "Your update restaurant's status request failed. Please try again.",
+          title: t("setPublishRestaurantMutation.error.title"),
+          description: t("setPublishRestaurantMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -54,11 +55,11 @@ const RestaurantPublishForm = ({
         );
 
         const action = updatedRestaurant.isPublished
-          ? "published"
-          : "unpublished";
+          ? t("setPublishRestaurantMutation.success.published.title")
+          : t("setPublishRestaurantMutation.success.unpublished.title");
 
         toast({
-          title: `Restaurant has been ${action}.`,
+          title: action,
         });
       },
     });
@@ -74,7 +75,7 @@ const RestaurantPublishForm = ({
 
   const handleCheckedChange = (isPublished: boolean) => {
     setIsRestaurantPublished(isPublished);
-    publishRestaurant({ isPublished, restaurantId });
+    setPublishRestaurant({ isPublished, restaurantId });
   };
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -85,7 +86,7 @@ const RestaurantPublishForm = ({
     <Dialog open={isModalOpen} onOpenChange={toggleModal}>
       <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
-          <DialogTitle>Publish and share your restaurant</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
 
         <div className="grid gap-6">
@@ -98,8 +99,8 @@ const RestaurantPublishForm = ({
 
             <AlertTitle>
               {isRestaurantPublished
-                ? "Restaurant is published"
-                : "Restaurant is not published"}
+                ? t("statusCard.title.published")
+                : t("statusCard.title.unpublished")}
             </AlertTitle>
             <AlertDescription>
               {isRestaurantPublished ? (
@@ -110,13 +111,13 @@ const RestaurantPublishForm = ({
                   <ClipboardCopy className="flex-shrink-0" copyText={menuUrl} />
                 </div>
               ) : (
-                "Please publish the restaurant once you have finalized your changes. Once published, you will be able to either share the direct URL or the QR code for your menu, with your customers"
+                t("statusCard.description.unpublished")
               )}
             </AlertDescription>
           </Alert>
         </div>
         <div className="flex justify-between rounded-lg bg-muted p-4">
-          <p>Publish Restaurant</p>
+          <p>{t("switcherLabel")}</p>
           <Switch
             checked={isRestaurantPublished}
             onCheckedChange={handleCheckedChange}
@@ -127,7 +128,7 @@ const RestaurantPublishForm = ({
             <div ref={qrCode}>
               <QRCode
                 style={{ maxWidth: "100%", width: "100%" }}
-                value="blabla"
+                value={menuUrl}
               />
             </div>
             <Button
@@ -136,16 +137,13 @@ const RestaurantPublishForm = ({
               onClick={handleDownloadQRCode}
             >
               <Icons.download className="mr-2" />
-              Download QR code
+              {t("qrButtonLabel")}
             </Button>
           </div>
         )}
         <div className="min-w-0 space-y-4 rounded-lg bg-muted p-4">
-          <p>Preview URL</p>
-          <p className="text-sm">
-            The following URL can be used for testing purposes as it will mimic
-            the interface of actual menu while also updating in real time
-          </p>
+          <p>{t("previewCard.title")}</p>
+          <p className="text-sm">{t("previewCard.description")}</p>
           <div className="flex justify-between gap-2 text-sm [overflow-wrap:anywhere]">
             <Link className="block" href={menuUrlPreview} target="_blank">
               {menuUrlPreview}

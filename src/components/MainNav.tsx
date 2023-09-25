@@ -13,7 +13,7 @@ export type MainNavItem = {
 };
 
 interface MainNavProps {
-  items?: MainNavItem[];
+  items?: readonly MainNavItem[];
   children?: React.ReactNode;
 }
 

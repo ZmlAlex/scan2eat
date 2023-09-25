@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -47,13 +48,14 @@ const CategoryUpdateForm = ({
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.categoryUpdate");
 
   const { mutate: updateCategory, isLoading } =
     api.category.updateCategory.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description: "Your update category request failed. Please try again.",
+          title: t("updateCategoryMutation.error.title"),
+          description: t("updateCategoryMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurants) => {
@@ -63,7 +65,7 @@ const CategoryUpdateForm = ({
         );
 
         toast({
-          title: "Category has been updated.",
+          title: t("updateCategoryMutation.success.title"),
         });
 
         toggleModal();
@@ -94,11 +96,8 @@ const CategoryUpdateForm = ({
         onClick={(event) => event.stopPropagation()}
       >
         <DialogHeader>
-          <DialogTitle>Update category</DialogTitle>
-          <DialogDescription>
-            Edit details about your category here. Click save when you&apos;re
-            done.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -110,7 +109,7 @@ const CategoryUpdateForm = ({
                 <FormItem>
                   {/* <FormLabel>Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
                   {/* <FormDescription>
                 This is your public display name.
@@ -124,7 +123,7 @@ const CategoryUpdateForm = ({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save changes
+              {t("primaryButtonLabel")}
             </Button>
           </form>
         </Form>

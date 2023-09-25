@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -31,6 +32,7 @@ export function RestaurantOperations({
   restaurantId,
 }: RestaurantOperationsProps) {
   const { isModalOpen, toggleModal } = useModal();
+  const t = useTranslations("Dashboard.restaurantOperations");
 
   const trpcContext = api.useContext();
 
@@ -38,9 +40,8 @@ export function RestaurantOperations({
     api.restaurant.deleteRestaurant.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description:
-            "Your delete restaurant request failed. Please try again.",
+          title: t("deleteRestaurantMutation.error.title"),
+          description: t("deleteRestaurantMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurants) => {
@@ -50,7 +51,7 @@ export function RestaurantOperations({
         );
 
         toast({
-          title: "Restaurant has been deleted.",
+          title: t("deleteRestaurantMutation.success.title"),
         });
       },
     });
@@ -68,7 +69,7 @@ export function RestaurantOperations({
               href={`/dashboard/restaurants/${restaurantId}`}
               className="flex w-full"
             >
-              Edit
+              {t("editLabel")}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -76,7 +77,7 @@ export function RestaurantOperations({
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
             onSelect={toggleModal}
           >
-            Delete
+            {t("deleteLabel")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -84,15 +85,15 @@ export function RestaurantOperations({
       <AlertDialog open={isModalOpen} onOpenChange={toggleModal}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you sure you want to delete this restaurant?
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone.
+              {t("deleteDialog.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("deleteDialog.secondayButtonLabel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={(event) => {
                 event.preventDefault();
@@ -105,7 +106,7 @@ export function RestaurantOperations({
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>Delete</span>
+              <span>{t("deleteDialog.primaryButtonLabel")}</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

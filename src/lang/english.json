@@ -1,0 +1,426 @@
+{
+  "Common": {
+    "loginButtonLabel": "Login",
+    "themeSwitcher": {
+      "darkLabel": "Dark",
+      "lightLabel": "Light",
+      "systemLabel": "System"
+    },
+    "imageUploadInput": {
+      "firstRow": {
+        "boldText": "Click to upload",
+        "regularText": "or drag and drop"
+      },
+      "secondRow": "JPG, JPEG or PNG (MAX. 5 MB)"
+    }
+  },
+  "Landing": {
+    "hero": {
+      "twitterLabel": "Follow along on Twitter",
+      "title": {
+        "firstLine": "Create a QR menu for",
+        "secondLineRestaurant": "Restaurant",
+        "secondLineCafe": "Cafe",
+        "secondLineBar": "Bar",
+        "thirdLine": "in minutes"
+      },
+      "description": "Want to create your QR menu without pain? With FoodMate, adding new menu is a breeze.",
+      "primaryButtonLabel": "Get started",
+      "secondayButtonLabel": "See example"
+    },
+    "features": {
+      "title": "Features",
+      "description": "FoodMate has several awesome features that makes it perfect to take your restaurant's menu to the next level",
+      "featureList": {
+        "firstFeatureTitle": "Optimized for Web",
+        "firstFeatureDescription": "The generated menu page has been optimized for search engines.",
+        "secondFeatureTitle": "Multilanguage",
+        "secondFeatureDescription": "Multiple languages for your restaurant",
+        "thirdFeatureTitle": "Free usage",
+        "thirdFeatureDescription": "Free forever. No trials, feature limitations, or menu volume restrictions.",
+        "fourthFeatureTitle": "Own dashboard",
+        "fourthFeatureDescription": "FoodMate provides an intuitive interface to easily manage your restaurants.",
+        "fifthFeatureTitle": "QR code",
+        "fifthFeatureDescription": "Generate a QR code, print and share it by simply placing it on your restaurant tables.",
+        "sixthFeatureTitle": "Dark and Light themes",
+        "sixthFeatureDescription": "Allow users to switch between a visually pleasing dark theme and a light theme in the app"
+      }
+    }
+  },
+  "Login": {
+    "title": "Welcome to FoodMate",
+    "description": "Enter your email to sign in or create new account",
+    "backButtonLabel": "Back"
+  },
+  "Dashboard": {
+    "userAccountNav": {
+      "signOutLabel": "Sign Out"
+    },
+    "commonSidebar": {
+      "restaurantTitle": "Restaurants",
+      "restaurantTitleMobile": "Restaurants",
+      "settingsTitle": "Settings",
+      "settingsTitleMobile": "Settings"
+    },
+    "restaurantSidebar": {
+      "backTitle": "Back to restaurants",
+      "backTitleMobile": "Back",
+      "detailsTitle": "Details",
+      "detailsTitleMobile": "Details",
+      "categoriesTitle": "Categoies & Products",
+      "categoriesTitleMobile": "Categories",
+      "settingsTitle": "Settings",
+      "settingsTitleMobile": "Settings"
+    },
+    "page": {
+      "allRestaurants": {
+        "title": "Restaurants",
+        "description": "Create and manage restaurants",
+        "newRestaurantButtonLabel": "New Restaurant",
+        "emptyPlaceholder": {
+          "title": "No restaurants created",
+          "description": "You don't have any restaurants yet. Start creating content."
+        }
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Manage account and website settings."
+      },
+      "restaurantDetails": {
+        "description": "Manage restaurant's details"
+      },
+      "restaurantSettings": {
+        "title": "Settings",
+        "description": "Manage restaurant's settings"
+      },
+      "restaurantCategoriesAndProducts": {
+        "description": "Manage restaurant"
+      }
+    },
+    "categoriesBlock": {
+      "newCategoryButtonLabel": "Create Category",
+      "newProductButtonLabel": "Create Product",
+      "emptyPlaceholder": {
+        "title": "No categories created",
+        "description": "You don't have any categories yet. Start creating content."
+      },
+      "updateCategoriesPosition": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update product position request failed. Please try again."
+        },
+        "success": {
+          "title": "Category position has been updated"
+        }
+      }
+    },
+    "categoryProductsTable": {
+      "updateProductPosition": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update product position request failed. Please try again."
+        },
+        "success": {
+          "title": "Product position has been updated."
+        }
+      },
+      "columns": {
+        "name": "Name",
+        "price": "Price",
+        "description": "Description"
+      }
+    },
+    "restaurantOperations": {
+      "editLabel": "Edit",
+      "deleteLabel": "Delete",
+      "deleteDialog": {
+        "title": "Are you sure you want to delete this restaurant?",
+        "description": "This action cannot be undone.",
+        "primaryButtonLabel": "Delete",
+        "secondayButtonLabel": "Cancel"
+      },
+      "deleteRestaurantMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your delete restaurant request failed. Please try again."
+        },
+        "success": {
+          "title": "Restaurant has been deleted."
+        }
+      }
+    },
+    "categoryOperations": {
+      "editLabel": "Edit",
+      "deleteLabel": "Delete",
+      "deleteDialog": {
+        "title": "Are you sure you want to delete this restaurant?",
+        "description": "This action cannot be undone.",
+        "primaryButtonLabel": "Delete",
+        "secondayButtonLabel": "Cancel"
+      },
+      "deleteCategoryMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your delete catgory request failed. Please try again."
+        },
+        "success": {
+          "title": "Category has been deleted."
+        }
+      }
+    },
+    "productOperations": {
+      "editLabel": "Edit",
+      "deleteLabel": "Delete",
+      "deleteDialog": {
+        "title": "Are you sure you want to delete this product?",
+        "description": "This action cannot be undone.",
+        "primaryButtonLabel": "Delete",
+        "secondayButtonLabel": "Cancel"
+      },
+      "deleteProductMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your delete product request failed. Please try again."
+        },
+        "success": {
+          "title": "Product has been deleted."
+        }
+      }
+    }
+  },
+  "Form": {
+    "userAuthForm": {
+      "primaryButtonLabel": "Sign In with Email",
+      "inputs": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Name@example.com"
+        }
+      },
+      "signInMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your sign in request failed. Please try again."
+        },
+        "success": {
+          "title": "Check your email",
+          "description": "We sent you a login link. Be sure to check your spam too."
+        }
+      }
+    },
+
+    "restaurantCreate": {
+      "title": "Create restaurant",
+      "description": "Add details about your restaurant here. Click save when you're done.",
+      "inputs": {
+        "languageSelect": {
+          "placeholder": "Select a default language",
+          "description": "Default language for your restaurant. After creating you can add aditional languages"
+        },
+        "currencySelect": "Select a currency",
+        "name": "Name",
+        "workingHours": "Working hours",
+        "address": "Address",
+        "phone": "Phone",
+        "description": "Tell us a little bit about your restaurant"
+      },
+      "primaryButtonLabel": "Save Changes",
+      "createRestaurantMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your create restaurant request failed. Please try again."
+        },
+        "success": {
+          "title": "Restaurant has been created."
+        }
+      }
+    },
+    "restaurantUpdate": {
+      "title": "Restaurant Details",
+      "description": "Edit your restaurant details and click submit when you're done.",
+      "inputs": {
+        "currencySelect": "Select a currency",
+        "name": "Name",
+        "workingHours": "Working hours",
+        "address": "Address",
+        "phone": "Phone",
+        "description": "Tell us a little bit about your restaurant"
+      },
+      "primaryButtonLabel": "Save Changes",
+      "updateRestaurantMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update restaurant request failed. Please try again."
+        },
+        "success": {
+          "title": "Restaurant has been updated."
+        }
+      }
+    },
+    "restaurantPublish": {
+      "title": "Publish and share your restaurant",
+      "publishButton": {
+        "publishedLabel": "Published",
+        "unpublishedLabel": "Not published"
+      },
+      "setPublishRestaurantMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update restaurant's status request failed. Please try again."
+        },
+        "success": {
+          "published": {
+            "title": "Restaurant has been published."
+          },
+          "unpublished": {
+            "title": "Restaurant has been unpublished."
+          }
+        }
+      },
+      "statusCard": {
+        "title": {
+          "published": "Restaurant is published",
+          "unpublished": "Restaurant is not published"
+        },
+        "description": {
+          "unpublished": "Please publish the restaurant once you have finalized your changes. Once published, you will be able to either share the direct URL or the QR code for your menu, with your customers."
+        }
+      },
+      "previewCard": {
+        "title": "Preview URL",
+        "description": "The following URL can be used for testing purposes as it will mimic the interface of actual menu while also updating in real time"
+      },
+      "switcherLabel": "Publish Restaurant",
+      "qrButtonLabel": "Download QR code"
+    },
+    "restaurantLanguageCreate": {
+      "title": "Add new language",
+      "description": "Add details about your restaurant's language here. Click save when you're done.",
+      "newRestaurantLanguageButtonLabel": "Add new language",
+      "inputs": {
+        "languageSelect": {
+          "placeholder": "Select a new language",
+          "description": "Additional language for your restaurant. After creating restaurant's details and all existing products, categories will be translate automaticaly. You can edit positions after."
+        }
+      },
+      "primaryButtonLabel": "Save Changes",
+      "createRestaurantLanguageMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your create restaurant language request failed. Please try again."
+        },
+        "success": {
+          "title": "Restaurant's language has been added."
+        }
+      }
+    },
+    "restaurantLanguageUpdate": {
+      "title": "Language visibility",
+      "primaryButtonLabel": "Save Changes",
+      "updateRestaurantLanguageMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update restaurant languages request failed. Please try again."
+        },
+        "success": {
+          "title": "Restaurant's languages have been updated."
+        }
+      }
+    },
+    "productCreate": {
+      "title": "Create product",
+      "description": "Add details about your product here. Click save when you're done.",
+      "inputs": {
+        "measurementSelect": {
+          "placeholder": "unit",
+          "weight": "Weight, g",
+          "volume": "Volume, ml",
+          "quantity": "Quantity, pcs"
+        },
+        "name": "Name",
+        "price": "Price",
+        "measurementValue": "Measurement value",
+        "description": "Tell us a little bit about your product"
+      },
+      "primaryButtonLabel": "Save Changes",
+      "createProductMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your create product request failed. Please try again."
+        },
+        "success": {
+          "title": "Product has been created."
+        }
+      }
+    },
+    "productUpdate": {
+      "title": "Update product",
+      "description": "Edit details about your product here. Click save when you're done.",
+      "inputs": {
+        "measurementSelect": {
+          "placeholder": "unit",
+          "weight": "Weight, g",
+          "volume": "Volume, ml",
+          "quantity": "Quantity, pcs"
+        },
+        "name": "Name",
+        "price": "Price",
+        "measurementValue": "Measurement value",
+        "description": "Tell us a little bit about your product"
+      },
+      "primaryButtonLabel": "Save Changes",
+      "updateProductMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update product request failed. Please try again."
+        },
+        "success": {
+          "title": "Product has been update."
+        }
+      }
+    },
+    "categoryCreate": {
+      "title": "Create category",
+      "description": "Add details about your category here. Click save when you're done.",
+      "inputs": {
+        "name": "Name"
+      },
+      "primaryButtonLabel": "Save Changes",
+      "createCategoryMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your create category request failed. Please try again."
+        },
+        "success": {
+          "title": "Category has been updated."
+        }
+      }
+    },
+    "categoryUpdate": {
+      "title": "Update category",
+      "description": "Edit details about your category here. Click save when you're done.",
+      "inputs": {
+        "name": "Name"
+      },
+      "primaryButtonLabel": "Save Changes",
+      "updateCategoryMutation": {
+        "error": {
+          "title": "Something went wrong.",
+          "description": "Your update product request failed. Please try again."
+        },
+        "success": {
+          "title": "Category has been updated."
+        }
+      }
+    }
+  },
+  "SEO": {
+    "homePage": {
+      "title": "FoodMate - Digital menu generator",
+      "description": "Manage your digital menu in the personal dashboard in an easy, let your customers view the menu on their own device, without any app installation."
+    },
+    "login": {
+      "title": "Sign In with Email"
+    }
+  }
+}

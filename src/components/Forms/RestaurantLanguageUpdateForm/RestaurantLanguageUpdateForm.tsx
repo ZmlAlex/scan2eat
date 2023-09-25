@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LanguageCode } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -37,13 +38,14 @@ const RestaurantLanguageUpdateForm = ({
 }: Props) => {
   const trpcContext = api.useContext();
 
+  const t = useTranslations("Form.restaurantLanguageUpdate");
+
   const { mutate: setEnabledRestaurantLanguages, isLoading } =
     api.restaurant.setEnabledRestaurantLanguages.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description:
-            "Your update restaurant languages request failed. Please try again.",
+          title: t("updateRestaurantLanguageMutation.error.title"),
+          description: t("updateRestaurantLanguageMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -53,7 +55,7 @@ const RestaurantLanguageUpdateForm = ({
         );
 
         toast({
-          title: "Restaurant's languages have been updated.",
+          title: t("updateRestaurantLanguageMutation.success.title"),
         });
       },
     });
@@ -92,7 +94,7 @@ const RestaurantLanguageUpdateForm = ({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <h3 className="mb-4 text-lg font-medium">Language visibility</h3>
+          <h3 className="mb-4 text-lg font-medium">{t("title")}</h3>
           <div className="space-y-4">
             {restaurantLanguages.map((language) => (
               <FormField
@@ -122,7 +124,7 @@ const RestaurantLanguageUpdateForm = ({
           </div>
         </div>
         <Button type="submit" disabled={isLoading}>
-          Submit
+          {t("primaryButtonLabel")}
         </Button>
       </form>
     </Form>

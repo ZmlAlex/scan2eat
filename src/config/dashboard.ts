@@ -2,25 +2,27 @@ import { type SidebarNavItem } from "~/components/DashboardNav";
 import { type MainNavItem } from "~/components/MainNav";
 
 export type DashboardConfig = {
-  mainNav: MainNavItem[];
-  sidebarNav: SidebarNavItem[];
+  type: "commonSidebar";
+  mainNav: readonly MainNavItem[];
+  sidebarNav: readonly SidebarNavItem[];
 };
 
 export const dashboardConfig: DashboardConfig = {
+  type: "commonSidebar",
   mainNav: [],
   sidebarNav: [
     {
-      title: "Restaurants",
+      title: "restaurantTitle",
       // TODO: THINK ABOUT MOBILE VIEW
-      titleMobile: "Restaurants",
+      titleMobile: "restaurantTitleMobile",
       href: "/dashboard",
       icon: "store",
     },
     {
-      title: "Settings",
-      titleMobile: "Settings",
+      title: "settingsTitle",
+      titleMobile: "settingsTitleMobile",
       href: "/dashboard/settings",
       icon: "settings",
     },
-  ],
+  ] as const,
 };

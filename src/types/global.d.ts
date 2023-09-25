@@ -1,3 +1,6 @@
+type Messages = typeof import("~/lang/english.json");
+type IntlMessages = Messages;
+
 declare module "@uidotdev/usehooks" {
   // Add your type declarations here
   function useLockBodyScroll(): void;

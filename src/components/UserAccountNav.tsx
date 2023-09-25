@@ -1,6 +1,6 @@
-// import Link from "next/link";
 import type { User } from "next-auth";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import {
   DropdownMenu,
@@ -16,6 +16,8 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+  const t = useTranslations("Dashboard.userAccountNav");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -53,7 +55,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             });
           }}
         >
-          Sign out
+          {t("signOutLabel")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,9 +1,9 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
+import { Icons } from "~/components/Icons";
 import { cn } from "~/utils/cn";
-
-import { Icons } from "../Icons";
 
 export type DropzoneProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -13,6 +13,7 @@ export type DropzoneProps = Omit<
 };
 
 const Dropzone = ({ onDrop, ...props }: DropzoneProps) => {
+  const t = useTranslations("Common.imageUploadInput");
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -38,11 +39,11 @@ const Dropzone = ({ onDrop, ...props }: DropzoneProps) => {
           <Icons.uploadCloud className="mb-4" />
 
           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
+            <span className="font-semibold">{t("firstRow.boldText")}</span>{" "}
+            {t("firstRow.regularText")}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            JPG, JPEG or PNG (MAX. 5 MB)
+            {t("secondRow")}
           </p>
         </div>
         <input

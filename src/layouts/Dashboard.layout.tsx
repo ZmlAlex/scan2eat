@@ -1,8 +1,10 @@
+import type { LanguageCode } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 import { DashboardMobileNav } from "~/components/DashboardMobileNav";
 import { DashboardNav } from "~/components/DashboardNav";
+import { LanguageToggle } from "~/components/LanguageToggle";
 import { MainNav } from "~/components/MainNav";
 import { ModeToggle } from "~/components/ModeToggle";
 import { SiteFooter } from "~/components/SiteFooter";
@@ -21,6 +23,7 @@ export default function DashboardLayout({
   const {
     query: { restaurantId },
     pathname,
+    locales = [],
   } = useRouter();
 
   const config = pathname.includes("restaurant")
@@ -36,6 +39,13 @@ export default function DashboardLayout({
           <div className="ml-auto">
             <ModeToggle />
           </div>
+
+          <LanguageToggle
+            languages={locales?.map((locale) => ({
+              languageCode: locale as LanguageCode,
+            }))}
+          />
+
           {sessionData && (
             <UserAccountNav
               user={{
@@ -49,11 +59,11 @@ export default function DashboardLayout({
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
         <aside className="hidden w-[200px] flex-col md:flex">
-          <DashboardNav items={config.sidebarNav} />
+          <DashboardNav type={config.type} items={config.sidebarNav} />
         </aside>
         <main className="flex w-full flex-1 flex-col overflow-hidden">
           <div className={"grid items-start gap-8"}>{children}</div>
-          <DashboardMobileNav items={config.sidebarNav} />
+          <DashboardMobileNav type={config.type} items={config.sidebarNav} />
         </main>
       </div>
       <SiteFooter className="border-t" />

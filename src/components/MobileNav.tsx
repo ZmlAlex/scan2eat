@@ -9,7 +9,7 @@ import { cn } from "~/utils/cn";
 import type { MainNavItem } from "./MainNav";
 
 interface MobileNavProps {
-  items: MainNavItem[];
+  items: readonly MainNavItem[];
   children?: React.ReactNode;
 }
 

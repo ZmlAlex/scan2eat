@@ -1,4 +1,5 @@
 import { Pen, Trash } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -41,14 +42,15 @@ export function CategoryOperations({
   const { isModalOpen: isModalUpdateOpen, toggleModal: toggleModalUpdate } =
     useModal();
 
+  const t = useTranslations("Dashboard.categoryOperations");
   const trpcContext = api.useContext();
 
   const { mutate: deleteCategory, isLoading } =
     api.category.deleteCategory.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description: "Your delete category request failed. Please try again.",
+          title: t("deleteCategoryMutation.error.title"),
+          description: t("deleteCategoryMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -58,7 +60,7 @@ export function CategoryOperations({
         );
 
         toast({
-          title: "Category has been deleted.",
+          title: t("deleteCategoryMutation.success.title"),
         });
       },
     });
@@ -77,7 +79,7 @@ export function CategoryOperations({
         >
           <DropdownMenuItem onClick={toggleModalUpdate}>
             <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-            Edit
+            {t("editLabel")}
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
@@ -90,7 +92,7 @@ export function CategoryOperations({
             }}
           >
             <Trash className="mr-2 h-3.5 w-3.5 text-destructive" />
-            Delete
+            {t("deleteLabel")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -99,15 +101,15 @@ export function CategoryOperations({
       <AlertDialog open={isModalDeleteOpen} onOpenChange={toggleModalDelete}>
         <AlertDialogContent onClick={(event) => event.stopPropagation()}>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Are you sure you want to delete this category?
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone.
+              {t("deleteDialog.description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t("deleteDialog.secondayButtonLabel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={(event) => {
                 event.preventDefault();
@@ -120,7 +122,7 @@ export function CategoryOperations({
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>Delete</span>
+              <span>{t("deleteDialog.primaryButtonLabel")}</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

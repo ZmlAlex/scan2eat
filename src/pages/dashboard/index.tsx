@@ -1,6 +1,7 @@
 import type { LanguageCode } from "@prisma/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
@@ -13,11 +14,12 @@ import useModal from "~/hooks/useModal";
 import DashboardLayout from "~/layouts/Dashboard.layout";
 import { api } from "~/utils/api";
 import { formatTranslationToOneLanguage } from "~/utils/formatTranslationToOneLanguage";
+import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
 
-const RestaurantList = () => {
+const RestaurantsList = () => {
   const { isModalOpen, toggleModal } = useModal();
-
   const router = useRouter();
+  const t = useTranslations("Dashboard.page.allRestaurants");
 
   const { data: restaurants, status } =
     api.restaurant.getAllRestaurants.useQuery(undefined, {
@@ -36,13 +38,10 @@ const RestaurantList = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DashboardLayout>
-        <DashboardHeader
-          heading="Restaurants"
-          text="Create and manage restaurants"
-        >
+        <DashboardHeader heading={t("title")} text={t("description")}>
           <Button onClick={toggleModal}>
             <Icons.add className="mr-2 h-4 w-4" />
-            New Restaurant
+            {t("newRestaurantButtonLabel")}
           </Button>
         </DashboardHeader>
         <div className="grid gap-10">
@@ -62,15 +61,14 @@ const RestaurantList = () => {
                 <EmptyPlaceholder>
                   <EmptyPlaceholder.Icon name="store" />
                   <EmptyPlaceholder.Title>
-                    No restaurants created
+                    {t("emptyPlaceholder.title")}
                   </EmptyPlaceholder.Title>
                   <EmptyPlaceholder.Description>
-                    You don&apos;t have any restaurants yet. Start creating
-                    content.
+                    {t("emptyPlaceholder.description")}
                   </EmptyPlaceholder.Description>
                   <Button variant="outline" onClick={toggleModal}>
                     <Icons.add className="mr-2 h-4 w-4" />
-                    New Restaurant
+                    {t("newRestaurantButtonLabel")}
                   </Button>
                 </EmptyPlaceholder>
               )}
@@ -89,4 +87,6 @@ const RestaurantList = () => {
   );
 };
 
-export default RestaurantList;
+export const getServerSideProps = getServerSidePropsWithLanguage;
+
+export default RestaurantsList;

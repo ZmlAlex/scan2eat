@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LanguageCode } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -61,13 +62,14 @@ const RestaurantUpdateForm = ({
   restaurant,
 }: Props) => {
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.restaurantUpdate");
+
   const { mutate: updateRestaurant, isLoading } =
     api.restaurant.updateRestaurant.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description:
-            "Your update restaurant request failed. Please try again.",
+          title: t("updateRestaurantMutation.error.title"),
+          description: t("updateRestaurantMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -77,7 +79,7 @@ const RestaurantUpdateForm = ({
         );
 
         toast({
-          title: "Restaurant has been updated.",
+          title: t("updateRestaurantMutation.success.title"),
         });
       },
     });
@@ -121,11 +123,8 @@ const RestaurantUpdateForm = ({
       >
         <Card>
           <CardHeader>
-            <CardTitle>Restaurant Details</CardTitle>
-            <CardDescription>
-              Edit your restaurant details and click submit when you&apos;re
-              done
-            </CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <FormField
@@ -135,7 +134,7 @@ const RestaurantUpdateForm = ({
                 <FormItem>
                   {/* <FormLabel>Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
                   {/* <FormDescription>
                 This is your public display name.
@@ -151,7 +150,7 @@ const RestaurantUpdateForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Working hours" {...field} />
+                    <Input placeholder={t("inputs.workingHours")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -163,7 +162,7 @@ const RestaurantUpdateForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Address" {...field} />
+                    <Input placeholder={t("inputs.address")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -176,7 +175,7 @@ const RestaurantUpdateForm = ({
                 <FormItem>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about your restaurant"
+                      placeholder={t("inputs.description")}
                       className="resize-none"
                       {...field}
                     />
@@ -191,7 +190,7 @@ const RestaurantUpdateForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Phone" {...field} />
+                    <Input placeholder={t("inputs.phone")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -223,7 +222,7 @@ const RestaurantUpdateForm = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a currency" />
+                        <SelectValue placeholder={t("inputs.currencySelect")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -261,7 +260,7 @@ const RestaurantUpdateForm = ({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save changes
+              {t("primaryButtonLabel")}
             </Button>
           </CardFooter>
         </Card>

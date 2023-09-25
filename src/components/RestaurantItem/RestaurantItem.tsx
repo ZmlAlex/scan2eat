@@ -22,6 +22,7 @@ function RestaurantItem({ restaurant }: RestaurantItemProps) {
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
+            {/* TODO: UPDATE HERE LOCALE */}
             {formatDate(restaurant.createdAt?.toDateString())}
           </p>
         </div>

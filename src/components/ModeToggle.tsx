@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import React from "react";
 
@@ -12,6 +13,7 @@ import {
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
+  const t = useTranslations("Common.themeSwitcher");
 
   return (
     <DropdownMenu>
@@ -25,15 +27,15 @@ export function ModeToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           <Icons.sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
+          <span>{t("lightLabel")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           <Icons.moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
+          <span>{t("darkLabel")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <Icons.laptop className="mr-2 h-4 w-4" />
-          <span>System</span>
+          <span>{t("systemLabel")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,29 +1,20 @@
+import { useTranslations } from "next-intl";
 import React, { type ReactNode } from "react";
 
 import ProductCreateForm from "~/components/Forms/ProductCreateForm";
 import { Icons } from "~/components/Icons";
 import type { ArrayElement } from "~/components/Menu/CategoryProduct";
-import { SortableList } from "~/components/SortableList";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/Table";
-import { toast } from "~/components/ui/useToast";
 import useModal from "~/hooks/useModal";
-import { api } from "~/utils/api";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { CategoryOperations } from "./CategoryOperations";
-import CategoryProduct from "./CategoryProduct";
+import CategoryProductsTable from "./CategoryProductsTable";
 
 type Props = {
   restaurantId: string;
@@ -40,34 +31,7 @@ const CategorySection = ({
   dragHandler,
 }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
-  const trpcContext = api.useContext();
-
-  // * It's required for drag and drop optimistic update
-  const [sortableProducts, setSortableProducts] = React.useState(
-    () => products
-  );
-  React.useEffect(() => setSortableProducts(products), [products]);
-
-  // TODO: show loader for table while is loading
-  const { mutate: updateProductsPosition, isLoading } =
-    api.product.updateProductsPosition.useMutation({
-      onError: () =>
-        toast({
-          title: "Something went wrong.",
-          description:
-            "Your update product position request failed. Please try again.",
-          variant: "destructive",
-        }),
-      onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
-          { restaurantId },
-          () => updatedRestaurant
-        );
-        toast({
-          title: "Product has been updated.",
-        });
-      },
-    });
+  const t = useTranslations("Dashboard.categoriesBlock");
 
   return (
     <>
@@ -89,48 +53,14 @@ const CategorySection = ({
         <AccordionContent className="p-0">
           <div className="space-y-4">
             {!!products?.length && (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="px-1 py-2" />
-                    <TableHead className="px-1 py-2" />
-                    <TableHead className="px-1 py-2">Name</TableHead>
-                    <TableHead className="px-1 py-2">Price</TableHead>
-                    <TableHead className="px-1 py-2">Description</TableHead>
-                    <TableHead className="px-1 py-2 text-right"> </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="whitespace-nowrap">
-                  <SortableList
-                    items={sortableProducts}
-                    onChange={(updatedProducts) => {
-                      setSortableProducts(updatedProducts);
-
-                      updateProductsPosition(
-                        updatedProducts.map((product, index) => ({
-                          id: product.id,
-                          position: index,
-                        }))
-                      );
-                    }}
-                    // TODO: THINK ABOUT TABLE STYLES
-                    renderItem={(product) => (
-                      <SortableList.Item id={product.id} asChild>
-                        <CategoryProduct
-                          key={product.id}
-                          product={product}
-                          restaurantId={restaurantId}
-                          dragHandler={<SortableList.DragHandle />}
-                        />
-                      </SortableList.Item>
-                    )}
-                  />
-                </TableBody>
-              </Table>
+              <CategoryProductsTable
+                restaurantId={restaurantId}
+                products={products}
+              />
             )}
             <Button className="mx-4" onClick={toggleModal}>
               <Icons.add className="mr-2 h-4 w-4" />
-              Add Product
+              {t("newProductButtonLabel")}
             </Button>
           </div>
         </AccordionContent>

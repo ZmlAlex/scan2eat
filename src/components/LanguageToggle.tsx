@@ -16,7 +16,18 @@ type Props = {
 };
 
 export function LanguageToggle({ languages }: Props) {
-  const { asPath, push, pathname, query, locale } = useRouter();
+  const { asPath, push, pathname, query, locale, reload } = useRouter();
+
+  const handleClick = (locale: string) => async () => {
+    await push({ pathname, query }, asPath, {
+      locale,
+    });
+
+    // !TODO: It's a workaround solution for temp issue with locale reloading https://stackoverflow.com/questions/73274826/next-js-router-push-does-not-change-locale-in-url
+    if (query.restaurantId) {
+      reload();
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -32,11 +43,7 @@ export function LanguageToggle({ languages }: Props) {
             className="capitalize"
             checked={language.languageCode === locale}
             key={language.languageCode}
-            onClick={() =>
-              push({ pathname, query }, asPath, {
-                locale: language.languageCode,
-              })
-            }
+            onClick={handleClick(language.languageCode)}
           >
             {language.languageCode}
           </DropdownMenuCheckboxItem>

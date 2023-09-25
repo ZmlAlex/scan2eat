@@ -1,33 +1,36 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { buttonVariants } from "~/components/ui/Button";
 import { siteConfig } from "~/config/site";
 import { cn } from "~/utils/cn";
 
-const items = [
+const foodPlaces = [
   {
     id: 1,
-    content: "Restaurant",
+    content: "title.secondLineRestaurant",
   },
   {
     id: 2,
-    content: "Cafe",
+    content: "title.secondLineCafe",
   },
   {
     id: 3,
-    content: "Bar",
+    content: "title.secondLineBar",
   },
-];
+] as const;
 
 const Hero = () => {
   const [index, setIndex] = React.useState(0);
 
+  const t = useTranslations("Landing.hero");
+
   React.useEffect(() => {
     const id = setInterval(() => {
       setIndex((state) => {
-        if (state >= items.length - 1) return 0;
+        if (state >= foodPlaces.length - 1) return 0;
         return state + 1;
       });
     }, 3000);
@@ -43,23 +46,22 @@ const Hero = () => {
             className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
             target="_blank"
           >
-            Follow along on Twitter
+            {t("twitterLabel")}
           </Link>
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Create a QR menu for{" "}
+          <h1 className="font-heading text-3xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+            {t("title.firstLine")}
             <motion.div
-              key={items[index]?.id}
+              key={foodPlaces[index]?.id}
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 200 }}
             >
-              {items[index]?.content}
+              {t(foodPlaces[index]?.content ?? "title.secondLineBar")}
             </motion.div>
-            in minutes.
+            {t("title.thirdLine")}
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            Want to create your QR menu without pain? With FoodMate, adding new
-            menu is a breeze.
+            {t("description")}
           </p>
 
           <div className="flex gap-4">
@@ -67,7 +69,7 @@ const Hero = () => {
               href="/login"
               className={cn(buttonVariants({ size: "default" }))}
             >
-              Get Started
+              {t("primaryButtonLabel")}
             </Link>
             <Link
               href={siteConfig.links.restaurantExample}
@@ -76,7 +78,7 @@ const Hero = () => {
                 buttonVariants({ variant: "secondary", size: "default" })
               )}
             >
-              See example
+              {t("secondayButtonLabel")}
             </Link>
           </div>
         </div>

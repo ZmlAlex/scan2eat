@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LanguageCode } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -53,14 +54,14 @@ const RestaurantLanguageCreateForm = ({
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.restaurantLanguageCreate");
 
   const { mutate: createRestaurantLanguage, isLoading } =
     api.restaurant.createRestaurantLanguage.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description:
-            "Your create restaurant language request failed. Please try again.",
+          title: t("createRestaurantLanguageMutation.error.title"),
+          description: t("createRestaurantLanguageMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurant) => {
@@ -70,7 +71,7 @@ const RestaurantLanguageCreateForm = ({
         );
 
         toast({
-          title: "Restaurant's language has been added.",
+          title: t("createRestaurantLanguageMutation.success.title"),
         });
         toggleModal();
       },
@@ -91,11 +92,8 @@ const RestaurantLanguageCreateForm = ({
     <Dialog open={isModalOpen} onOpenChange={toggleModal}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add new language</DialogTitle>
-          <DialogDescription>
-            Add details about your restaurant&apos;s language here. Click save
-            when you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -111,7 +109,9 @@ const RestaurantLanguageCreateForm = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a new language" />
+                        <SelectValue
+                          placeholder={t("inputs.languageSelect.placeholder")}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -127,10 +127,7 @@ const RestaurantLanguageCreateForm = ({
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Additional language for your restaurant. After creating
-                    restaurant&apos;s details and all existing products,
-                    categories will be translate automaticaly. You can edit
-                    positions after
+                    {t("inputs.languageSelect.description")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -141,7 +138,7 @@ const RestaurantLanguageCreateForm = ({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save changes
+              {t("primaryButtonLabel")}
             </Button>
           </form>
         </Form>

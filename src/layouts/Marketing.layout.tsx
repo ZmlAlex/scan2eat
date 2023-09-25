@@ -1,6 +1,10 @@
+import type { LanguageCode } from "@prisma/client";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import { Icons } from "~/components/Icons";
+import { LanguageToggle } from "~/components/LanguageToggle";
 import { ModeToggle } from "~/components/ModeToggle";
 import { SiteFooter } from "~/components/SiteFooter";
 import { buttonVariants } from "~/components/ui/Button";
@@ -12,6 +16,9 @@ interface MarketingLayoutProps {
 }
 
 export default function MarketingLayout({ children }: MarketingLayoutProps) {
+  const { locales = [] } = useRouter();
+  const t = useTranslations("Common");
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="container z-40 bg-background">
@@ -27,6 +34,13 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
             <ModeToggle />
           </div>
 
+          {/* ADD HERE LANGUAGE! */}
+          <LanguageToggle
+            languages={locales?.map((locale) => ({
+              languageCode: locale as LanguageCode,
+            }))}
+          />
+
           <nav>
             <Link
               href="/login"
@@ -35,7 +49,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
                 "px-4"
               )}
             >
-              Login
+              {t("loginButtonLabel")}
             </Link>
           </nav>
         </div>

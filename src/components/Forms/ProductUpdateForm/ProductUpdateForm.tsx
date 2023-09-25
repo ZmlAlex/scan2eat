@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { LanguageCode } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -67,13 +68,14 @@ const ProductUpdateForm = ({
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+  const t = useTranslations("Form.productUpdate");
 
   const { mutate: updateProduct, isLoading } =
     api.product.updateProduct.useMutation({
       onError: () =>
         toast({
-          title: "Something went wrong.",
-          description: "Your update product request failed. Please try again.",
+          title: t("updateProductMutation.error.title"),
+          description: t("updateProductMutation.error.description"),
           variant: "destructive",
         }),
       onSuccess: (updatedRestaurants) => {
@@ -83,7 +85,7 @@ const ProductUpdateForm = ({
         );
 
         toast({
-          title: "Product has been updated.",
+          title: t("updateProductMutation.success.title"),
         });
 
         toggleModal();
@@ -123,11 +125,8 @@ const ProductUpdateForm = ({
     <Dialog open={isModalOpen} onOpenChange={toggleModal}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Update product</DialogTitle>
-          <DialogDescription>
-            Edit details about your product here. Click save when you&apos;re
-            done.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -139,7 +138,7 @@ const ProductUpdateForm = ({
                 <FormItem>
                   {/* <FormLabel>Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
                   {/* <FormDescription>
                 This is your public display name.
@@ -155,7 +154,7 @@ const ProductUpdateForm = ({
                 <FormItem>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about your product"
+                      placeholder={t("inputs.description")}
                       className="resize-none"
                       {...field}
                     />
@@ -171,7 +170,7 @@ const ProductUpdateForm = ({
                 <FormItem>
                   <FormControl>
                     <Input
-                      placeholder="Price"
+                      placeholder={t("inputs.price")}
                       type="number"
                       {...field}
                       onChange={(event) =>
@@ -192,7 +191,10 @@ const ProductUpdateForm = ({
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormControl>
-                      <Input placeholder="take from selected val" {...field} />
+                      <Input
+                        placeholder={t("inputs.measurementValue")}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -209,13 +211,23 @@ const ProductUpdateForm = ({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a default measure unit" />
+                          <SelectValue
+                            placeholder={t(
+                              "inputs.measurementSelect.placeholder"
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="g">Weight, g</SelectItem>
-                        <SelectItem value="ml">Volume, ml</SelectItem>
-                        <SelectItem value="pcs">Quantity, pcs</SelectItem>
+                        <SelectItem value="g">
+                          {t("inputs.measurementSelect.weight")}
+                        </SelectItem>
+                        <SelectItem value="ml">
+                          {t("inputs.measurementSelect.volume")}
+                        </SelectItem>
+                        <SelectItem value="pcs">
+                          {t("inputs.measurementSelect.quantity")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -247,7 +259,7 @@ const ProductUpdateForm = ({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save changes
+              {t("primaryButtonLabel")}
             </Button>
           </form>
         </Form>

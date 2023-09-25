@@ -1,0 +1,430 @@
+{
+  "Common": {
+    "loginButtonLabel": "Войти",
+    "themeSwitcher": {
+      "darkLabel": "Темная",
+      "lightLabel": "Светлая",
+      "systemLabel": "Системная"
+    },
+    "imageUploadInput": {
+      "firstRow": {
+        "boldText": "Нажмите для загрузки",
+        "regularText": "или перетащите"
+      },
+      "secondRow": "JPG, JPEG или PNG (Макс. 5 MB)"
+    }
+  },
+  "Landing": {
+    "hero": {
+      "twitterLabel": "Следите за новостями в Твиттере",
+      "title": {
+        "firstLine": "Cоздайте QR-меню для",
+        "secondLineRestaurant": "Ресторана",
+        "secondLineCafe": "Кафе",
+        "secondLineBar": "Бара",
+        "thirdLine": "за минуты"
+      },
+      "description": "Хотите безболезненно создать свое QR-меню? С FoodMate добавить новое меню не составит труда.",
+      "primaryButtonLabel": "Начать",
+      "secondayButtonLabel": "Смотреть пример"
+    },
+    "features": {
+      "title": "Преимущества",
+      "description": "FoodMate обладает рядом преимуществ, которые позволяют вывести меню вашего ресторана на новый уровень.",
+      "featureList": {
+        "firstFeatureTitle": "Оптимизировано для Web",
+        "firstFeatureDescription": "Сформированная страница ресторана оптимизирована для поисковых систем.",
+        "secondFeatureTitle": "Мультиязычность",
+        "secondFeatureDescription": "Несколько языков для вашего ресторана.",
+        "thirdFeatureTitle": "Бесплатное использование",
+        "thirdFeatureDescription": "Бесплатно навсегда. Никаких пробных версий, ограничений по функциям или объему меню.",
+        "fourthFeatureTitle": "Собственная панель управления",
+        "fourthFeatureDescription": "FoodMate предоставляет интуитивно понятный интерфейс для удобного управления вашими ресторанами",
+        "fifthFeatureTitle": "QR-код",
+        "fifthFeatureDescription": "Сгенерируйте QR-код, распечатайте и распространите, просто разместив на столиках вашего ресторана.",
+        "sixthFeatureTitle": "Темная и светлая темы",
+        "sixthFeatureDescription": "Позволяет пользователям переключаться между визуально приятной темной и светлой темами в приложении"
+      }
+    }
+  },
+  "Login": {
+    "title": "Доброе пожаловать в FoodMate",
+    "description": "Введите свой Email для входа в систему или создания новой учетной записи",
+    "backButtonLabel": "Назад"
+  },
+  "Dashboard": {
+    "userAccountNav": {
+      "signOutLabel": "Выйти"
+    },
+    "commonSidebar": {
+      "restaurantTitle": "Рестораны",
+      "restaurantTitleMobile": "Рестораны",
+      "settingsTitle": "Настройки",
+      "settingsTitleMobile": "Настройки"
+    },
+    "restaurantSidebar": {
+      "backTitle": "Назад к ресторанам",
+      "backTitleMobile": "Назад",
+      "detailsTitle": "Детали",
+      "detailsTitleMobile": "Детали",
+      "categoriesTitle": "Категории & Продукты",
+      "categoriesTitleMobile": "Категории",
+      "settingsTitle": "Настройки",
+      "settingsTitleMobile": "Настройки"
+    },
+    "page": {
+      "allRestaurants": {
+        "title": "Рестораны",
+        "description": "Создание и управление ресторанами",
+        "newRestaurantButtonLabel": "Новое заведение",
+        "emptyPlaceholder": {
+          "title": "Заведения не найдены",
+          "description": "У вас нет созданных заведений. Начните создавать."
+        }
+      },
+      "settings": {
+        "title": "Настройки",
+        "description": "Управление аккаунтом."
+      },
+      "restaurantDetails": {
+        "description": "Управление деталями заведения"
+      },
+      "restaurantSettings": {
+        "title": "Настройки",
+        "description": "Управление настройками заведения"
+      },
+      "restaurantCategoriesAndProducts": {
+        "description": "Управление меню заведения"
+      }
+    },
+    "categoriesBlock": {
+      "newCategoryButtonLabel": "Создать категорию",
+      "newProductButtonLabel": "Создать продукт",
+      "emptyPlaceholder": {
+        "title": "Категории не найдены",
+        "description": "У вас нет созданных категорий. Начните создавать."
+      },
+      "updateCategoriesPosition": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить позицию категории' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Позиция категории была обновлена."
+        }
+      }
+    },
+    "categoryProductsTable": {
+      "updateProductPosition": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить позицию продукта' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Позиция продукта была обновлена."
+        }
+      },
+      "columns": {
+        "name": "Название",
+        "price": "Цена",
+        "description": "Описание"
+      }
+    },
+    "restaurantOperations": {
+      "editLabel": "Редактировать",
+      "deleteLabel": "Удалить",
+      "deleteDialog": {
+        "title": "Вы уверены что хотите удалить заведение?",
+        "description": "Это действие не может быть отменено",
+        "primaryButtonLabel": "Удалить",
+        "secondayButtonLabel": "Отмена"
+      },
+      "deleteRestaurantMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'удалить заведение' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Ресторан был удален."
+        }
+      }
+    },
+    "categoryOperations": {
+      "editLabel": "Редактировать",
+      "deleteLabel": "Удалить",
+      "deleteDialog": {
+        "title": "Вы уверены что хотите удалить ресторан?",
+        "description": "Это действие не может быть отменено",
+        "primaryButtonLabel": "Удалить",
+        "secondayButtonLabel": "Отмена"
+      },
+      "deleteCategoryMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'удалить категорию' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Категория был удалена."
+        }
+      }
+    },
+    "productOperations": {
+      "editLabel": "Редактировать",
+      "deleteLabel": "Удалить",
+      "deleteDialog": {
+        "title": "Вы уверены что хотите удалить продукт?",
+        "description": "Это действие не может быть отменено",
+        "primaryButtonLabel": "Удалить",
+        "secondayButtonLabel": "Отмена"
+      },
+      "deleteProductMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'удалить продукт' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Продукт был удален."
+        }
+      }
+    }
+  },
+  "Form": {
+    "userAuthForm": {
+      "primaryButtonLabel": "Войти",
+      "inputs": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Name@example.com"
+        }
+      },
+      "signInMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'войти' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Проверьте ваш email",
+          "description": "Мы отправили вам ссылку для входа. Обязательно проверьте также свой спам."
+        }
+      }
+    },
+
+    "restaurantCreate": {
+      "title": "Создать ресторан",
+      "description": "Добавьте сюда информацию о своем ресторане. Нажмите 'Сохранить изменения', когда закончите.",
+      "inputs": {
+        "languageSelect": {
+          "placeholder": "Выберите язык по умолчанию",
+          "description": "Язык по умолчанию для вашего заведения. После создания вы можете добавить дополнительные языки"
+        },
+        "currencySelect": "Выберите валюту",
+        "name": "Имя",
+        "workingHours": "Рабочие часы",
+        "address": "Адрес",
+        "phone": "Телефон",
+        "description": "Расскажите нам немного о вашем заведении."
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+      "createRestaurantMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'cоздать заведение' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Заведение было создано."
+        }
+      }
+    },
+    "restaurantUpdate": {
+      "title": "Детали заведения",
+      "description": "Отредактируйте информацию о вашем ресторане и нажмите кнопку 'Сохранить изменения', когда закончите.",
+      "inputs": {
+        "currencySelect": "Выберите валюту",
+        "name": "Имя",
+        "workingHours": "Рабочие часы",
+        "address": "Адрес",
+        "phone": "Телефон",
+        "description": "Расскажите нам немного о вашем заведении."
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+      "updateRestaurantMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить заведение' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Заведение было обновлено."
+        }
+      }
+    },
+    "restaurantPublish": {
+      "title": "Опубликовать ваше заведение",
+      "publishButton": {
+        "publishedLabel": "Опубликовано",
+        "unpublishedLabel": "Не опубликовано"
+      },
+      "setPublishRestaurantMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить статус заведения' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "published": {
+            "title": "Заведение было опубликовано"
+          },
+          "unpublished": {
+            "title": "Заведение было снято с публикации."
+          }
+        }
+      },
+      "statusCard": {
+        "title": {
+          "published": "Заведение опубликовано",
+          "unpublished": "Заведение снято с публикации"
+        },
+        "description": {
+          "unpublished": "Пожалуйста, опубликуйте заведение после завершения внесения изменений. После публикации вы сможете поделиться с клиентами либо прямым URL-адресом, либо QR-кодом вашего меню."
+        }
+      },
+      "previewCard": {
+        "title": "Предпросмотр URL",
+        "description": "Следующий URL можно использовать для тестирования, так как он будет имитировать интерфейс реального меню и при этом обновляться в реальном времени"
+      },
+      "switcherLabel": "Опубликовать Заведение",
+      "qrButtonLabel": "Скачать QR-код"
+    },
+    "restaurantLanguageCreate": {
+      "title": "Добавить новый язык",
+      "description": "Выберите дополнительный язык для вашего заведения и нажмите кнопку 'Сохранить изменения', когда закончите.",
+      "newRestaurantLanguageButtonLabel": "Сохранить изменения",
+      "inputs": {
+        "languageSelect": {
+          "placeholder": "Выбрать язык",
+          "description": "Дополнительный язык для вашего ресторана. После создания заведения все существующие продукты, категории будут переведены автоматически. Вы можете редактировать позиции после."
+        }
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+      "createRestaurantLanguageMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'добавить язык для заведение' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Язык для заведения был добавлен."
+        }
+      }
+    },
+    "restaurantLanguageUpdate": {
+      "title": "Активные языки",
+      "primaryButtonLabel": "Сохранить изменения",
+      "updateRestaurantLanguageMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить активные языки для заведение' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Активные языки для заведения были обновлены"
+        }
+      }
+    },
+    "productCreate": {
+      "title": "Создать продукт",
+      "description": "Добавьте подробную информацию о вашем продукте. Нажмите кнопку 'Сохранить изменения', когда закончите.",
+      "inputs": {
+        "measurementSelect": {
+          "placeholder": "ед. измерения",
+          "weight": "Вес, г.",
+          "volume": "Объем, мл.",
+          "quantity": "Кол-во, шт."
+        },
+        "name": "Название",
+        "price": "Цена",
+        "measurementValue": "Единица измерения",
+        "description": "Расскажите немного о своем продукте"
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+      "createProductMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'создать продукт' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Продукт был создан"
+        }
+      }
+    },
+    "productUpdate": {
+      "title": "Обновить продукт",
+      "description": "Обновите информацию о вашем продукте. Нажмите кнопку 'Сохранить изменения', когда закончите.",
+
+      "inputs": {
+        "measurementSelect": {
+          "placeholder": "ед. измерения",
+          "weight": "Вес, г.",
+          "volume": "Объем, мл.",
+          "quantity": "Кол-во, шт."
+        },
+        "name": "Название",
+        "price": "Цена",
+        "measurementValue": "Единица измерения",
+        "description": "Расскажите немного о своем продукте"
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+      "updateProductMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить продукт' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Продукт был обновлен"
+        }
+      }
+    },
+    "categoryCreate": {
+      "title": "Создать категорию",
+      "description": "Добавьте информацию о вашей категории. Нажмите кнопку 'Сохранить изменения', когда закончите.",
+
+      "inputs": {
+        "name": "Название"
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+
+      "createCategoryMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'создать категорию' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Категория была создана"
+        }
+      }
+    },
+    "categoryUpdate": {
+      "title": "Обновить категорию",
+      "description": "Обновите информацию о вашей категории. Нажмите кнопку 'Сохранить изменения', когда закончите.",
+
+      "inputs": {
+        "name": "Название"
+      },
+      "primaryButtonLabel": "Сохранить изменения",
+      "updateCategoryMutation": {
+        "error": {
+          "title": "Что-то пошло не так.",
+          "description": "Ваш запрос 'обновить категорию' не удался. Попробуйте еще раз."
+        },
+        "success": {
+          "title": "Категория была обновлена"
+        }
+      }
+    }
+  },
+  "SEO": {
+    "homePage": {
+      "title": "FoodMate - Онлайн QR-меню генератор",
+      "description": "Простое управление цифровым меню в персональной панели, позволяющее вашим клиентам просматривать меню на своем устройстве без установки приложения."
+    },
+    "login": {
+      "title": "Войти с помощью почты"
+    }
+  }
+}
