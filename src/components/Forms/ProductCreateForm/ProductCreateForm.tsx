@@ -98,7 +98,9 @@ const ProductCreateForm = ({
   });
 
   function onSubmit(values: FormSchema) {
-    const { selectedRestaurantLang } = parseCookies();
+    const cookies = parseCookies();
+    const selectedRestaurantLang =
+      cookies[`selectedRestaurantLang${restaurantId}`];
 
     if (selectedRestaurantLang) {
       createProduct({

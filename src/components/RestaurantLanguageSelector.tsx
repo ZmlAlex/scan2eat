@@ -17,11 +17,14 @@ type Props = {
 };
 
 const RestaurantLanguageSelector = ({ restaurant }: Props) => {
+  const cookies = parseCookies();
+  const selectedRestaurantLang =
+    cookies[`selectedRestaurantLang${restaurant.id}`];
+
   const trpcContext = api.useContext();
-  const { selectedRestaurantLang } = parseCookies();
 
   const handleLanguageChange = async (language: string) => {
-    setCookie(null, "selectedRestaurantLang", language, {
+    setCookie(null, `selectedRestaurantLang${restaurant.id}`, language, {
       maxAge: 30 * 24 * 60 * 60,
       path: "/",
     });

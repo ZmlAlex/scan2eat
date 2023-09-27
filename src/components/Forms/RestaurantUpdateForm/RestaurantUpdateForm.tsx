@@ -99,7 +99,9 @@ const RestaurantUpdateForm = ({
   });
 
   function onSubmit(values: FormSchema) {
-    const { selectedRestaurantLang } = parseCookies();
+    const cookies = parseCookies();
+    const selectedRestaurantLang =
+      cookies[`selectedRestaurantLang${restaurant.id}`];
 
     updateRestaurant({
       restaurantId: restaurant.id,

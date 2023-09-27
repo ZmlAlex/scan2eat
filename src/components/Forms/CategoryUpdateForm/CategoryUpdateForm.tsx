@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { LanguageCode } from "@prisma/client";
 import { useTranslations } from "next-intl";
+import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -24,7 +27,7 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
-import { Icons } from "../../Icons";
+// TODO: MOVE TO THE GLOBAL
 import type { ArrayElement } from "../../Menu/CategoryProduct";
 
 const formSchema = z.object({
@@ -80,12 +83,15 @@ const CategoryUpdateForm = ({
   });
 
   function onSubmit(values: FormSchema) {
+    const cookies = parseCookies();
+    const selectedRestaurantLang =
+      cookies[`selectedRestaurantLang${restaurantId}`];
+
     updateCategory({
       restaurantId,
       categoryId: category.id,
       name: values.name,
-      //TODO: UPDATE ID
-      languageCode: "english",
+      languageCode: selectedRestaurantLang as LanguageCode,
     });
   }
 

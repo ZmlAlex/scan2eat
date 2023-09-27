@@ -15,13 +15,20 @@ const useGetRestaurant = (restaurantId: string) => {
       enabled: Boolean(restaurantId),
       select: (restaurant) => {
         const defaultLanguage = restaurant.restaurantLanguage[0]?.languageCode;
-        const { selectedRestaurantLang } = parseCookies();
+        const cookies = parseCookies();
+        const selectedRestaurantLang =
+          cookies[`selectedRestaurantLang${restaurantId}`];
 
         if (!selectedRestaurantLang && defaultLanguage) {
-          setCookie(null, "selectedRestaurantLang", defaultLanguage, {
-            maxAge: 30 * 24 * 60 * 60,
-            path: "/",
-          });
+          setCookie(
+            null,
+            `selectedRestaurantLang${restaurantId}`,
+            defaultLanguage,
+            {
+              maxAge: 30 * 24 * 60 * 60,
+              path: "/",
+            }
+          );
         }
         return formatTranslationToOneLanguageWithDetails(
           restaurant,
