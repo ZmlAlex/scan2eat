@@ -17,6 +17,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
@@ -96,7 +97,7 @@ const CategoryCreateForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormLabel aria-required>{t("inputs.name")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>

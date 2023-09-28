@@ -21,6 +21,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
@@ -134,7 +135,7 @@ const RestaurantUpdateForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormLabel aria-required>{t("inputs.name")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
@@ -151,6 +152,8 @@ const RestaurantUpdateForm = ({
               name="workingHours"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.workingHours")}</FormLabel>
+
                   <FormControl>
                     <Input placeholder={t("inputs.workingHours")} {...field} />
                   </FormControl>
@@ -163,6 +166,7 @@ const RestaurantUpdateForm = ({
               name="address"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel aria-required>{t("inputs.address")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.address")} {...field} />
                   </FormControl>
@@ -175,9 +179,10 @@ const RestaurantUpdateForm = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.description.title")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder={t("inputs.description")}
+                      placeholder={t("inputs.description.placeholder")}
                       className="resize-none"
                       {...field}
                     />
@@ -191,6 +196,7 @@ const RestaurantUpdateForm = ({
               name="phone"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.phone")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.phone")} {...field} />
                   </FormControl>
@@ -217,17 +223,22 @@ const RestaurantUpdateForm = ({
               name="currencyCode"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Currency</FormLabel> */}
+                  <FormLabel aria-required>
+                    {t("inputs.currencySelect.title")}
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t("inputs.currencySelect")} />
+                        <SelectValue
+                          placeholder={t("inputs.currencySelect.description")}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      {/* TODO: MAKE IT DYNAMIC */}
                       <SelectItem value="USD">USD</SelectItem>
                       <SelectItem value="RUB">RUB</SelectItem>
                     </SelectContent>

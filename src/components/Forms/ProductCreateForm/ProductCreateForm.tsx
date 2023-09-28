@@ -19,6 +19,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
@@ -132,14 +133,11 @@ const ProductCreateForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormLabel aria-required>{t("inputs.name")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
-                  {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
-                  <FormMessage />
+                  {/* <FormMessage /> */}
                 </FormItem>
               )}
             />
@@ -148,9 +146,10 @@ const ProductCreateForm = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.description.title")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder={t("inputs.description")}
+                      placeholder={t("inputs.description.placeholder")}
                       className="resize-none"
                       {...field}
                     />
@@ -164,6 +163,7 @@ const ProductCreateForm = ({
               name="price"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel aria-required>{t("inputs.price")}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder={t("inputs.price")}
@@ -180,12 +180,13 @@ const ProductCreateForm = ({
               )}
             />
 
-            <div className="flex gap-2">
+            <div className="flex items-end gap-2">
               <FormField
                 control={form.control}
                 name="measurementValue"
                 render={({ field }) => (
                   <FormItem className="flex-1">
+                    <FormLabel>{t("inputs.measurementValue")}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder={t("inputs.measurementValue")}

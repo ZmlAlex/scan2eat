@@ -21,6 +21,7 @@ import {
   FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
 import {
@@ -103,6 +104,9 @@ const RestaurantLanguageCreateForm = ({
               name="languageCode"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel aria-required>
+                    {t("inputs.languageSelect.title")}
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}

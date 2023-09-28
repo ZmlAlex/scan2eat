@@ -19,6 +19,7 @@ import {
   FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
@@ -129,7 +130,10 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="languageCode"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Language</FormLabel> */}
+                  <FormLabel aria-required>
+                    {t("inputs.languageSelect.title")}
+                  </FormLabel>
+
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -160,7 +164,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormLabel aria-required>{t("inputs.name")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
@@ -177,7 +181,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="workingHours"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormLabel>{t("inputs.workingHours")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.workingHours")} {...field} />
                   </FormControl>
@@ -190,6 +194,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="address"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.address")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.address")} {...field} />
                   </FormControl>
@@ -202,9 +207,10 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.description.title")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder={t("inputs.description")}
+                      placeholder={t("inputs.description.placeholder")}
                       className="resize-none"
                       {...field}
                     />
@@ -218,6 +224,7 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{t("inputs.phone")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.phone")} {...field} />
                   </FormControl>
@@ -244,17 +251,22 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
               name="currencyCode"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Currency</FormLabel> */}
+                  <FormLabel aria-required>
+                    {t("inputs.currencySelect.title")}
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t("inputs.currencySelect")} />
+                        <SelectValue
+                          placeholder={t("inputs.currencySelect.description")}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      {/* TODO: MAKE IT DYNAMIC */}
                       <SelectItem value="USD">USD</SelectItem>
                       <SelectItem value="RUB">RUB</SelectItem>
                     </SelectContent>

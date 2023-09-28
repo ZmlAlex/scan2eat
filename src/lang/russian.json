@@ -214,15 +214,22 @@
       "description": "Добавьте сюда информацию о своем ресторане. Нажмите 'Сохранить изменения', когда закончите.",
       "inputs": {
         "languageSelect": {
+          "title": "Язык",
           "placeholder": "Выберите язык по умолчанию",
           "description": "Язык по умолчанию для вашего заведения. После создания вы можете добавить дополнительные языки"
         },
-        "currencySelect": "Выберите валюту",
+        "currencySelect": {
+          "title": "Валюта",
+          "description": "Выберите валюту"
+        },
         "name": "Имя",
         "workingHours": "Рабочие часы",
         "address": "Адрес",
         "phone": "Телефон",
-        "description": "Расскажите нам немного о вашем заведении."
+        "description": {
+          "title": "Описание",
+          "placeholder": "Расскажите нам немного о вашем заведении."
+        }
       },
       "primaryButtonLabel": "Сохранить изменения",
       "createRestaurantMutation": {
@@ -239,12 +246,18 @@
       "title": "Детали заведения",
       "description": "Отредактируйте информацию о вашем ресторане и нажмите кнопку 'Сохранить изменения', когда закончите.",
       "inputs": {
-        "currencySelect": "Выберите валюту",
+        "currencySelect": {
+          "title": "Валюта",
+          "description": "Выберите валюту"
+        },
         "name": "Имя",
         "workingHours": "Рабочие часы",
         "address": "Адрес",
         "phone": "Телефон",
-        "description": "Расскажите нам немного о вашем заведении."
+        "description": {
+          "title": "Описание",
+          "placeholder": "Расскажите нам немного о вашем заведении."
+        }
       },
       "primaryButtonLabel": "Сохранить изменения",
       "updateRestaurantMutation": {
@@ -299,6 +312,7 @@
       "newRestaurantLanguageButtonLabel": "Сохранить изменения",
       "inputs": {
         "languageSelect": {
+          "title": "Язык",
           "placeholder": "Выбрать язык",
           "description": "Дополнительный язык для вашего ресторана. После создания заведения все существующие продукты, категории будут переведены автоматически. Вы можете редактировать позиции после."
         }
@@ -340,7 +354,10 @@
         "name": "Название",
         "price": "Цена",
         "measurementValue": "Единица измерения",
-        "description": "Расскажите немного о своем продукте"
+        "description": {
+          "title": "Описание",
+          "placeholder": "Расскажите немного о своем продукте"
+        }
       },
       "primaryButtonLabel": "Сохранить изменения",
       "createProductMutation": {
@@ -367,7 +384,10 @@
         "name": "Название",
         "price": "Цена",
         "measurementValue": "Единица измерения",
-        "description": "Расскажите немного о своем продукте"
+        "description": {
+          "title": "Описание",
+          "placeholder": "Расскажите немного о своем продукте"
+        }
       },
       "primaryButtonLabel": "Сохранить изменения",
       "updateProductMutation": {

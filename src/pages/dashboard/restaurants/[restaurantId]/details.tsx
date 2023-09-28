@@ -31,7 +31,11 @@ const RestaurantDetails = () => {
           <div className="grid gap-10">
             {/*  Update main details */}
             <div>
-              <RestaurantUpdateForm restaurant={restaurant} />
+              <RestaurantUpdateForm
+                // * force update on language change
+                key={restaurant.category[0]?.categoryI18N.name}
+                restaurant={restaurant}
+              />
             </div>
           </div>
         </>

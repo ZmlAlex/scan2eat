@@ -208,21 +208,27 @@
         }
       }
     },
-
     "restaurantCreate": {
       "title": "Create restaurant",
       "description": "Add details about your restaurant here. Click save when you're done.",
       "inputs": {
         "languageSelect": {
+          "title": "Languge",
           "placeholder": "Select a default language",
           "description": "Default language for your restaurant. After creating you can add aditional languages"
         },
-        "currencySelect": "Select a currency",
+        "currencySelect": {
+          "title": "Currency",
+          "description": "Select a currency"
+        },
         "name": "Name",
         "workingHours": "Working hours",
         "address": "Address",
         "phone": "Phone",
-        "description": "Tell us a little bit about your restaurant"
+        "description": {
+          "title": "Description",
+          "placeholder": "Tell us a little bit about your restaurant"
+        }
       },
       "primaryButtonLabel": "Save Changes",
       "createRestaurantMutation": {
@@ -239,12 +245,18 @@
       "title": "Restaurant Details",
       "description": "Edit your restaurant details and click submit when you're done.",
       "inputs": {
-        "currencySelect": "Select a currency",
+        "currencySelect": {
+          "title": "Currency",
+          "description": "Select a currency"
+        },
         "name": "Name",
         "workingHours": "Working hours",
         "address": "Address",
         "phone": "Phone",
-        "description": "Tell us a little bit about your restaurant"
+        "description": {
+          "title": "Description",
+          "placeholder": "Tell us a little bit about your restaurant"
+        }
       },
       "primaryButtonLabel": "Save Changes",
       "updateRestaurantMutation": {
@@ -299,6 +311,7 @@
       "newRestaurantLanguageButtonLabel": "Add new language",
       "inputs": {
         "languageSelect": {
+          "title": "Languge",
           "placeholder": "Select a new language",
           "description": "Additional language for your restaurant. After creating restaurant's details and all existing products, categories will be translate automaticaly. You can edit positions after."
         }
@@ -340,7 +353,10 @@
         "name": "Name",
         "price": "Price",
         "measurementValue": "Measurement value",
-        "description": "Tell us a little bit about your product"
+        "description": {
+          "title": "Description",
+          "placeholder": "Tell us a little bit about your product"
+        }
       },
       "primaryButtonLabel": "Save Changes",
       "createProductMutation": {
@@ -366,7 +382,10 @@
         "name": "Name",
         "price": "Price",
         "measurementValue": "Measurement value",
-        "description": "Tell us a little bit about your product"
+        "description": {
+          "title": "Description",
+          "placeholder": "Tell us a little bit about your product"
+        }
       },
       "primaryButtonLabel": "Save Changes",
       "updateProductMutation": {

@@ -20,6 +20,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
@@ -113,13 +114,10 @@ const CategoryUpdateForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Name</FormLabel> */}
+                  <FormLabel aria-required>{t("inputs.name")}</FormLabel>
                   <FormControl>
                     <Input placeholder={t("inputs.name")} {...field} />
                   </FormControl>
-                  {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
