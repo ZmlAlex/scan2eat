@@ -3,7 +3,7 @@ import React, { type ReactNode } from "react";
 
 import ProductCreateForm from "~/components/Forms/ProductCreateForm";
 import { Icons } from "~/components/Icons";
-import type { ArrayElement } from "~/components/Menu/CategoryProduct";
+import type { ArrayElement } from "~/components/RestaurantMenu/CategoryProduct";
 import {
   AccordionContent,
   AccordionItem,

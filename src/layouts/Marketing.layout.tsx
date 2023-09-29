@@ -21,8 +21,8 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="container z-40 bg-background">
-        <div className="flex h-20 items-center justify-between gap-x-4 py-6">
+      <header className="sticky top-0 z-40 bg-background">
+        <div className="container flex h-20 items-center justify-between gap-x-4 py-6">
           <Link href="/" className="flex items-center space-x-2">
             <Icons.logo />
             <span className="inline-block text-lg font-bold md:text-2xl">
@@ -34,7 +34,6 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
             <ModeToggle />
           </div>
 
-          {/* ADD HERE LANGUAGE! */}
           <LanguageToggle
             languages={locales?.map((locale) => ({
               languageCode: locale as LanguageCode,

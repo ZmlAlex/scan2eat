@@ -26,7 +26,7 @@ import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import CategoryUpdateForm from "../Forms/CategoryUpdateForm";
-import type { ArrayElement } from "../Menu/CategoryProduct";
+import type { ArrayElement } from "../RestaurantMenu/CategoryProduct";
 
 interface RestaurantOperationsProps {
   restaurantId: string;

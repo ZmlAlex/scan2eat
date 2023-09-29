@@ -52,6 +52,12 @@
     "description": "Enter your email to sign in or create new account",
     "backButtonLabel": "Back"
   },
+  "PreviewRestaurant": {
+    "alert": {
+      "title": "Preview Mode",
+      "description": "Once you have finalized your changes, you will be able to publish your restaurant and generate a sharable URL which can then be shared with your customers."
+    }
+  },
   "Dashboard": {
     "userAccountNav": {
       "signOutLabel": "Sign Out"

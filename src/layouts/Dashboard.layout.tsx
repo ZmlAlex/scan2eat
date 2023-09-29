@@ -33,7 +33,7 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen flex-col space-y-6">
       <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="container flex h-16 items-center justify-between gap-x-4 py-4">
+        <div className="container flex items-center justify-between gap-x-4 py-6">
           <MainNav items={config.mainNav} />
 
           <div className="ml-auto">

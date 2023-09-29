@@ -17,7 +17,11 @@ type Props = {
   currencyCode: Currency["code"];
 };
 
-const Menu = ({ categories = [], products = [], currencyCode }: Props) => {
+const RestaurantMenu = ({
+  categories = [],
+  products = [],
+  currencyCode,
+}: Props) => {
   const scrollDirection = useScrollDirection();
 
   const [selectedCategory, setSelectedCategory] = React.useState(
@@ -127,4 +131,4 @@ const Menu = ({ categories = [], products = [], currencyCode }: Props) => {
   );
 };
 
-export default Menu;
+export default RestaurantMenu;

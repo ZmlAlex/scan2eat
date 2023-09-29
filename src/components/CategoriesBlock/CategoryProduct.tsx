@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { type ForwardedRef, type ReactNode } from "react";
 
-import type { ArrayElement } from "~/components/Menu/CategoryProduct";
+import type { ArrayElement } from "~/components/RestaurantMenu/CategoryProduct";
 import { Placeholder } from "~/components/ui/Placeholder";
 import { TableCell, TableRow } from "~/components/ui/Table";
 import { api } from "~/utils/api";

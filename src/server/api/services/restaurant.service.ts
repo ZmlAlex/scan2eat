@@ -25,6 +25,7 @@ export const findRestaurantById = async (
     const restaurantP = prisma.restaurant.findFirstOrThrow({
       where: { id: restaurantId },
       select: {
+        userId: true,
         id: true,
         workingHours: true,
         logoUrl: true,

@@ -29,7 +29,7 @@ import { api } from "~/utils/api";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 // TODO: MOVE TO THE GLOBAL
-import type { ArrayElement } from "../../Menu/CategoryProduct";
+import type { ArrayElement } from "../../RestaurantMenu/CategoryProduct";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),

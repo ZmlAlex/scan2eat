@@ -39,7 +39,7 @@ import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLangua
 import { imageInput } from "~/utils/formTypes/common";
 
 import { Icons } from "../../Icons";
-import type { ArrayElement } from "../../Menu/CategoryProduct";
+import type { ArrayElement } from "../../RestaurantMenu/CategoryProduct";
 
 const formSchema = z.object({
   name: z.string().trim().min(2).max(50),
