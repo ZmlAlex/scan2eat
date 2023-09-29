@@ -45,7 +45,7 @@ const Features = () => {
     >
       <div className="container space-y-4">
         <div className="mx-auto flex flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl font-bold leading-[1.1] sm:text-3xl md:text-6xl">
+          <h2 className="font-heading text-3xl font-semibold leading-[1.1] sm:text-3xl md:text-6xl">
             {t("title")}
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7 lg:max-w-[650px]">
@@ -61,7 +61,7 @@ const Features = () => {
               <div className="flex flex-col justify-between gap-2 rounded-md p-6">
                 <span className="text-[2.5rem]">{icon}</span>
                 <div className="space-y-2">
-                  <h3 className="font-bold">{t(title)}</h3>
+                  <h3 className="font-semibold">{t(title)}</h3>
                   <p className="text-sm text-muted-foreground">
                     {t(description)}
                   </p>

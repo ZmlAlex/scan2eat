@@ -48,7 +48,7 @@ const Hero = () => {
           >
             {t("twitterLabel")}
           </Link>
-          <h1 className="font-heading text-3xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-heading text-3xl font-semibold sm:text-5xl md:text-6xl lg:text-7xl">
             {t("title.firstLine")}
             <motion.div
               key={foodPlaces[index]?.id}
