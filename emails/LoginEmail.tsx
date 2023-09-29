@@ -24,10 +24,12 @@ export const LoginEmail = ({ magicLink }: Props) => (
         <Heading style={heading}>🪄 Your magic link</Heading>
         <Section style={body}>
           <Text style={paragraph}>
-            <Link style={link} href={magicLink}>
+            <Link style={link} href={magicLink} target="">
               👉 Click here to sign in 👈
             </Link>
           </Text>
+          <Text style={paragraph}>Or, copy and paste this sign in link</Text>
+          <Text style={paragraph}>{magicLink}</Text>
           <Text style={paragraph}>
             If you didn&apos;t request this, please ignore this email.
           </Text>
