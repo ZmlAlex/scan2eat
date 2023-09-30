@@ -3,6 +3,8 @@ import React from "react";
 import { Icons } from "~/components/Icons";
 import { cn } from "~/utils/cn";
 
+import { toast } from "./useToast";
+
 type Props = {
   className?: string;
   copyText: string;
@@ -10,6 +12,15 @@ type Props = {
 
 export function ClipboardCopy({ className, copyText }: Props) {
   const [isCopied, setIsCopied] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isCopied) {
+      toast({
+        title: "Copied! ✅",
+        description: "A short permalink has been copied to your clipboard",
+      });
+    }
+  }, [isCopied]);
 
   async function copyTextToClipboard(text: string) {
     if ("clipboard" in navigator) {
@@ -32,7 +43,6 @@ export function ClipboardCopy({ className, copyText }: Props) {
       });
   };
 
-  //TODO: ADD HERE ANIMATION
   return (
     <Icons.copy
       onClick={handleCopyClick}
