@@ -17,7 +17,7 @@ export function DashboardHeader({
       className={cn("flex flex-wrap items-center justify-between gap-2 px-2")}
     >
       <div className="grid gap-1">
-        <h1 className="font-heading text-3xl font-semibold md:text-4xl">
+        <h1 className="font-heading text-3xl font-bold md:text-4xl">
           {heading}
         </h1>
         {text && <p className="text-lg text-muted-foreground">{text}</p>}
