@@ -12,6 +12,7 @@ import { Input } from "~/components/ui/Input";
 import { Label } from "~/components/ui/Label";
 import { toast } from "~/components/ui/useToast";
 import { cn } from "~/utils/cn";
+import { baseErrorMessage } from "~/utils/errorMapper";
 
 const userAuthSchema = z.object({
   email: z.string().email(),
@@ -51,7 +52,7 @@ export default function UserAuthForm({
 
     if (!signInResult?.ok) {
       return toast({
-        title: tError("Unknown"),
+        title: tError(baseErrorMessage.Unknown),
         variant: "destructive",
       });
     }
