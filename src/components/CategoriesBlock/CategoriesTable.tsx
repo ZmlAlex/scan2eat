@@ -5,6 +5,7 @@ import { SortableList } from "~/components/SortableList";
 import { Accordion } from "~/components/ui/Accordion";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import CategorySection from "./CategorySection";
@@ -23,6 +24,7 @@ const CategoriesTable = ({ restaurant }: Props) => {
 
   const trpcContext = api.useContext();
   const t = useTranslations("Dashboard.categoriesBlock");
+  const tError = useTranslations("ResponseErrorMessage");
 
   React.useEffect(
     () => setSortableCategories(restaurant.category),
@@ -32,12 +34,13 @@ const CategoriesTable = ({ restaurant }: Props) => {
   // TODO: ADD LOADER WHILE ORDER IS BEING UPDATED
   const { mutate: updateCategoriesPosition, isLoading } =
     api.category.updateCategoriesPosition.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
         toast({
-          title: t("updateCategoriesPosition.error.title"),
-          description: t("updateCategoriesPosition.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId: restaurant.id },

@@ -1,5 +1,7 @@
 import type { CategoryI18N, CategoryTranslationField } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
+import { MAX_CATEGORIES_PER_RESTAURANT } from "~/config/limitations";
 import type {
   CreateCategoryInput,
   DeleteCategorytInput,
@@ -14,6 +16,7 @@ import {
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { Context } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
+import { baseErrorMessage } from "~/utils/errorMapper";
 
 export const createCategoryHandler = async ({
   ctx,
@@ -27,7 +30,16 @@ export const createCategoryHandler = async ({
     "fieldName" | "languageCode" | "translation"
   >[] = [];
   const userId = ctx.session?.user.id ?? "";
+
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+
+  // validate restaurant quantity
+  if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: baseErrorMessage.ReachedCategoriesLimit,
+    });
+  }
 
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =

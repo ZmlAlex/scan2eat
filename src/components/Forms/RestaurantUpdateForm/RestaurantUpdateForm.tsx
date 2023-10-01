@@ -36,6 +36,7 @@ import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { currencyCodeS } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 import { imageInput } from "~/utils/formTypes/common";
 
@@ -64,15 +65,18 @@ const RestaurantUpdateForm = ({
 }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.restaurantUpdate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: updateRestaurant, isLoading } =
     api.restaurant.updateRestaurant.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("updateRestaurantMutation.error.title"),
-          description: t("updateRestaurantMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId: restaurant.id },

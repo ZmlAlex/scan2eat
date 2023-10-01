@@ -23,6 +23,7 @@ import {
 import { toast } from "~/components/ui/useToast";
 import useModal from "~/hooks/useModal";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
@@ -33,17 +34,20 @@ export function RestaurantOperations({
 }: RestaurantOperationsProps) {
   const { isModalOpen, toggleModal } = useModal();
   const t = useTranslations("Dashboard.restaurantOperations");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const trpcContext = api.useContext();
 
   const { mutate: deleteRestaurant, isLoading } =
     api.restaurant.deleteRestaurant.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("deleteRestaurantMutation.error.title"),
-          description: t("deleteRestaurantMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurants) => {
         trpcContext.restaurant.getAllRestaurants.setData(
           undefined,

@@ -11,6 +11,7 @@ import {
 } from "~/components/ui/Table";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import CategoryProduct from "./CategoryProduct";
@@ -29,18 +30,21 @@ const CategoryProductsTable = ({ restaurantId, products }: Props) => {
 
   const trpcContext = api.useContext();
   const t = useTranslations("Dashboard.categoryProductsTable");
+  const tError = useTranslations("ResponseErrorMessage");
 
   React.useEffect(() => setSortableProducts(products), [products]);
 
   // TODO: show loader for table while is loading
   const { mutate: updateProductsPosition, isLoading } =
     api.product.updateProductsPosition.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("updateProductPosition.error.title"),
-          description: t("updateProductPosition.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

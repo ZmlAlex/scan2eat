@@ -23,6 +23,7 @@ import {
 import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 
 import { Icons } from "../../Icons";
 
@@ -45,15 +46,18 @@ const CategoryCreateForm = ({
 }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.categoryCreate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createCategory, isLoading } =
     api.category.createCategory.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("createCategoryMutation.error.title"),
-          description: t("createCategoryMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

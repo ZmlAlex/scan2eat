@@ -16,6 +16,7 @@ import {
 } from "~/components/ui/Form";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
@@ -39,15 +40,18 @@ const RestaurantLanguageUpdateForm = ({
   const trpcContext = api.useContext();
 
   const t = useTranslations("Form.restaurantLanguageUpdate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: setEnabledRestaurantLanguages, isLoading } =
     api.restaurant.setEnabledRestaurantLanguages.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("updateRestaurantLanguageMutation.error.title"),
-          description: t("updateRestaurantLanguageMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

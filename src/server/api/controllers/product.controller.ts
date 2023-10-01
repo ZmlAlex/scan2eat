@@ -1,5 +1,7 @@
 import type { ProductI18N, ProductTranslationField } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
+import { MAX_PRODUCTS_PER_CATEGORY } from "~/config/limitations";
 import type {
   CreateProductInput,
   DeleteProductInput,
@@ -14,6 +16,7 @@ import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { Context } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/libs/cloudinary";
+import { baseErrorMessage } from "~/utils/errorMapper";
 
 export const createProductHandler = async ({
   ctx,
@@ -32,6 +35,19 @@ export const createProductHandler = async ({
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
+  // validate product quantity
+  if (
+    restaurant.product.filter(
+      (product) => product.categoryId === input.categoryId
+    ).length >= MAX_PRODUCTS_PER_CATEGORY
+  ) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: baseErrorMessage.ReachedProductsLimit,
+    });
+  }
+
+  //  validate restaurant language quantity
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
       await createFieldTranslationsForAdditionalLanguages<ProductTranslationField>(

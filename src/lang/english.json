@@ -111,10 +111,6 @@
         "description": "You don't have any categories yet. Start creating content."
       },
       "updateCategoriesPosition": {
-        "error": {
-          "title": "Something went wrong. ❌ ",
-          "description": "Your update product position request failed. Please try again."
-        },
         "success": {
           "title": "Category position has been updated. ✅"
         }
@@ -122,10 +118,6 @@
     },
     "categoryProductsTable": {
       "updateProductPosition": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your update product position request failed. Please try again."
-        },
         "success": {
           "title": "Product position has been updated. ✅"
         }
@@ -146,10 +138,6 @@
         "secondayButtonLabel": "Cancel"
       },
       "deleteRestaurantMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your delete restaurant request failed. Please try again."
-        },
         "success": {
           "title": "Restaurant has been deleted. ✅"
         }
@@ -165,10 +153,6 @@
         "secondayButtonLabel": "Cancel"
       },
       "deleteCategoryMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your delete catgory request failed. Please try again."
-        },
         "success": {
           "title": "Category has been deleted. ✅"
         }
@@ -184,10 +168,6 @@
         "secondayButtonLabel": "Cancel"
       },
       "deleteProductMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your delete product request failed. Please try again."
-        },
         "success": {
           "title": "Product has been deleted. ✅"
         }
@@ -204,10 +184,6 @@
         }
       },
       "signInMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your sign in request failed. Please try again."
-        },
         "success": {
           "title": "Check your email",
           "description": "We sent you a login link. Be sure to check your spam too. ✅"
@@ -238,10 +214,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "createRestaurantMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your create restaurant request failed. Please try again."
-        },
         "success": {
           "title": "Restaurant has been created. ✅"
         }
@@ -266,10 +238,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "updateRestaurantMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your update restaurant request failed. Please try again."
-        },
         "success": {
           "title": "Restaurant has been updated. ✅"
         }
@@ -282,10 +250,6 @@
         "unpublishedLabel": "Not published"
       },
       "setPublishRestaurantMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your update restaurant's status request failed. Please try again."
-        },
         "success": {
           "published": {
             "title": "Restaurant has been published."
@@ -324,10 +288,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "createRestaurantLanguageMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your create restaurant language request failed. Please try again."
-        },
         "success": {
           "title": "Restaurant's language has been added. ✅"
         }
@@ -337,10 +297,6 @@
       "title": "Language visibility",
       "primaryButtonLabel": "Save Changes",
       "updateRestaurantLanguageMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your update restaurant languages request failed. Please try again."
-        },
         "success": {
           "title": "Restaurant's languages have been updated. ✅"
         }
@@ -366,10 +322,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "createProductMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your create product request failed. Please try again."
-        },
         "success": {
           "title": "Product has been created. ✅"
         }
@@ -395,10 +347,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "updateProductMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your update product request failed. Please try again."
-        },
         "success": {
           "title": "Product has been updated. ✅"
         }
@@ -412,10 +360,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "createCategoryMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your create category request failed. Please try again."
-        },
         "success": {
           "title": "Category has been updated. ✅"
         }
@@ -429,10 +373,6 @@
       },
       "primaryButtonLabel": "Save Changes",
       "updateCategoryMutation": {
-        "error": {
-          "title": "Something went wrong. ❌",
-          "description": "Your update product request failed. Please try again."
-        },
         "success": {
           "title": "Category has been updated. ✅"
         }
@@ -447,5 +387,11 @@
     "login": {
       "title": "Sign In with Email"
     }
+  },
+  "ResponseErrorMessage": {
+    "Unknown": "Sorry, something went wrong. Please try again.",
+    "ReachedCategoriesLimit": "Reached maximum number of categories per restaurant.",
+    "ReachedProductsLimit": "Reached maximum number of products per category.",
+    "ReachedRestaurantsLimit": "Reached maximum number of restaurants per account."
   }
 }

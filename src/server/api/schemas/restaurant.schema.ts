@@ -10,7 +10,7 @@ export const getRestaurantSchemaInput = z.object({
 
 export const createRestaurantSchemaInput = z.object({
   name: z.string().min(2).max(30),
-  description: z.string().min(2).max(150).optional(),
+  description: z.string().max(150).optional(),
   address: z.string().max(50).optional(),
   workingHours: z.string(),
   logoImageBase64: z.string().optional(),

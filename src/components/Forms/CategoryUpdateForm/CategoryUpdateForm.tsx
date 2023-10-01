@@ -26,6 +26,7 @@ import {
 import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 // TODO: MOVE TO THE GLOBAL
@@ -53,15 +54,18 @@ const CategoryUpdateForm = ({
 }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.categoryUpdate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: updateCategory, isLoading } =
     api.category.updateCategory.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("updateCategoryMutation.error.title"),
-          description: t("updateCategoryMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurants) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

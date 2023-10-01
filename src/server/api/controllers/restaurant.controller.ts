@@ -3,10 +3,13 @@ import type {
   ProductTranslationField,
   RestaurantTranslationField,
 } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
+import { MAX_RESTAURANTS_PER_ACCOUNT } from "~/config/limitations";
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
 import { uploadImage } from "~/server/libs/cloudinary";
+import { baseErrorMessage } from "~/utils/errorMapper";
 
 import type {
   CreateRestaurantInput,
@@ -54,6 +57,16 @@ export const createRestaurantHandler = async ({
 
   if (!userId) {
     throw new Error("TODO: HANDLE EMPTY USER ID");
+  }
+
+  const allRestaurants = await findAllRestaurants({ userId }, ctx.prisma);
+
+  // validate restaurant quantity
+  if (allRestaurants.length >= MAX_RESTAURANTS_PER_ACCOUNT) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: baseErrorMessage.ReachedRestaurantsLimit,
+    });
   }
 
   if (input.logoImageBase64) {

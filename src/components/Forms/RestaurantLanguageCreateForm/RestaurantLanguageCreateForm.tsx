@@ -33,6 +33,7 @@ import {
 } from "~/components/ui/Select";
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 
 const formSchema = z.object({
   languageCode: languageCodeS,
@@ -56,15 +57,18 @@ const RestaurantLanguageCreateForm = ({
 }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.restaurantLanguageCreate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createRestaurantLanguage, isLoading } =
     api.restaurant.createRestaurantLanguage.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("createRestaurantLanguageMutation.error.title"),
-          description: t("createRestaurantLanguageMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

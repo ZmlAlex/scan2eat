@@ -35,6 +35,7 @@ import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 import { imageInput } from "~/utils/formTypes/common";
 
@@ -70,15 +71,18 @@ const ProductUpdateForm = ({
 }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.productUpdate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: updateProduct, isLoading } =
     api.product.updateProduct.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("updateProductMutation.error.title"),
-          description: t("updateProductMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurants) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

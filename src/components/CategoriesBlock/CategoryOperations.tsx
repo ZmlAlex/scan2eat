@@ -23,6 +23,7 @@ import {
 import { toast } from "~/components/ui/useToast";
 import useModal from "~/hooks/useModal";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import CategoryUpdateForm from "../Forms/CategoryUpdateForm";
@@ -43,16 +44,20 @@ export function CategoryOperations({
     useModal();
 
   const t = useTranslations("Dashboard.categoryOperations");
+  const tError = useTranslations("ResponseErrorMessage");
+
   const trpcContext = api.useContext();
 
   const { mutate: deleteCategory, isLoading } =
     api.category.deleteCategory.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("deleteCategoryMutation.error.title"),
-          description: t("deleteCategoryMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

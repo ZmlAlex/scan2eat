@@ -18,6 +18,7 @@ import {
 import { Switch } from "~/components/ui/Switch";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 
 type Props = {
   isModalOpen: boolean;
@@ -39,15 +40,18 @@ const RestaurantPublishForm = ({
 
   const trpcContext = api.useContext();
   const t = useTranslations("Form.restaurantPublish");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: setPublishRestaurant, isLoading } =
     api.restaurant.setPublishedRestaurant.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("setPublishRestaurantMutation.error.title"),
-          description: t("setPublishRestaurantMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurant.setData(
           { restaurantId },

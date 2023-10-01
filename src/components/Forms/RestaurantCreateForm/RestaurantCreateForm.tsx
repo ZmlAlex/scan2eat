@@ -37,6 +37,7 @@ import {
   languageCodeS,
 } from "~/server/api/schemas/common.schema";
 import { api } from "~/utils/api";
+import { errorMapper } from "~/utils/errorMapper";
 import { imageInput } from "~/utils/formTypes/common";
 
 import { Icons } from "../../Icons";
@@ -63,15 +64,18 @@ type Props = {
 const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.restaurantCreate");
+  const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createRestaurant, isLoading } =
     api.restaurant.createRestaurant.useMutation({
-      onError: () =>
+      onError: (error) => {
+        const errorMessage = errorMapper(error.message);
+
         toast({
-          title: t("createRestaurantMutation.error.title"),
-          description: t("createRestaurantMutation.error.description"),
+          title: tError(errorMessage),
           variant: "destructive",
-        }),
+        });
+      },
       onSuccess: (newRestaurant) => {
         trpcContext.restaurant.getAllRestaurants.setData(
           undefined,
