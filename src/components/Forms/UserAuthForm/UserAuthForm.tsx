@@ -36,6 +36,7 @@ export default function UserAuthForm({
   const searchParams = useSearchParams();
 
   const t = useTranslations("Form.userAuthForm");
+  const tError = useTranslations("ResponseErrorMessage");
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -50,8 +51,7 @@ export default function UserAuthForm({
 
     if (!signInResult?.ok) {
       return toast({
-        title: t("signInMutation.error.title"),
-        description: t("signInMutation.error.description"),
+        title: tError("Unknown"),
         variant: "destructive",
       });
     }
