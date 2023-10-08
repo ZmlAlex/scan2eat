@@ -21,7 +21,6 @@ export const findRestaurantById = async (
   prisma: PrismaClient
 ) => {
   try {
-    console.time("Restaurant");
     const restaurantP = prisma.restaurant.findFirstOrThrow({
       where: { id: restaurantId },
       select: {
@@ -67,8 +66,6 @@ export const findRestaurantById = async (
       categoriesP,
       productsP,
     ]);
-
-    console.timeEnd("Restaurant");
 
     return {
       ...restaurant,

@@ -1,3 +1,4 @@
+export { reportWebVitals } from "next-axiom";
 import "~/styles/globals.css";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
