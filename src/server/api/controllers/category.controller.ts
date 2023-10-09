@@ -14,7 +14,7 @@ import {
   updateCategory,
 } from "~/server/api/services/category.service";
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
-import type { Context } from "~/server/api/trpc";
+import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { baseErrorMessage } from "~/utils/errorMapper";
 
@@ -22,25 +22,30 @@ export const createCategoryHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: CreateCategoryInput;
 }) => {
   let additionalTranslations: Pick<
     CategoryI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-  const userId = ctx.session?.user.id ?? "";
+  const userId = ctx.session.user.id;
+  const log = ctx.log;
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   // validate restaurant quantity
+  log.info("validation categories quantity START");
   if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
+    log.error(baseErrorMessage.ReachedProductsLimit);
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedCategoriesLimit,
     });
   }
+  log.info("validation categories quantity END");
 
+  log.info("validation restaurant lanuguages quantity START");
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
       await createFieldTranslationsForAdditionalLanguages<CategoryTranslationField>(
@@ -51,6 +56,7 @@ export const createCategoryHandler = async ({
         }
       );
   }
+  log.info("validation restaurant lanuguages quantity END");
 
   await createCategory(
     { ...input, userId },
@@ -65,7 +71,7 @@ export const updateCategoryHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: UpdateCategoryInput;
 }) => {
   const userId = ctx.session?.user.id ?? "";
@@ -78,7 +84,7 @@ export const updateCategoriesPositionHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: UpdateCategoriesPositionInput;
 }) => {
   const userId = ctx.session?.user.id ?? "";
@@ -100,7 +106,7 @@ export const deleteCategoryHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: DeleteCategorytInput;
 }) => {
   const userId = ctx.session?.user.id ?? "";

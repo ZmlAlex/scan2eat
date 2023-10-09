@@ -50,7 +50,7 @@ export default function UserAuthForm({
 
     setIsLoading(false);
 
-    if (!signInResult?.ok) {
+    if (!signInResult?.ok || signInResult.error) {
       return toast({
         title: tError(baseErrorMessage.Unknown),
         variant: "destructive",

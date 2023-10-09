@@ -1,5 +1,6 @@
 import type { ProductI18N, ProductTranslationField } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import { log } from "next-axiom";
 
 import { MAX_PRODUCTS_PER_CATEGORY } from "~/config/limitations";
 import type {
@@ -13,7 +14,7 @@ import {
   updateProduct,
 } from "~/server/api/services/product.service";
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
-import type { Context } from "~/server/api/trpc";
+import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/libs/cloudinary";
 import { baseErrorMessage } from "~/utils/errorMapper";
@@ -22,10 +23,10 @@ export const createProductHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: CreateProductInput;
 }) => {
-  const userId = ctx.session?.user.id ?? "";
+  const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
   let additionalTranslations: Pick<
@@ -35,19 +36,21 @@ export const createProductHandler = async ({
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
-  // validate product quantity
+  log.info("validation products quantity START");
   if (
     restaurant.product.filter(
       (product) => product.categoryId === input.categoryId
     ).length >= MAX_PRODUCTS_PER_CATEGORY
   ) {
+    log.error(baseErrorMessage.ReachedProductsLimit);
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedProductsLimit,
     });
   }
+  log.info("validation products quantity END");
 
-  //  validate restaurant language quantity
+  log.info("validation restaurant lanuguages quantity START");
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
       await createFieldTranslationsForAdditionalLanguages<ProductTranslationField>(
@@ -61,9 +64,10 @@ export const createProductHandler = async ({
         }
       );
   }
+  log.info("validation restaurant lanuguages quantity END");
 
   if (input.imageBase64) {
-    const uploadedImage = await uploadImage(input.imageBase64, userId);
+    const uploadedImage = await uploadImage(input.imageBase64, userId, log);
     uploadedImageUrl = uploadedImage.url;
   }
 
@@ -80,15 +84,16 @@ export const updateProductHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: UpdateProductInput;
 }) => {
-  const userId = ctx.session?.user.id ?? "";
+  const { log, prisma } = ctx;
+  const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
 
   if (input.imageBase64) {
-    const uploadedImage = await uploadImage(input.imageBase64, userId);
+    const uploadedImage = await uploadImage(input.imageBase64, userId, log);
     uploadedImageUrl = uploadedImage.url;
   }
 
@@ -97,17 +102,17 @@ export const updateProductHandler = async ({
     ctx.prisma
   );
 
-  return findRestaurantById(updatedProduct.restaurantId, ctx.prisma);
+  return findRestaurantById(updatedProduct.restaurantId, prisma);
 };
 
 export const updateProductsPositionHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: UpdateProductsPositionInput;
 }) => {
-  const userId = ctx.session?.user.id ?? "";
+  const userId = ctx.session.user.id;
   // TODO: MOVE TO THE SERVICE?
   const [updatedProduct] = await ctx.prisma.$transaction(
     input.map((item) =>
@@ -125,10 +130,10 @@ export const deleteProductHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: DeleteProductInput;
 }) => {
-  const userId = ctx.session?.user.id ?? "";
+  const userId = ctx.session.user.id;
 
   const deletedProduct = await ctx.prisma.product.delete({
     where: {

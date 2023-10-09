@@ -29,7 +29,7 @@ import {
   findRestaurantById,
   updateRestaurant,
 } from "../services/restaurant.service";
-import type { Context } from "../trpc";
+import type { Context, ProtectedContext } from "../trpc";
 
 export const getRestaurantHandler = ({
   ctx,
@@ -41,42 +41,44 @@ export const getRestaurantHandler = ({
   return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 
-export const getAllRestaurantsHandler = ({ ctx }: { ctx: Context }) => {
-  return findAllRestaurants({ userId: ctx.session?.user.id }, ctx.prisma);
+export const getAllRestaurantsHandler = ({
+  ctx,
+}: {
+  ctx: ProtectedContext;
+}) => {
+  return findAllRestaurants({ userId: ctx.session.user.id }, ctx.prisma);
 };
 
 export const createRestaurantHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: CreateRestaurantInput;
 }) => {
+  const { log, prisma } = ctx;
+  const userId = ctx.session.user.id;
   let uploadedImageUrl;
-  const userId = ctx.session?.user.id;
 
-  if (!userId) {
-    throw new Error("TODO: HANDLE EMPTY USER ID");
-  }
+  const allRestaurants = await findAllRestaurants({ userId }, prisma);
 
-  const allRestaurants = await findAllRestaurants({ userId }, ctx.prisma);
-
-  // validate restaurant quantity
+  log.info("validation restaurants quantity START");
   if (allRestaurants.length >= MAX_RESTAURANTS_PER_ACCOUNT) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedRestaurantsLimit,
     });
   }
+  log.info("validation restaurants quantity END");
 
   if (input.logoImageBase64) {
-    const uploadedImage = await uploadImage(input.logoImageBase64, userId);
+    const uploadedImage = await uploadImage(input.logoImageBase64, userId, log);
     uploadedImageUrl = uploadedImage.url;
   }
 
   return createRestaurant(
     { ...input, userId, logoUrl: uploadedImageUrl },
-    ctx.prisma
+    prisma
   );
 };
 
@@ -84,27 +86,24 @@ export const updateRestaurantHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: UpdateRestaurantInput;
 }) => {
-  const userId = ctx.session?.user.id;
-
-  if (!userId) {
-    throw new Error("TODO: HANDLE EMPTY USER ID");
-  }
+  const { log, prisma } = ctx;
+  const userId = ctx.session.user.id;
 
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
 
   if (input.logoImageBase64) {
-    const uploadedImage = await uploadImage(input.logoImageBase64, userId);
+    const uploadedImage = await uploadImage(input.logoImageBase64, userId, log);
     uploadedImageUrl = uploadedImage.url;
   }
 
   await updateRestaurant(
     { ...input, logoUrl: uploadedImageUrl },
     { id: input.restaurantId },
-    ctx.prisma
+    prisma
   );
 
   return findRestaurantById(input.restaurantId, ctx.prisma);
@@ -114,7 +113,7 @@ export const setPublishedRestaurantHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: SetPublishedRestaurantInput;
 }) => {
   await ctx.prisma.restaurant.update({
@@ -129,7 +128,7 @@ export const deleteRestaurantHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: DeleteRestaurantInput;
 }) => {
   await deleteRestaurant({ id: input.restaurantId }, ctx.prisma);
@@ -143,14 +142,12 @@ export const createRestaurantLanguageHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: CreateRestaurantLanguageInput;
 }) => {
-  const restaurant = await findRestaurantById(
-    input.restaurantId,
+  const { log, prisma } = ctx;
 
-    ctx.prisma
-  );
+  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   //TODO: CHANGE WITH DEFAULT LANGUAGE
   const defaultRestaurantLanguage =
@@ -182,14 +179,21 @@ export const createRestaurantLanguageHandler = async ({
       targetLanguage: input.languageCode,
     });
 
+  log.info("translate restaurant text START");
   const restaurantResult = await Promise.all(
     restaurantTextForTranslationPromises
   );
+  log.info("translate restaurant text END");
 
+  log.info("translate categories text START");
   const categoriesResult = await Promise.all(
     categoriesTextForTranslationPromises
   );
+  log.info("translate categories text END");
+
+  log.info("translate products text START");
   const productsResult = await Promise.all(productsTextForTranslationPromises);
+  log.info("translate products text End");
 
   await prisma.$transaction(async (tx) => {
     //TODO: MOVE IT TO THE SERVICE
@@ -216,7 +220,7 @@ export const setEnabledRestaurantLanguagesHandler = async ({
   ctx,
   input,
 }: {
-  ctx: Context;
+  ctx: ProtectedContext;
   input: SetEnabledRestaurantLanguagesInput;
 }) => {
   const restaurantLanguageTransactions = input.languageCodes.map((language) =>

@@ -3,6 +3,7 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
+import { log } from "next-axiom";
 import { NextSeo } from "next-seo";
 import React from "react";
 
@@ -43,7 +44,7 @@ const RestaurantPage = ({ restaurant }: ServerSideProps) => {
 export default RestaurantPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const trpc = appRouter.createCaller({ session: null, prisma });
+  const trpc = appRouter.createCaller({ session: null, prisma, log });
 
   //TODO: MOVE IT TO THE APP FOLDER
   try {
