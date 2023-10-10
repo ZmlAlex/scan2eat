@@ -70,10 +70,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       session,
       prisma,
       log,
-      // TODO: REFACTOR
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      req: undefined,
     });
 
     const restaurant = await trpc.restaurant.getRestaurant({

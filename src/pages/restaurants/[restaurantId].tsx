@@ -49,9 +49,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     session: null,
     prisma,
     log,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    req: undefined,
   });
 
   //TODO: MOVE IT TO THE APP FOLDER

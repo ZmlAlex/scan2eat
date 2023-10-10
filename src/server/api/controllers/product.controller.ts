@@ -25,8 +25,7 @@ export const createProductHandler = async ({
   ctx: ProtectedContext;
   input: CreateProductInput;
 }) => {
-  const { log } = ctx.req;
-  const { log: testLog } = ctx;
+  const { log } = ctx;
 
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
@@ -39,8 +38,6 @@ export const createProductHandler = async ({
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   log.info("validation products quantity START");
-  testLog.info("DEBUG! validation products quantity START");
-
   if (
     restaurant.product.filter(
       (product) => product.categoryId === input.categoryId
@@ -91,8 +88,7 @@ export const updateProductHandler = async ({
   ctx: ProtectedContext;
   input: UpdateProductInput;
 }) => {
-  const { log } = ctx.req;
-  const { prisma } = ctx;
+  const { prisma, log } = ctx;
   const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;

@@ -24,7 +24,6 @@ import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 type CreateContextOptions = {
-  req: AxiomAPIRequest;
   session: Session | null;
   prisma?: PrismaClient;
   log: Logger;
@@ -43,7 +42,6 @@ type CreateContextOptions = {
 
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
-    req: opts.req,
     session: opts.session,
     prisma: opts.prisma || prisma,
     log: opts.log,
@@ -75,15 +73,9 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-  const log = session
-    ? req.log.with({ userId: session.user.id, debug: "logged 1" })
-    : req.log.with({ debug: "here!" });
-  req.log = session
-    ? req.log.with({ userId: session.user.id, debug: "logged2" })
-    : req.log.with({ debug: "here2" });
+  const log = session ? req.log.with({ userId: session.user.id }) : req.log;
 
   return createInnerTRPCContext({
-    req,
     session,
     log,
   });

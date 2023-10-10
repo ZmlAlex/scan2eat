@@ -29,7 +29,7 @@ export const createCategoryHandler = async ({
     CategoryI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-  const { log } = ctx.req;
+  const { log } = ctx;
   const userId = ctx.session.user.id;
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
