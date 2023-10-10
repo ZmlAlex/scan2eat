@@ -49,12 +49,6 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   };
 };
 
-// const isAxiomAPIRequest = (
-//   req?: NextApiRequest | AxiomAPIRequest
-// ): req is AxiomAPIRequest => {
-//   return Boolean((req as AxiomAPIRequest)?.log);
-// };
-
 export type Context = inferAsyncReturnType<typeof createInnerTRPCContext>;
 export type ProtectedContext = Omit<Context, "session"> & { session: Session };
 
@@ -66,10 +60,6 @@ export type ProtectedContext = Omit<Context, "session"> & { session: Session };
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
-
-  // if (!isAxiomAPIRequest(req)) {
-  //   throw new Error("req is not the AxiomAPIRequest I expected");
-  // }
 
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
@@ -128,6 +118,18 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createTRPCRouter = t.router;
 
+/** Reusable middleware that enforces users are logged in before running the procedure. */
+const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
+  const start = Date.now();
+  const result = await next();
+  const durationMs = Date.now() - start;
+  result.ok
+    ? logger.info("[tRPC Server] request ok:", { path, type, durationMs })
+    : logger.error("[tRPC Server] request failed", { path, type, durationMs });
+  await logger.flush();
+  return result;
+});
+
 /**
  * Public (unauthenticated) procedure
  *
@@ -135,7 +137,8 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+
+export const publicProcedure = t.procedure.use(loggerMiddleware);
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
