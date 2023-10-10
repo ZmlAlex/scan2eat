@@ -18,6 +18,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { NextApiRequest } from "next";
 import { type Session } from "next-auth";
 import type { Logger } from "next-axiom";
+import { log as logger } from "next-axiom";
 import type { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
 
 import { getServerAuthSession } from "~/server/auth";
@@ -48,11 +49,11 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   };
 };
 
-const isAxiomAPIRequest = (
-  req?: NextApiRequest | AxiomAPIRequest
-): req is AxiomAPIRequest => {
-  return Boolean((req as AxiomAPIRequest)?.log);
-};
+// const isAxiomAPIRequest = (
+//   req?: NextApiRequest | AxiomAPIRequest
+// ): req is AxiomAPIRequest => {
+//   return Boolean((req as AxiomAPIRequest)?.log);
+// };
 
 export type Context = inferAsyncReturnType<typeof createInnerTRPCContext>;
 export type ProtectedContext = Omit<Context, "session"> & { session: Session };
@@ -66,16 +67,20 @@ export type ProtectedContext = Omit<Context, "session"> & { session: Session };
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
 
-  if (!isAxiomAPIRequest(req)) {
-    throw new Error("req is not the AxiomAPIRequest I expected");
-  }
+  // if (!isAxiomAPIRequest(req)) {
+  //   throw new Error("req is not the AxiomAPIRequest I expected");
+  // }
 
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
+  // const log = session
+  //   ? req.log.with({ userId: session.user.id, debug: "test!" })
+  //   : req.log;
+
   const log = session
-    ? req.log.with({ userId: session.user.id, debug: "test!" })
-    : req.log;
+    ? logger.with({ userId: session.user.id, debug: "test!" })
+    : logger;
 
   return createInnerTRPCContext({
     session,
