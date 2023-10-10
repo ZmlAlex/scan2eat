@@ -26,6 +26,8 @@ export const createProductHandler = async ({
   input: CreateProductInput;
 }) => {
   const { log } = ctx.req;
+  const { log: testLog } = ctx;
+
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
@@ -37,6 +39,8 @@ export const createProductHandler = async ({
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   log.info("validation products quantity START");
+  testLog.info("DEBUG! validation products quantity START");
+
   if (
     restaurant.product.filter(
       (product) => product.categoryId === input.categoryId

@@ -76,10 +76,10 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const session = await getServerAuthSession({ req, res });
 
   const log = session
-    ? req.log.with({ userId: session.user.id })
+    ? req.log.with({ userId: session.user.id, debug: "logged 1" })
     : req.log.with({ debug: "here!" });
   req.log = session
-    ? req.log.with({ userId: session.user.id })
+    ? req.log.with({ userId: session.user.id, debug: "logged2" })
     : req.log.with({ debug: "here2" });
 
   return createInnerTRPCContext({
