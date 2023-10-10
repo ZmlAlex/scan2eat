@@ -15,11 +15,7 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import type { NextApiRequest } from "next";
 import { type Session } from "next-auth";
-import type { Logger } from "next-axiom";
-import { log as logger } from "next-axiom";
-import type { AxiomAPIRequest } from "next-axiom/dist/withAxiom";
 
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
@@ -27,7 +23,6 @@ import { prisma } from "~/server/db";
 type CreateContextOptions = {
   session: Session | null;
   prisma?: PrismaClient;
-  log: Logger;
 };
 
 /**
@@ -45,7 +40,6 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma: opts.prisma || prisma,
-    log: opts.log,
   };
 };
 
@@ -64,17 +58,8 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-  // const log = session
-  //   ? req.log.with({ userId: session.user.id, debug: "test!" })
-  //   : req.log;
-
-  const log = session
-    ? logger.with({ userId: session.user.id, debug: "test!" })
-    : logger;
-
   return createInnerTRPCContext({
     session,
-    log,
   });
 };
 
@@ -118,18 +103,6 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createTRPCRouter = t.router;
 
-/** Reusable middleware that enforces users are logged in before running the procedure. */
-const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
-  const start = Date.now();
-  const result = await next();
-  const durationMs = Date.now() - start;
-  result.ok
-    ? logger.info("[tRPC Server] request ok:", { path, type, durationMs })
-    : logger.error("[tRPC Server] request failed", { path, type, durationMs });
-  await logger.flush();
-  return result;
-});
-
 /**
  * Public (unauthenticated) procedure
  *
@@ -138,7 +111,7 @@ const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
  * are logged in.
  */
 
-export const publicProcedure = t.procedure.use(loggerMiddleware);
+export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {

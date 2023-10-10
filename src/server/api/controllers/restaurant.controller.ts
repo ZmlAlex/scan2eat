@@ -56,20 +56,18 @@ export const createRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: CreateRestaurantInput;
 }) => {
-  const { log, prisma } = ctx;
+  const { prisma } = ctx;
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
   const allRestaurants = await findAllRestaurants({ userId }, prisma);
 
-  log.info("validation restaurants quantity START");
   if (allRestaurants.length >= MAX_RESTAURANTS_PER_ACCOUNT) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedRestaurantsLimit,
     });
   }
-  log.info("validation restaurants quantity END");
 
   if (input.logoImageBase64) {
     const uploadedImage = await uploadImage(input.logoImageBase64, userId, log);
@@ -89,14 +87,14 @@ export const updateRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: UpdateRestaurantInput;
 }) => {
-  const { log, prisma } = ctx;
+  const { prisma } = ctx;
   const userId = ctx.session.user.id;
 
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
 
   if (input.logoImageBase64) {
-    const uploadedImage = await uploadImage(input.logoImageBase64, userId, log);
+    const uploadedImage = await uploadImage(input.logoImageBase64, userId);
     uploadedImageUrl = uploadedImage.url;
   }
 
@@ -145,7 +143,7 @@ export const createRestaurantLanguageHandler = async ({
   ctx: ProtectedContext;
   input: CreateRestaurantLanguageInput;
 }) => {
-  const { log, prisma } = ctx;
+  const { prisma } = ctx;
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
@@ -179,21 +177,15 @@ export const createRestaurantLanguageHandler = async ({
       targetLanguage: input.languageCode,
     });
 
-  log.info("translate restaurant text START");
   const restaurantResult = await Promise.all(
     restaurantTextForTranslationPromises
   );
-  log.info("translate restaurant text END");
 
-  log.info("translate categories text START");
   const categoriesResult = await Promise.all(
     categoriesTextForTranslationPromises
   );
-  log.info("translate categories text END");
 
-  log.info("translate products text START");
   const productsResult = await Promise.all(productsTextForTranslationPromises);
-  log.info("translate products text End");
 
   await prisma.$transaction(async (tx) => {
     //TODO: MOVE IT TO THE SERVICE

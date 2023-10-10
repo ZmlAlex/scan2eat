@@ -1,6 +1,5 @@
 import cloudinary from "cloudinary";
 import crypto from "crypto";
-import type { Logger } from "next-axiom";
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -9,17 +8,11 @@ cloudinary.v2.config({
   secure: true,
 });
 
-export const uploadImage = async (
-  imageSource: string,
-  userId: string,
-  log: Logger
-) => {
-  log.info("Upload Image START");
+export const uploadImage = async (imageSource: string, userId: string) => {
   const uploadResult = await cloudinary.v2.uploader.upload(imageSource, {
     public_id: crypto.randomBytes(20).toString("hex"),
     folder: `/foodmate-${process.env.NODE_ENV}/${userId}`,
   });
-  log.info("Upload Image END");
 
   return uploadResult;
 };

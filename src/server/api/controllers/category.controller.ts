@@ -29,21 +29,17 @@ export const createCategoryHandler = async ({
     CategoryI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-  const { log } = ctx;
   const userId = ctx.session.user.id;
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
-  log.info("validation categories quantity START");
   if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedCategoriesLimit,
     });
   }
-  log.info("validation categories quantity END");
 
-  log.info("validation restaurant lanuguages quantity START");
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
       await createFieldTranslationsForAdditionalLanguages<CategoryTranslationField>(
@@ -54,7 +50,6 @@ export const createCategoryHandler = async ({
         }
       );
   }
-  log.info("validation restaurant lanuguages quantity END");
 
   await createCategory(
     { ...input, userId },

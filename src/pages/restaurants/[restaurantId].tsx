@@ -48,7 +48,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const trpc = appRouter.createCaller({
     session: null,
     prisma,
-    log,
   });
 
   //TODO: MOVE IT TO THE APP FOLDER

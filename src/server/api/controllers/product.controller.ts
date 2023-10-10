@@ -25,8 +25,6 @@ export const createProductHandler = async ({
   ctx: ProtectedContext;
   input: CreateProductInput;
 }) => {
-  const { log } = ctx;
-
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
@@ -34,24 +32,20 @@ export const createProductHandler = async ({
     ProductI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-
+  console.log("debug!!!");
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
-  log.info("validation products quantity START");
   if (
     restaurant.product.filter(
       (product) => product.categoryId === input.categoryId
     ).length >= MAX_PRODUCTS_PER_CATEGORY
   ) {
-    log.error(baseErrorMessage.ReachedProductsLimit);
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedProductsLimit,
     });
   }
-  log.info("validation products quantity END");
 
-  log.info("validation restaurant lanuguages quantity START");
   if (restaurant.restaurantLanguage.length > 1) {
     additionalTranslations =
       await createFieldTranslationsForAdditionalLanguages<ProductTranslationField>(
@@ -65,7 +59,6 @@ export const createProductHandler = async ({
         }
       );
   }
-  log.info("validation restaurant lanuguages quantity END");
 
   if (input.imageBase64) {
     const uploadedImage = await uploadImage(input.imageBase64, userId, log);
@@ -88,11 +81,10 @@ export const updateProductHandler = async ({
   ctx: ProtectedContext;
   input: UpdateProductInput;
 }) => {
-  const { prisma, log } = ctx;
+  const { prisma } = ctx;
   const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
-  log.info("debug");
 
   if (input.imageBase64) {
     const uploadedImage = await uploadImage(input.imageBase64, userId, log);

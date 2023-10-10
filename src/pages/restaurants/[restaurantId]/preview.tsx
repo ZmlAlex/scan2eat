@@ -69,7 +69,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const trpc = appRouter.createCaller({
       session,
       prisma,
-      log,
     });
 
     const restaurant = await trpc.restaurant.getRestaurant({
