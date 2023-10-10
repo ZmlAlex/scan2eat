@@ -32,7 +32,6 @@ export const createProductHandler = async ({
     ProductI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-  console.log("debug!!!");
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
   if (
