@@ -72,7 +72,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     throw new Error("req is not the AxiomAPIRequest I expected");
   }
 
-  //  Get the session from the server using the getServerSession wrapper function
+  // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
   const log = session ? req.log.with({ userId: session.user.id }) : req.log;
