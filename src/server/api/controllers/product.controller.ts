@@ -61,7 +61,7 @@ export const createProductHandler = async ({
   }
 
   if (input.imageBase64) {
-    const uploadedImage = await uploadImage(input.imageBase64, userId, log);
+    const uploadedImage = await uploadImage(input.imageBase64, userId);
     uploadedImageUrl = uploadedImage.url;
   }
 
@@ -87,7 +87,7 @@ export const updateProductHandler = async ({
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
 
   if (input.imageBase64) {
-    const uploadedImage = await uploadImage(input.imageBase64, userId, log);
+    const uploadedImage = await uploadImage(input.imageBase64, userId);
     uploadedImageUrl = uploadedImage.url;
   }
 

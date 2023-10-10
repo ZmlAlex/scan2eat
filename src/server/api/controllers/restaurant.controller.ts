@@ -70,7 +70,7 @@ export const createRestaurantHandler = async ({
   }
 
   if (input.logoImageBase64) {
-    const uploadedImage = await uploadImage(input.logoImageBase64, userId, log);
+    const uploadedImage = await uploadImage(input.logoImageBase64, userId);
     uploadedImageUrl = uploadedImage.url;
   }
 
