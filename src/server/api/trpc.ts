@@ -73,7 +73,9 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-  const log = session ? req.log.with({ userId: session.user.id }) : req.log;
+  const log = session
+    ? req.log.with({ userId: session.user.id, debug: "test!" })
+    : req.log;
 
   return createInnerTRPCContext({
     session,
@@ -120,14 +122,6 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  * @see https://trpgc.io/docs/router
  */
 export const createTRPCRouter = t.router;
-
-// TODO: REMOVE AFTER DEBUG
-/** Reusable middleware that verify correct log invocation. https://www.imakewebsites.ca/posts/axiom-logging-nextjs-api-routes */
-// export const loggingMiddleware = t.middleware(async ({ ctx, next }) => {
-//   const result = await next();
-//   ctx.req.log = ctx.log;
-//   return result;
-// });
 
 /**
  * Public (unauthenticated) procedure
