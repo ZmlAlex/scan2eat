@@ -34,10 +34,8 @@ export const createCategoryHandler = async ({
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
-  // validate restaurant quantity
   log.info("validation categories quantity START");
   if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
-    log.error(baseErrorMessage.ReachedProductsLimit);
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: baseErrorMessage.ReachedCategoriesLimit,
