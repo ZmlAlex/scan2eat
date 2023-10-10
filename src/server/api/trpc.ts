@@ -24,6 +24,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 type CreateContextOptions = {
+  req: AxiomAPIRequest;
   session: Session | null;
   prisma?: PrismaClient;
   log: Logger;
@@ -42,6 +43,7 @@ type CreateContextOptions = {
 
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
+    req: opts.req,
     session: opts.session,
     prisma: opts.prisma || prisma,
     log: opts.log,
@@ -70,12 +72,14 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     throw new Error("req is not the AxiomAPIRequest I expected");
   }
 
-  // Get the session from the server using the getServerSession wrapper function
+  //  Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
   const log = session ? req.log.with({ userId: session.user.id }) : req.log;
+  req.log = session ? req.log.with({ userId: session.user.id }) : req.log;
 
   return createInnerTRPCContext({
+    req,
     session,
     log,
   });
@@ -117,9 +121,16 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 /**
  * This is how you create new routers and sub-routers in your tRPC API.
  *
- * @see https://trpc.io/docs/router
+ * @see https://trpgc.io/docs/router
  */
 export const createTRPCRouter = t.router;
+
+/** Reusable middleware that verify correct log invocation. https://www.imakewebsites.ca/posts/axiom-logging-nextjs-api-routes */
+export const loggingMiddleware = t.middleware(async ({ ctx, next }) => {
+  const result = await next();
+  ctx.req.log = ctx.log;
+  return result;
+});
 
 /**
  * Public (unauthenticated) procedure
@@ -128,7 +139,7 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(loggingMiddleware);
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
@@ -151,4 +162,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const protectedProcedure = publicProcedure.use(enforceUserIsAuthed);

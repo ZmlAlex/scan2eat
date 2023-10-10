@@ -11,7 +11,7 @@ import { createProtectedCaller } from "../helpers/protectedCaller";
 //TODO: MOVE IT GLOBALLY
 type TestCaller = ReturnType<typeof appRouter.createCaller>;
 
-//TODO: MOVE IT TO THE MOCKS
+//TODO: MOVE IT TO THE  MOCKS
 const createRestaurantInput: inferProcedureInput<
   AppRouter["restaurant"]["createRestaurant"]
 > & { logoUrl: string } = {

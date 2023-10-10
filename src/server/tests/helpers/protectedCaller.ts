@@ -12,7 +12,9 @@ export const createProtectedCaller = (user: User) => {
   };
 
   const caller = appRouter.createCaller(
-    createInnerTRPCContext({ session: mockSession, log })
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    createInnerTRPCContext({ session: mockSession, log, req: undefined })
   );
 
   return caller;

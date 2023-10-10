@@ -56,7 +56,10 @@ export const createRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: CreateRestaurantInput;
 }) => {
-  const { log, prisma } = ctx;
+  const {
+    req: { log },
+    prisma,
+  } = ctx;
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
@@ -145,7 +148,10 @@ export const createRestaurantLanguageHandler = async ({
   ctx: ProtectedContext;
   input: CreateRestaurantLanguageInput;
 }) => {
-  const { log, prisma } = ctx;
+  const {
+    req: { log },
+    prisma,
+  } = ctx;
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 

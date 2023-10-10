@@ -1,6 +1,5 @@
 import type { ProductI18N, ProductTranslationField } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { log } from "next-axiom";
 
 import { MAX_PRODUCTS_PER_CATEGORY } from "~/config/limitations";
 import type {
@@ -26,6 +25,7 @@ export const createProductHandler = async ({
   ctx: ProtectedContext;
   input: CreateProductInput;
 }) => {
+  const { log } = ctx.req;
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
@@ -87,7 +87,8 @@ export const updateProductHandler = async ({
   ctx: ProtectedContext;
   input: UpdateProductInput;
 }) => {
-  const { log, prisma } = ctx;
+  const { log } = ctx.req;
+  const { prisma } = ctx;
   const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;

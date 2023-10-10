@@ -66,7 +66,15 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   //TODO: MOVE IT TO THE APP FOLDER
   try {
-    const trpc = appRouter.createCaller({ session, prisma, log });
+    const trpc = appRouter.createCaller({
+      session,
+      prisma,
+      log,
+      // TODO: REFACTOR
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      req: undefined,
+    });
 
     const restaurant = await trpc.restaurant.getRestaurant({
       restaurantId: (ctx.params?.restaurantId as string) ?? "",
