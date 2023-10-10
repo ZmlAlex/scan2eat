@@ -75,8 +75,12 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-  const log = session ? req.log.with({ userId: session.user.id }) : req.log;
-  req.log = session ? req.log.with({ userId: session.user.id }) : req.log;
+  const log = session
+    ? req.log.with({ userId: session.user.id })
+    : req.log.with({ debug: "here!" });
+  req.log = session
+    ? req.log.with({ userId: session.user.id })
+    : req.log.with({ debug: "here2" });
 
   return createInnerTRPCContext({
     req,
@@ -125,12 +129,13 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  */
 export const createTRPCRouter = t.router;
 
+// TODO: REMOVE AFTER DEBUG
 /** Reusable middleware that verify correct log invocation. https://www.imakewebsites.ca/posts/axiom-logging-nextjs-api-routes */
-export const loggingMiddleware = t.middleware(async ({ ctx, next }) => {
-  const result = await next();
-  ctx.req.log = ctx.log;
-  return result;
-});
+// export const loggingMiddleware = t.middleware(async ({ ctx, next }) => {
+//   const result = await next();
+//   ctx.req.log = ctx.log;
+//   return result;
+// });
 
 /**
  * Public (unauthenticated) procedure
@@ -139,7 +144,7 @@ export const loggingMiddleware = t.middleware(async ({ ctx, next }) => {
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure.use(loggingMiddleware);
+export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
