@@ -3,5 +3,5 @@
 
 pnpm run lint
 pnpm run build
-pnpm run test:back
+pnpm run test:api
 

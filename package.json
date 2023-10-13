@@ -9,7 +9,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "test:back": "node 'node_modules/jest/bin/jest.js' --testPathPattern=src/server/tests/* --runInBand",
+    "test:api": "node 'node_modules/jest/bin/jest.js' --testPathPattern=src/server/tests/* --runInBand",
     "prepare": "husky install"
   },
   "dependencies": {

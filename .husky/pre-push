@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm run build
-pnpm run test:back
+pnpm run test:api
