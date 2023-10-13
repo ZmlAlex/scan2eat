@@ -2,7 +2,8 @@ name: GitHub Actions Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  NEXTAUTH_URL: ${{vars.NEXTAUTH_URL}}
+  NEXTAUTH_URL: localhost:3000
+
 on:
   push:
     branches-ignore:
@@ -13,7 +14,8 @@ jobs:
     steps:
       - run: echo "🎉 NEXTAUTH_URL----> ${{ vars.NEXTAUTH_URL }} "
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
+      - name: 🔥 Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Install Vercel CLI
