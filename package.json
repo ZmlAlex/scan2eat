@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "export NEXTAUTH_URL=localhost:3000 && next build",
+    "build": "next build",
     "dev": "next dev",
     "dev:email": "email dev",
     "postinstall": "prisma generate",
