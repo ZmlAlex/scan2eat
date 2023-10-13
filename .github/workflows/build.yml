@@ -13,7 +13,7 @@ jobs:
         with:
           version: 8
       - name: install dependencies
-        run: pnpm ci
+        run: pnpm install
       - name: run linting
         run: pnpm run lint
       - name: run api tests
