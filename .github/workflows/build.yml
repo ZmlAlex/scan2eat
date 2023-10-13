@@ -9,12 +9,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: install dependencies
-        run: npm ci
+        run: pnpm ci
       - name: run linting
-        run: npm run lint
+        run: pnpm run lint
       - name: run api tests
-        run: npm run tests:api
+        run: pnpm run tests:api
       - name: run build
-        run: npm run build
+        run: pnpm run build
