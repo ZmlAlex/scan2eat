@@ -23,7 +23,7 @@ jobs:
       - name: Build Project Artifacts
         run: |
           EXPORT NEXTAUTH_URL=localhost:3000
-          echo echo "$NEXTAUTH_URL"
+          echo "$NEXTAUTH_URL"
           vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
