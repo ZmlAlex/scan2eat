@@ -11,6 +11,7 @@ jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "🎉 NEXTAUTH_URL----> ${{ vars.NEXTAUTH_URL }} "
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
