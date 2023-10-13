@@ -2,7 +2,6 @@ name: GitHub Actions Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  NEXTAUTH_URL: localhost:3000
 
 on:
   push:
@@ -12,7 +11,6 @@ jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 NEXTAUTH_URL----> ${{ vars.NEXTAUTH_URL }} "
       - uses: actions/checkout@v3
       - name: 🔥 Setup pnpm
         uses: pnpm/action-setup@v2
@@ -23,6 +21,8 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          EXPORT NEXTAUTH_URL=localhost:3000
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
