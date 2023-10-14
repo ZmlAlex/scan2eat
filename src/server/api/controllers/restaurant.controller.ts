@@ -20,10 +20,11 @@ import type {
   SetPublishedRestaurantInput,
   UpdateRestaurantInput,
 } from "../schemas/restaurant.schema";
-import { updateManyCategoryTranslations } from "../services/category.service";
-import { updateManyProductTranslations } from "../services/product.service";
+import { updateManyCategoriesTranslations } from "../services/category.service";
+import { updateManyProductsTranslations } from "../services/product.service";
 import {
   createRestaurant,
+  createRestaurantLanguage,
   deleteRestaurant,
   findAllRestaurants,
   findRestaurantById,
@@ -144,6 +145,7 @@ export const createRestaurantLanguageHandler = async ({
   input: CreateRestaurantLanguageInput;
 }) => {
   const { prisma } = ctx;
+  const userId = ctx.session.user.id;
 
   const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
 
@@ -187,23 +189,11 @@ export const createRestaurantLanguageHandler = async ({
 
   const productsResult = await Promise.all(productsTextForTranslationPromises);
 
-  await prisma.$transaction(async (tx) => {
-    //TODO: MOVE IT TO THE SERVICE
-    await tx.restaurant.update({
-      where: {
-        id: input.restaurantId,
-      },
-      data: {
-        restaurantI18N: { createMany: { data: restaurantResult } },
-        restaurantLanguage: {
-          create: { languageCode: input.languageCode },
-        },
-      },
-    });
-
-    await updateManyCategoryTranslations(categoriesResult, tx);
-    await updateManyProductTranslations(productsResult, tx);
-  });
+  await prisma.$transaction([
+    createRestaurantLanguage({ ...input, userId }, restaurantResult, prisma),
+    ...updateManyCategoriesTranslations(categoriesResult, prisma),
+    ...updateManyProductsTranslations(productsResult, prisma),
+  ]);
 
   return findRestaurantById(input.restaurantId, ctx.prisma);
 };

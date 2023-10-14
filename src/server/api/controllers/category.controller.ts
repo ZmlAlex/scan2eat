@@ -12,6 +12,7 @@ import {
   createCategory,
   deleteCategory,
   updateCategory,
+  updateManyCategoriesPositions,
 } from "~/server/api/services/category.service";
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
@@ -82,14 +83,10 @@ export const updateCategoriesPositionHandler = async ({
 }) => {
   const userId = ctx.session.user.id;
 
-  // TODO: MOVE TO THE SERVICE?
-  const [updatedCategory] = await ctx.prisma.$transaction(
-    input.map((item) =>
-      ctx.prisma.category.update({
-        data: { position: item.position },
-        where: { id: item.id, userId },
-      })
-    )
+  const [updatedCategory] = await updateManyCategoriesPositions(
+    input,
+    userId,
+    ctx.prisma
   );
 
   return findRestaurantById(updatedCategory?.restaurantId ?? "", ctx.prisma);

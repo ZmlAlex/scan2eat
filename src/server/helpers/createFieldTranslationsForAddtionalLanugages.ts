@@ -24,13 +24,13 @@ const createFieldTranslationsForAdditionalLanguages = async <T>({
   );
 
   // modify object to make it possible to translate
-  const fieldsForTranslationWithLanguage = fieldsForTranslation.map(
-    (field) => ({
-      fieldName: field[0],
-      fieldValue: field[1],
+  const fieldsForTranslationWithLanguage = fieldsForTranslation
+    .filter(([_, value]) => value)
+    .map(([name, value]) => ({
+      fieldName: name,
+      fieldValue: value,
       sourceLanguage: sourceLanguage,
-    })
-  );
+    }));
 
   // push same field name for each language
   languagesForTranslations.forEach((language) =>

@@ -10,6 +10,7 @@ import type {
 } from "~/server/api/schemas/product.schema";
 import {
   createProduct,
+  updateManyProductsPositions,
   updateProduct,
 } from "~/server/api/services/product.service";
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
@@ -106,16 +107,12 @@ export const updateProductsPositionHandler = async ({
   input: UpdateProductsPositionInput;
 }) => {
   const userId = ctx.session.user.id;
-  // TODO: MOVE TO THE SERVICE?
-  const [updatedProduct] = await ctx.prisma.$transaction(
-    input.map((item) =>
-      ctx.prisma.product.update({
-        data: { position: item.position },
-        where: { id: item.id, userId },
-      })
-    )
-  );
 
+  const [updatedProduct] = await updateManyProductsPositions(
+    input,
+    userId,
+    ctx.prisma
+  );
   return findRestaurantById(updatedProduct?.restaurantId ?? "", ctx.prisma);
 };
 

@@ -13,6 +13,7 @@ import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToT
 import type {
   CreateProductInput,
   UpdateProductInput,
+  UpdateProductsPositionInput,
 } from "../schemas/product.schema";
 import { type PrismaTransactionClient } from "./types";
 
@@ -114,7 +115,7 @@ export const updateProduct = async (
   return updatedProduct;
 };
 
-export const updateManyProductTranslations = async (
+export const updateManyProductsTranslations = (
   translations: {
     productId?: string;
     languageCode: LanguageCode;
@@ -147,12 +148,22 @@ export const updateManyProductTranslations = async (
       });
     });
 
-  if ("$transaction" in prisma) {
-    await prisma.$transaction([...transactions]);
-    return;
-  } else {
-    return await Promise.all(transactions);
-  }
+  return transactions;
+};
+
+export const updateManyProductsPositions = async (
+  input: UpdateProductsPositionInput,
+  userId: string,
+  prisma: PrismaClient
+) => {
+  return prisma.$transaction(
+    input.map((item) =>
+      prisma.product.update({
+        data: { position: item.position },
+        where: { id: item.id, userId },
+      })
+    )
+  );
 };
 
 export const deleteProduct = async (

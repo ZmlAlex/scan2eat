@@ -63,7 +63,7 @@ describe("Restaurant API", () => {
   });
 
   describe("createRestaurantLanguage route", () => {
-    it("should returns restaurant with new language", async () => {
+    it("should return restaurant with new language", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -121,6 +121,7 @@ describe("Restaurant API", () => {
       };
 
       const result = await caller.restaurant.createRestaurantLanguage(input);
+      console.log("result: ", result.product[0]);
 
       //TODO: ADD ORDER
       expect(result).toMatchObject({
@@ -129,42 +130,40 @@ describe("Restaurant API", () => {
           { languageCode: "russian", isEnabled: true },
         ],
         //TODO: FIX ARRAY CHECKS
-        // menu: expect.objectContaining({
-        //   category: [
-        //     expect.objectContaining({
-        //       categoryI18N: {
-        //         english: { name: "juices" },
-        //         russian: { name: "соки" },
+        // category: [
+        //   expect.objectContaining({
+        //     categoryI18N: {
+        //       english: { name: "juices" },
+        //       russian: { name: "соки" },
+        //     },
+        //   }),
+        //   expect.objectContaining({
+        //     categoryI18N: {
+        //       english: { name: "hamburgers" },
+        //       russian: { name: "гамбургеры" },
+        //     },
+        //   }),
+        // ],
+        // product: [
+        //   expect.objectContaining({
+        //     productI18N: {
+        //       russian: { name: "бигмак", description: "описание" },
+        //       english: { name: "bigmac", description: "description" },
+        //     },
+        //   }),
+        //   expect.objectContaining({
+        //     productI18N: {
+        //       russian: {
+        //         name: "яблочный сок",
+        //         description: "потрясающий свежий напиток",
         //       },
-        //     }),
-        //     expect.objectContaining({
-        //       categoryI18N: {
-        //         english: { name: "hamburgers" },
-        //         russian: { name: "гамбургеры" },
+        //       english: {
+        //         name: "apple juice",
+        //         description: "amazing fresh drink",
         //       },
-        //     }),
-        //   ],
-        //   product: [
-        //     expect.objectContaining({
-        //       productI18N: {
-        //         russian: { name: "бигмак", description: "описание" },
-        //         english: { name: "bigmac", description: "description" },
-        //       },
-        //     }),
-        //     expect.objectContaining({
-        //       productI18N: {
-        //         russian: {
-        //           name: "яблочный сок",
-        //           description: "потрясающий свежий напиток",
-        //         },
-        //         english: {
-        //           name: "apple juice",
-        //           description: "amazing fresh drink",
-        //         },
-        //       },
-        //     }),
-        //   ],
-        // }) as unknown,
+        //     },
+        //   }),
+        // ],
         restaurantI18N: {
           english: {
             name: "Krusty Krab",

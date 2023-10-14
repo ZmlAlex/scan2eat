@@ -11,6 +11,7 @@ import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToT
 
 import type {
   CreateCategoryInput,
+  UpdateCategoriesPositionInput,
   UpdateCategoryInput,
 } from "../schemas/category.schema";
 import type { PrismaTransactionClient } from "./types";
@@ -87,7 +88,7 @@ export const updateCategory = async (
   await prisma.$transaction(transactions);
 };
 
-export const updateManyCategoryTranslations = async (
+export const updateManyCategoriesTranslations = (
   translations: {
     categoryId?: string;
     languageCode: LanguageCode;
@@ -96,7 +97,7 @@ export const updateManyCategoryTranslations = async (
   }[],
   prisma: PrismaClient | PrismaTransactionClient
 ) => {
-  const transactions: PrismaPromise<unknown>[] = translations
+  const transactions = translations
     .filter(({ translation }) => translation)
     .map((record) => {
       return prisma.categoryI18N.upsert({
@@ -119,12 +120,22 @@ export const updateManyCategoryTranslations = async (
       });
     });
 
-  if ("$transaction" in prisma) {
-    await prisma.$transaction([...transactions]);
-    return;
-  } else {
-    return await Promise.all(transactions);
-  }
+  return transactions;
+};
+
+export const updateManyCategoriesPositions = async (
+  input: UpdateCategoriesPositionInput,
+  userId: string,
+  prisma: PrismaClient
+) => {
+  return prisma.$transaction(
+    input.map((item) =>
+      prisma.category.update({
+        data: { position: item.position },
+        where: { id: item.id, userId },
+      })
+    )
+  );
 };
 
 export const deleteCategory = async (

@@ -1,16 +1,19 @@
 import type {
   CategoryTranslationField,
+  LanguageCode,
   Prisma,
   PrismaClient,
   PrismaPromise,
   ProductTranslationField,
   Restaurant,
+  RestaurantI18N,
   RestaurantTranslationField,
 } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 import type {
   CreateRestaurantInput,
+  CreateRestaurantLanguageInput,
   UpdateRestaurantInput,
 } from "~/server/api/schemas/restaurant.schema";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
@@ -193,6 +196,28 @@ export const createRestaurant = async (
       result.restaurantI18N
     ),
   };
+};
+
+export const createRestaurantLanguage = (
+  input: CreateRestaurantLanguageInput & { userId: string },
+  translations: Pick<
+    RestaurantI18N,
+    "translation" | "fieldName" | "languageCode"
+  >[],
+  prisma: PrismaClient
+) => {
+  return prisma.restaurant.update({
+    where: {
+      id: input.restaurantId,
+      userId: input.userId,
+    },
+    data: {
+      restaurantI18N: { createMany: { data: translations } },
+      restaurantLanguage: {
+        create: { languageCode: input.languageCode },
+      },
+    },
+  });
 };
 
 export const updateRestaurant = async (
