@@ -64,7 +64,7 @@ jobs:
         run: pnpm prisma db push
 
       - name: Seed database
-        run: pnpm prisma db push
+        run: pnpm prisma db seed
 
       - name: Run API tests
         run: pnpm run test:api
