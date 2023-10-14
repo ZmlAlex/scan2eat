@@ -1,6 +1,5 @@
 import type {
   CategoryTranslationField,
-  LanguageCode,
   Prisma,
   PrismaClient,
   PrismaPromise,

@@ -6,11 +6,6 @@ import type {
 import { TRPCError } from "@trpc/server";
 
 import { MAX_RESTAURANTS_PER_ACCOUNT } from "~/config/limitations";
-import { prisma } from "~/server/db";
-import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
-import { uploadImage } from "~/server/libs/cloudinary";
-import { baseErrorMessage } from "~/utils/errorMapper";
-
 import type {
   CreateRestaurantInput,
   CreateRestaurantLanguageInput,
@@ -19,9 +14,9 @@ import type {
   SetEnabledRestaurantLanguagesInput,
   SetPublishedRestaurantInput,
   UpdateRestaurantInput,
-} from "../schemas/restaurant.schema";
-import { updateManyCategoriesTranslations } from "../services/category.service";
-import { updateManyProductsTranslations } from "../services/product.service";
+} from "~/server/api/schemas/restaurant.schema";
+import { updateManyCategoriesTranslations } from "~/server/api/services/category.service";
+import { updateManyProductsTranslations } from "~/server/api/services/product.service";
 import {
   createRestaurant,
   createRestaurantLanguage,
@@ -29,8 +24,12 @@ import {
   findAllRestaurants,
   findRestaurantById,
   updateRestaurant,
-} from "../services/restaurant.service";
-import type { Context, ProtectedContext } from "../trpc";
+} from "~/server/api/services/restaurant.service";
+import type { Context, ProtectedContext } from "~/server/api/trpc";
+import { prisma } from "~/server/db";
+import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
+import { uploadImage } from "~/server/libs/cloudinary";
+import { baseErrorMessage } from "~/utils/errorMapper";
 
 export const getRestaurantHandler = ({
   ctx,
