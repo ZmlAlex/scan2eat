@@ -3,7 +3,6 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { log } from "next-axiom";
 import { NextSeo } from "next-seo";
 import React from "react";
 
@@ -44,13 +43,12 @@ const RestaurantPage = ({ restaurant }: ServerSideProps) => {
 export default RestaurantPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  // TODO: REFACTOR
+  // * https://peterwhite.dev/posts/gSSP-and-tRPC
   const trpc = appRouter.createCaller({
     session: null,
     prisma,
   });
 
-  //TODO: MOVE IT TO THE APP FOLDER
   try {
     const restaurant = await trpc.restaurant.getRestaurant({
       restaurantId: (ctx.params?.restaurantId as string) ?? "",

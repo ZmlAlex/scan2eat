@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { LanguageCode } from "@prisma/client";
 import { useTranslations } from "next-intl";
+import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -24,8 +27,6 @@ import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 import { errorMapper } from "~/utils/errorMapper";
-
-import { Icons } from "../../Icons";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),
@@ -79,11 +80,17 @@ const CategoryCreateForm = ({
   });
 
   function onSubmit(values: FormSchema) {
-    createCategory({
-      restaurantId,
-      name: values.name,
-      languageCode: "english",
-    });
+    const cookies = parseCookies();
+    const selectedRestaurantLang =
+      cookies[`selectedRestaurantLang${restaurantId}`];
+
+    if (selectedRestaurantLang) {
+      createCategory({
+        restaurantId,
+        name: values.name,
+        languageCode: selectedRestaurantLang as LanguageCode,
+      });
+    }
   }
 
   return (

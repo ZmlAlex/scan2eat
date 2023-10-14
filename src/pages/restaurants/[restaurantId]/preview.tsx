@@ -4,7 +4,6 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getSession } from "next-auth/react";
-import { log } from "next-axiom";
 import { useTranslations } from "next-intl";
 import { NextSeo } from "next-seo";
 import React from "react";
@@ -64,8 +63,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return { redirect: { destination: "/" } };
   }
 
-  //TODO: MOVE IT TO THE APP FOLDER
   try {
+    // * https://peterwhite.dev/posts/gSSP-and-tRPC
     const trpc = appRouter.createCaller({
       session,
       prisma,
