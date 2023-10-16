@@ -25,9 +25,9 @@ import {
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 // TODO: MOVE TO THE GLOBAL
 import type { ArrayElement } from "../../RestaurantMenu/CategoryProduct";

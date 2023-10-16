@@ -29,7 +29,7 @@ import type { Context, ProtectedContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
 import { uploadImage } from "~/server/libs/cloudinary";
-import { baseErrorMessage } from "~/utils/errorMapper";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 
 export const getRestaurantHandler = ({
   ctx,

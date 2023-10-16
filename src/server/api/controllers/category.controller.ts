@@ -17,7 +17,7 @@ import {
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
-import { baseErrorMessage } from "~/utils/errorMapper";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 
 export const createCategoryHandler = async ({
   ctx,

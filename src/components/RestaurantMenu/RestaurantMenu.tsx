@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect";
 
 import { Badge } from "~/components/ui/Badge";
 import useScrollDirection from "~/hooks/useScrollDirection";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 import CategorySection from "./CategorySection";
 

@@ -1,5 +1,5 @@
 import { Icons } from "~/components/Icons";
-import { cn } from "~/utils/cn";
+import { cn } from "~/helpers/cn";
 
 type Props = {
   className?: string;

@@ -6,7 +6,7 @@ import RestaurantLanguageUpdateForm from "~/components/Forms/RestaurantLanguageU
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
-import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 // TODO: GET IT FROM CONTEXT
 type Props = {

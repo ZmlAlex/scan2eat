@@ -4,7 +4,7 @@ import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
 import DashboardLayout from "~/layouts/Dashboard.layout";
-import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
+import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
 
 const Settings = () => {
   const t = useTranslations("Dashboard.page.settings");

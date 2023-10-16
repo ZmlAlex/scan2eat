@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/Select";
-import { api } from "~/utils/api";
-import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { api } from "~/helpers/api";
+import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 type Props = {
   restaurant: RestaurantWithDetails;

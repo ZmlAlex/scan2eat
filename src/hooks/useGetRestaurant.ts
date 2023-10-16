@@ -1,8 +1,8 @@
 import type { LanguageCode } from "@prisma/client";
 import { parseCookies, setCookie } from "nookies";
 
-import { api } from "~/utils/api";
-import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { api } from "~/helpers/api";
+import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 const useGetRestaurant = (restaurantId: string) => {
   //TODO: THINK ABOUT CACHE?

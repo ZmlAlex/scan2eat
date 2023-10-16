@@ -22,8 +22,8 @@ import {
 } from "~/components/ui/DropdownMenu";
 import { toast } from "~/components/ui/useToast";
 import useModal from "~/hooks/useModal";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
 
 interface RestaurantOperationsProps {
   restaurantId: string;

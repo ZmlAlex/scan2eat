@@ -7,7 +7,7 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import DashboardRestaurantHeaderContent from "~/components/DashboardRestaurantHeaderContent";
 import useGetRestaurant from "~/hooks/useGetRestaurant";
 import DashboardLayout from "~/layouts/Dashboard.layout";
-import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
+import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
 
 const RestaurantCategoriesAndProducts = () => {
   const router = useRouter();

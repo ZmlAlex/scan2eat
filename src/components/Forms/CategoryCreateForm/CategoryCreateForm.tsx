@@ -25,8 +25,8 @@ import {
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),

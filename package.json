@@ -41,6 +41,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@tanstack/react-query": "^4.28.0",
     "@tanstack/react-query-devtools": "^4.33.0",
+    "@trpc-limiter/upstash": "^0.0.3",
     "@trpc/client": "^10.18.0",
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
@@ -82,11 +83,11 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.196",
     "@jest/globals": "^29.5.0",
     "@types/downloadjs": "^1.4.3",
     "@types/eslint": "^8.21.3",
     "@types/jest": "^29.5.1",
+    "@types/lodash": "^4.14.196",
     "@types/node": "^18.15.5",
     "@types/nodemailer": "^6.4.8",
     "@types/prettier": "^2.7.2",

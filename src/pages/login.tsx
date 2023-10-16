@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 import UserAuthForm from "~/components/Forms/UserAuthForm";
 import { Icons } from "~/components/Icons";
 import AuthLayout from "~/layouts/Auth.layout";
-import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
+import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
 
 export const metadata: Metadata = {
   title: "Login",

@@ -33,9 +33,9 @@ import {
 import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
-import { imageInput } from "~/utils/formTypes/common";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
+import { imageInput } from "~/helpers/formTypes/common";
 
 import { Icons } from "../../Icons";
 import ImageUploadInput from "../../ImageUploadInput";

@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
-import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 import { CategoryOperations } from "./CategoryOperations";
 import CategoryProductsTable from "./CategoryProductsTable";

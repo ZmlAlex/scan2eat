@@ -10,7 +10,7 @@ import { type AbstractIntlMessages, NextIntlProvider } from "next-intl";
 
 import { ThemeProvider } from "~/components/ThemeProvider";
 import { Toaster } from "~/components/ui/Toaster";
-import { api } from "~/utils/api";
+import { api } from "~/helpers/api";
 
 const MyApp: AppType<{
   messages?: AbstractIntlMessages;

@@ -12,9 +12,9 @@ import RestaurantItem from "~/components/RestaurantItem";
 import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
 import DashboardLayout from "~/layouts/Dashboard.layout";
-import { api } from "~/utils/api";
-import { formatTranslationToOneLanguage } from "~/utils/formatTranslationToOneLanguage";
-import { getServerSidePropsWithLanguage } from "~/utils/getServerSidePropsWithLanguage";
+import { api } from "~/helpers/api";
+import { formatTranslationToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
+import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
 
 const RestaurantsList = () => {
   const { isModalOpen, toggleModal } = useModal();

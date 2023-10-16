@@ -11,9 +11,10 @@ import RestaurantInformation from "~/components/RestaurantInformation";
 import RestaurantMenu from "~/components/RestaurantMenu";
 import RestaurantLayout from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
+import { createInnerTRPCContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
-import { isTRPCError } from "~/server/helpers/isTRPCError";
-import { formatTranslationToOneLanguageWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { isTRPCError } from "~/helpers/isTRPCError";
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -44,10 +45,9 @@ export default RestaurantPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   // * https://peterwhite.dev/posts/gSSP-and-tRPC
-  const trpc = appRouter.createCaller({
-    session: null,
-    prisma,
-  });
+  const trpc = appRouter.createCaller(
+    createInnerTRPCContext({ session: null })
+  );
 
   try {
     const restaurant = await trpc.restaurant.getRestaurant({

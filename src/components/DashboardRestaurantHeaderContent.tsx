@@ -5,7 +5,7 @@ import { Icons } from "~/components/Icons";
 import RestaurantLanguageSelector from "~/components/RestaurantLanguageSelector";
 import { Button } from "~/components/ui/Button";
 import useModal from "~/hooks/useModal";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 import RestaurantPublishForm from "./Forms/RestaurantPublishForm";
 

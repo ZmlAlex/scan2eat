@@ -17,7 +17,7 @@ import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/libs/cloudinary";
-import { baseErrorMessage } from "~/utils/errorMapper";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 
 export const createProductHandler = async ({
   ctx,

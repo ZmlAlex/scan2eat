@@ -1,7 +1,7 @@
 import type { Currency } from "@prisma/client";
 import React from "react";
 
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 import CategoryProduct from "./CategoryProduct";
 

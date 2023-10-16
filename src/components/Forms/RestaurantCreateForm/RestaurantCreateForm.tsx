@@ -36,9 +36,9 @@ import {
   currencyCodeS,
   languageCodeS,
 } from "~/server/api/schemas/common.schema";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
-import { imageInput } from "~/utils/formTypes/common";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
+import { imageInput } from "~/helpers/formTypes/common";
 
 import { Icons } from "../../Icons";
 

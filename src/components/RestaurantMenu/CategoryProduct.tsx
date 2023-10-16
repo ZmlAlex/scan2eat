@@ -11,8 +11,8 @@ import {
 import { Placeholder } from "~/components/ui/Placeholder";
 import { useBreakpoint } from "~/hooks/useBreakpoints";
 import useModal from "~/hooks/useModal";
-import { formatPrice } from "~/utils/formatPrice";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { formatPrice } from "~/helpers/formatPrice";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 //TODO: MOVE TO GLOBAL
 export type ArrayElement<T> = T extends (infer U)[] ? U : never;

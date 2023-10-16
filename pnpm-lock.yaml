@@ -85,6 +85,9 @@ dependencies:
   '@tanstack/react-query-devtools':
     specifier: ^4.33.0
     version: 4.33.0(@tanstack/react-query@4.29.5)(react-dom@18.2.0)(react@18.2.0)
+  '@trpc-limiter/upstash':
+    specifier: ^0.0.3
+    version: 0.0.3(@trpc/client@10.26.0)(@trpc/server@10.26.0)
   '@trpc/client':
     specifier: ^10.18.0
     version: 10.26.0(@trpc/server@10.26.0)
@@ -3513,6 +3516,33 @@ packages:
     dev: false
     optional: true
 
+  /@trpc-limiter/core@0.0.8(@trpc/client@10.26.0)(@trpc/server@10.26.0):
+    resolution: {integrity: sha512-ptwRvjmCHIUow4mVh6O5JpDMVcDLMn+k1tpaB55ZLO/2YGFo705gN1KMM4tBWZNzp07hMyGZS7PXzn0MUxbxSQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@trpc/client': ^10.0.0-proxy-beta.21
+      '@trpc/server': ^10.0.0-proxy-beta.21
+    dependencies:
+      '@trpc/client': 10.26.0(@trpc/server@10.26.0)
+      '@trpc/server': 10.26.0
+    dev: false
+
+  /@trpc-limiter/upstash@0.0.3(@trpc/client@10.26.0)(@trpc/server@10.26.0):
+    resolution: {integrity: sha512-7Z8bLoZzKcmO2L+9V2SWKvlVZn7gQw+1sfKV7ynzWqrCDaGMntg6VsOMRCMVZUkqb5/sMMcMxzAbmP+Qm2h+Xw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@trpc/client': ^10.0.0-proxy-beta.21
+      '@trpc/server': ^10.0.0-proxy-beta.21
+    dependencies:
+      '@trpc-limiter/core': 0.0.8(@trpc/client@10.26.0)(@trpc/server@10.26.0)
+      '@trpc/client': 10.26.0(@trpc/server@10.26.0)
+      '@trpc/server': 10.26.0
+      '@upstash/ratelimit': 0.1.5(@upstash/redis@1.23.3)
+      '@upstash/redis': 1.23.3
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@trpc/client@10.26.0(@trpc/server@10.26.0):
     resolution: {integrity: sha512-ojHxQFIE97rBEGPK8p1ijbzo0T1IdEBoJ9fFSgWWL9FMuEEA/DNQ9s0uuiOrDKhCCdTFT1unfRharoJhB2/O2w==}
     peerDependencies:
@@ -3859,6 +3889,22 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@upstash/ratelimit@0.1.5(@upstash/redis@1.23.3):
+    resolution: {integrity: sha512-v0zq3Xpq42HQBvXDvm0C4djYvKC5TjHG29uCpbIQcOw0znJNroHewI8y4Yk4tBeEF1rvj2RjDkFihjCp6uTExQ==}
+    peerDependencies:
+      '@upstash/redis': ^1.4.0
+    dependencies:
+      '@upstash/redis': 1.23.3
+    dev: false
+
+  /@upstash/redis@1.23.3:
+    resolution: {integrity: sha512-6b66nGdkbWl/BZ4Hs9cG9szNNXF8UDgPTUyC/4fcZvDLTs552SlItMSQnmwAKMz0EHjpbVH51VQ4waHNnDy/Xw==}
+    dependencies:
+      isomorphic-fetch: 3.0.0
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@vercel/analytics@1.0.2:
@@ -6418,6 +6464,15 @@ packages:
 
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+
+  /isomorphic-fetch@3.0.0:
+    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
+    dependencies:
+      node-fetch: 2.6.12
+      whatwg-fetch: 3.6.19
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /istanbul-lib-coverage@3.2.0:
     resolution: {integrity: sha512-eOeJ5BHCmHYvQK7xt9GkdHuzuCGS1Y6g9Gvnx3Ym33fz/HpLRYxiS0wHNr+m/MBC8B647Xt608vCDEvhl9c6Mw==}
