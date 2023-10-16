@@ -18,11 +18,12 @@ env:
   # Email
   RESEND_EMAIL_API_KEY: ${{secrets.RESEND_EMAIL_API_KEY}}
   EMAIL_FROM: ${{secrets.EMAIL_FROM}}
+  # Upstash
+  UPSTASH_REDIS_REST_TOKEN: ${{secrets.UPSTASH_REDIS_REST_TOKEN}}
+  UPSTASH_REDIS_REST_URL: ${{secrets.UPSTASH_REDIS_REST_URL}}
 
-on:
-  push:
-    branches-ignore:
-      - main
+on: [pull_request]
+
 jobs:
   API-tests:
     runs-on: ubuntu-latest
