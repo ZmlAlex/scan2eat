@@ -9,12 +9,11 @@ import React from "react";
 import RestaurantHeader from "~/components/RestaurantHeader";
 import RestaurantInformation from "~/components/RestaurantInformation";
 import RestaurantMenu from "~/components/RestaurantMenu";
+import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { isTRPCError } from "~/helpers/isTRPCError";
 import RestaurantLayout from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
-import { prisma } from "~/server/db";
-import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { isTRPCError } from "~/helpers/isTRPCError";
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 

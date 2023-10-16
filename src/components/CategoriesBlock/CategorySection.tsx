@@ -10,8 +10,8 @@ import {
   AccordionTrigger,
 } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
-import useModal from "~/hooks/useModal";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import useModal from "~/hooks/useModal";
 
 import { CategoryOperations } from "./CategoryOperations";
 import CategoryProductsTable from "./CategoryProductsTable";

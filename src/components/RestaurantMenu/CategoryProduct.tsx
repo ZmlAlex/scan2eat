@@ -9,10 +9,10 @@ import {
   DrawerDialogContent,
 } from "~/components/ui/DrawerDialog";
 import { Placeholder } from "~/components/ui/Placeholder";
-import { useBreakpoint } from "~/hooks/useBreakpoints";
-import useModal from "~/hooks/useModal";
 import { formatPrice } from "~/helpers/formatPrice";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useBreakpoint } from "~/hooks/useBreakpoints";
+import useModal from "~/hooks/useModal";
 
 //TODO: MOVE TO GLOBAL
 export type ArrayElement<T> = T extends (infer U)[] ? U : never;

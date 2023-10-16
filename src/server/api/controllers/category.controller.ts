@@ -2,6 +2,7 @@ import type { CategoryI18N, CategoryTranslationField } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 import { MAX_CATEGORIES_PER_RESTAURANT } from "~/config/limitations";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 import type {
   CreateCategoryInput,
   DeleteCategorytInput,
@@ -17,7 +18,6 @@ import {
 import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
-import { baseErrorMessage } from "~/helpers/errorMapper";
 
 export const createCategoryHandler = async ({
   ctx,

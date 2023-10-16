@@ -6,6 +6,7 @@ import type {
 import { TRPCError } from "@trpc/server";
 
 import { MAX_RESTAURANTS_PER_ACCOUNT } from "~/config/limitations";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 import type {
   CreateRestaurantInput,
   CreateRestaurantLanguageInput,
@@ -29,7 +30,6 @@ import type { Context, ProtectedContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
 import { uploadImage } from "~/server/libs/cloudinary";
-import { baseErrorMessage } from "~/helpers/errorMapper";
 
 export const getRestaurantHandler = ({
   ctx,

@@ -3,8 +3,8 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 
 import { Badge } from "~/components/ui/Badge";
-import useScrollDirection from "~/hooks/useScrollDirection";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import useScrollDirection from "~/hooks/useScrollDirection";
 
 import CategorySection from "./CategorySection";
 

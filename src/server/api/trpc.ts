@@ -80,9 +80,6 @@ import { createTRPCUpstashLimiter } from "@trpc-limiter/upstash";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-// import { enforceUserIsAuthed } from "./middlewares/enforceUserIsAuthed.middleware";
-// import { rateLimiter } from "./middlewares/ratelimiter.middleware";
-
 export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
@@ -149,17 +146,16 @@ const getFingerprint = (req?: NextApiRequest) => {
   // in case if request is empty
   return "";
 };
-
+// TODO: MOVE IT TO THE SEPARATE FILE
 export const rateLimiter = createTRPCUpstashLimiter({
   root: t,
   fingerprint: (ctx, _input) => getFingerprint(ctx.req),
-  windowMs: 20000,
+  windowMs: 60000,
   message: (hitInfo) =>
     `Too many requests, please try again later. ${Math.ceil(
       (hitInfo.reset - Date.now()) / 1000
     )}`,
-  // max: 30,
-  max: 1,
+  max: 40,
 });
 
 /**

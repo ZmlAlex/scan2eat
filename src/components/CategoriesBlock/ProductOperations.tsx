@@ -21,10 +21,10 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
 import { toast } from "~/components/ui/useToast";
-import useModal from "~/hooks/useModal";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import useModal from "~/hooks/useModal";
 
 import ProductUpdateForm from "../Forms/ProductUpdateForm";
 import type { ArrayElement } from "../RestaurantMenu/CategoryProduct";
