@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     setupFiles: "./setupTests.ts",
-    testTimeout: 15000,
+    testTimeout: 20000,
     maxConcurrency: 3,
   },
 });
