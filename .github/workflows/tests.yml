@@ -19,10 +19,8 @@ env:
   RESEND_EMAIL_API_KEY: ${{secrets.RESEND_EMAIL_API_KEY}}
   EMAIL_FROM: ${{secrets.EMAIL_FROM}}
 
-on:
-  push:
-    branches-ignore:
-      - main
+on: [pull_request]
+
 jobs:
   API-tests:
     runs-on: ubuntu-latest
