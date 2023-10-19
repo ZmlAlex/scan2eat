@@ -46,12 +46,12 @@ export const api = createTRPCNext<AppRouter>({
         queryCache: new QueryCache({
           // https://tkdodo.eu/blog/react-query-error-handling#the-global-callbacks
           onError: (error, _query) => {
-            if (isTRPCErrorClientError(error) && error.data?.code) {
+            if (isTRPCErrorClientError(error) && error.message) {
               const translations = getLanguageTranslationJSON(
                 window.location.pathname
               );
+              const errorMessage = errorMapper(error.message);
 
-              const errorMessage = errorMapper(error.data?.code);
               toast({
                 title: translations.ResponseErrorMessage[errorMessage],
                 variant: "destructive",

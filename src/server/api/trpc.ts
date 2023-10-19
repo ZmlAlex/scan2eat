@@ -76,9 +76,10 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 import type { PrismaClient } from "@prisma/client";
 import { type inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
-import { createTRPCUpstashLimiter } from "@trpc-limiter/upstash";
 import superjson from "superjson";
 import { ZodError } from "zod";
+
+import { rateLimitClient } from "~/server/libs/rateLimitClient";
 
 export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -132,7 +133,13 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 });
 
 /** Reusable middleware that setup rate limit for requests. */
-const getFingerprint = (req?: NextApiRequest) => {
+const getFingerprint = ({
+  req,
+  session,
+}: {
+  req?: NextApiRequest;
+  session: Session | null;
+}) => {
   if (req) {
     const forwarded = req.headers["x-forwarded-for"];
     const ip = forwarded
@@ -143,19 +150,35 @@ const getFingerprint = (req?: NextApiRequest) => {
     return ip || "127.0.0.1";
   }
 
+  // !it's for API test when we mock caller
+  if (session) {
+    return session.user.id;
+  }
+
   // in case if request is empty
   return "";
 };
-// TODO: MOVE IT TO THE SEPARATE FILE
-export const rateLimiter = createTRPCUpstashLimiter({
-  root: t,
-  fingerprint: (ctx, _input) => getFingerprint(ctx.req),
-  windowMs: 60000,
-  message: (hitInfo) =>
-    `Too many requests, please try again later. ${Math.ceil(
-      (hitInfo.reset - Date.now()) / 1000
-    )}`,
-  max: 40,
+
+const rateLimiter = t.middleware(async ({ ctx, next }) => {
+  const fingerPrint = getFingerprint(ctx);
+
+  if (!fingerPrint) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "No fingerprint returned",
+    });
+  }
+
+  const { success } = await rateLimitClient.limit(fingerPrint);
+
+  if (!success) {
+    throw new TRPCError({
+      code: "TOO_MANY_REQUESTS",
+      message: "ReachedRequestsLimit",
+    });
+  }
+
+  return next();
 });
 
 /**

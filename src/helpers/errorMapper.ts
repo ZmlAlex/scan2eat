@@ -4,8 +4,7 @@ export const baseErrorMessage = {
   ReachedCategoriesLimit: "ReachedCategoriesLimit",
   ReachedProductsLimit: "ReachedProductsLimit",
   ReachedRestaurantsLimit: "ReachedRestaurantsLimit",
-  // ERROR CODES
-  TOO_MANY_REQUESTS: "TOO_MANY_REQUESTS",
+  ReachedRequestsLimit: "ReachedRequestsLimit",
 } as const;
 
 export const errorMapper = (errorMessage: string) => {

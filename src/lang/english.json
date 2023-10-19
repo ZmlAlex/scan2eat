@@ -393,6 +393,6 @@
     "ReachedCategoriesLimit": "Reached maximum number of categories per restaurant.",
     "ReachedProductsLimit": "Reached maximum number of products per category.",
     "ReachedRestaurantsLimit": "Reached maximum number of restaurants per account.",
-    "TOO_MANY_REQUESTS": "Too many requests, please try again later."
+    "ReachedRequestsLimit": "Too many requests, please try again later."
   }
 }
