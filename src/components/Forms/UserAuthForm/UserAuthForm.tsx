@@ -11,8 +11,8 @@ import { buttonVariants } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 import { Label } from "~/components/ui/Label";
 import { toast } from "~/components/ui/useToast";
-import { cn } from "~/utils/cn";
-import { baseErrorMessage } from "~/utils/errorMapper";
+import { cn } from "~/helpers/cn";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 
 const userAuthSchema = z.object({
   email: z.string().email(),

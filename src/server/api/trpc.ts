@@ -15,12 +15,14 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import type { NextApiRequest } from "next";
 import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 type CreateContextOptions = {
+  req?: NextApiRequest;
   session: Session | null;
   prisma?: PrismaClient;
 };
@@ -38,6 +40,7 @@ type CreateContextOptions = {
 
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
+    req: opts.req,
     session: opts.session,
     prisma: opts.prisma || prisma,
   };
@@ -59,6 +62,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const session = await getServerAuthSession({ req, res });
 
   return createInnerTRPCContext({
+    req,
     session,
   });
 };
@@ -75,7 +79,9 @@ import { type inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-const t = initTRPC.context<typeof createTRPCContext>().create({
+import { rateLimitClient } from "~/server/libs/rateLimitClient";
+
+export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
@@ -90,7 +96,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 });
 
 /**
- * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
+ * 3. ROUTER & MIDDLEWARE & PROCEDURE (THE IMPORTANT BIT)
  *
  * These are the pieces you use to build your tRPC API. You should import these a lot in the
  * "/src/server/api/routers" directory.
@@ -126,6 +132,55 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
+/** Reusable middleware that setup rate limit for requests. */
+const getFingerprint = ({
+  req,
+  session,
+}: {
+  req?: NextApiRequest;
+  session: Session | null;
+}) => {
+  if (req) {
+    const forwarded = req.headers["x-forwarded-for"];
+    const ip = forwarded
+      ? (typeof forwarded === "string" ? forwarded : forwarded[0])?.split(
+          /, /
+        )[0]
+      : req.socket.remoteAddress;
+    return ip || "127.0.0.1";
+  }
+
+  // !it's for API test when we mock caller
+  if (session) {
+    return session.user.id;
+  }
+
+  // in case if request is empty
+  return "";
+};
+
+const rateLimiter = t.middleware(async ({ ctx, next }) => {
+  const fingerPrint = getFingerprint(ctx);
+
+  if (!fingerPrint) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "No fingerprint returned",
+    });
+  }
+
+  const { success } = await rateLimitClient.limit(fingerPrint);
+
+  if (!success) {
+    throw new TRPCError({
+      code: "TOO_MANY_REQUESTS",
+      message: "ReachedRequestsLimit",
+    });
+  }
+
+  return next();
+});
+
 /**
  * Protected (authenticated) procedure
  *
@@ -134,4 +189,6 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = publicProcedure.use(enforceUserIsAuthed);
+export const protectedProcedure = publicProcedure
+  .use(rateLimiter)
+  .use(enforceUserIsAuthed);

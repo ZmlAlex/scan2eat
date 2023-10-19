@@ -3,8 +3,8 @@ import React from "react";
 
 import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Button } from "~/components/ui/Button";
+import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import useModal from "~/hooks/useModal";
-import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import { EmptyPlaceholder } from "../EmptyPlaceholder";
 import { Icons } from "../Icons";

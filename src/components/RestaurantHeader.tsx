@@ -2,7 +2,7 @@ import React from "react";
 
 import { LanguageToggle } from "~/components/LanguageToggle";
 import { ModeToggle } from "~/components/ModeToggle";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 type Props = {
   name: string;

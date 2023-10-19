@@ -3,7 +3,7 @@ import React from "react";
 
 import { Icons } from "~/components/Icons";
 import { Placeholder } from "~/components/ui/Placeholder";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 type Props = {
   restaurant: RestaurantWithDetails;

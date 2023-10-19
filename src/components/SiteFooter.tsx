@@ -2,7 +2,7 @@ import React from "react";
 
 // import { Icons } from "~/components/Icons";
 // import { siteConfig } from "~/config/site";
-import { cn } from "~/utils/cn";
+import { cn } from "~/helpers/cn";
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   return (

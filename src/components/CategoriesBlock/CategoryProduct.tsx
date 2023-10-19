@@ -4,9 +4,9 @@ import React, { type ForwardedRef, type ReactNode } from "react";
 import type { ArrayElement } from "~/components/RestaurantMenu/CategoryProduct";
 import { Placeholder } from "~/components/ui/Placeholder";
 import { TableCell, TableRow } from "~/components/ui/Table";
-import { api } from "~/utils/api";
-import { formatPrice } from "~/utils/formatPrice";
-import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { api } from "~/helpers/api";
+import { formatPrice } from "~/helpers/formatPrice";
+import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 import { ProductOperations } from "./ProductOperations";
 

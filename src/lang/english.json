@@ -392,6 +392,7 @@
     "Unknown": "Sorry, something went wrong. Please try again.",
     "ReachedCategoriesLimit": "Reached maximum number of categories per restaurant.",
     "ReachedProductsLimit": "Reached maximum number of products per category.",
-    "ReachedRestaurantsLimit": "Reached maximum number of restaurants per account."
+    "ReachedRestaurantsLimit": "Reached maximum number of restaurants per account.",
+    "ReachedRequestsLimit": "Too many requests, please try again later."
   }
 }

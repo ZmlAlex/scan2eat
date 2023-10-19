@@ -4,8 +4,8 @@ import React from "react";
 import { Icons } from "~/components/Icons";
 import RestaurantLanguageSelector from "~/components/RestaurantLanguageSelector";
 import { Button } from "~/components/ui/Button";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import useModal from "~/hooks/useModal";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
 
 import RestaurantPublishForm from "./Forms/RestaurantPublishForm";
 

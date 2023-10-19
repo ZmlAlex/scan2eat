@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { formatDate } from "~/utils/formatDate";
-import type { Restaurant } from "~/utils/formatTranslationToOneLanguage";
+import { formatDate } from "~/helpers/formatDate";
+import type { Restaurant } from "~/helpers/formatTranslationToOneLanguage";
 
 import { RestaurantOperations } from "./RestaurantOperations";
 // import { Skeleton } from "@/components/ui/skeleton";

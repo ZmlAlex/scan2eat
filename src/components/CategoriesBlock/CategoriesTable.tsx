@@ -4,9 +4,9 @@ import React from "react";
 import { SortableList } from "~/components/SortableList";
 import { Accordion } from "~/components/ui/Accordion";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
-import { type RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
+import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 import CategorySection from "./CategorySection";
 

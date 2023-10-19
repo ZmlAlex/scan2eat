@@ -21,9 +21,9 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
 import { toast } from "~/components/ui/useToast";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
 import useModal from "~/hooks/useModal";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
 
 interface RestaurantOperationsProps {
   restaurantId: string;

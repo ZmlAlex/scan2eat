@@ -2,6 +2,7 @@ import type { ProductI18N, ProductTranslationField } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 import { MAX_PRODUCTS_PER_CATEGORY } from "~/config/limitations";
+import { baseErrorMessage } from "~/helpers/errorMapper";
 import type {
   CreateProductInput,
   DeleteProductInput,
@@ -17,7 +18,6 @@ import { findRestaurantById } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/libs/cloudinary";
-import { baseErrorMessage } from "~/utils/errorMapper";
 
 export const createProductHandler = async ({
   ctx,

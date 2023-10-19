@@ -15,9 +15,9 @@ import {
   FormLabel,
 } from "~/components/ui/Form";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/utils/api";
-import { errorMapper } from "~/utils/errorMapper";
-import type { RestaurantWithDetails } from "~/utils/formatTranslationToOneLanguage";
+import { api } from "~/helpers/api";
+import { errorMapper } from "~/helpers/errorMapper";
+import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
 const formSchema = z.object({
