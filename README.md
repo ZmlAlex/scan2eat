@@ -1,31 +1,28 @@
-# Create T3 App
+# FoodMate app
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A digital menu generator for restaurants, built using [T3 Stack](https://create.t3.gg/)
 
-## What's next? How do I make an app with this?
+## Before Start
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Make sure that you have accounts and api keys for
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [Vercel](https://vercel.com/)
+- [AWS](https://aws.amazon.com/ru/console/)
+- [Supabase](https://supabase.com/)
+- [Cloudinary](https://console.cloudinary.com/)
+- [Upstash](https://upstash.com/)
+- [Resend](https://resend.com/)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## App schema
 
-## Learn More
+the brief system overview
+![](./diagrams/general-schema.png)
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+[full schema](https://excalidraw.com/#json=-qdmPKG7kEkGeRNfnAK0A,BRtGwCdeqgK9Pt2-Pw1tEQ)
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Env variables
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+To check all required env variables please check [env-example](./env.example)
 
 ## Database commands
 
@@ -37,4 +34,13 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## Email templates commands
 
-1. pnpm dev:email - start server to add/edit templates on localhost:3000
+- pnpm dev:email - start server to add/edit templates on localhost:3000
+
+## How to run
+
+- pnpm install
+- pnpm dev
+
+## How to build
+
+- pnpm build
