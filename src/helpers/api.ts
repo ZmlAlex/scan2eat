@@ -12,26 +12,9 @@ import superjson from "superjson";
 
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
+import { getLanguageTranslationJSON } from "~/helpers/getLanguageTranslateJSON";
 import { isTRPCErrorClientError } from "~/helpers/isTRPCClientError";
-import englishLanguageJSON from "~/lang/english.json";
-import russianLanguageJSON from "~/lang/russian.json";
 import { type AppRouter } from "~/server/api/root";
-
-const languageMap = {
-  russian: russianLanguageJSON,
-  english: englishLanguageJSON,
-} as const;
-
-const getLanguageTranslationJSON = (pathname: string) => {
-  const additionalLanguages = ["russian"];
-  const defaultlLanguage = "english";
-
-  const language = (additionalLanguages.find((lang) =>
-    pathname.includes(lang)
-  ) || defaultlLanguage) as keyof typeof languageMap;
-
-  return languageMap[language];
-};
 
 export const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url

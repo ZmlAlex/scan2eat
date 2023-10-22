@@ -29,12 +29,9 @@ const RestaurantCategoriesAndProducts = () => {
             <DashboardRestaurantHeaderContent restaurant={restaurant} />
           </DashboardHeader>
           <div className="grid gap-10">
-            <>
-              {/* // Category block */}
-              <div className="min-w-0">
-                <CategoriesBlock restaurant={restaurant} />
-              </div>
-            </>
+            <div className="min-w-0">
+              <CategoriesBlock restaurant={restaurant} />
+            </div>
           </div>
         </>
       )}

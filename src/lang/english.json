@@ -380,7 +380,7 @@
     }
   },
   "SEO": {
-    "homePage": {
+    "default": {
       "title": "FoodMate - Digital menu generator",
       "description": "Manage your digital menu in the personal dashboard in an easy, let your customers view the menu on their own device, without any app installation."
     },

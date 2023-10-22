@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import { Icons } from "~/components/Icons";
 import { LanguageToggle } from "~/components/LanguageToggle";
 import { ModeToggle } from "~/components/ModeToggle";
 import { SiteFooter } from "~/components/SiteFooter";
@@ -22,9 +21,8 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 bg-background">
-        <div className="container flex h-20 items-center justify-between gap-x-4 py-6">
+        <div className="container flex items-center justify-between gap-x-4 py-6">
           <Link href="/" className="flex items-center space-x-2">
-            <Icons.logo />
             <span className="inline-block text-lg font-bold md:text-2xl">
               {siteConfig.name}
             </span>
