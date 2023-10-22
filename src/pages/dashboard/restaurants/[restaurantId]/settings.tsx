@@ -27,7 +27,6 @@ const RestaurantSettings = () => {
           </DashboardHeader>
           <div className="grid gap-10">
             <div>
-              {/* // Language block */}
               <div>
                 <LanguagesBlock restaurant={restaurant} />
               </div>
