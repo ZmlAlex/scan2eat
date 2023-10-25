@@ -12,10 +12,8 @@ import { Placeholder } from "~/components/ui/Placeholder";
 import { formatPrice } from "~/helpers/formatPrice";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useBreakpoint } from "~/hooks/useBreakpoints";
-import useModal from "~/hooks/useModal";
-
-//TODO: MOVE TO GLOBAL
-export type ArrayElement<T> = T extends (infer U)[] ? U : never;
+import { useModal } from "~/hooks/useModal";
+import type { ArrayElement } from "~/types/shared.interface";
 
 type Product = ArrayElement<RestaurantWithDetails["product"]>;
 
@@ -24,7 +22,7 @@ type Props = {
   currencyCode: Currency["code"];
 };
 
-const CategoryProduct = ({ product, currencyCode }: Props) => {
+export const CategoryProduct = ({ product, currencyCode }: Props) => {
   const {
     productI18N: { name, description },
     price,
@@ -142,5 +140,3 @@ const CategoryProduct = ({ product, currencyCode }: Props) => {
     </>
   );
 };
-
-export default CategoryProduct;

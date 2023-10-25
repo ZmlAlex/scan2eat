@@ -6,6 +6,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Icons } from "~/components/Icons";
+import { ImageUploadInput } from "~/components/ImageUploadInput";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -37,9 +39,6 @@ import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 
-import { Icons } from "../../Icons";
-import ImageUploadInput from "../../ImageUploadInput";
-
 const formSchema = z.object({
   name: z.string().trim().min(2).max(50),
   description: z.string().trim().max(150),
@@ -59,7 +58,7 @@ type Props = {
   categoryId: string;
 };
 
-const ProductCreateForm = ({
+export const ProductCreateForm = ({
   restaurantId,
   categoryId,
   isModalOpen,
@@ -258,5 +257,3 @@ const ProductCreateForm = ({
     </Dialog>
   );
 };
-
-export default ProductCreateForm;

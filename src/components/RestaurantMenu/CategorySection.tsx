@@ -3,7 +3,7 @@ import React from "react";
 
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
-import CategoryProduct from "./CategoryProduct";
+import { CategoryProduct } from "./CategoryProduct";
 
 // * when distance more than these values -> we should trigger selecting of category
 const TOP_OFFSET = 130;
@@ -23,7 +23,7 @@ type Props = {
   setSelectedCategory: (categoryId: string) => void;
 };
 
-const CategorySection = ({
+export const CategorySection = ({
   categorySectionsRefs,
   products,
   categoryId,
@@ -114,5 +114,3 @@ const CategorySection = ({
     </section>
   );
 };
-
-export default CategorySection;

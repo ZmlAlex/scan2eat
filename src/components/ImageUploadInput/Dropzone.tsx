@@ -12,7 +12,7 @@ export type DropzoneProps = Omit<
   onDrop: (acceptedFiles: File[]) => void;
 };
 
-const Dropzone = ({ onDrop, ...props }: DropzoneProps) => {
+export const Dropzone = ({ onDrop, ...props }: DropzoneProps) => {
   const t = useTranslations("Common.imageUploadInput");
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -58,5 +58,3 @@ const Dropzone = ({ onDrop, ...props }: DropzoneProps) => {
     </div>
   );
 };
-
-export default Dropzone;

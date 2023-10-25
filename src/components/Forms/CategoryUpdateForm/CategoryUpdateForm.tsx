@@ -28,9 +28,7 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-
-// TODO: MOVE TO THE GLOBAL
-import type { ArrayElement } from "../../RestaurantMenu/CategoryProduct";
+import type { ArrayElement } from "~/types/shared.interface";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),
@@ -40,13 +38,12 @@ type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
   restaurantId: string;
-  //TODO: MOVE TO THE GLOBAL
   category: ArrayElement<RestaurantWithDetails["category"]>;
 };
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const CategoryUpdateForm = ({
+export const CategoryUpdateForm = ({
   isModalOpen,
   restaurantId,
   category,
@@ -139,5 +136,3 @@ const CategoryUpdateForm = ({
     </Dialog>
   );
 };
-
-export default CategoryUpdateForm;

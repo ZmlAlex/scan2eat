@@ -7,14 +7,12 @@ import type {
   PrismaPromise,
 } from "@prisma/client";
 
-import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
-
 import type {
   CreateCategoryInput,
   UpdateCategoriesPositionInput,
   UpdateCategoryInput,
-} from "../schemas/category.schema";
-import type { PrismaTransactionClient } from "./types";
+} from "~/server/api/schemas/category.schema";
+import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
 export const createCategory = async (
   input: CreateCategoryInput & { userId: string },
@@ -55,8 +53,6 @@ export const updateCategory = async (
   input: UpdateCategoryInput & { userId: string },
   prisma: PrismaClient
 ) => {
-  // const translationFields: CategoryTranslationField[] = ["name"];
-
   const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
     ["name"],
     input
@@ -95,7 +91,7 @@ export const updateManyCategoriesTranslations = (
     translation: string;
     fieldName: CategoryTranslationField;
   }[],
-  prisma: PrismaClient | PrismaTransactionClient
+  prisma: PrismaClient
 ) => {
   const transactions = translations
     .filter(({ translation }) => translation)

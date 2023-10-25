@@ -3,7 +3,7 @@ import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
-import DashboardLayout from "~/layouts/Dashboard.layout";
+import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 const Settings = () => {
   const t = useTranslations("Dashboard.page.settings");

@@ -4,9 +4,9 @@ import { isMobile } from "react-device-detect";
 
 import { Badge } from "~/components/ui/Badge";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useScrollDirection from "~/hooks/useScrollDirection";
+import { useScrollDirection } from "~/hooks/useScrollDirection";
 
-import CategorySection from "./CategorySection";
+import { CategorySection } from "./CategorySection";
 
 // !it can cause the wrong behaviour if duration is too short
 const SCROLL_TO_CATEGORY_SECTION_DURATION = isMobile ? 300 : 700;
@@ -17,7 +17,7 @@ type Props = {
   currencyCode: Currency["code"];
 };
 
-const RestaurantMenu = ({
+export const RestaurantMenu = ({
   categories = [],
   products = [],
   currencyCode,
@@ -130,5 +130,3 @@ const RestaurantMenu = ({
     </>
   );
 };
-
-export default RestaurantMenu;

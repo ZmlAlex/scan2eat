@@ -9,7 +9,7 @@ type Props = {
   restaurantLanguage: RestaurantWithDetails["restaurantLanguage"];
 };
 
-const RestaurantHeader = ({ name, restaurantLanguage }: Props) => {
+export const RestaurantHeader = ({ name, restaurantLanguage }: Props) => {
   return (
     <div className="sticky top-0 z-40 flex h-[69px] items-center justify-between gap-x-4 bg-background py-3">
       <h1 className="font-heading text-[clamp(1rem,2vw+1rem,1.875rem)] font-bold trimmed-line-1">
@@ -25,5 +25,3 @@ const RestaurantHeader = ({ name, restaurantLanguage }: Props) => {
     </div>
   );
 };
-
-export default RestaurantHeader;

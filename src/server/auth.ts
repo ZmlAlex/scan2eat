@@ -11,7 +11,7 @@ import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 import { resend } from "~/server/libs/resend";
 
-import LoginEmail from "../../emails/LoginEmail";
+import { LoginEmail } from "../../emails/LoginEmail";
 
 declare module "next-auth/jwt" {
   interface JWT {

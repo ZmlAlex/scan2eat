@@ -43,8 +43,6 @@ export const LoginEmail = ({ magicLink }: Props) => (
   </Html>
 );
 
-export default LoginEmail;
-
 const main = {
   backgroundColor: "#ffffff",
   fontFamily:

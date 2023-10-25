@@ -6,7 +6,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import ImageUploadInput from "~/components/ImageUploadInput";
+import { Icons } from "~/components/Icons";
+import { ImageUploadInput } from "~/components/ImageUploadInput";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -38,9 +39,7 @@ import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { imageInput } from "~/helpers/formTypes/common";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
-
-import { Icons } from "../../Icons";
-import type { ArrayElement } from "../../RestaurantMenu/CategoryProduct";
+import type { ArrayElement } from "~/types/shared.interface";
 
 const formSchema = z.object({
   name: z.string().trim().min(2).max(50),
@@ -57,13 +56,12 @@ type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
   restaurantId: string;
-  //TODO: MOVE TO THE GLOBAL
   product: ArrayElement<RestaurantWithDetails["product"]>;
 };
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const ProductUpdateForm = ({
+export const ProductUpdateForm = ({
   restaurantId,
   product,
   isModalOpen,
@@ -274,5 +272,3 @@ const ProductUpdateForm = ({
     </Dialog>
   );
 };
-
-export default ProductUpdateForm;

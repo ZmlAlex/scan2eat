@@ -27,7 +27,7 @@ type Props = {
   restaurantId: string;
 };
 
-const RestaurantPublishForm = ({
+export const RestaurantPublishForm = ({
   restaurantId,
   isPublished,
   isModalOpen,
@@ -162,5 +162,3 @@ const RestaurantPublishForm = ({
     </Dialog>
   );
 };
-
-export default RestaurantPublishForm;

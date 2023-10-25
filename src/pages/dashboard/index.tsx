@@ -5,15 +5,15 @@ import React from "react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
 import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
-import RestaurantCreateForm from "~/components/Forms/RestaurantCreateForm";
+import { RestaurantCreateForm } from "~/components/Forms/RestaurantCreateForm";
 import { Icons } from "~/components/Icons";
-import RestaurantItem from "~/components/RestaurantItem";
+import { RestaurantItem } from "~/components/RestaurantItem";
 import { Button } from "~/components/ui/Button";
 import { api } from "~/helpers/api";
 import { formatTranslationToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
-import useModal from "~/hooks/useModal";
-import DashboardLayout from "~/layouts/Dashboard.layout";
+import { useModal } from "~/hooks/useModal";
+import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 const RestaurantsList = () => {
   const { isModalOpen, toggleModal } = useModal();

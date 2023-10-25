@@ -48,7 +48,7 @@ type Props = {
   restaurantId: string;
 };
 
-const RestaurantLanguageCreateForm = ({
+export const RestaurantLanguageCreateForm = ({
   availableLanguages,
   // TODO: GET FROM QUERY?
   restaurantId,
@@ -154,5 +154,3 @@ const RestaurantLanguageCreateForm = ({
     </Dialog>
   );
 };
-
-export default RestaurantLanguageCreateForm;

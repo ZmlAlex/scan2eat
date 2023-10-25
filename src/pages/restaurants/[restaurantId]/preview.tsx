@@ -9,13 +9,13 @@ import { NextSeo } from "next-seo";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
-import RestaurantHeader from "~/components/RestaurantHeader";
-import RestaurantInformation from "~/components/RestaurantInformation";
-import RestaurantMenu from "~/components/RestaurantMenu";
+import { RestaurantHeader } from "~/components/RestaurantHeader";
+import { RestaurantInformation } from "~/components/RestaurantInformation";
+import { RestaurantMenu } from "~/components/RestaurantMenu";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { isTRPCError } from "~/helpers/isTRPCError";
-import RestaurantLayout from "~/layouts/Restaurant.layout";
+import { RestaurantLayout } from "~/layouts/Restaurant.layout";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 

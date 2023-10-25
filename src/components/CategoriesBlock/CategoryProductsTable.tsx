@@ -14,7 +14,7 @@ import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
-import CategoryProduct from "./CategoryProduct";
+import { CategoryProduct } from "./CategoryProduct";
 
 type Props = {
   restaurantId: string;
@@ -22,7 +22,7 @@ type Props = {
 };
 
 //TODO: GET RESTAURANT ID FROM ROUTER
-const CategoryProductsTable = ({ restaurantId, products }: Props) => {
+export const CategoryProductsTable = ({ restaurantId, products }: Props) => {
   // * It's required for drag and drop optimistic update
   const [sortableProducts, setSortableProducts] = React.useState(
     () => products
@@ -103,5 +103,3 @@ const CategoryProductsTable = ({ restaurantId, products }: Props) => {
     </>
   );
 };
-
-export default CategoryProductsTable;

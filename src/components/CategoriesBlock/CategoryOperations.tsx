@@ -2,6 +2,7 @@ import { Pen, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
+import { CategoryUpdateForm } from "~/components/Forms/CategoryUpdateForm";
 import { Icons } from "~/components/Icons";
 import {
   AlertDialog,
@@ -24,10 +25,8 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useModal from "~/hooks/useModal";
-
-import CategoryUpdateForm from "../Forms/CategoryUpdateForm";
-import type { ArrayElement } from "../RestaurantMenu/CategoryProduct";
+import { useModal } from "~/hooks/useModal";
+import type { ArrayElement } from "~/types/shared.interface";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
@@ -102,7 +101,7 @@ export function CategoryOperations({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* //TODO CHECK IT HERE */}
+      {/* //TODO MOVE IT TO THE COMPONENT? */}
       <AlertDialog open={isModalDeleteOpen} onOpenChange={toggleModalDelete}>
         <AlertDialogContent onClick={(event) => event.stopPropagation()}>
           <AlertDialogHeader>

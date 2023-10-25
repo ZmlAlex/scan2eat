@@ -14,7 +14,7 @@ interface MarketingLayoutProps {
   children: React.ReactNode;
 }
 
-export default function MarketingLayout({ children }: MarketingLayoutProps) {
+export function MarketingLayout({ children }: MarketingLayoutProps) {
   const { locales = [] } = useRouter();
   const t = useTranslations("Common");
 

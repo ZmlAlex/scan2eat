@@ -10,7 +10,7 @@ interface RestaurantItemProps {
   restaurant: Pick<Restaurant[0], "id" | "createdAt" | "restaurantI18N">;
 }
 
-function RestaurantItem({ restaurant }: RestaurantItemProps) {
+export function RestaurantItem({ restaurant }: RestaurantItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
@@ -43,5 +43,3 @@ function RestaurantItem({ restaurant }: RestaurantItemProps) {
 //     </div>
 //   );
 // };
-
-export default RestaurantItem;

@@ -1,9 +1,8 @@
 import { useTranslations } from "next-intl";
 import React, { type ReactNode } from "react";
 
-import ProductCreateForm from "~/components/Forms/ProductCreateForm";
+import { ProductCreateForm } from "~/components/Forms/ProductCreateForm";
 import { Icons } from "~/components/Icons";
-import type { ArrayElement } from "~/components/RestaurantMenu/CategoryProduct";
 import {
   AccordionContent,
   AccordionItem,
@@ -11,10 +10,11 @@ import {
 } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useModal from "~/hooks/useModal";
+import { useModal } from "~/hooks/useModal";
+import type { ArrayElement } from "~/types/shared.interface";
 
 import { CategoryOperations } from "./CategoryOperations";
-import CategoryProductsTable from "./CategoryProductsTable";
+import { CategoryProductsTable } from "./CategoryProductsTable";
 
 type Props = {
   restaurantId: string;
@@ -24,7 +24,7 @@ type Props = {
 };
 
 //TODO: GET RESTAURANT ID FROM ROUTER
-const CategorySection = ({
+export const CategorySection = ({
   restaurantId,
   products,
   category,
@@ -78,5 +78,3 @@ const CategorySection = ({
     </>
   );
 };
-
-export default CategorySection;

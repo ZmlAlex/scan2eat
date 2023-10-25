@@ -2,6 +2,7 @@ import { Pen, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
+import { ProductUpdateForm } from "~/components/Forms/ProductUpdateForm";
 import { Icons } from "~/components/Icons";
 import {
   AlertDialog,
@@ -24,10 +25,8 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useModal from "~/hooks/useModal";
-
-import ProductUpdateForm from "../Forms/ProductUpdateForm";
-import type { ArrayElement } from "../RestaurantMenu/CategoryProduct";
+import { useModal } from "~/hooks/useModal";
+import type { ArrayElement } from "~/types/shared.interface";
 
 interface RestaurantOperationsProps {
   restaurantId: string;

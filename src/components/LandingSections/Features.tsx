@@ -35,7 +35,7 @@ const features = [
   },
 ] as const;
 
-const Features = () => {
+export const Features = () => {
   const t = useTranslations("Landing.features");
 
   return (
@@ -74,5 +74,3 @@ const Features = () => {
     </section>
   );
 };
-
-export default Features;

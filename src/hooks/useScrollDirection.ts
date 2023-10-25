@@ -3,7 +3,7 @@ import * as React from "react";
 
 const THRESHOLD = 0;
 
-const useScrollDirection = () => {
+export const useScrollDirection = () => {
   const [scrollDirection, setScrollDirection] = React.useState<"up" | "down">(
     "up"
   );
@@ -46,5 +46,3 @@ const useScrollDirection = () => {
 
   return scrollDirection;
 };
-
-export default useScrollDirection;

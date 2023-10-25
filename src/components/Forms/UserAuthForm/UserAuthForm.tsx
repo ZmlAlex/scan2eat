@@ -22,10 +22,7 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 type FormData = z.infer<typeof userAuthSchema>;
 
-export default function UserAuthForm({
-  className,
-  ...props
-}: UserAuthFormProps) {
+export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const {
     register,
     handleSubmit,

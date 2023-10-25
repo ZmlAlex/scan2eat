@@ -1,1 +1,1 @@
-export { default } from "./RestaurantLanguageCreateForm";
+export { RestaurantLanguageCreateForm } from "./RestaurantLanguageCreateForm";

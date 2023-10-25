@@ -2,12 +2,12 @@ import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import React from "react";
 
-import CategoriesBlock from "~/components/CategoriesBlock";
+import { CategoriesBlock } from "~/components/CategoriesBlock";
 import { DashboardHeader } from "~/components/DashboardHeader";
-import DashboardRestaurantHeaderContent from "~/components/DashboardRestaurantHeaderContent";
+import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
-import useGetRestaurant from "~/hooks/useGetRestaurant";
-import DashboardLayout from "~/layouts/Dashboard.layout";
+import { useGetRestaurant } from "~/hooks/useGetRestaurant";
+import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 const RestaurantCategoriesAndProducts = () => {
   const router = useRouter();

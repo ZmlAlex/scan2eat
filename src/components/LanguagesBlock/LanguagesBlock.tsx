@@ -1,12 +1,12 @@
 import type { LanguageCode } from "@prisma/client";
 import React from "react";
 
-import RestaurantLanguageCreateForm from "~/components/Forms/RestaurantLanguageCreateForm";
-import RestaurantLanguageUpdateForm from "~/components/Forms/RestaurantLanguageUpdateForm";
+import { RestaurantLanguageCreateForm } from "~/components/Forms/RestaurantLanguageCreateForm";
+import { RestaurantLanguageUpdateForm } from "~/components/Forms/RestaurantLanguageUpdateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useModal from "~/hooks/useModal";
+import { useModal } from "~/hooks/useModal";
 
 // TODO: GET IT FROM CONTEXT
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 
 const LANGUAGES: LanguageCode[] = ["english", "russian"];
 
-const LanguagesBlock = ({ restaurant }: Props) => {
+export const LanguagesBlock = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
   const restaurantLanguages = restaurant.restaurantLanguage.map(
@@ -58,5 +58,3 @@ const LanguagesBlock = ({ restaurant }: Props) => {
     </>
   );
 };
-
-export default LanguagesBlock;

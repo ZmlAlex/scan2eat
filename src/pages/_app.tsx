@@ -8,7 +8,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AbstractIntlMessages, NextIntlProvider } from "next-intl";
 
-import DefaultSeo from "~/components/DefaultSeo";
+import { DefaultSeo } from "~/components/DefaultSeo";
 import { ThemeProvider } from "~/components/ThemeProvider";
 import { Toaster } from "~/components/ui/Toaster";
 import { api } from "~/helpers/api";
