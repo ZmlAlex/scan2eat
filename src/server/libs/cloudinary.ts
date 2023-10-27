@@ -11,7 +11,7 @@ cloudinary.v2.config({
 export const uploadImage = async (imageSource: string, userId: string) => {
   const uploadResult = await cloudinary.v2.uploader.upload(imageSource, {
     public_id: crypto.randomBytes(20).toString("hex"),
-    folder: `/foodmate-${process.env.NODE_ENV}/${userId}`,
+    folder: `/scan2eat-${process.env.NODE_ENV}/${userId}`,
   });
 
   return uploadResult;

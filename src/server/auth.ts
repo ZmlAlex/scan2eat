@@ -90,9 +90,9 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       sendVerificationRequest: async ({ identifier, url }) => {
         await resend.emails.send({
-          from: `FoodMate App <${env.EMAIL_FROM}>`,
+          from: `Scan2Eat App <${env.EMAIL_FROM}>`,
           to: identifier,
-          subject: "Sign-in link for FoodMate",
+          subject: "Sign-in link for Scan2Eat",
           react: LoginEmail({ magicLink: url }),
         });
       },
