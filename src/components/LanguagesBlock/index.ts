@@ -1,1 +1,1 @@
-export { default } from "./LanguagesBlock";
+export { LanguagesBlock } from "./LanguagesBlock";

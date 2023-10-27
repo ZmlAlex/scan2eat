@@ -1,1 +1,1 @@
-export { default } from "./RestaurantCreateForm";
+export { RestaurantCreateForm } from "./RestaurantCreateForm";

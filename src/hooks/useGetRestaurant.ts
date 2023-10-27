@@ -4,7 +4,7 @@ import { parseCookies, setCookie } from "nookies";
 import { api } from "~/helpers/api";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
-const useGetRestaurant = (restaurantId: string) => {
+export const useGetRestaurant = (restaurantId: string) => {
   //TODO: THINK ABOUT CACHE?
   return api.restaurant.getRestaurant.useQuery(
     {
@@ -39,5 +39,3 @@ const useGetRestaurant = (restaurantId: string) => {
     }
   );
 };
-
-export default useGetRestaurant;

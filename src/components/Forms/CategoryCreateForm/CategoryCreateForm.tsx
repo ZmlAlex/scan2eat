@@ -40,7 +40,7 @@ type Props = {
   toggleModal: () => void;
 };
 
-const CategoryCreateForm = ({
+export const CategoryCreateForm = ({
   isModalOpen,
   restaurantId,
   toggleModal,
@@ -129,5 +129,3 @@ const CategoryCreateForm = ({
     </Dialog>
   );
 };
-
-export default CategoryCreateForm;

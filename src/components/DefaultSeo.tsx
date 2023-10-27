@@ -3,7 +3,7 @@ import { DefaultSeo as DefautlSeoNext } from "next-seo";
 
 import { getLanguageTranslationJSON } from "~/helpers/getLanguageTranslateJSON";
 
-const DefaultSeo = () => {
+export const DefaultSeo = () => {
   const { locale } = useRouter();
   const lang = getLanguageTranslationJSON(locale as string);
 
@@ -15,5 +15,3 @@ const DefaultSeo = () => {
     />
   );
 };
-
-export default DefaultSeo;

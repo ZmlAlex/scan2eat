@@ -2,37 +2,28 @@
 import { type User } from "@prisma/client";
 import { type inferProcedureInput } from "@trpc/server";
 
-import type { AppRouter, appRouter } from "../../api/root";
-import { createCategory } from "../helpers/createCategory";
-import { createProduct } from "../helpers/createProduct";
-import { createRestaurant } from "../helpers/createRestaurant";
-import { createUser } from "../helpers/createUser";
-import { createProtectedCaller } from "../helpers/protectedCaller";
-
-//TODO: MOVE IT GLOBALLY
-type TestCaller = ReturnType<typeof appRouter.createCaller>;
-
-//TODO: move it to the mocks
-const createRestaurantInput: inferProcedureInput<
-  AppRouter["restaurant"]["createRestaurant"]
-> & { logoUrl: string } = {
-  name: "Krusty Krab",
-  address: "831 Bottom Feeder Lane",
-  description: "best fastfood in the Bikini Bottom",
-  currencyCode: "RUB",
-  workingHours: "24hrs",
-  //for real invocation via router
-  logoImageBase64:
-    "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-  //for helper invocation
-  logoUrl:
-    "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-  languageCode: "english",
-};
+import type { AppRouter } from "~/server/api/root";
+import { createCategory } from "~/server/tests/helpers/createCategory";
+import { createProduct } from "~/server/tests/helpers/createProduct";
+import { createRestaurant } from "~/server/tests/helpers/createRestaurant";
+import { createUser } from "~/server/tests/helpers/createUser";
+import {
+  createProtectedCaller,
+  type TestCaller,
+} from "~/server/tests/helpers/protectedCaller";
+import { createRestaurantInputFactory } from "~/server/tests/mocks";
 
 describe("Restaurant API", () => {
   let testUser: User;
   let caller: TestCaller;
+  const createRestaurantInput = createRestaurantInputFactory({
+    //for real invocation via router
+    logoImageBase64:
+      "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+    //for helper invocation
+    logoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+  });
 
   beforeEach(async () => {
     testUser = await createUser();
@@ -89,7 +80,7 @@ describe("Restaurant API", () => {
           userId: testUser.id,
           restaurantId: testRestaurant.id,
           categoryId: testCategory.id,
-          name: "bigmac",
+          name: "big mac",
           description: "description",
           price: 1000,
           languageCode: "english",
@@ -172,8 +163,8 @@ describe("Restaurant API", () => {
           },
           russian: {
             name: "Красти Краб",
-            description: "лучший фастфуд в бикини",
-            address: "831 Нижняя фидерная полоса",
+            address: "Нижняя фидерная дорожка 831",
+            description: "лучший фастфуд в бикини-Боттом",
           },
         },
       });

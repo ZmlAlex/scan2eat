@@ -1,12 +1,12 @@
 import Image from "next/image";
 import React, { type ForwardedRef, type ReactNode } from "react";
 
-import type { ArrayElement } from "~/components/RestaurantMenu/CategoryProduct";
 import { Placeholder } from "~/components/ui/Placeholder";
 import { TableCell, TableRow } from "~/components/ui/Table";
 import { api } from "~/helpers/api";
 import { formatPrice } from "~/helpers/formatPrice";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import type { ArrayElement } from "~/types/shared.interface";
 
 import { ProductOperations } from "./ProductOperations";
 
@@ -16,7 +16,7 @@ type Props = {
   dragHandler?: ReactNode;
 };
 
-const CategoryProduct = React.forwardRef(
+export const CategoryProduct = React.forwardRef(
   (
     { product, restaurantId, dragHandler, ...props }: Props,
     forwardedRef: ForwardedRef<HTMLTableRowElement>
@@ -68,5 +68,3 @@ const CategoryProduct = React.forwardRef(
 );
 
 CategoryProduct.displayName = "CategoryProduct";
-
-export default CategoryProduct;

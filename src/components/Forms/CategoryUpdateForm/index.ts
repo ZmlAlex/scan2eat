@@ -1,1 +1,1 @@
-export { default } from "./CategoryUpdateForm";
+export { CategoryUpdateForm } from "./CategoryUpdateForm";

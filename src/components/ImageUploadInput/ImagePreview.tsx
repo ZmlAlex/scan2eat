@@ -1,15 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
+import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
-
-import { Icons } from "../Icons";
 
 type Props = {
   croppedImageUrl: string;
   onClick: () => void;
 };
-const ImagePreview = ({ croppedImageUrl, onClick }: Props) => {
+export const ImagePreview = ({ croppedImageUrl, onClick }: Props) => {
   return (
     <div className="h-64 w-full">
       <div className="relative h-full overflow-hidden rounded-md border">
@@ -32,5 +31,3 @@ const ImagePreview = ({ croppedImageUrl, onClick }: Props) => {
     </div>
   );
 };
-
-export default ImagePreview;

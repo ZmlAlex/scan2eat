@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { NextSeo } from "next-seo";
 
-import UserAuthForm from "~/components/Forms/UserAuthForm";
+import { UserAuthForm } from "~/components/Forms/UserAuthForm";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
-import AuthLayout from "~/layouts/Auth.layout";
+import { AuthLayout } from "~/layouts/Auth.layout";
 
 export const metadata: Metadata = {
   title: "Login",

@@ -1,1 +1,1 @@
-export { default } from "./CategoriesBlock";
+export { CategoriesBlock } from "./CategoriesBlock";

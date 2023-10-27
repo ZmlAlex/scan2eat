@@ -8,14 +8,12 @@ import type {
   ProductTranslationField,
 } from "@prisma/client";
 
-import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
-
 import type {
   CreateProductInput,
   UpdateProductInput,
   UpdateProductsPositionInput,
-} from "../schemas/product.schema";
-import { type PrismaTransactionClient } from "./types";
+} from "~/server/api/schemas/product.schema";
+import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
 export const createProduct = async (
   input: CreateProductInput & { imageUrl?: string; userId: string },
@@ -122,7 +120,7 @@ export const updateManyProductsTranslations = (
     translation: string;
     fieldName: ProductTranslationField;
   }[],
-  prisma: PrismaClient | PrismaTransactionClient
+  prisma: PrismaClient
 ) => {
   const transactions: PrismaPromise<unknown>[] = translations
     //TODO: ADD TS PLUGIN FROM MATT POCK TO UPDATE TYPE FOR AS STRING

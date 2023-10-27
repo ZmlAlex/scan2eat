@@ -1,1 +1,1 @@
-export { default } from "./CategoryCreateForm";
+export { CategoryCreateForm } from "./CategoryCreateForm";

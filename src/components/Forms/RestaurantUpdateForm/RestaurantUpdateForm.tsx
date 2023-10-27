@@ -6,7 +6,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import ImageUploadInput from "~/components/ImageUploadInput";
+import { Icons } from "~/components/Icons";
+import { ImageUploadInput } from "~/components/ImageUploadInput";
 import { Button } from "~/components/ui/Button";
 import {
   Card,
@@ -40,8 +41,6 @@ import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLang
 import { imageInput } from "~/helpers/formTypes/common";
 import { currencyCodeS } from "~/server/api/schemas/common.schema";
 
-import { Icons } from "../../Icons";
-
 const formSchema = z.object({
   name: z.string().trim().min(2).max(30),
   address: z.string().trim().min(2).max(50),
@@ -59,7 +58,8 @@ type FormSchema = z.infer<typeof formSchema>;
 type Props = {
   restaurant: RestaurantWithDetails;
 };
-const RestaurantUpdateForm = ({
+
+export const RestaurantUpdateForm = ({
   // TODO: THINK ABOUT CONTEXT
   restaurant,
 }: Props) => {
@@ -285,5 +285,3 @@ const RestaurantUpdateForm = ({
     </Form>
   );
 };
-
-export default RestaurantUpdateForm;

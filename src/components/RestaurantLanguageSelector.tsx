@@ -16,7 +16,7 @@ type Props = {
   restaurant: RestaurantWithDetails;
 };
 
-const RestaurantLanguageSelector = ({ restaurant }: Props) => {
+export const RestaurantLanguageSelector = ({ restaurant }: Props) => {
   const cookies = parseCookies();
   const selectedRestaurantLang =
     cookies[`selectedRestaurantLang${restaurant.id}`];
@@ -59,5 +59,3 @@ const RestaurantLanguageSelector = ({ restaurant }: Props) => {
     </Select>
   );
 };
-
-export default RestaurantLanguageSelector;

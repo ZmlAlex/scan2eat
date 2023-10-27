@@ -1,10 +1,10 @@
 import React from "react";
 
-import useModal from "~/hooks/useModal";
+import { useModal } from "~/hooks/useModal";
 
-import CropperDialog from "./CropperDialog";
-import Dropzone from "./Dropzone";
-import ImagePreview from "./ImagePreview";
+import { CropperDialog } from "./CropperDialog";
+import { Dropzone } from "./Dropzone";
+import { ImagePreview } from "./ImagePreview";
 
 export type ImageUploadInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -15,7 +15,7 @@ export type ImageUploadInputProps = Omit<
   preselectedImageUrl?: string;
 };
 
-const ImageUploadInput = React.forwardRef(
+export const ImageUploadInput = React.forwardRef(
   (props: ImageUploadInputProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const { isModalOpen, toggleModal } = useModal();
 
@@ -69,5 +69,3 @@ const ImageUploadInput = React.forwardRef(
 );
 
 ImageUploadInput.displayName = "ImageUploadInput";
-
-export default ImageUploadInput;

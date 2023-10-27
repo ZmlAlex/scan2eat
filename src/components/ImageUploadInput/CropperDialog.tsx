@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/Dialog";
-import useForceUpdate from "~/hooks/useForceUpdate";
+import { useForceUpdate } from "~/hooks/useForceUpdate";
 
 const CROP_AREA_WIDTH = 225;
 const CROP_AREA_HEIGHT = 150;
@@ -25,7 +25,7 @@ type Props = {
   toggleModal: () => void;
 };
 
-const CropperDialog = ({
+export const CropperDialog = ({
   uploadedImageUrl,
   isModalOpen,
   onCropFinish,
@@ -97,5 +97,3 @@ const CropperDialog = ({
     </>
   );
 };
-
-export default CropperDialog;

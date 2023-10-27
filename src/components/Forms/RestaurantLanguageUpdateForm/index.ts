@@ -1,1 +1,1 @@
-export { default } from "./RestaurantLanguageUpdateForm";
+export { RestaurantLanguageUpdateForm } from "./RestaurantLanguageUpdateForm";

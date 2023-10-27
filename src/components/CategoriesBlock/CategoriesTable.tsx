@@ -8,13 +8,13 @@ import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
-import CategorySection from "./CategorySection";
+import { CategorySection } from "./CategorySection";
 
 type Props = {
   restaurant: RestaurantWithDetails;
 };
 
-const CategoriesTable = ({ restaurant }: Props) => {
+export const CategoriesTable = ({ restaurant }: Props) => {
   const [activeAccordionSection, setActiveAccordionSection] =
     React.useState("");
   // * It's required for drag and drop optimistic update
@@ -94,5 +94,3 @@ const CategoriesTable = ({ restaurant }: Props) => {
     </>
   );
 };
-
-export default CategoriesTable;

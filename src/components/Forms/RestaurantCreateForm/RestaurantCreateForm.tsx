@@ -4,7 +4,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import ImageUploadInput from "~/components/ImageUploadInput";
+import { Icons } from "~/components/Icons";
+import { ImageUploadInput } from "~/components/ImageUploadInput";
 import { Button } from "~/components/ui/Button";
 import {
   Dialog,
@@ -40,8 +41,6 @@ import {
   languageCodeS,
 } from "~/server/api/schemas/common.schema";
 
-import { Icons } from "../../Icons";
-
 const formSchema = z.object({
   languageCode: languageCodeS,
   name: z.string().trim().min(2).max(30),
@@ -61,7 +60,7 @@ type Props = {
   toggleModal: () => void;
 };
 
-const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
+export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.restaurantCreate");
   const tError = useTranslations("ResponseErrorMessage");
@@ -306,5 +305,3 @@ const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
     </Dialog>
   );
 };
-
-export default RestaurantCreateForm;

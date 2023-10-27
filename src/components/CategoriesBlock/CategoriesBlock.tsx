@@ -1,22 +1,21 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
-import CategoryCreateForm from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
+import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
+import { CategoryCreateForm } from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
+import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useModal from "~/hooks/useModal";
+import { useModal } from "~/hooks/useModal";
 
-import { EmptyPlaceholder } from "../EmptyPlaceholder";
-import { Icons } from "../Icons";
-import CategoriesTable from "./CategoriesTable";
+import { CategoriesTable } from "./CategoriesTable";
 
 type Props = {
   restaurant: RestaurantWithDetails;
 };
 
-const CategoriesBlock = ({ restaurant }: Props) => {
+export const CategoriesBlock = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
-  // TODO: CONTINUE HERE
   const t = useTranslations("Dashboard.categoriesBlock");
 
   const hasCategories = !!restaurant.category?.length;
@@ -59,5 +58,3 @@ const CategoriesBlock = ({ restaurant }: Props) => {
     </>
   );
 };
-
-export default CategoriesBlock;

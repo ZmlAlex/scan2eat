@@ -9,7 +9,7 @@ type Props = {
   restaurant: RestaurantWithDetails;
 };
 
-const RestaurantInformation = ({ restaurant }: Props) => {
+export const RestaurantInformation = ({ restaurant }: Props) => {
   const { workingHours, logoUrl } = restaurant;
   const { address, description } = restaurant.restaurantI18N;
 
@@ -55,5 +55,3 @@ const RestaurantInformation = ({ restaurant }: Props) => {
     </>
   );
 };
-
-export default RestaurantInformation;

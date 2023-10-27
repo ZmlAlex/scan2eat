@@ -1,19 +1,18 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
+import { RestaurantPublishForm } from "~/components/Forms/RestaurantPublishForm";
 import { Icons } from "~/components/Icons";
-import RestaurantLanguageSelector from "~/components/RestaurantLanguageSelector";
+import { RestaurantLanguageSelector } from "~/components/RestaurantLanguageSelector";
 import { Button } from "~/components/ui/Button";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import useModal from "~/hooks/useModal";
-
-import RestaurantPublishForm from "./Forms/RestaurantPublishForm";
+import { useModal } from "~/hooks/useModal";
 
 type Props = {
   restaurant: RestaurantWithDetails;
 };
 
-const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
+export const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
   const t = useTranslations("Form.restaurantPublish.publishButton");
@@ -48,5 +47,3 @@ const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
     </>
   );
 };
-
-export default DashboardRestaurantHeaderContent;

@@ -22,7 +22,7 @@ const foodPlaces = [
   },
 ] as const;
 
-const Hero = () => {
+export const Hero = () => {
   const [index, setIndex] = React.useState(0);
 
   const t = useTranslations("Landing.hero");
@@ -86,5 +86,3 @@ const Hero = () => {
     </AnimatePresence>
   );
 };
-
-export default Hero;

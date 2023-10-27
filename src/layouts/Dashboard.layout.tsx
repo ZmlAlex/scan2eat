@@ -16,9 +16,7 @@ interface RestaurantDashboardLayoutProps {
   children?: React.ReactNode;
 }
 
-export default function DashboardLayout({
-  children,
-}: RestaurantDashboardLayoutProps) {
+export function DashboardLayout({ children }: RestaurantDashboardLayoutProps) {
   const { data: sessionData } = useSession();
   const {
     query: { restaurantId },

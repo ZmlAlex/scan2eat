@@ -17,4 +17,4 @@ export const uploadImage = async (imageSource: string, userId: string) => {
   return uploadResult;
 };
 
-export default cloudinary;
+export { cloudinary };

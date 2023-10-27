@@ -13,7 +13,7 @@ interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export function AuthLayout({ children }: AuthLayoutProps) {
   const t = useTranslations("Login");
   const { locales = [] } = useRouter();
   return (

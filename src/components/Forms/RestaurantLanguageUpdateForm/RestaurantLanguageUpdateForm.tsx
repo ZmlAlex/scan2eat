@@ -33,7 +33,7 @@ type Props = {
   onSuccessCallback?: () => void;
 };
 
-const RestaurantLanguageUpdateForm = ({
+export const RestaurantLanguageUpdateForm = ({
   restaurantId,
   restaurantLanguages,
 }: Props) => {
@@ -134,5 +134,3 @@ const RestaurantLanguageUpdateForm = ({
     </Form>
   );
 };
-
-export default RestaurantLanguageUpdateForm;

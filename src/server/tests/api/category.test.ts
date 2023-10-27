@@ -1,32 +1,21 @@
 import type { User } from "@prisma/client";
 import { type inferProcedureInput } from "@trpc/server";
 
-import type { AppRouter, appRouter } from "../../api/root";
-import { createCategory } from "../helpers/createCategory";
-import { createRestaurant } from "../helpers/createRestaurant";
-import { createRestaurantWithMultipleLanguages } from "../helpers/createRestaurantWithMultipleLanguages";
-import { createUser } from "../helpers/createUser";
-import { createProtectedCaller } from "../helpers/protectedCaller";
-
-//TODO: MOVE IT GLOBALLY
-type TestCaller = ReturnType<typeof appRouter.createCaller>;
-
-//TODO: MOVE IT TO THE  MOCKS
-const createRestaurantInput: inferProcedureInput<
-  AppRouter["restaurant"]["createRestaurant"]
-> & { logoUrl: string } = {
-  name: "Krusty Krab",
-  address: "831 Bottom Feeder Lane",
-  description: "best fastfood in the Bikini Bottom",
-  currencyCode: "RUB",
-  workingHours: "24hrs",
-  logoUrl: "bla!",
-  languageCode: "english",
-};
+import type { AppRouter } from "~/server/api/root";
+import { createCategory } from "~/server/tests/helpers/createCategory";
+import { createRestaurant } from "~/server/tests/helpers/createRestaurant";
+import { createRestaurantWithMultipleLanguages } from "~/server/tests/helpers/createRestaurantWithMultipleLanguages";
+import { createUser } from "~/server/tests/helpers/createUser";
+import {
+  createProtectedCaller,
+  type TestCaller,
+} from "~/server/tests/helpers/protectedCaller";
+import { createRestaurantInputFactory } from "~/server/tests/mocks";
 
 describe("Category API", () => {
   let testUser: User;
   let caller: TestCaller;
+  const createRestaurantInput = createRestaurantInputFactory();
 
   beforeEach(async () => {
     testUser = await createUser();
