@@ -1,4 +1,4 @@
-# FoodMate app
+# Scan2Eat app
 
 A digital menu generator for restaurants, built using [T3 Stack](https://create.t3.gg/)
 

@@ -7,7 +7,7 @@ export const createWokRestaurant = async (userId: string) => {
     data: {
       userId,
       logoUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693744873/foodmate-development/clm1vekrv00003s7o7awpaw70/48a32450d117a65772531f2b8b33cd78708e1b9a.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693744873/scan2eat-development/clm1vekrv00003s7o7awpaw70/48a32450d117a65772531f2b8b33cd78708e1b9a.png",
       workingHours: "24hrs",
       currencyCode: "USD",
       restaurantLanguage: { create: { languageCode: "english" } },
@@ -105,7 +105,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "300",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742483/foodmate-development/clm1vekrv00003s7o7awpaw70/4e0eb82ef6b38d5a0147846a503f660fd0f365aa.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742483/scan2eat-development/clm1vekrv00003s7o7awpaw70/4e0eb82ef6b38d5a0147846a503f660fd0f365aa.png",
       categoryIndex: 0,
       position: 0,
     },
@@ -117,7 +117,7 @@ export const wokRestaurant = {
       measurementValue: "300",
       price: 400,
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742646/foodmate-development/clm1vekrv00003s7o7awpaw70/011933f11070d0d40bfb8241d98e754ec43f719b.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742646/scan2eat-development/clm1vekrv00003s7o7awpaw70/011933f11070d0d40bfb8241d98e754ec43f719b.png",
       categoryIndex: 0,
       position: 1,
     },
@@ -129,7 +129,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "320",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742772/foodmate-development/clm1vekrv00003s7o7awpaw70/7a481232a15105d12ffa71c8890f8700ebe0dcb7.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742772/scan2eat-development/clm1vekrv00003s7o7awpaw70/7a481232a15105d12ffa71c8890f8700ebe0dcb7.png",
       categoryIndex: 0,
       position: 2,
     },
@@ -141,7 +141,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "320",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742801/foodmate-development/clm1vekrv00003s7o7awpaw70/d32381bcf13016732071b41b73f2ebcf36102f80.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693742801/scan2eat-development/clm1vekrv00003s7o7awpaw70/d32381bcf13016732071b41b73f2ebcf36102f80.png",
       categoryIndex: 0,
       position: 3,
     },
@@ -153,7 +153,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "350",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743335/foodmate-development/clm1vekrv00003s7o7awpaw70/76bae954de0bf6b0d22d82c959062b4ee7ad45b5.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743335/scan2eat-development/clm1vekrv00003s7o7awpaw70/76bae954de0bf6b0d22d82c959062b4ee7ad45b5.png",
       categoryIndex: 0,
       position: 4,
     },
@@ -165,7 +165,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "350",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743284/foodmate-development/clm1vekrv00003s7o7awpaw70/a7c3331da32c253da05c3aeed968c6d7c5ae927e.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743284/scan2eat-development/clm1vekrv00003s7o7awpaw70/a7c3331da32c253da05c3aeed968c6d7c5ae927e.png",
       categoryIndex: 0,
       position: 5,
     },
@@ -177,7 +177,7 @@ export const wokRestaurant = {
       measurementUnit: "pcs",
       measurementValue: "2",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743676/foodmate-development/clm1vekrv00003s7o7awpaw70/974bf1262182e76f51b0b16223a3d6e042ac9f50.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743676/scan2eat-development/clm1vekrv00003s7o7awpaw70/974bf1262182e76f51b0b16223a3d6e042ac9f50.png",
       categoryIndex: 1,
       position: 0,
     },
@@ -189,7 +189,7 @@ export const wokRestaurant = {
       measurementUnit: "pcs",
       measurementValue: "2",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743611/foodmate-development/clm1vekrv00003s7o7awpaw70/4ff8185bf3dd151581dac269a1f193dd10d5671f.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743611/scan2eat-development/clm1vekrv00003s7o7awpaw70/4ff8185bf3dd151581dac269a1f193dd10d5671f.png",
       categoryIndex: 1,
       position: 1,
     },
@@ -201,7 +201,7 @@ export const wokRestaurant = {
       measurementUnit: "pcs",
       measurementValue: "2",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743676/foodmate-development/clm1vekrv00003s7o7awpaw70/974bf1262182e76f51b0b16223a3d6e042ac9f50.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743676/scan2eat-development/clm1vekrv00003s7o7awpaw70/974bf1262182e76f51b0b16223a3d6e042ac9f50.png",
       categoryIndex: 1,
       position: 2,
     },
@@ -213,7 +213,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "450",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743716/foodmate-development/clm1vekrv00003s7o7awpaw70/7ec04221d7401be6fa9f50e558b16658ca3ea68e.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743716/scan2eat-development/clm1vekrv00003s7o7awpaw70/7ec04221d7401be6fa9f50e558b16658ca3ea68e.png",
       categoryIndex: 2,
       position: 0,
     },
@@ -225,7 +225,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "450",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743749/foodmate-development/clm1vekrv00003s7o7awpaw70/2c515b31940acb83e398ebe8e096f28ec144b7b8.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743749/scan2eat-development/clm1vekrv00003s7o7awpaw70/2c515b31940acb83e398ebe8e096f28ec144b7b8.png",
       categoryIndex: 2,
       position: 1,
     },
@@ -237,7 +237,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "450",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743819/foodmate-development/clm1vekrv00003s7o7awpaw70/0e1cac77308c613824626f50dbb9fdf87558fe6f.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743819/scan2eat-development/clm1vekrv00003s7o7awpaw70/0e1cac77308c613824626f50dbb9fdf87558fe6f.png",
       categoryIndex: 2,
       position: 2,
     },
@@ -249,7 +249,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "450",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743819/foodmate-development/clm1vekrv00003s7o7awpaw70/0e1cac77308c613824626f50dbb9fdf87558fe6f.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743819/scan2eat-development/clm1vekrv00003s7o7awpaw70/0e1cac77308c613824626f50dbb9fdf87558fe6f.png",
       categoryIndex: 2,
       position: 3,
     },
@@ -260,7 +260,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "300",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743909/foodmate-development/clm1vekrv00003s7o7awpaw70/4c1f0f3ad9eb71bceeffaa7f1fe746d5e40e2e76.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743909/scan2eat-development/clm1vekrv00003s7o7awpaw70/4c1f0f3ad9eb71bceeffaa7f1fe746d5e40e2e76.png",
       categoryIndex: 3,
       position: 0,
     },
@@ -271,7 +271,7 @@ export const wokRestaurant = {
       measurementUnit: "g",
       measurementValue: "300",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743940/foodmate-development/clm1vekrv00003s7o7awpaw70/f47bb7ae93eb420b5eafca7477e326492c0c09dc.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743940/scan2eat-development/clm1vekrv00003s7o7awpaw70/f47bb7ae93eb420b5eafca7477e326492c0c09dc.png",
       categoryIndex: 3,
       position: 1,
     },
@@ -282,7 +282,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "330",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743965/foodmate-development/clm1vekrv00003s7o7awpaw70/cfddf31813faaf849afcabe42cc1ba14e51b91dd.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743965/scan2eat-development/clm1vekrv00003s7o7awpaw70/cfddf31813faaf849afcabe42cc1ba14e51b91dd.png",
       categoryIndex: 4,
       position: 0,
     },
@@ -293,7 +293,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "330",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743994/foodmate-development/clm1vekrv00003s7o7awpaw70/8951ea49f2497d1001ee0456f75fef80d6856f97.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693743994/scan2eat-development/clm1vekrv00003s7o7awpaw70/8951ea49f2497d1001ee0456f75fef80d6856f97.png",
       categoryIndex: 4,
       position: 1,
     },
@@ -310,7 +310,7 @@ export const wokRestaurant = {
     {
       name: "Kombucha Ginger",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693744065/foodmate-development/clm1vekrv00003s7o7awpaw70/3aef3d66adc916e19520d12b5199c3a962592942.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693744065/scan2eat-development/clm1vekrv00003s7o7awpaw70/3aef3d66adc916e19520d12b5199c3a962592942.png",
       price: 307,
       measurementUnit: "ml",
       measurementValue: "400",
@@ -325,7 +325,7 @@ export const wokRestaurant = {
       measurementUnit: "ml",
       measurementValue: "400",
       imageUrl:
-        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693744086/foodmate-development/clm1vekrv00003s7o7awpaw70/853480954d70c265e6f0aee52e0765935c511372.png",
+        "https://res.cloudinary.com/du3ndixsk/image/upload/v1693744086/scan2eat-development/clm1vekrv00003s7o7awpaw70/853480954d70c265e6f0aee52e0765935c511372.png",
       categoryIndex: 4,
       position: 4,
     },

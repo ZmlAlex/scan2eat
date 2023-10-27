@@ -24,13 +24,13 @@
         "secondLineBar": "Bar",
         "thirdLine": "in minutes"
       },
-      "description": "Want to create your QR menu without pain? With FoodMate, adding new menu is a breeze.",
+      "description": "Want to create your QR menu without pain? With Scan2Eat, adding new menu is a breeze.",
       "primaryButtonLabel": "Get started",
       "secondayButtonLabel": "See example"
     },
     "features": {
       "title": "Features",
-      "description": "FoodMate has several awesome features that makes it perfect to take your restaurant's menu to the next level",
+      "description": "Scan2Eat has several awesome features that makes it perfect to take your restaurant's menu to the next level",
       "featureList": {
         "firstFeatureTitle": "Optimized for Web",
         "firstFeatureDescription": "The generated menu page has been optimized for search engines.",
@@ -39,7 +39,7 @@
         "thirdFeatureTitle": "Free usage",
         "thirdFeatureDescription": "Free forever. No trials, feature limitations, or menu volume restrictions.",
         "fourthFeatureTitle": "Own dashboard",
-        "fourthFeatureDescription": "FoodMate provides an intuitive interface to easily manage your restaurants.",
+        "fourthFeatureDescription": "Scan2Eat provides an intuitive interface to easily manage your restaurants.",
         "fifthFeatureTitle": "QR code",
         "fifthFeatureDescription": "Generate a QR code, print and share it by simply placing it on your restaurant tables.",
         "sixthFeatureTitle": "Dark and Light themes",
@@ -48,7 +48,7 @@
     }
   },
   "Login": {
-    "title": "Welcome to FoodMate",
+    "title": "Welcome to Scan2Eat",
     "description": "Enter your email to sign in or create new account",
     "backButtonLabel": "Back"
   },
@@ -381,7 +381,7 @@
   },
   "SEO": {
     "default": {
-      "title": "FoodMate - Digital menu generator",
+      "title": "Scan2Eat - Digital menu generator",
       "description": "Manage your digital menu in the personal dashboard in an easy, let your customers view the menu on their own device, without any app installation."
     },
     "login": {

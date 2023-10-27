@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { NextSeo } from "next-seo";
 
 import { UserAuthForm } from "~/components/Forms/UserAuthForm";
-import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
+import { getStaticPropsWithLanguage } from "~/helpers/getStaticPropsWithLanguage";
 import { AuthLayout } from "~/layouts/Auth.layout";
 
 export const metadata: Metadata = {
@@ -34,6 +34,6 @@ const LoginPage = () => {
   );
 };
 
-export const getServerSideProps = getServerSidePropsWithLanguage;
+export const getStaticProps = getStaticPropsWithLanguage;
 
 export default LoginPage;

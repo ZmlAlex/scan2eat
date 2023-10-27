@@ -36,7 +36,7 @@ export const LoginEmail = ({ magicLink }: Props) => (
         </Section>
         <Text style={paragraph}>
           Best,
-          <br />- FoodMate team
+          <br />- Scan2Eat team
         </Text>
       </Container>
     </Body>

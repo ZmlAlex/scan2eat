@@ -1,9 +1,9 @@
-import type { GetServerSidePropsContext } from "next";
+import type { GetStaticPropsContext } from "next";
 
 // TODO: TEMPORARY SOLUTION. REPLACE WITH APP FOLDER
-export async function getServerSidePropsWithLanguage({
+export async function getStaticPropsWithLanguage({
   locale,
-}: GetServerSidePropsContext) {
+}: GetStaticPropsContext) {
   return {
     props: {
       messages: (await import(
