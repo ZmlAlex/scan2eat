@@ -93,7 +93,7 @@ export const RestaurantUpdateForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       currencyCode: restaurant.currencyCode,
-      phone: "",
+      phone: restaurant.phone || "",
       name: restaurant.restaurantI18N.name,
       address: restaurant.restaurantI18N.address,
       description: restaurant.restaurantI18N.description,
@@ -112,6 +112,7 @@ export const RestaurantUpdateForm = ({
       restaurantId: restaurant.id,
       address: values.address,
       name: values.name,
+      phone: values.phone,
       description: values.description,
       languageCode: selectedRestaurantLang as LanguageCode,
       currencyCode: values.currencyCode,
