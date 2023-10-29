@@ -45,7 +45,6 @@ export const RestaurantInformation = ({ restaurant }: Props) => {
               <span className="font-semibold">{address}</span>
             </div>
           )}
-          {/* TODO: REST ORDER IN GET REQUEST */}
           {!!phone && (
             <div className="flex gap-3">
               <Icons.phoneCall className="shrink-0" />
