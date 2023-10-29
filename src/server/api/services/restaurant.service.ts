@@ -32,6 +32,7 @@ export const findRestaurantById = async (
         logoUrl: true,
         isPublished: true,
         currencyCode: true,
+        phone: true,
       },
     });
     const restaurantLanguagesP = prisma.restaurantLanguage.findMany({
@@ -121,6 +122,7 @@ export const findAllRestaurants = async (
         },
       },
     },
+    orderBy: { createdAt: "asc" },
   });
 
   return result.map((record) => ({
@@ -140,13 +142,13 @@ export const createRestaurant = async (
       ["name", "description", "address"],
       input
     );
-
   const result = await prisma.restaurant.create({
     data: {
       userId: input.userId,
       workingHours: input.workingHours,
       logoUrl: input.logoUrl ?? "",
       currencyCode: input.currencyCode,
+      phone: input.phone,
       restaurantLanguage: {
         create: {
           languageCode: input.languageCode,
@@ -167,6 +169,7 @@ export const createRestaurant = async (
       workingHours: true,
       logoUrl: true,
       isPublished: true,
+      phone: true,
       restaurantLanguage: {
         select: {
           languageCode: true,
@@ -227,6 +230,7 @@ export const updateRestaurant = async (
   const updatedData: Partial<Restaurant> = {
     workingHours: input.workingHours,
     currencyCode: input.currencyCode,
+    phone: input.phone,
     ...(typeof input.logoUrl === "string" && { logoUrl: input.logoUrl }),
   };
 

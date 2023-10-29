@@ -41,6 +41,7 @@ describe("Restaurant API", () => {
       expect(result).toMatchObject({
         logoUrl: expect.stringContaining("cloudinary") as string,
         workingHours: "24hrs",
+        phone: "+70000000000",
         isPublished: false,
         restaurantI18N: {
           english: expect.objectContaining({
@@ -172,7 +173,7 @@ describe("Restaurant API", () => {
   });
 
   describe("setPublishedRestaurant route", () => {
-    it("should returns restaurant with updated restaurant's languages settings", async () => {
+    it("should return restaurant with updated restaurant's languages settings", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -208,7 +209,7 @@ describe("Restaurant API", () => {
   });
 
   describe("getRestaurant route", () => {
-    it("should returns restaurant after creation", async () => {
+    it("should return restaurant after creation", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -238,7 +239,7 @@ describe("Restaurant API", () => {
     });
 
     //TODO: UPDATE WITH FULL DETAILS
-    it("should returns restaurant with full details", async () => {
+    it("should return restaurant with full details", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput

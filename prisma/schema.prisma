@@ -88,6 +88,7 @@ model Restaurant {
   userId       String
   currencyCode CurrencyCode
   workingHours String
+  phone        String?
   logoUrl      String
   isPublished  Boolean      @default(false)
 

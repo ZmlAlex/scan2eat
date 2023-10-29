@@ -26,7 +26,7 @@ To check all required env variables please check [env-example](./env.example)
 
 ## Database commands
 
-1. pnpm prisma db format - format tables schema after changes(spaces,relations)
+1. pnpm prisma format - format tables schema after changes(spaces,relations)
 2. pnpm prisma db push - apply new changes for db (dev)
 3. pnpm prisma migrate dev - apply new changes for db (dev), it produces changes between old and new schema
 4. pnpm prisma migrate deploy - sync dev/prod tables

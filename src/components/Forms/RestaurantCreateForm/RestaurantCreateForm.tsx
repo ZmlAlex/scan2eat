@@ -108,7 +108,7 @@ export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       languageCode: values.languageCode,
       logoImageBase64: values.logoImageBase64,
       description: values.description,
-      // TODO: ADD PHONE
+      phone: values.phone,
       workingHours: values.workingHours,
     });
   }
@@ -228,7 +228,11 @@ export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
                 <FormItem>
                   <FormLabel>{t("inputs.phone")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("inputs.phone")} {...field} />
+                    <Input
+                      type="tel"
+                      placeholder={t("inputs.phone")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

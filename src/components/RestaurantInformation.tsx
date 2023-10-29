@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -10,7 +11,7 @@ type Props = {
 };
 
 export const RestaurantInformation = ({ restaurant }: Props) => {
-  const { workingHours, logoUrl } = restaurant;
+  const { workingHours, logoUrl, phone } = restaurant;
   const { address, description } = restaurant.restaurantI18N;
 
   return (
@@ -42,6 +43,15 @@ export const RestaurantInformation = ({ restaurant }: Props) => {
             <div className="flex gap-3">
               <Icons.mapPin className="shrink-0" />
               <span className="font-semibold">{address}</span>
+            </div>
+          )}
+          {/* TODO: REST ORDER IN GET REQUEST */}
+          {!!phone && (
+            <div className="flex gap-3">
+              <Icons.phoneCall className="shrink-0" />
+              <Link className="font-semibold" href={`tel:${phone}`}>
+                {phone}
+              </Link>
             </div>
           )}
           {!!description && (
