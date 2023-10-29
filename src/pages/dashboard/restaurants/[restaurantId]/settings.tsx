@@ -24,13 +24,14 @@ const RestaurantSettings = () => {
       {status === "success" && (
         <>
           <DashboardHeader heading={t("title")} text={t("description")}>
-            <DashboardRestaurantHeaderContent restaurant={restaurant} />
+            <DashboardRestaurantHeaderContent
+              restaurant={restaurant}
+              isRestauranatLanguageSelectorAvailable={false}
+            />
           </DashboardHeader>
           <div className="grid gap-10">
             <div>
-              <div>
-                <LanguagesBlock restaurant={restaurant} />
-              </div>
+              <LanguagesBlock restaurant={restaurant} />
             </div>
           </div>
         </>

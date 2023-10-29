@@ -10,9 +10,13 @@ import { useModal } from "~/hooks/useModal";
 
 type Props = {
   restaurant: RestaurantWithDetails;
+  isRestauranatLanguageSelectorAvailable?: boolean;
 };
 
-export const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
+export const DashboardRestaurantHeaderContent = ({
+  restaurant,
+  isRestauranatLanguageSelectorAvailable = true,
+}: Props) => {
   const { isModalOpen, toggleModal } = useModal();
 
   const t = useTranslations("Form.restaurantPublish.publishButton");
@@ -32,7 +36,9 @@ export const DashboardRestaurantHeaderContent = ({ restaurant }: Props) => {
           {restaurant.isPublished ? t("publishedLabel") : t("unpublishedLabel")}
         </Button>
 
-        {!!restaurant && <RestaurantLanguageSelector restaurant={restaurant} />}
+        {!!restaurant && isRestauranatLanguageSelectorAvailable && (
+          <RestaurantLanguageSelector restaurant={restaurant} />
+        )}
       </div>
 
       {/* Modal window */}

@@ -19,5 +19,6 @@ export const createRestaurantInputFactory = (
   workingHours: "24hrs",
   logoUrl: "bla!",
   languageCode: "english",
+  phone: "+70000000000",
   ...values,
 });

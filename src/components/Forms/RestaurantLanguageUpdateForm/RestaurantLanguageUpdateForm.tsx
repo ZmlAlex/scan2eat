@@ -88,6 +88,16 @@ export const RestaurantLanguageUpdateForm = ({
         isEnabled: language[1],
       }));
 
+    if (!languageCodes.some((lang) => lang.isEnabled)) {
+      toast({
+        title: t(
+          "updateRestaurantLanguageMutation.error.allLanguagesIsDisabled.title"
+        ),
+        variant: "destructive",
+      });
+      return;
+    }
+
     setEnabledRestaurantLanguages({
       languageCodes,
       restaurantId,

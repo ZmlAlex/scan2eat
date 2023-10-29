@@ -16,7 +16,7 @@ import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWith
 import { useModal } from "~/hooks/useModal";
 import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
-const RestaurantsList = () => {
+const AllRestaurants = () => {
   const { isModalOpen, toggleModal } = useModal();
   const router = useRouter();
   const t = useTranslations("Dashboard.page.allRestaurants");
@@ -84,4 +84,4 @@ const RestaurantsList = () => {
 
 export const getServerSideProps = getServerSidePropsWithLanguage;
 
-export default RestaurantsList;
+export default AllRestaurants;

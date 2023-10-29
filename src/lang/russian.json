@@ -97,7 +97,8 @@
       },
       "restaurantSettings": {
         "title": "Настройки",
-        "description": "Управление настройками заведения"
+        "description": "Управление настройками заведения",
+        "newLanguageButtonLabel": "Добавить новый язык"
       },
       "restaurantCategoriesAndProducts": {
         "description": "Управление меню заведения"
@@ -300,6 +301,11 @@
       "updateRestaurantLanguageMutation": {
         "success": {
           "title": "Активные языки для заведения были обновлены. ✅"
+        },
+        "error": {
+          "allLanguagesIsDisabled": {
+            "title": "По крайней мере один язык должен быть активен."
+          }
         }
       }
     },
