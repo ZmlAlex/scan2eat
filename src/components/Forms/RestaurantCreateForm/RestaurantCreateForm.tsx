@@ -109,8 +109,7 @@ export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       logoImageBase64: values.logoImageBase64,
       description: values.description,
       // TODO: ADD PHONE
-      //TODO: REMOVE THIS FIELD
-      workingHours: "from 9:00 to 21:00",
+      workingHours: values.workingHours,
     });
   }
 
