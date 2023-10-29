@@ -16,7 +16,7 @@ export const siteConfig: SiteConfig = {
   url: "https://tx.shadcn.com",
   ogImage: "https://tx.shadcn.com/og.jpg",
   links: {
-    twitter: "https://twitter.com/shadcn",
+    twitter: "https://twitter.com/alexzml1",
     github: "https://github.com/shadcn/taxonomy",
     restaurantExample:
       process.env.NODE_ENV === "production"

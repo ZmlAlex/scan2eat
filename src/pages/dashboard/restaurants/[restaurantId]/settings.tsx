@@ -5,6 +5,7 @@ import React from "react";
 import { DashboardHeader } from "~/components/DashboardHeader";
 import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { LanguagesBlock } from "~/components/LanguagesBlock";
+import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
 import { useGetRestaurant } from "~/hooks/useGetRestaurant";
 import { DashboardLayout } from "~/layouts/Dashboard.layout";
@@ -19,7 +20,7 @@ const RestaurantSettings = () => {
 
   return (
     <DashboardLayout>
-      {status === "loading" && <div>loading</div>}
+      {status === "loading" && <SkeletonFactory />}
       {status === "success" && (
         <>
           <DashboardHeader heading={t("title")} text={t("description")}>

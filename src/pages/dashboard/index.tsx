@@ -9,6 +9,7 @@ import { RestaurantCreateForm } from "~/components/Forms/RestaurantCreateForm";
 import { Icons } from "~/components/Icons";
 import { RestaurantItem } from "~/components/RestaurantItem";
 import { Button } from "~/components/ui/Button";
+import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { api } from "~/helpers/api";
 import { formatTranslationToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
@@ -39,7 +40,7 @@ const RestaurantsList = () => {
           </Button>
         </DashboardHeader>
         <div className="grid gap-10">
-          {status === "loading" && <div>loading</div>}
+          {status === "loading" && <SkeletonFactory />}
           {status === "success" && (
             <>
               {restaurants?.length ? (
