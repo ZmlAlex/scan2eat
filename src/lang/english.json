@@ -97,7 +97,8 @@
       },
       "restaurantSettings": {
         "title": "Settings",
-        "description": "Manage restaurant's settings"
+        "description": "Manage restaurant's settings",
+        "newLanguageButtonLabel": "Add new language"
       },
       "restaurantCategoriesAndProducts": {
         "description": "Manage restaurant"
@@ -299,6 +300,11 @@
       "updateRestaurantLanguageMutation": {
         "success": {
           "title": "Restaurant's languages have been updated. ✅"
+        },
+        "error": {
+          "allLanguagesIsDisabled": {
+            "title": "At least one language should be enabled."
+          }
         }
       }
     },

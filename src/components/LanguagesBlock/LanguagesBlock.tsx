@@ -1,4 +1,5 @@
 import type { LanguageCode } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { RestaurantLanguageCreateForm } from "~/components/Forms/RestaurantLanguageCreateForm";
@@ -16,6 +17,7 @@ type Props = {
 const LANGUAGES: LanguageCode[] = ["english", "russian"];
 
 export const LanguagesBlock = ({ restaurant }: Props) => {
+  const t = useTranslations("Dashboard.page.restaurantSettings");
   const { isModalOpen, toggleModal } = useModal();
 
   const restaurantLanguages = restaurant.restaurantLanguage.map(
@@ -34,11 +36,10 @@ export const LanguagesBlock = ({ restaurant }: Props) => {
           disabled={!availableLanguages.length}
         >
           <Icons.add className="mr-2 h-4 w-4" />
-          Add new language
+          {t("newLanguageButtonLabel")}
         </Button>
 
         <div>
-          {/* // TODO: GET IT FROM CONTEXT */}
           <RestaurantLanguageUpdateForm
             restaurantLanguages={restaurant.restaurantLanguage}
             restaurantId={restaurant.id}

@@ -1,13 +1,13 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
-import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
 import { CategoryCreateForm } from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useModal } from "~/hooks/useModal";
 
+import { CategoriesEmptyPlaceholder } from "./CategoriesEmptyPlaceholder";
 import { CategoriesTable } from "./CategoriesTable";
 
 type Props = {
@@ -22,7 +22,6 @@ export const CategoriesBlock = ({ restaurant }: Props) => {
 
   return (
     <>
-      {/* //TODO: MOVE IT TO THE COMPONENT */}
       {hasCategories ? (
         <>
           <Button className="mb-4" onClick={toggleModal}>
@@ -32,19 +31,7 @@ export const CategoriesBlock = ({ restaurant }: Props) => {
           <CategoriesTable restaurant={restaurant} />
         </>
       ) : (
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Icon name="layoutList" />
-          <EmptyPlaceholder.Title>
-            {t("emptyPlaceholder.title")}
-          </EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            {t("emptyPlaceholder.description")}
-          </EmptyPlaceholder.Description>
-          <Button variant="outline" onClick={toggleModal}>
-            <Icons.add className="mr-2 h-4 w-4" />
-            {t("newCategoryButtonLabel")}
-          </Button>
-        </EmptyPlaceholder>
+        <CategoriesEmptyPlaceholder onClick={toggleModal} />
       )}
 
       {/* Modal window */}

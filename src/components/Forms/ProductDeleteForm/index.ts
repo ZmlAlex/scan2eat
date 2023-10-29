@@ -1,0 +1,1 @@
+export { ProductDeleteForm } from "./ProductDeleteForm";
