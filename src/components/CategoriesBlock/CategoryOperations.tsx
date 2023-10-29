@@ -2,18 +2,9 @@ import { Pen, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
+import { CategoryDeleteForm } from "~/components/Forms/CategoryDeleteForm";
 import { CategoryUpdateForm } from "~/components/Forms/CategoryUpdateForm";
 import { Icons } from "~/components/Icons";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "~/components/ui/AlertDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,9 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
-import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
-import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useModal } from "~/hooks/useModal";
 import type { ArrayElement } from "~/types/shared.interface";
@@ -43,31 +31,6 @@ export function CategoryOperations({
     useModal();
 
   const t = useTranslations("Dashboard.categoryOperations");
-  const tError = useTranslations("ResponseErrorMessage");
-
-  const trpcContext = api.useContext();
-
-  const { mutate: deleteCategory, isLoading } =
-    api.category.deleteCategory.useMutation({
-      onError: (error) => {
-        const errorMessage = errorMapper(error.message);
-
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
-      },
-      onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
-          { restaurantId },
-          () => updatedRestaurant
-        );
-
-        toast({
-          title: t("deleteCategoryMutation.success.title"),
-        });
-      },
-    });
 
   return (
     <>
@@ -101,44 +64,23 @@ export function CategoryOperations({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* //TODO MOVE IT TO THE COMPONENT? */}
-      <AlertDialog open={isModalDeleteOpen} onOpenChange={toggleModalDelete}>
-        <AlertDialogContent onClick={(event) => event.stopPropagation()}>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("deleteDialog.description")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>
-              {t("deleteDialog.secondayButtonLabel")}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={(event) => {
-                event.preventDefault();
-                deleteCategory({ categoryId: category.id });
-              }}
-              className="bg-red-600 focus:ring-red-600"
-            >
-              {isLoading ? (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Icons.trash className="mr-2 h-4 w-4" />
-              )}
-              <span>{t("deleteDialog.primaryButtonLabel")}</span>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Modal window */}
+      <CategoryDeleteForm
+        restaurantId={restaurantId}
+        categoryId={category.id}
+        isModalOpen={isModalDeleteOpen}
+        toggleModal={toggleModalDelete}
+      />
 
       {/* Modal window */}
-      <CategoryUpdateForm
-        restaurantId={restaurantId}
-        category={category}
-        isModalOpen={isModalUpdateOpen}
-        toggleModal={toggleModalUpdate}
-      />
+      {isModalUpdateOpen && (
+        <CategoryUpdateForm
+          restaurantId={restaurantId}
+          category={category}
+          isModalOpen={isModalUpdateOpen}
+          toggleModal={toggleModalUpdate}
+        />
+      )}
     </>
   );
 }
