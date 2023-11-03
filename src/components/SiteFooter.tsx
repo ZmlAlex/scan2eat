@@ -1,54 +1,29 @@
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-// import { Icons } from "~/components/Icons";
-// import { siteConfig } from "~/config/site";
 import { cn } from "~/helpers/cn";
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
+  const t = useTranslations("Footer.general");
   return (
     <footer className={cn(className)}>
-      <div className="container flex flex-col items-start justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          {/* <Icons.logo /> */}
-          {/* <p className="text-center text-sm leading-loose md:text-left">
-            Built by{" "}
-            <a
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              shadcn
-            </a>
-            . Hosted on{" "}
-            <a
-              href="https://vercel.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Vercel
-            </a>
-            . Illustrations by{" "}
-            <a
-              href="https://popsy.co"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Popsy
-            </a>
-            . The source code is available on{" "}
-            <a
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              GitHub
-            </a>
-            .
-          </p> */}
+      <div className="container">
+        <div className="flex gap-8 py-6 lg:py-8">
+          <div>
+            <ul className="space-y-4 text-sm text-muted-foreground">
+              <li className="mb-4">
+                <Link className="hover:underline" href="/privacy-policy">
+                  {t("privacyPolicyLabel")}
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:underline" href="/terms-and-conditions">
+                  {t("termsAndConditionsLabel")}
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </footer>

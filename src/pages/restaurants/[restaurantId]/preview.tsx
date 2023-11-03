@@ -25,7 +25,7 @@ const RestaurantPagePreview = ({ restaurant }: ServerSideProps) => {
   const { category, product, currencyCode, restaurantLanguage } = restaurant;
   const { name, description } = restaurant.restaurantI18N;
 
-  const t = useTranslations("PreviewRestaurant");
+  const t = useTranslations("Page.previewRestaurant");
 
   return (
     <>

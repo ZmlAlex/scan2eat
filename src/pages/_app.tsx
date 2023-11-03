@@ -21,11 +21,14 @@ const MyApp: AppType<{
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SessionProvider session={session}>
         <NextIntlProvider messages={pageProps.messages}>
-          <Component {...pageProps} />
+          {/* helpers */}
+          <DefaultSeo />
           <Toaster />
           <Analytics />
-          <DefaultSeo />
           <ReactQueryDevtools initialIsOpen={false} />
+          {/* helpers */}
+
+          <Component {...pageProps} />
         </NextIntlProvider>
       </SessionProvider>
     </ThemeProvider>
