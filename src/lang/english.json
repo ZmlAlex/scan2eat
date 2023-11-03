@@ -14,50 +14,7 @@
       "secondRow": "JPG, JPEG or PNG (MAX. 5 MB)"
     }
   },
-  "Landing": {
-    "hero": {
-      "twitterLabel": "Follow along on Twitter",
-      "title": {
-        "firstLine": "Create a QR menu for",
-        "secondLineRestaurant": "Restaurant",
-        "secondLineCafe": "Cafe",
-        "secondLineBar": "Bar",
-        "thirdLine": "in minutes"
-      },
-      "description": "Want to create your QR menu without pain? With Scan2Eat, adding new menu is a breeze.",
-      "primaryButtonLabel": "Get started",
-      "secondayButtonLabel": "See example"
-    },
-    "features": {
-      "title": "Features",
-      "description": "Scan2Eat has several awesome features that makes it perfect to take your restaurant's menu to the next level",
-      "featureList": {
-        "firstFeatureTitle": "Optimized for Web",
-        "firstFeatureDescription": "The generated menu page has been optimized for search engines.",
-        "secondFeatureTitle": "Multilanguage",
-        "secondFeatureDescription": "Multiple languages for your restaurant",
-        "thirdFeatureTitle": "Free usage",
-        "thirdFeatureDescription": "Free forever. No trials, feature limitations, or menu volume restrictions.",
-        "fourthFeatureTitle": "Own dashboard",
-        "fourthFeatureDescription": "Scan2Eat provides an intuitive interface to easily manage your restaurants.",
-        "fifthFeatureTitle": "QR code",
-        "fifthFeatureDescription": "Generate a QR code, print and share it by simply placing it on your restaurant tables.",
-        "sixthFeatureTitle": "Dark and Light themes",
-        "sixthFeatureDescription": "Allow users to switch between a visually pleasing dark theme and a light theme in the app"
-      }
-    }
-  },
-  "Login": {
-    "title": "Welcome to Scan2Eat",
-    "description": "Enter your email to sign in or create new account",
-    "backButtonLabel": "Back"
-  },
-  "PreviewRestaurant": {
-    "alert": {
-      "title": "Preview Mode",
-      "description": "Once you have finalized your changes, you will be able to publish your restaurant and generate a sharable URL which can then be shared with your customers."
-    }
-  },
+
   "Dashboard": {
     "userAccountNav": {
       "signOutLabel": "Sign Out"
@@ -400,5 +357,129 @@
     "ReachedProductsLimit": "Reached maximum number of products per category.",
     "ReachedRestaurantsLimit": "Reached maximum number of restaurants per account.",
     "ReachedRequestsLimit": "Too many requests, please try again later."
+  },
+  "Footer": {
+    "general": {
+      "privacyPolicyLabel": "Privacy Policy",
+      "termsAndConditionsLabel": "Terms & Conditions"
+    },
+    "restaurant": {
+      "title": "Powered by"
+    }
+  },
+  "Landing": {
+    "hero": {
+      "twitterLabel": "Follow along on Twitter",
+      "title": {
+        "firstLine": "Create a QR menu for",
+        "secondLineRestaurant": "Restaurant",
+        "secondLineCafe": "Cafe",
+        "secondLineBar": "Bar",
+        "thirdLine": "in minutes"
+      },
+      "description": "Want to create your QR menu without pain? With Scan2Eat, adding new menu is a breeze.",
+      "primaryButtonLabel": "Get started",
+      "secondayButtonLabel": "See example"
+    },
+    "features": {
+      "title": "Features",
+      "description": "Scan2Eat has several awesome features that makes it perfect to take your restaurant's menu to the next level",
+      "featureList": {
+        "firstFeatureTitle": "Optimized for Web",
+        "firstFeatureDescription": "The generated menu page has been optimized for search engines.",
+        "secondFeatureTitle": "Multilanguage",
+        "secondFeatureDescription": "Multiple languages for your restaurant",
+        "thirdFeatureTitle": "Free usage",
+        "thirdFeatureDescription": "Free forever. No trials, feature limitations, or menu volume restrictions.",
+        "fourthFeatureTitle": "Own dashboard",
+        "fourthFeatureDescription": "Scan2Eat provides an intuitive interface to easily manage your restaurants.",
+        "fifthFeatureTitle": "QR code",
+        "fifthFeatureDescription": "Generate a QR code, print and share it by simply placing it on your restaurant tables.",
+        "sixthFeatureTitle": "Dark and Light themes",
+        "sixthFeatureDescription": "Allow users to switch between a visually pleasing dark theme and a light theme in the app"
+      }
+    }
+  },
+  "Page": {
+    "login": {
+      "title": "Welcome to Scan2Eat",
+      "description": "Enter your email to sign in or create new account",
+      "backButtonLabel": "Back"
+    },
+    "previewRestaurant": {
+      "alert": {
+        "title": "Preview Mode",
+        "description": "Once you have finalized your changes, you will be able to publish your restaurant and generate a sharable URL which can then be shared with your customers."
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy for Scan2Eat.app",
+      "lastUpdated": "Last updated: 2nd Nov 2023",
+      "description": "At Scan2Eat.app, we respect your concerns about privacy. This policy is designed to explain how we collect, use, and safeguard the personal information you provide to us.",
+      "paragraphs": {
+        "informationCollectionAndUse": {
+          "title": "Information Collection and Use",
+          "description": "We collect information from you when you register on our site. The information collected may include your name, email address."
+        },
+        "informationProtection": {
+          "title": "Information Protection",
+          "description": "We implement a variety of security measures to maintain the safety of your personal information. Your personal information is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems."
+        },
+        "cookies": {
+          "title": "Information Collection and Use",
+          "description": "We use cookies to understand and save your preferences for future visits and compile aggregate data about site traffic and site interaction so that we can offer better site experiences and tools in the future."
+        },
+        "disclosuretoThirdParties": {
+          "title": "Disclosure to Third Parties",
+          "description": "We do not sell, trade, or otherwise transfer to outside parties your personally identifiable information. This does not include trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential."
+        },
+        "yourConsent": {
+          "title": "Your Consent",
+          "description": "By using our site, you consent to our privacy policy."
+        },
+        "changesToOurPrivacyPolicy": {
+          "title": "Changes to our Privacy Policy",
+          "description": "If we decide to change our privacy policy, we will post those changes on this page."
+        },
+        "contactUs": {
+          "title": "Contact Us",
+          "description": "If there are any questions regarding this privacy policy, you may contact us using the information below."
+        }
+      }
+    },
+    "termsAndConditions": {
+      "title": "Terms of Service for Scan2Eat.app",
+      "lastUpdated": "Last updated: 2nd Nov 2023",
+      "paragraphs": {
+        "agreementToTerms": {
+          "title": "Agreement to Terms",
+          "description": "These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity (“you”) and Scan2Eat.app (“we,” “us” or “our”), concerning your access to and use of the Scan2Eat.app website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the “Site”)."
+        },
+        "userRepresentations": {
+          "title": "User Representations",
+          "description": "By using the Site, you represent and warrant that: (1) all registration information you submit will be true, accurate, current, and complete; (2) you will maintain the accuracy of such information and promptly update such registration information as necessary."
+        },
+        "userRegistration": {
+          "title": "User Registration",
+          "description": "You may be required to register with the Site. You agree to keep your password confidential and will be responsible for all use of your account and password."
+        },
+        "prohibitedActivities": {
+          "title": "Disclosure to Third Parties",
+          "description": "You may not access or use the Site for any purpose other than that for which we make the Site available. The Site may not be used in connection with any commercial endeavors except those that are specifically endorsed or approved by us."
+        },
+        "governingLaw": {
+          "title": "Governing Law",
+          "description": "These terms shall be governed by and defined following the laws of (your jurisdiction). Scan2Eat.app and yourself irrevocably consent that the courts of (your jurisdiction) shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these terms."
+        },
+        "changesToOurPrivacyPolicy": {
+          "title": "Changes to our Privacy Policy",
+          "description": "If we decide to change our privacy policy, we will post those changes on this page."
+        },
+        "contactUs": {
+          "title": "Contact Us",
+          "description": "In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at:"
+        }
+      }
+    }
   }
 }

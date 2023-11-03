@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const LoginPage = () => {
-  const t = useTranslations("Login");
+  const t = useTranslations("Page.login");
   const tSEO = useTranslations("SEO.login");
 
   return (

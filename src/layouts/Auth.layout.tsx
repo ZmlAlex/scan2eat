@@ -14,7 +14,7 @@ interface AuthLayoutProps {
 }
 
 export function AuthLayout({ children }: AuthLayoutProps) {
-  const t = useTranslations("Login");
+  const t = useTranslations("Page.login");
   const { locales = [] } = useRouter();
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
