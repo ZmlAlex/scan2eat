@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
+import { Icons } from "~/components/Icons";
 import { LanguageToggle } from "~/components/LanguageToggle";
 import { ModeToggle } from "~/components/ModeToggle";
 import { SiteFooter } from "~/components/SiteFooter";
@@ -23,6 +24,7 @@ export function MarketingLayout({ children }: MarketingLayoutProps) {
       <header className="sticky top-0 z-40 bg-background">
         <div className="container flex items-center justify-between gap-x-4 py-6">
           <Link href="/" className="flex items-center space-x-2">
+            <Icons.pizza />
             <span className="inline-block text-lg font-bold md:text-2xl">
               {siteConfig.name}
             </span>

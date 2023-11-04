@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
+import { Icons } from "~/components/Icons";
 import { MobileNav } from "~/components/MobileNav";
 import { siteConfig } from "~/config/site";
 import { cn } from "~/helpers/cn";
@@ -22,6 +23,7 @@ export function MainNav({ items, children }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
+        <Icons.pizza />
         <span className="inline-block font-bold md:text-2xl">
           {siteConfig.name}
         </span>

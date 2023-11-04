@@ -13,7 +13,7 @@ export function RestaurantSiteFooter({
     <footer className={cn("bg-slate-50 dark:bg-transparent", className)}>
       <div className="container py-4">
         <p className="text-center text-xs font-semibold">
-          {t("title")}
+          {t("title")}{" "}
           <Link className="hover:underline" href="/">
             Scan2Eat
           </Link>
