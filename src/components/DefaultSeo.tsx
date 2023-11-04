@@ -14,11 +14,21 @@ export const DefaultSeo = () => {
       additionalLinkTags={[
         {
           rel: "icon",
-          href: `/favicon.ico`,
+          href: `/images/favicon.ico`,
+        },
+        {
+          rel: "icon",
+          href: `/images/favicon-16x16.png`,
+          sizes: "16x16",
+        },
+        {
+          rel: "icon",
+          href: `/images/favicon-32x32.png`,
+          sizes: "32x32",
         },
         {
           rel: "apple-touch-icon",
-          href: "/touch-icon-ipad.jpg",
+          href: "images/touch-icon-ipad.jpg",
           sizes: "76x76",
         },
       ]}
