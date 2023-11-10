@@ -19,10 +19,15 @@ import { CategoryProduct } from "./CategoryProduct";
 type Props = {
   restaurantId: string;
   products: RestaurantWithDetails["product"];
+  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 };
 
 //TODO: GET RESTAURANT ID FROM ROUTER
-export const CategoryProductsTable = ({ restaurantId, products }: Props) => {
+export const CategoryProductsTable = ({
+  restaurantId,
+  products,
+  restaurantLanguages,
+}: Props) => {
   // * It's required for drag and drop optimistic update
   const [sortableProducts, setSortableProducts] = React.useState(
     () => products
@@ -92,6 +97,7 @@ export const CategoryProductsTable = ({ restaurantId, products }: Props) => {
                     key={product.id}
                     product={product}
                     restaurantId={restaurantId}
+                    restaurantLanguages={restaurantLanguages}
                     dragHandler={<SortableList.DragHandle />}
                   />
                 </SortableList.Item>

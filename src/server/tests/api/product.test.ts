@@ -3,7 +3,9 @@ import { type inferProcedureInput } from "@trpc/server";
 
 import type { AppRouter } from "~/server/api/root";
 import { createCategory } from "~/server/tests/helpers/createCategory";
+import { createCategoryWithMultipleLanguages } from "~/server/tests/helpers/createCategoryWithMultipleLanguages";
 import { createProduct } from "~/server/tests/helpers/createProduct";
+import { createProductWithMultipleLanguages } from "~/server/tests/helpers/createProductWithMultipleLanguages";
 import { createRestaurant } from "~/server/tests/helpers/createRestaurant";
 import { createRestaurantWithMultipleLanguages } from "~/server/tests/helpers/createRestaurantWithMultipleLanguages";
 import { createUser } from "~/server/tests/helpers/createUser";
@@ -152,6 +154,7 @@ describe("Product API", () => {
       const updateProductInput: inferProcedureInput<
         AppRouter["product"]["updateProduct"]
       > = {
+        restaurantId: testRestaurant.id,
         productId: testProduct.id,
         name: "orange juice",
         price: 1500,
@@ -160,6 +163,7 @@ describe("Product API", () => {
         imageBase64: "",
         isImageDeleted: false,
         isEnabled: true,
+        autoTranslateEnabled: false,
       };
 
       const { product } = await caller.product.updateProduct(
@@ -209,6 +213,7 @@ describe("Product API", () => {
       const updateProductInput: inferProcedureInput<
         AppRouter["product"]["updateProduct"]
       > = {
+        restaurantId: testRestaurant.id,
         productId: testProduct.id,
         name: "orange juice",
         price: 1500,
@@ -218,6 +223,7 @@ describe("Product API", () => {
           "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1920px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
         isEnabled: true,
         isImageDeleted: false,
+        autoTranslateEnabled: false,
       };
 
       const { product } = await caller.product.updateProduct(
@@ -269,6 +275,7 @@ describe("Product API", () => {
       const updateProductInput: inferProcedureInput<
         AppRouter["product"]["updateProduct"]
       > = {
+        restaurantId: testRestaurant.id,
         productId: testProduct.id,
         name: "апельсиновый сок",
         price: 1500,
@@ -276,6 +283,7 @@ describe("Product API", () => {
         languageCode: "russian",
         isEnabled: true,
         isImageDeleted: false,
+        autoTranslateEnabled: false,
       };
 
       const { product } = await caller.product.updateProduct(
@@ -287,6 +295,129 @@ describe("Product API", () => {
       expect(product?.[0]?.productI18N.russian).toMatchObject({
         name: "апельсиновый сок",
         description: "свежевыжатый сок",
+      });
+    });
+
+    describe("when restaurant has multiple languages", () => {
+      describe("and autoTranslateEnabled checkbox is true", () => {
+        it("should update category with translations all restaurant's languages", async () => {
+          const testRestaurant = await createRestaurantWithMultipleLanguages(
+            testUser.id,
+            createRestaurantInput
+          );
+
+          const testCategory = await createCategoryWithMultipleLanguages({
+            userId: testUser.id,
+            restaurantId: testRestaurant.id,
+            name: "juices",
+            languageCode: "english",
+          });
+
+          const testProduct = await createProductWithMultipleLanguages({
+            userId: testUser.id,
+            categoryId: testCategory.id,
+            restaurantId: testRestaurant.id,
+            name: "orange juice",
+            description: "fresh amazing juice",
+            price: 1000,
+            measurementUnit: "ml",
+            measurementValue: "250",
+            imageUrl: "originalUrl",
+            languageCode: "english",
+          });
+
+          const updateProductInput: inferProcedureInput<
+            AppRouter["product"]["updateProduct"]
+          > = {
+            restaurantId: testRestaurant.id,
+            productId: testProduct.id,
+            name: "apple juice",
+            price: 1500,
+            description: "fresh amazing juice",
+            languageCode: "english",
+            isEnabled: true,
+            isImageDeleted: false,
+            autoTranslateEnabled: true,
+          };
+
+          const { product } = await caller.product.updateProduct(
+            updateProductInput
+          );
+
+          expect(product?.[0]).toMatchObject({
+            productI18N: expect.objectContaining({
+              english: {
+                name: "apple juice",
+                description: "fresh amazing juice",
+              },
+              russian: {
+                name: "яблочный сок",
+                description: "свежий удивительный сок",
+              },
+            }) as unknown,
+          });
+        });
+      });
+
+      describe("and autoTranslateEnabled checkbox is false", () => {
+        it("should update only product with selected restaurant's language", async () => {
+          const testRestaurant = await createRestaurantWithMultipleLanguages(
+            testUser.id,
+            createRestaurantInput
+          );
+
+          const testCategory = await createCategoryWithMultipleLanguages({
+            userId: testUser.id,
+            restaurantId: testRestaurant.id,
+            name: "juices",
+            languageCode: "english",
+          });
+
+          const testProduct = await createProductWithMultipleLanguages({
+            userId: testUser.id,
+            categoryId: testCategory.id,
+            restaurantId: testRestaurant.id,
+            name: "orange juice",
+            description: "fresh amazing juice",
+            price: 1000,
+            measurementUnit: "ml",
+            measurementValue: "250",
+            imageUrl: "originalUrl",
+            languageCode: "english",
+          });
+
+          const updateProductInput: inferProcedureInput<
+            AppRouter["product"]["updateProduct"]
+          > = {
+            restaurantId: testRestaurant.id,
+            productId: testProduct.id,
+            name: "apple juice",
+            price: 1500,
+            description: "fresh amazing juice",
+            languageCode: "english",
+            isEnabled: true,
+            isImageDeleted: false,
+            autoTranslateEnabled: false,
+          };
+
+          const { product } = await caller.product.updateProduct(
+            updateProductInput
+          );
+          console.log("product: ", product);
+
+          expect(product?.[0]).toMatchObject({
+            productI18N: expect.objectContaining({
+              english: {
+                name: "apple juice",
+                description: "fresh amazing juice",
+              },
+              russian: {
+                name: "текст на русском",
+                description: "текст на русском",
+              },
+            }) as unknown,
+          });
+        });
       });
     });
   });

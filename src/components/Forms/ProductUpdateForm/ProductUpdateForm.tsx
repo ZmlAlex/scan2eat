@@ -8,7 +8,9 @@ import * as z from "zod";
 
 import { Icons } from "~/components/Icons";
 import { ImageUploadInput } from "~/components/ImageUploadInput";
+import { Badge } from "~/components/ui/Badge";
 import { Button } from "~/components/ui/Button";
+import { Checkbox } from "~/components/ui/Checkbox";
 import {
   Dialog,
   DialogContent,
@@ -50,6 +52,7 @@ const formSchema = z.object({
   measurementValue: z.string(),
   // TODO: FIX OPTIONAL VALUE
   measurementUnit: measurementUnitS.optional(),
+  autoTranslateEnabled: z.boolean(),
 });
 
 type Props = {
@@ -57,6 +60,7 @@ type Props = {
   toggleModal: () => void;
   restaurantId: string;
   product: ArrayElement<RestaurantWithDetails["product"]>;
+  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 };
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -65,11 +69,17 @@ export const ProductUpdateForm = ({
   restaurantId,
   product,
   isModalOpen,
+  restaurantLanguages,
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
   const t = useTranslations("Form.productUpdate");
   const tError = useTranslations("ResponseErrorMessage");
+
+  const cookies = parseCookies();
+  const selectedRestaurantLang =
+    cookies[`selectedRestaurantLang${restaurantId}`];
+  const hasMultipleLanguages = restaurantLanguages.length > 1;
 
   const { mutate: updateProduct, isLoading } =
     api.product.updateProduct.useMutation({
@@ -104,15 +114,13 @@ export const ProductUpdateForm = ({
       measurementValue: product.measurementValue ?? "",
       price: product.price / 100,
       isImageDeleted: false,
+      autoTranslateEnabled: hasMultipleLanguages,
     },
   });
 
   function onSubmit(values: FormSchema) {
-    const cookies = parseCookies();
-    const selectedRestaurantLang =
-      cookies[`selectedRestaurantLang${restaurantId}`];
-
     updateProduct({
+      restaurantId,
       productId: product.id,
       name: values.name,
       description: values.description,
@@ -123,6 +131,7 @@ export const ProductUpdateForm = ({
       measurementValue: values.measurementValue,
       imageBase64: values.imageBase64,
       isImageDeleted: values.isImageDeleted,
+      autoTranslateEnabled: values.autoTranslateEnabled,
     });
   }
 
@@ -259,6 +268,44 @@ export const ProductUpdateForm = ({
                 </FormItem>
               )}
             />
+
+            {hasMultipleLanguages && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="autoTranslateEnabled"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormLabel>
+                        {t("inputs.autoTranslateEnabled.firstRow")}
+                        <p className="text-sm">
+                          ({t("inputs.autoTranslateEnabled.secondRow")}{" "}
+                          <Badge className="capitalize" variant="secondary">
+                            {selectedRestaurantLang}
+                          </Badge>
+                          )
+                        </p>
+                      </FormLabel>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="space-x-2">
+                  {restaurantLanguages.map((lang) => (
+                    <Badge className="capitalize" key={lang.languageCode}>
+                      {lang.languageCode}
+                    </Badge>
+                  ))}
+                </div>
+              </>
+            )}
 
             <Button type="submit" disabled={isLoading}>
               {isLoading && (

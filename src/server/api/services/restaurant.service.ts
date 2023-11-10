@@ -37,6 +37,7 @@ export const findRestaurantById = async (
     });
     const restaurantLanguagesP = prisma.restaurantLanguage.findMany({
       where: { restaurantId },
+      orderBy: { createdAt: "asc" },
     });
     const restaurantI18NP = prisma.restaurantI18N.findMany({
       where: { restaurantId },
@@ -223,7 +224,16 @@ export const createRestaurantLanguage = (
 };
 
 export const updateRestaurant = async (
-  input: Omit<UpdateRestaurantInput, "isImageDeleted"> & { logoUrl?: string },
+  input: Omit<
+    UpdateRestaurantInput,
+    "isImageDeleted" | "autoTranslateEnabled"
+  > & {
+    logoUrl?: string;
+  },
+  additionalTranslations: Pick<
+    RestaurantI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[],
   where: Prisma.RestaurantWhereUniqueInput,
   prisma: PrismaClient
 ) => {
@@ -240,7 +250,10 @@ export const updateRestaurant = async (
       input
     );
 
-  const transactions: PrismaPromise<unknown>[] = translations
+  const transactions: PrismaPromise<unknown>[] = [
+    ...translations,
+    ...additionalTranslations,
+  ]
     .filter(({ translation }) => translation)
     .map((record) =>
       prisma.restaurantI18N.upsert({

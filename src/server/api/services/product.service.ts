@@ -58,10 +58,14 @@ export const createProduct = async (
 };
 
 export const updateProduct = async (
-  input: Omit<UpdateProductInput, "isImageDeleted"> & {
+  input: Omit<UpdateProductInput, "isImageDeleted" | "autoTranslateEnabled"> & {
     imageUrl?: string;
     userId: string;
   },
+  additionalTranslations: Pick<
+    ProductI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[],
   prisma: PrismaClient
 ) => {
   const { userId, price, isEnabled, imageUrl, ...restInput } = input;
@@ -79,7 +83,10 @@ export const updateProduct = async (
     restInput
   );
 
-  const transactions: PrismaPromise<unknown>[] = translations
+  const transactions: PrismaPromise<unknown>[] = [
+    ...translations,
+    ...additionalTranslations,
+  ]
     .filter(({ translation }) => translation)
     .map((record) =>
       prisma.productI18N.upsert({

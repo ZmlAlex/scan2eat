@@ -13,6 +13,7 @@ export const updateCategorySchemaInput = z.object({
   categoryId: z.string(),
   name: z.string().min(1).max(30),
   languageCode: languageCodeS,
+  autoTranslateEnabled: z.boolean(),
 });
 
 export const updateCategoriesPositionSchemaInput = z.array(

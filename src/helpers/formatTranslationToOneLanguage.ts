@@ -8,7 +8,7 @@ import type {
 export type RestaurantWithDetails = ReturnType<
   typeof formatTranslationToOneLanguageWithDetails
 >;
-export type Restaurant = ReturnType<typeof formatTranslationToOneLanguage>;
+export type Restaurant = ReturnType<typeof formatTranslationsToOneLanguage>;
 
 export const formatTranslationToOneLanguageWithDetails = (
   restaurant: Awaited<ReturnType<typeof findRestaurantById>>,
@@ -41,16 +41,17 @@ export const formatTranslationToOneLanguageWithDetails = (
   };
 };
 
-export const formatTranslationToOneLanguage = (
+export const formatTranslationsToOneLanguage = (
   restaurants: Awaited<ReturnType<typeof findAllRestaurants>>,
-  locale: LanguageCode
+  locale?: LanguageCode
 ) => {
   return restaurants.map((restaurant) => ({
     ...restaurant,
     restaurantI18N:
-      restaurant.restaurantI18N[locale] ||
-      restaurant.restaurantI18N[
-        Object.keys(restaurant.restaurantI18N)[0] as LanguageCode
-      ],
+      locale && restaurant.restaurantI18N[locale]
+        ? restaurant.restaurantI18N[locale]
+        : restaurant.restaurantI18N[
+            Object.keys(restaurant.restaurantI18N)[0] as LanguageCode
+          ],
   }));
 };

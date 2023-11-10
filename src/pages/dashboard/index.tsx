@@ -1,5 +1,3 @@
-import type { LanguageCode } from "@prisma/client";
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -11,23 +9,18 @@ import { RestaurantItem } from "~/components/RestaurantItem";
 import { Button } from "~/components/ui/Button";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { api } from "~/helpers/api";
-import { formatTranslationToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
+import { formatTranslationsToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
 import { useModal } from "~/hooks/useModal";
 import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 const AllRestaurants = () => {
   const { isModalOpen, toggleModal } = useModal();
-  const router = useRouter();
   const t = useTranslations("Dashboard.page.allRestaurants");
 
   const { data: restaurants, status } =
     api.restaurant.getAllRestaurants.useQuery(undefined, {
-      select: (restaurants) =>
-        formatTranslationToOneLanguage(
-          restaurants,
-          router.locale as LanguageCode
-        ),
+      select: (restaurants) => formatTranslationsToOneLanguage(restaurants),
     });
 
   return (

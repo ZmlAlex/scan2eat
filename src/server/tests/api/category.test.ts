@@ -3,6 +3,7 @@ import { type inferProcedureInput } from "@trpc/server";
 
 import type { AppRouter } from "~/server/api/root";
 import { createCategory } from "~/server/tests/helpers/createCategory";
+import { createCategoryWithMultipleLanguages } from "~/server/tests/helpers/createCategoryWithMultipleLanguages";
 import { createRestaurant } from "~/server/tests/helpers/createRestaurant";
 import { createRestaurantWithMultipleLanguages } from "~/server/tests/helpers/createRestaurantWithMultipleLanguages";
 import { createUser } from "~/server/tests/helpers/createUser";
@@ -107,6 +108,7 @@ describe("Category API", () => {
         categoryId: testCategory.id,
         name: "beverages",
         languageCode: "english",
+        autoTranslateEnabled: false,
       };
 
       const { category } = await caller.category.updateCategory(
@@ -122,7 +124,7 @@ describe("Category API", () => {
       });
     });
 
-    it("should update translations for russian language category", async () => {
+    it("should create translation for russian language category if it doesn't exist", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -142,6 +144,7 @@ describe("Category API", () => {
         categoryId: testCategory.id,
         name: "соки",
         languageCode: "russian",
+        autoTranslateEnabled: false,
       };
 
       const { category } = await caller.category.updateCategory(
@@ -150,6 +153,92 @@ describe("Category API", () => {
 
       expect(category?.[0]?.categoryI18N.russian).toMatchObject({
         name: "соки",
+      });
+    });
+
+    describe("when restaurant has multiple languages", () => {
+      describe("and autoTranslateEnabled checkbox is true", () => {
+        it("should update category with translations all restaurant's languages", async () => {
+          const testRestaurant = await createRestaurantWithMultipleLanguages(
+            testUser.id,
+            createRestaurantInput
+          );
+
+          const testCategory = await createCategory({
+            userId: testUser.id,
+            restaurantId: testRestaurant.id,
+            name: "juices",
+            languageCode: "english",
+          });
+
+          const updateCategoryInput: inferProcedureInput<
+            AppRouter["category"]["updateCategory"]
+          > = {
+            restaurantId: testRestaurant.id,
+            categoryId: testCategory.id,
+            name: "homemade lemonades",
+            languageCode: "english",
+            autoTranslateEnabled: true,
+          };
+
+          const { category } = await caller.category.updateCategory(
+            updateCategoryInput
+          );
+
+          console.log("category: ", category);
+
+          expect(category?.[0]).toMatchObject({
+            categoryI18N: expect.objectContaining({
+              english: {
+                name: "homemade lemonades",
+              },
+              russian: {
+                name: "домашние лимонады",
+              },
+            }) as unknown,
+          });
+        });
+      });
+
+      describe("and autoTranslateEnabled checkbox is false", () => {
+        it("should update only category with selected restaurant's language", async () => {
+          const testRestaurant = await createRestaurantWithMultipleLanguages(
+            testUser.id,
+            createRestaurantInput
+          );
+
+          const testCategory = await createCategoryWithMultipleLanguages({
+            userId: testUser.id,
+            restaurantId: testRestaurant.id,
+            name: "juices",
+            languageCode: "english",
+          });
+
+          const updateCategoryInput: inferProcedureInput<
+            AppRouter["category"]["updateCategory"]
+          > = {
+            restaurantId: testRestaurant.id,
+            categoryId: testCategory.id,
+            name: "homemade lemonades",
+            languageCode: "english",
+            autoTranslateEnabled: false,
+          };
+
+          const { category } = await caller.category.updateCategory(
+            updateCategoryInput
+          );
+
+          expect(category?.[0]).toMatchObject({
+            categoryI18N: expect.objectContaining({
+              english: {
+                name: "homemade lemonades",
+              },
+              russian: {
+                name: "текст на русском",
+              },
+            }) as unknown,
+          });
+        });
       });
     });
   });

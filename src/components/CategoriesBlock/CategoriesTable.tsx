@@ -79,12 +79,13 @@ export const CategoriesTable = ({ restaurant }: Props) => {
               <>
                 <CategorySection
                   key={category.id}
-                  restaurantId={restaurant.id || ""}
-                  category={category}
                   dragHandler={<SortableList.DragHandle />}
+                  restaurantId={restaurant.id}
+                  category={category}
                   products={restaurant.product?.filter(
                     (product) => product.categoryId === category.id
                   )}
+                  restaurantLanguages={restaurant.restaurantLanguage}
                 />
               </>
             </SortableList.Item>

@@ -1,6 +1,7 @@
 import type {
   CategoryTranslationField,
   ProductTranslationField,
+  RestaurantI18N,
   RestaurantTranslationField,
 } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
@@ -28,6 +29,7 @@ import {
 } from "~/server/api/services/restaurant.service";
 import type { Context, ProtectedContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
 import { uploadImage } from "~/server/libs/cloudinary";
 
@@ -89,9 +91,29 @@ export const updateRestaurantHandler = async ({
 }) => {
   const { prisma } = ctx;
   const userId = ctx.session.user.id;
-
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
+  let additionalTranslations: Pick<
+    RestaurantI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[] = [];
+
+  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+
+  if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
+    additionalTranslations =
+      await createFieldTranslationsForAdditionalLanguages<RestaurantTranslationField>(
+        {
+          sourceLanguage: input.languageCode,
+          restaurantLanguages: restaurant.restaurantLanguage,
+          fieldsForTranslation: [
+            ["name", input.name],
+            ["description", input.description],
+            ["address", input.address],
+          ],
+        }
+      );
+  }
 
   if (input.logoImageBase64) {
     const uploadedImage = await uploadImage(input.logoImageBase64, userId);
@@ -100,6 +122,7 @@ export const updateRestaurantHandler = async ({
 
   await updateRestaurant(
     { ...input, logoUrl: uploadedImageUrl },
+    additionalTranslations,
     { id: input.restaurantId },
     prisma
   );

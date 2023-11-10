@@ -85,6 +85,26 @@ export const updateProductHandler = async ({
   const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
+  let additionalTranslations: Pick<
+    ProductI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[] = [];
+
+  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+
+  if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
+    additionalTranslations =
+      await createFieldTranslationsForAdditionalLanguages<ProductTranslationField>(
+        {
+          sourceLanguage: input.languageCode,
+          restaurantLanguages: restaurant.restaurantLanguage,
+          fieldsForTranslation: [
+            ["name", input.name],
+            ["description", input.description],
+          ],
+        }
+      );
+  }
 
   if (input.imageBase64) {
     const uploadedImage = await uploadImage(input.imageBase64, userId);
@@ -93,6 +113,7 @@ export const updateProductHandler = async ({
 
   const updatedProduct = await updateProduct(
     { ...input, userId, imageUrl: uploadedImageUrl },
+    additionalTranslations,
     ctx.prisma
   );
 

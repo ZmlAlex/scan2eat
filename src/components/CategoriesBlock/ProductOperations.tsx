@@ -19,11 +19,13 @@ import type { ArrayElement } from "~/types/shared.interface";
 interface RestaurantOperationsProps {
   restaurantId: string;
   product: ArrayElement<RestaurantWithDetails["product"]>;
+  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 }
 
 export function ProductOperations({
   restaurantId,
   product,
+  restaurantLanguages,
 }: RestaurantOperationsProps) {
   const { isModalOpen: isModalDeleteOpen, toggleModal: toggleModalDelete } =
     useModal();
@@ -74,6 +76,7 @@ export function ProductOperations({
           toggleModal={toggleModalUpdate}
           restaurantId={restaurantId}
           product={product}
+          restaurantLanguages={restaurantLanguages}
         />
       )}
     </>

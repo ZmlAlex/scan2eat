@@ -48,9 +48,12 @@ export const createCategory = async (
   });
 };
 
-//TODO: USE IT FOR LANGUAGES
 export const updateCategory = async (
-  input: UpdateCategoryInput & { userId: string },
+  input: Omit<UpdateCategoryInput, "autoTranslateEnabled"> & { userId: string },
+  additionalTranslations: Pick<
+    CategoryI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[],
   prisma: PrismaClient
 ) => {
   const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
@@ -58,7 +61,10 @@ export const updateCategory = async (
     input
   );
 
-  const transactions: PrismaPromise<unknown>[] = translations
+  const transactions: PrismaPromise<unknown>[] = [
+    ...translations,
+    ...additionalTranslations,
+  ]
     .filter(({ translation }) => translation)
     .map((record) =>
       prisma.categoryI18N.upsert({

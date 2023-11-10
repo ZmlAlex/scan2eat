@@ -6,6 +6,7 @@ import type { AppRouter } from "~/server/api/root";
 import { createCategory } from "~/server/tests/helpers/createCategory";
 import { createProduct } from "~/server/tests/helpers/createProduct";
 import { createRestaurant } from "~/server/tests/helpers/createRestaurant";
+import { createRestaurantWithMultipleLanguages } from "~/server/tests/helpers/createRestaurantWithMultipleLanguages";
 import { createUser } from "~/server/tests/helpers/createUser";
 import {
   createProtectedCaller,
@@ -31,7 +32,7 @@ describe("Restaurant API", () => {
   });
 
   describe("createRestaurant route", () => {
-    it("should create restaurant", async () => {
+    it("should create and return restaurant", async () => {
       const result = await caller.restaurant.createRestaurant(
         createRestaurantInput
       );
@@ -209,7 +210,7 @@ describe("Restaurant API", () => {
   });
 
   describe("getRestaurant route", () => {
-    it("should return restaurant after creation", async () => {
+    it("should return restaurant", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -327,7 +328,7 @@ describe("Restaurant API", () => {
   });
 
   describe("updateRestaurant route", () => {
-    it("should returns restaurant with new data and old logoUrl", async () => {
+    it("should return restaurant with new data and old logoUrl", async () => {
       const testRestaurant = await createRestaurant(
         testUser.id,
         createRestaurantInput
@@ -342,6 +343,7 @@ describe("Restaurant API", () => {
         restaurantId: testRestaurant.id,
         name: "Chum Bucket",
         address: "830 Bottom Feeder Lane",
+        autoTranslateEnabled: false,
       };
 
       const result = await caller.restaurant.updateRestaurant(input);
@@ -376,6 +378,7 @@ describe("Restaurant API", () => {
         restaurantId: testRestaurant.id,
         name: "Chum Bucket",
         address: "830 Bottom Feeder Lane",
+        autoTranslateEnabled: false,
       };
 
       const result = await caller.restaurant.updateRestaurant(input);
@@ -413,6 +416,7 @@ describe("Restaurant API", () => {
         address: "Нижний переулок 830",
         description: "лучшие бургеры",
         languageCode: "russian",
+        autoTranslateEnabled: false,
       };
 
       const result = await caller.restaurant.updateRestaurant(input);
@@ -449,6 +453,95 @@ describe("Restaurant API", () => {
 
       expect(result).toMatchObject({
         isPublished: true,
+      });
+    });
+
+    //
+    describe("when restaurant has multiple languages", () => {
+      describe("and autoTranslateEnabled checkbox is true", () => {
+        it("should update category with translations all restaurant's languages", async () => {
+          const testRestaurant = await createRestaurantWithMultipleLanguages(
+            testUser.id,
+            createRestaurantInput
+          );
+
+          const input: inferProcedureInput<
+            AppRouter["restaurant"]["updateRestaurant"]
+          > = {
+            ...createRestaurantInput,
+            logoImageBase64: "",
+            isImageDeleted: false,
+            restaurantId: testRestaurant.id,
+            name: "Бургер бар",
+            address: "Нижний переулок 829",
+            description: "лучшие бургеры",
+            languageCode: "russian",
+            autoTranslateEnabled: true,
+          };
+
+          const result = await caller.restaurant.updateRestaurant(input);
+
+          expect(result).toMatchObject({
+            logoUrl: expect.stringContaining("Olympic") as string,
+            workingHours: "24hrs",
+            restaurantI18N: expect.objectContaining({
+              english: {
+                address: "Nizhny Pereulok 829",
+                description: "best burgers",
+                name: "Burger bar",
+              },
+              russian: {
+                address: "Нижний переулок 829",
+                description: "лучшие бургеры",
+                name: "Бургер бар",
+              },
+            }) as unknown,
+            currencyCode: "RUB",
+          });
+        });
+      });
+
+      describe("and autoTranslateEnabled checkbox is false", () => {
+        it("should update only product with selected restaurant's language", async () => {
+          const testRestaurant = await createRestaurantWithMultipleLanguages(
+            testUser.id,
+            createRestaurantInput
+          );
+
+          const input: inferProcedureInput<
+            AppRouter["restaurant"]["updateRestaurant"]
+          > = {
+            ...createRestaurantInput,
+            logoImageBase64: "",
+            isImageDeleted: false,
+            restaurantId: testRestaurant.id,
+            name: "Бургер бар",
+            address: "Нижний переулок 829",
+            description: "лучшие бургеры",
+            languageCode: "russian",
+            autoTranslateEnabled: false,
+          };
+
+          const result = await caller.restaurant.updateRestaurant(input);
+
+          expect(result).toMatchObject({
+            logoUrl: expect.stringContaining("Olympic") as string,
+            workingHours: "24hrs",
+            restaurantI18N: expect.objectContaining({
+              english: {
+                address: "831 Bottom Feeder Lane",
+                description: "best fastfood in the Bikini Bottom",
+                name: "Krusty Krab",
+              },
+              russian: {
+                address: "Нижний переулок 829",
+                description: "лучшие бургеры",
+                name: "Бургер бар",
+              },
+            }) as unknown,
+            currencyCode: "RUB",
+          });
+        });
       });
     });
   });

@@ -27,12 +27,13 @@ export const createRestaurantLanguageSchemaInput = z.object({
 export const updateRestaurantSchemaInput = z.object({
   restaurantId: z.string(),
   name: z.string().min(2).max(30),
-  description: z.string().min(2).max(150).optional(),
+  description: z.string().max(150).optional(),
   address: z.string().max(50).optional(),
   workingHours: z.string(),
   logoImageBase64: z.string().optional(),
   phone: z.string().optional(),
   isImageDeleted: z.boolean(),
+  autoTranslateEnabled: z.boolean(),
   currencyCode: currencyCodeS,
   languageCode: languageCodeS,
 });
