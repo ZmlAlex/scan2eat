@@ -69,8 +69,29 @@ export const updateCategoryHandler = async ({
   input: UpdateCategoryInput;
 }) => {
   const userId = ctx.session.user.id;
+  let additionalTranslations: Pick<
+    CategoryI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[] = [];
 
-  await updateCategory({ ...input, userId }, ctx.prisma);
+  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+
+  if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
+    additionalTranslations =
+      await createFieldTranslationsForAdditionalLanguages<CategoryTranslationField>(
+        {
+          sourceLanguage: input.languageCode,
+          restaurantLanguages: restaurant.restaurantLanguage,
+          fieldsForTranslation: [["name", input.name]],
+        }
+      );
+  }
+
+  await updateCategory(
+    { ...input, userId },
+    additionalTranslations,
+    ctx.prisma
+  );
   return findRestaurantById(input.restaurantId, ctx.prisma);
 };
 

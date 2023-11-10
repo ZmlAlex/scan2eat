@@ -192,6 +192,10 @@
         "description": {
           "title": "Description",
           "placeholder": "Tell us a little bit about your restaurant"
+        },
+        "autoTranslateEnabled": {
+          "firstRow": "Do an autoTranslateEnabled for all available languages for the restaurant",
+          "secondRow": "Selected language:"
         }
       },
       "primaryButtonLabel": "Save Changes",
@@ -306,6 +310,10 @@
         "description": {
           "title": "Description",
           "placeholder": "Tell us a little bit about your product"
+        },
+        "autoTranslateEnabled": {
+          "firstRow": "Do an autoTranslateEnabled for all available languages for the restaurant",
+          "secondRow": "Selected language:"
         }
       },
       "primaryButtonLabel": "Save Changes",
@@ -332,7 +340,11 @@
       "title": "Update category",
       "description": "Edit details about your category here. Click save when you're done.",
       "inputs": {
-        "name": "Name"
+        "name": "Name",
+        "autoTranslateEnabled": {
+          "firstRow": "Do an autoTranslateEnabled for all available languages for the restaurant",
+          "secondRow": "Selected language:"
+        }
       },
       "primaryButtonLabel": "Save Changes",
       "updateCategoryMutation": {

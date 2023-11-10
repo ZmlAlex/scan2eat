@@ -23,16 +23,17 @@ export const RestaurantLanguageSelector = ({ restaurant }: Props) => {
 
   const trpcContext = api.useContext();
 
-  const handleLanguageChange = async (language: string) => {
+  const handleLanguageChange = (language: string) => {
     setCookie(null, `selectedRestaurantLang${restaurant.id}`, language, {
       maxAge: 30 * 24 * 60 * 60,
       path: "/",
     });
 
-    //TODO: DO IT LOCALLY? WITH setData
-    await trpcContext.restaurant.getRestaurant.invalidate({
-      restaurantId: restaurant.id,
-    });
+    trpcContext.restaurant.getRestaurant.setData(
+      { restaurantId: restaurant.id },
+      // make new object without reference connection in order to trigger invocation of "select" in useGetRestaurant hook
+      (restuarant) => structuredClone(restuarant)
+    );
   };
 
   return (

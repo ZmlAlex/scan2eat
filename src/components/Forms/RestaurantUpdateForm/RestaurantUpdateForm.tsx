@@ -8,6 +8,7 @@ import * as z from "zod";
 
 import { Icons } from "~/components/Icons";
 import { ImageUploadInput } from "~/components/ImageUploadInput";
+import { Badge } from "~/components/ui/Badge";
 import { Button } from "~/components/ui/Button";
 import {
   Card,
@@ -17,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/Card";
+import { Checkbox } from "~/components/ui/Checkbox";
 import {
   Form,
   FormControl,
@@ -51,6 +53,7 @@ const formSchema = z.object({
   logoImageBase64: imageInput,
   isImageDeleted: z.boolean(),
   workingHours: z.string(),
+  autoTranslateEnabled: z.boolean(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -66,6 +69,11 @@ export const RestaurantUpdateForm = ({
   const trpcContext = api.useContext();
   const t = useTranslations("Form.restaurantUpdate");
   const tError = useTranslations("ResponseErrorMessage");
+
+  const cookies = parseCookies();
+  const selectedRestaurantLang =
+    cookies[`selectedRestaurantLang${restaurant.id}`];
+  const hasMultipleLanguages = restaurant.restaurantLanguage.length > 1;
 
   const { mutate: updateRestaurant, isLoading } =
     api.restaurant.updateRestaurant.useMutation({
@@ -100,6 +108,7 @@ export const RestaurantUpdateForm = ({
       workingHours: restaurant.workingHours,
       logoImageBase64: undefined,
       isImageDeleted: false,
+      autoTranslateEnabled: hasMultipleLanguages,
     },
   });
 
@@ -119,6 +128,7 @@ export const RestaurantUpdateForm = ({
       logoImageBase64: values.logoImageBase64,
       workingHours: values.workingHours,
       isImageDeleted: values.isImageDeleted,
+      autoTranslateEnabled: values.autoTranslateEnabled,
     });
   }
 
@@ -272,6 +282,44 @@ export const RestaurantUpdateForm = ({
                 </FormItem>
               )}
             />
+
+            {hasMultipleLanguages && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="autoTranslateEnabled"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                      <FormLabel>
+                        {t("inputs.autoTranslateEnabled.firstRow")}
+                        <p className="text-sm">
+                          ({t("inputs.autoTranslateEnabled.secondRow")}{" "}
+                          <Badge className="capitalize" variant="secondary">
+                            {selectedRestaurantLang}
+                          </Badge>
+                          )
+                        </p>
+                      </FormLabel>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="space-x-2">
+                  {restaurant.restaurantLanguage.map((lang) => (
+                    <Badge className="capitalize" key={lang.languageCode}>
+                      {lang.languageCode}
+                    </Badge>
+                  ))}
+                </div>
+              </>
+            )}
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading}>

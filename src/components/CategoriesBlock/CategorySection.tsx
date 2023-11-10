@@ -20,6 +20,7 @@ type Props = {
   restaurantId: string;
   products: RestaurantWithDetails["product"];
   category: ArrayElement<RestaurantWithDetails["category"]>;
+  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
   dragHandler?: ReactNode;
 };
 
@@ -29,6 +30,7 @@ export const CategorySection = ({
   products,
   category,
   dragHandler,
+  restaurantLanguages,
 }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
   const t = useTranslations("Dashboard.categoriesBlock");
@@ -47,6 +49,7 @@ export const CategorySection = ({
             <CategoryOperations
               restaurantId={restaurantId}
               category={category}
+              restaurantLanguages={restaurantLanguages}
             />
           </div>
         </AccordionTrigger>
@@ -56,6 +59,7 @@ export const CategorySection = ({
               <CategoryProductsTable
                 restaurantId={restaurantId}
                 products={products}
+                restaurantLanguages={restaurantLanguages}
               />
             )}
             <Button className="mx-4" onClick={toggleModal}>
@@ -66,7 +70,6 @@ export const CategorySection = ({
         </AccordionContent>
       </AccordionItem>
 
-      {/* //TODO MOVE IT TO COMPONENT  ProudctCreateModal*/}
       {isModalOpen && (
         <ProductCreateForm
           isModalOpen={isModalOpen}

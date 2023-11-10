@@ -16,6 +16,7 @@ export const createProductSchemaInput = z.object({
 });
 
 export const updateProductSchemaInput = z.object({
+  restaurantId: z.string(),
   productId: z.string(),
   price: z.number(),
   isEnabled: z.boolean(),
@@ -25,6 +26,7 @@ export const updateProductSchemaInput = z.object({
   description: z.string().trim().max(150),
   imageBase64: z.string().optional(),
   isImageDeleted: z.boolean(),
+  autoTranslateEnabled: z.boolean(),
   languageCode: languageCodeS,
 });
 
