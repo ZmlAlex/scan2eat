@@ -1,80 +1,10 @@
-import { useTranslations } from "next-intl";
 import React from "react";
 
-import { DashboardHeader } from "~/components/DashboardHeader";
-import { EmptyPlaceholder } from "~/components/EmptyPlaceholder";
-import { RestaurantCreateForm } from "~/components/Forms/RestaurantCreateForm";
-import { Icons } from "~/components/Icons";
-import { RestaurantItem } from "~/components/RestaurantItem";
-import { Button } from "~/components/ui/Button";
-import { SkeletonFactory } from "~/components/ui/Skeleton";
-import { api } from "~/helpers/api";
-import { formatTranslationsToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
 import { getServerSidePropsWithLanguage } from "~/helpers/getServerSidePropsWithLanguage";
-import { useModal } from "~/hooks/useModal";
-import { DashboardLayout } from "~/layouts/Dashboard.layout";
+import { DashboardAllRestaurantsScreen } from "~/screens/dashboard/DashboardAllRestaurantsScreen";
 
-const AllRestaurants = () => {
-  const { isModalOpen, toggleModal } = useModal();
-  const t = useTranslations("Dashboard.page.allRestaurants");
-
-  const { data: restaurants, status } =
-    api.restaurant.getAllRestaurants.useQuery(undefined, {
-      select: (restaurants) => formatTranslationsToOneLanguage(restaurants),
-    });
-
-  return (
-    <>
-      <DashboardLayout>
-        <DashboardHeader heading={t("title")} text={t("description")}>
-          <Button onClick={toggleModal}>
-            <Icons.add className="mr-2 h-4 w-4" />
-            {t("newRestaurantButtonLabel")}
-          </Button>
-        </DashboardHeader>
-        <div className="grid gap-10">
-          {status === "loading" && <SkeletonFactory />}
-          {status === "success" && (
-            <>
-              {restaurants?.length ? (
-                <div className="divide-y divide-border rounded-md border">
-                  {restaurants.map((restaurant) => (
-                    <RestaurantItem
-                      key={restaurant.id}
-                      restaurant={restaurant}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <EmptyPlaceholder>
-                  <EmptyPlaceholder.Icon name="store" />
-                  <EmptyPlaceholder.Title>
-                    {t("emptyPlaceholder.title")}
-                  </EmptyPlaceholder.Title>
-                  <EmptyPlaceholder.Description>
-                    {t("emptyPlaceholder.description")}
-                  </EmptyPlaceholder.Description>
-                  <Button variant="outline" onClick={toggleModal}>
-                    <Icons.add className="mr-2 h-4 w-4" />
-                    {t("newRestaurantButtonLabel")}
-                  </Button>
-                </EmptyPlaceholder>
-              )}
-            </>
-          )}
-        </div>
-      </DashboardLayout>
-
-      {isModalOpen && (
-        <RestaurantCreateForm
-          isModalOpen={isModalOpen}
-          toggleModal={toggleModal}
-        />
-      )}
-    </>
-  );
-};
+const DashboardAllRestaurantsPage = () => <DashboardAllRestaurantsScreen />;
 
 export const getServerSideProps = getServerSidePropsWithLanguage;
 
-export default AllRestaurants;
+export default DashboardAllRestaurantsPage;

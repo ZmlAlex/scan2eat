@@ -4,56 +4,21 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
-import { NextSeo } from "next-seo";
 import React from "react";
 
-import { Icons } from "~/components/Icons";
-import { RestaurantHeader } from "~/components/RestaurantHeader";
-import { RestaurantInformation } from "~/components/RestaurantInformation";
-import { RestaurantMenu } from "~/components/RestaurantMenu";
-import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { isTRPCError } from "~/helpers/isTRPCError";
-import { RestaurantLayout } from "~/layouts/Restaurant.layout";
+import { RestaurantPreviewScreen } from "~/screens/restaurant/RestaurantPreviewScreen";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const RestaurantPagePreview = ({ restaurant }: ServerSideProps) => {
-  const { category, product, currencyCode, restaurantLanguage } = restaurant;
-  const { name, description } = restaurant.restaurantI18N;
+const RestaurantPreviewPage = ({ restaurant }: ServerSideProps) => (
+  <RestaurantPreviewScreen restaurant={restaurant} />
+);
 
-  const t = useTranslations("Page.previewRestaurant");
-
-  return (
-    <>
-      <NextSeo title={name} description={description} />
-
-      <RestaurantLayout>
-        {/* name and switcher */}
-        <RestaurantHeader name={name} restaurantLanguage={restaurantLanguage} />
-        {/* preview alert */}
-        <Alert variant="destructive">
-          <Icons.warning className="h-5 w-5" />
-          <AlertTitle>{t("alert.title")}</AlertTitle>
-          <AlertDescription>{t("alert.description")}</AlertDescription>
-        </Alert>
-        {/* general info */}
-        <RestaurantInformation restaurant={restaurant} />
-        {/* menu */}
-        <RestaurantMenu
-          categories={category}
-          products={product}
-          currencyCode={currencyCode}
-        />
-      </RestaurantLayout>
-    </>
-  );
-};
-
-export default RestaurantPagePreview;
+export default RestaurantPreviewPage;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const session = await getSession(ctx);

@@ -1,0 +1,1 @@
+export { TermsAndConditionsScreen } from "./TermsAndConditionsScreen";

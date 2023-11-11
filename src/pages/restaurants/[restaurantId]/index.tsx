@@ -3,42 +3,19 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { NextSeo } from "next-seo";
 import React from "react";
 
-import { RestaurantHeader } from "~/components/RestaurantHeader";
-import { RestaurantInformation } from "~/components/RestaurantInformation";
-import { RestaurantMenu } from "~/components/RestaurantMenu";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { isTRPCError } from "~/helpers/isTRPCError";
-import { RestaurantLayout } from "~/layouts/Restaurant.layout";
+import { RestaurantScreen } from "~/screens/restaurant/RestaurantScreen";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const RestaurantPage = ({ restaurant }: ServerSideProps) => {
-  const { category, product, currencyCode, restaurantLanguage } = restaurant;
-  const { name, description } = restaurant.restaurantI18N;
-
-  return (
-    <>
-      <NextSeo title={name} description={description} />
-      <RestaurantLayout>
-        {/* name and switcher */}
-        <RestaurantHeader name={name} restaurantLanguage={restaurantLanguage} />
-        {/* general info */}
-        <RestaurantInformation restaurant={restaurant} />
-        {/* menu */}
-        <RestaurantMenu
-          categories={category}
-          products={product}
-          currencyCode={currencyCode}
-        />
-      </RestaurantLayout>
-    </>
-  );
-};
+const RestaurantPage = ({ restaurant }: ServerSideProps) => (
+  <RestaurantScreen restaurant={restaurant} />
+);
 
 export default RestaurantPage;
 
