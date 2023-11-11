@@ -2,7 +2,7 @@ import { type SidebarNavItem } from "~/components/DashboardNav";
 import { type MainNavItem } from "~/components/MainNav";
 
 export type RestaurantDashboardConfig = {
-  type: "restaurantSidebar",
+  type: "restaurantSidebar";
   mainNav: MainNavItem[];
   sidebarNav: SidebarNavItem[];
 };

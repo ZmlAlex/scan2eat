@@ -1,0 +1,1 @@
+export { DashboardRestaurantSettingsScreen } from "./DashboardRestaurantSettingsScreen";

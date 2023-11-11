@@ -1,0 +1,1 @@
+export { AllRestaurantsPlaceholder } from "./AllRestaurantsEmptyPlaceholder";
