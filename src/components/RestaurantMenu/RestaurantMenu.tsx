@@ -9,7 +9,7 @@ import { useScrollDirection } from "~/hooks/useScrollDirection";
 import { CategorySection } from "./CategorySection";
 
 // !it can cause the wrong behaviour if duration is too short
-const SCROLL_TO_CATEGORY_SECTION_DURATION = isMobile ? 700 : 700;
+const SCROLL_TO_CATEGORY_SECTION_DURATION = isMobile ? 500 : 700;
 
 type Props = {
   categories: RestaurantWithDetails["category"];
