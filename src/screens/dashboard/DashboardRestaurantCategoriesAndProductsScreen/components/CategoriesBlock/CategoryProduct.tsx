@@ -6,7 +6,7 @@ import { TableCell, TableRow } from "~/components/ui/Table";
 import { api } from "~/helpers/api";
 import { formatPrice } from "~/helpers/formatPrice";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import type { ArrayElement } from "~/types/shared.interface";
+import type { ArrayElement } from "~/types/shared.type";
 
 import { ProductOperations } from "./ProductOperations";
 

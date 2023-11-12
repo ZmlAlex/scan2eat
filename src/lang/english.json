@@ -71,6 +71,9 @@
       "updateCategoriesPosition": {
         "success": {
           "title": "Category position has been updated. ✅"
+        },
+        "start": {
+          "title": "Updating category position...⏳"
         }
       }
     },
@@ -78,6 +81,9 @@
       "updateProductPosition": {
         "success": {
           "title": "Product position has been updated. ✅"
+        },
+        "start": {
+          "title": "Updating product position...⏳"
         }
       },
       "columns": {

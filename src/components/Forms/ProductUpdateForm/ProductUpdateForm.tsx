@@ -41,7 +41,7 @@ import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { imageInput } from "~/helpers/formTypes/common";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
-import type { ArrayElement } from "~/types/shared.interface";
+import type { ArrayElement } from "~/types/shared.type";
 
 const formSchema = z.object({
   name: z.string().trim().min(2).max(50),

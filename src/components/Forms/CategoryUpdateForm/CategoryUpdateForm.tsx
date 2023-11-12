@@ -30,7 +30,7 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import type { ArrayElement } from "~/types/shared.interface";
+import type { ArrayElement } from "~/types/shared.type";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),

@@ -11,7 +11,7 @@ import {
 import { Button } from "~/components/ui/Button";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useModal } from "~/hooks/useModal";
-import type { ArrayElement } from "~/types/shared.interface";
+import type { ArrayElement } from "~/types/shared.type";
 
 import { CategoryOperations } from "./CategoryOperations";
 import { CategoryProductsTable } from "./CategoryProductsTable";

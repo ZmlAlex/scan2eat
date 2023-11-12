@@ -81,6 +81,9 @@
       "updateCategoriesPosition": {
         "success": {
           "title": "Позиция категории была обновлена. ✅"
+        },
+        "start": {
+          "title": "Обновление позиции категории...⏳"
         }
       }
     },
@@ -88,6 +91,9 @@
       "updateProductPosition": {
         "success": {
           "title": "Позиция продукта была обновлена. ✅"
+        },
+        "start": {
+          "title": "Обновление позиции продукта...⏳"
         }
       },
       "columns": {

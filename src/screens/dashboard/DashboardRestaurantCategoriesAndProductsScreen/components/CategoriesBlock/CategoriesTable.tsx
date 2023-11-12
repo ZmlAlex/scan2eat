@@ -31,9 +31,13 @@ export const CategoriesTable = ({ restaurant }: Props) => {
     [restaurant.category]
   );
 
-  // TODO: ADD LOADER WHILE ORDER IS BEING UPDATED
-  const { mutate: updateCategoriesPosition, isLoading } =
+  const { mutate: updateCategoriesPosition } =
     api.category.updateCategoriesPosition.useMutation({
+      onMutate: () => {
+        toast({
+          title: t("updateCategoriesPosition.start.title"),
+        });
+      },
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
         toast({

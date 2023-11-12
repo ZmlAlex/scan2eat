@@ -14,7 +14,7 @@ import {
 } from "~/components/ui/DropdownMenu";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useModal } from "~/hooks/useModal";
-import type { ArrayElement } from "~/types/shared.interface";
+import type { ArrayElement } from "~/types/shared.type";
 
 interface RestaurantOperationsProps {
   restaurantId: string;

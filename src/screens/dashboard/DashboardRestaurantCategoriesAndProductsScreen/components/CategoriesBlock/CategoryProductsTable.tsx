@@ -39,9 +39,13 @@ export const CategoryProductsTable = ({
 
   React.useEffect(() => setSortableProducts(products), [products]);
 
-  // TODO: show loader for table while is loading
-  const { mutate: updateProductsPosition, isLoading } =
+  const { mutate: updateProductsPosition } =
     api.product.updateProductsPosition.useMutation({
+      onMutate: () => {
+        toast({
+          title: t("updateProductPosition.start.title"),
+        });
+      },
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
