@@ -8,7 +8,7 @@ cloudinary.v2.config({
   secure: true,
 });
 
-export const uploadImage = async (imageSource: string, userId: string) => {
+const uploadImage = async (imageSource: string, userId: string) => {
   const uploadResult = await cloudinary.v2.uploader.upload(imageSource, {
     public_id: crypto.randomBytes(20).toString("hex"),
     folder: `/scan2eat-${process.env.NODE_ENV}/${userId}`,
@@ -17,4 +17,4 @@ export const uploadImage = async (imageSource: string, userId: string) => {
   return uploadResult;
 };
 
-export { cloudinary };
+export { cloudinary, uploadImage };
