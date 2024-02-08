@@ -39,8 +39,8 @@ import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
-import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { imageInput } from "~/helpers/formTypes/common";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 import { currencyCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -58,22 +58,20 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-type Props = {
-  restaurant: RestaurantWithDetails;
-};
-
-export const RestaurantUpdateForm = ({
-  // TODO: THINK ABOUT CONTEXT
-  restaurant,
-}: Props) => {
+export const RestaurantUpdateForm = () => {
   const trpcContext = api.useContext();
+
+  const {
+    data: { id: restaurantId, ...restaurant },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.restaurantUpdate");
   const tError = useTranslations("ResponseErrorMessage");
 
   const cookies = parseCookies();
   const selectedRestaurantLang =
-    cookies[`selectedRestaurantLang${restaurant.id}`];
-  const hasMultipleLanguages = restaurant.restaurantLanguage.length > 1;
+    cookies[`selectedRestaurantLang${restaurantId}`];
+  const hasMultipleLanguages = (restaurant.restaurantLanguage?.length ?? 0) > 1;
 
   const { mutate: updateRestaurant, isLoading } =
     api.restaurant.updateRestaurant.useMutation({
@@ -86,8 +84,8 @@ export const RestaurantUpdateForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
-          { restaurantId: restaurant.id },
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
+          { restaurantId },
           () => updatedRestaurant
         );
 
@@ -115,10 +113,10 @@ export const RestaurantUpdateForm = ({
   function onSubmit(values: FormSchema) {
     const cookies = parseCookies();
     const selectedRestaurantLang =
-      cookies[`selectedRestaurantLang${restaurant.id}`];
+      cookies[`selectedRestaurantLang${restaurantId}`];
 
     updateRestaurant({
-      restaurantId: restaurant.id,
+      restaurantId,
       address: values.address,
       name: values.name,
       phone: values.phone,

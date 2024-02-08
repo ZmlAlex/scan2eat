@@ -15,20 +15,23 @@ import {
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 
 interface RestaurantOperationsProps {
   isModalOpen: boolean;
   toggleModal: () => void;
-  restaurantId: string;
   categoryId: string;
 }
 
 export function CategoryDeleteForm({
   isModalOpen,
   toggleModal,
-  restaurantId,
   categoryId,
 }: RestaurantOperationsProps) {
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Dashboard.categoryOperations");
   const tError = useTranslations("ResponseErrorMessage");
 
@@ -45,7 +48,7 @@ export function CategoryDeleteForm({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

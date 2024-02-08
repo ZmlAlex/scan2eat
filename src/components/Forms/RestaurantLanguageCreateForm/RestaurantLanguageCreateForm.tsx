@@ -33,6 +33,7 @@ import {
 } from "~/components/ui/Select";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -45,17 +46,20 @@ type Props = {
   toggleModal: () => void;
   isModalOpen: boolean;
   availableLanguages: LanguageCode[];
-  restaurantId: string;
 };
 
 export const RestaurantLanguageCreateForm = ({
   availableLanguages,
   // TODO: GET FROM QUERY?
-  restaurantId,
   isModalOpen,
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.restaurantLanguageCreate");
   const tError = useTranslations("ResponseErrorMessage");
 
@@ -70,7 +74,7 @@ export const RestaurantLanguageCreateForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

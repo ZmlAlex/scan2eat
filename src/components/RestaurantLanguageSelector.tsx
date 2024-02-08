@@ -10,17 +10,14 @@ import {
   SelectValue,
 } from "~/components/ui/Select";
 import { api } from "~/helpers/api";
-import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 
-type Props = {
-  restaurant: RestaurantWithDetails;
-};
+export const RestaurantLanguageSelector = () => {
+  const { data: restaurant } = useGetRestaurantWithUserCheck();
 
-export const RestaurantLanguageSelector = ({ restaurant }: Props) => {
   const cookies = parseCookies();
   const selectedRestaurantLang =
     cookies[`selectedRestaurantLang${restaurant.id}`];
-
   const trpcContext = api.useContext();
 
   const handleLanguageChange = (language: string) => {
@@ -29,9 +26,9 @@ export const RestaurantLanguageSelector = ({ restaurant }: Props) => {
       path: "/",
     });
 
-    trpcContext.restaurant.getRestaurant.setData(
+    trpcContext.restaurant.getRestaurantWithUserCheck.setData(
       { restaurantId: restaurant.id },
-      // make new object without reference connection in order to trigger invocation of "select" in useGetRestaurant hook
+      // make new object without reference connection in order to trigger invocation of "select" in useGetRestaurantWithUserCheck hook
       (restuarant) => structuredClone(restuarant)
     );
   };

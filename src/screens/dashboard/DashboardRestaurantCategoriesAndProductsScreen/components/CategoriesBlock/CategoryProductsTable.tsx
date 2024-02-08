@@ -13,21 +13,18 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 
 import { CategoryProduct } from "./CategoryProduct";
 
 type Props = {
-  restaurantId: string;
   products: RestaurantWithDetails["product"];
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 };
 
-//TODO: GET RESTAURANT ID FROM ROUTER
-export const CategoryProductsTable = ({
-  restaurantId,
-  products,
-  restaurantLanguages,
-}: Props) => {
+export const CategoryProductsTable = ({ products }: Props) => {
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
   // * It's required for drag and drop optimistic update
   const [sortableProducts, setSortableProducts] = React.useState(
     () => products
@@ -55,7 +52,7 @@ export const CategoryProductsTable = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );
@@ -84,7 +81,7 @@ export const CategoryProductsTable = ({
           <TableBody className="whitespace-nowrap">
             <SortableList
               items={sortableProducts}
-              onChange={(updatedProducts) => {
+              onDragEnd={(updatedProducts) => {
                 setSortableProducts(updatedProducts);
 
                 updateProductsPosition(
@@ -100,8 +97,6 @@ export const CategoryProductsTable = ({
                   <CategoryProduct
                     key={product.id}
                     product={product}
-                    restaurantId={restaurantId}
-                    restaurantLanguages={restaurantLanguages}
                     dragHandler={<SortableList.DragHandle />}
                   />
                 </SortableList.Item>

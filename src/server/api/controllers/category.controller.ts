@@ -15,7 +15,7 @@ import {
   updateCategory,
   updateManyCategoriesPositions,
 } from "~/server/api/services/category.service";
-import { findRestaurantById } from "~/server/api/services/restaurant.service";
+import { findRestaurantByIdAndUserId } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 
@@ -32,7 +32,10 @@ export const createCategoryHandler = async ({
   >[] = [];
   const userId = ctx.session.user.id;
 
-  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+  const restaurant = await findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    ctx.prisma
+  );
 
   if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
     throw new TRPCError({
@@ -58,7 +61,10 @@ export const createCategoryHandler = async ({
     ctx.prisma
   );
 
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    ctx.prisma
+  );
 };
 
 export const updateCategoryHandler = async ({
@@ -74,7 +80,10 @@ export const updateCategoryHandler = async ({
     "fieldName" | "languageCode" | "translation"
   >[] = [];
 
-  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+  const restaurant = await findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    ctx.prisma
+  );
 
   if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
     additionalTranslations =
@@ -92,7 +101,10 @@ export const updateCategoryHandler = async ({
     additionalTranslations,
     ctx.prisma
   );
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    ctx.prisma
+  );
 };
 
 export const updateCategoriesPositionHandler = async ({
@@ -110,7 +122,10 @@ export const updateCategoriesPositionHandler = async ({
     ctx.prisma
   );
 
-  return findRestaurantById(updatedCategory?.restaurantId ?? "", ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: updatedCategory?.restaurantId ?? "", userId },
+    ctx.prisma
+  );
 };
 
 export const deleteCategoryHandler = async ({
@@ -127,5 +142,8 @@ export const deleteCategoryHandler = async ({
     ctx.prisma
   );
 
-  return findRestaurantById(deletedCategory.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: deletedCategory.restaurantId, userId },
+    ctx.prisma
+  );
 };

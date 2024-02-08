@@ -5,13 +5,11 @@ import { api } from "~/helpers/api";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 
 export const useGetRestaurant = (restaurantId: string) => {
-  //TODO: THINK ABOUT CACHE?
   return api.restaurant.getRestaurant.useQuery(
     {
       restaurantId,
     },
     {
-      cacheTime: 5000,
       enabled: Boolean(restaurantId),
       select: (restaurant) => {
         const defaultLanguage = restaurant.restaurantLanguage[0]?.languageCode;

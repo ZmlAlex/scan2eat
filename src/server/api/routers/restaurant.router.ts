@@ -4,6 +4,7 @@ import {
   deleteRestaurantHandler,
   getAllRestaurantsHandler,
   getRestaurantHandler,
+  getRestaurantWithUserCheckHandler,
   setEnabledRestaurantLanguagesHandler,
   setPublishedRestaurantHandler,
   updateRestaurantHandler,
@@ -27,6 +28,11 @@ export const restaurantRouter = createTRPCRouter({
   getRestaurant: publicProcedure
     .input(getRestaurantSchemaInput)
     .query(async ({ ctx, input }) => getRestaurantHandler({ ctx, input })),
+  getRestaurantWithUserCheck: protectedProcedure
+    .input(getRestaurantSchemaInput)
+    .query(async ({ ctx, input }) =>
+      getRestaurantWithUserCheckHandler({ ctx, input })
+    ),
   getAllRestaurants: protectedProcedure.query(async ({ ctx }) =>
     getAllRestaurantsHandler({ ctx })
   ),

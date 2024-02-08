@@ -371,6 +371,7 @@
   },
   "ResponseErrorMessage": {
     "Unknown": "Sorry, something went wrong. Please try again.",
+    "NotFound": "Not Found",
     "ReachedCategoriesLimit": "Reached maximum number of categories per restaurant.",
     "ReachedProductsLimit": "Reached maximum number of products per category.",
     "ReachedRestaurantsLimit": "Reached maximum number of restaurants per account.",

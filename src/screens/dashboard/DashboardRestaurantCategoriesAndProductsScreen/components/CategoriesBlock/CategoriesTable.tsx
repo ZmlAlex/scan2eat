@@ -7,19 +7,18 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 
 import { CategorySection } from "./CategorySection";
 
-type Props = {
-  restaurant: RestaurantWithDetails;
-};
+export const CategoriesTable = () => {
+  const { data: restaurant } = useGetRestaurantWithUserCheck();
 
-export const CategoriesTable = ({ restaurant }: Props) => {
   const [activeAccordionSection, setActiveAccordionSection] =
     React.useState("");
   // * It's required for drag and drop optimistic update
   const [sortableCategories, setSortableCategories] = React.useState(
-    () => restaurant.category
+    restaurant.category
   );
 
   const trpcContext = api.useContext();
@@ -46,7 +45,7 @@ export const CategoriesTable = ({ restaurant }: Props) => {
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId: restaurant.id },
           () => updatedRestaurant
         );
@@ -56,46 +55,43 @@ export const CategoriesTable = ({ restaurant }: Props) => {
       },
     });
 
-  return (
-    <>
-      <Accordion
-        type="single"
-        value={activeAccordionSection}
-        onValueChange={setActiveAccordionSection}
-        collapsible
-        className="divide-y divide-border rounded-md border px-4"
-      >
-        <SortableList
-          items={sortableCategories}
-          onDragStart={() => setActiveAccordionSection("")}
-          onChange={(updatedCategories) => {
-            setSortableCategories(updatedCategories);
+  const handleDragStart = () => setActiveAccordionSection("");
+  const handleDragEnd = (items: RestaurantWithDetails["category"]) => {
+    setSortableCategories(items);
 
-            updateCategoriesPosition(
-              updatedCategories.map((category, index) => ({
-                id: category.id,
-                position: index,
-              }))
-            );
-          }}
-          renderItem={(category) => (
-            <SortableList.Item id={category.id}>
-              <>
-                <CategorySection
-                  key={category.id}
-                  dragHandler={<SortableList.DragHandle />}
-                  restaurantId={restaurant.id}
-                  category={category}
-                  products={restaurant.product?.filter(
-                    (product) => product.categoryId === category.id
-                  )}
-                  restaurantLanguages={restaurant.restaurantLanguage}
-                />
-              </>
-            </SortableList.Item>
-          )}
-        />
-      </Accordion>
-    </>
+    updateCategoriesPosition(
+      items.map((category, index) => ({
+        id: category.id,
+        position: index,
+      }))
+    );
+  };
+
+  return (
+    <Accordion
+      type="single"
+      value={activeAccordionSection}
+      onValueChange={setActiveAccordionSection}
+      collapsible
+      className="divide-y divide-border rounded-md border px-4"
+    >
+      <SortableList
+        items={sortableCategories}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        renderItem={(category) => (
+          <SortableList.Item id={category.id}>
+            <CategorySection
+              key={category.id}
+              dragHandler={<SortableList.DragHandle />}
+              category={category}
+              products={restaurant.product?.filter(
+                (product) => product.categoryId === category.id
+              )}
+            />
+          </SortableList.Item>
+        )}
+      />
+    </Accordion>
   );
 };

@@ -17,22 +17,13 @@ import { CategoryOperations } from "./CategoryOperations";
 import { CategoryProductsTable } from "./CategoryProductsTable";
 
 type Props = {
-  restaurantId: string;
   products: RestaurantWithDetails["product"];
   category: ArrayElement<RestaurantWithDetails["category"]>;
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
   dragHandler?: ReactNode;
 };
-
-//TODO: GET RESTAURANT ID FROM ROUTER
-export const CategorySection = ({
-  restaurantId,
-  products,
-  category,
-  dragHandler,
-  restaurantLanguages,
-}: Props) => {
+export const CategorySection = ({ products, category, dragHandler }: Props) => {
   const { isModalOpen, toggleModal } = useModal();
+
   const t = useTranslations("Dashboard.categoriesBlock");
 
   return (
@@ -46,21 +37,13 @@ export const CategorySection = ({
           {dragHandler}
           <span>{category.categoryI18N.name}</span>
           <div className="ml-auto">
-            <CategoryOperations
-              restaurantId={restaurantId}
-              category={category}
-              restaurantLanguages={restaurantLanguages}
-            />
+            <CategoryOperations category={category} />
           </div>
         </AccordionTrigger>
         <AccordionContent className="p-0">
           <div className="space-y-4">
             {!!products?.length && (
-              <CategoryProductsTable
-                restaurantId={restaurantId}
-                products={products}
-                restaurantLanguages={restaurantLanguages}
-              />
+              <CategoryProductsTable products={products} />
             )}
             <Button className="mx-4" onClick={toggleModal}>
               <Icons.add className="mr-2 h-4 w-4" />
@@ -74,8 +57,7 @@ export const CategorySection = ({
         <ProductCreateForm
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
-          restaurantId={restaurantId}
-          categoryId={category?.id || ""}
+          categoryId={category.id}
         />
       )}
     </>

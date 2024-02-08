@@ -16,6 +16,7 @@ import { getLanguageTranslationJSON } from "~/helpers/getLanguageTranslateJSON";
 import { isTRPCErrorClientError } from "~/helpers/isTRPCClientError";
 import { type AppRouter } from "~/server/api/root";
 
+// TODO: MOVE IT TO THE LIB!
 export const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
@@ -46,6 +47,7 @@ export const api = createTRPCNext<AppRouter>({
           queries: {
             refetchOnWindowFocus: false,
             retry: (failureCount) => failureCount < 3,
+            staleTime: 1000 * 60 * 5, // 5 minutes
           },
         },
       }),

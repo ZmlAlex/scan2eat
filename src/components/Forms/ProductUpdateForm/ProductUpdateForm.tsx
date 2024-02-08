@@ -40,6 +40,7 @@ import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { imageInput } from "~/helpers/formTypes/common";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 import type { ArrayElement } from "~/types/shared.type";
 
@@ -58,28 +59,29 @@ const formSchema = z.object({
 type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
-  restaurantId: string;
   product: ArrayElement<RestaurantWithDetails["product"]>;
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 };
 
 type FormSchema = z.infer<typeof formSchema>;
 
 export const ProductUpdateForm = ({
-  restaurantId,
   product,
   isModalOpen,
-  restaurantLanguages,
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+
+  const {
+    data: { id: restaurantId, ...restaurant },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.productUpdate");
   const tError = useTranslations("ResponseErrorMessage");
 
   const cookies = parseCookies();
   const selectedRestaurantLang =
     cookies[`selectedRestaurantLang${restaurantId}`];
-  const hasMultipleLanguages = restaurantLanguages.length > 1;
+  const hasMultipleLanguages = restaurant.restaurantLanguage.length > 1;
 
   const { mutate: updateProduct, isLoading } =
     api.product.updateProduct.useMutation({
@@ -92,7 +94,7 @@ export const ProductUpdateForm = ({
         });
       },
       onSuccess: (updatedRestaurants) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurants
         );
@@ -298,7 +300,7 @@ export const ProductUpdateForm = ({
                 />
 
                 <div className="space-x-2">
-                  {restaurantLanguages.map((lang) => (
+                  {restaurant.restaurantLanguage.map((lang) => (
                     <Badge className="capitalize" key={lang.languageCode}>
                       {lang.languageCode}
                     </Badge>

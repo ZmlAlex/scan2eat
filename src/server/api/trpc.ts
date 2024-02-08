@@ -190,5 +190,6 @@ const rateLimiter = t.middleware(async ({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = publicProcedure
-  .use(rateLimiter)
+  // TODO: FIX RATE LIMITER!
+  // .use(rateLimiter)
   .use(enforceUserIsAuthed);

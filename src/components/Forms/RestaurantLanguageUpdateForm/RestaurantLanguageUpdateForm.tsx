@@ -17,7 +17,7 @@ import {
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
-import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
 const formSchema = z.object({
@@ -27,17 +27,12 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-type Props = {
-  restaurantId: string;
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
-  onSuccessCallback?: () => void;
-};
-
-export const RestaurantLanguageUpdateForm = ({
-  restaurantId,
-  restaurantLanguages,
-}: Props) => {
+export const RestaurantLanguageUpdateForm = () => {
   const trpcContext = api.useContext();
+
+  const {
+    data: { id: restaurantId, ...restaurant },
+  } = useGetRestaurantWithUserCheck();
 
   const t = useTranslations("Form.restaurantLanguageUpdate");
   const tError = useTranslations("ResponseErrorMessage");
@@ -53,7 +48,7 @@ export const RestaurantLanguageUpdateForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );
@@ -64,7 +59,7 @@ export const RestaurantLanguageUpdateForm = ({
       },
     });
 
-  const defaultFormValues = restaurantLanguages.reduce((acc, cur) => {
+  const defaultFormValues = restaurant.restaurantLanguage.reduce((acc, cur) => {
     return { ...acc, [cur.languageCode]: cur.isEnabled };
   }, {});
 
@@ -75,10 +70,10 @@ export const RestaurantLanguageUpdateForm = ({
 
   // It requires when we add new language to get relevant value for switch component
   React.useEffect(() => {
-    restaurantLanguages.forEach((language) =>
+    restaurant.restaurantLanguage.forEach((language) =>
       form.setValue(language.languageCode, language.isEnabled)
     );
-  }, [form, restaurantLanguages]);
+  }, [form, restaurant.restaurantLanguage]);
 
   function onSubmit(values: FormSchema) {
     const languageCodes = Object.entries(values)
@@ -110,7 +105,7 @@ export const RestaurantLanguageUpdateForm = ({
         <div>
           <h3 className="mb-4 text-lg font-medium">{t("title")}</h3>
           <div className="space-y-4">
-            {restaurantLanguages.map((language) => (
+            {restaurant.restaurantLanguage.map((language) => (
               <FormField
                 key={language.languageCode}
                 control={form.control}

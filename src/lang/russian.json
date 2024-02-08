@@ -385,6 +385,7 @@
   },
   "ResponseErrorMessage": {
     "Unknown": "Что-то пошло не так. Попробуйте еще раз.",
+    "NotFound": "Не найдено",
     "ReachedCategoriesLimit": "Превышен лимит категории для одного заведения.",
     "ReachedProductsLimit": "Превышен лимит продуктов для одной категории.",
     "ReachedRestaurantsLimit": "Превышен лимит продуктов для одного аккаунта.",

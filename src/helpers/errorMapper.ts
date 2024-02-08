@@ -5,6 +5,7 @@ export const baseErrorMessage = {
   ReachedProductsLimit: "ReachedProductsLimit",
   ReachedRestaurantsLimit: "ReachedRestaurantsLimit",
   ReachedRequestsLimit: "ReachedRequestsLimit",
+  NotFound: "NotFound",
 } as const;
 
 export const errorMapper = (errorMessage: string) => {

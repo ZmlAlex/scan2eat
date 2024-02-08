@@ -6,7 +6,7 @@ const languageMap = {
   english: englishLanguageJSON,
 } as const;
 
-/**  Use it when you want don't have access to the useTranslation hook . */
+/**  Use it when you don't have access to the useTranslation hook . */
 export const getLanguageTranslationJSON = (pathname: string) => {
   const additionalLanguages = ["russian"];
   const defaultlLanguage = "english";

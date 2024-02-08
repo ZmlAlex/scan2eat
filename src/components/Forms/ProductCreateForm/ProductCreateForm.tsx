@@ -37,6 +37,7 @@ import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -53,18 +54,20 @@ type FormSchema = z.infer<typeof formSchema>;
 type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
-  restaurantId: string;
-
   categoryId: string;
 };
 
 export const ProductCreateForm = ({
-  restaurantId,
   categoryId,
   isModalOpen,
   toggleModal,
 }: Props) => {
   const trpcContext = api.useContext();
+
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.productCreate");
   const tError = useTranslations("ResponseErrorMessage");
 
@@ -79,7 +82,7 @@ export const ProductCreateForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

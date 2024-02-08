@@ -14,7 +14,7 @@ import {
   updateManyProductsPositions,
   updateProduct,
 } from "~/server/api/services/product.service";
-import { findRestaurantById } from "~/server/api/services/restaurant.service";
+import { findRestaurantByIdAndUserId } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/libs/cloudinary";
@@ -33,7 +33,11 @@ export const createProductHandler = async ({
     ProductI18N,
     "fieldName" | "languageCode" | "translation"
   >[] = [];
-  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+
+  const restaurant = await findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    ctx.prisma
+  );
 
   if (
     restaurant.product.filter(
@@ -71,7 +75,10 @@ export const createProductHandler = async ({
     ctx.prisma
   );
 
-  return findRestaurantById(createdProduct.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: createdProduct.restaurantId, userId },
+    ctx.prisma
+  );
 };
 
 export const updateProductHandler = async ({
@@ -90,7 +97,10 @@ export const updateProductHandler = async ({
     "fieldName" | "languageCode" | "translation"
   >[] = [];
 
-  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+  const restaurant = await findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 
   if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
     additionalTranslations =
@@ -114,10 +124,13 @@ export const updateProductHandler = async ({
   const updatedProduct = await updateProduct(
     { ...input, userId, imageUrl: uploadedImageUrl },
     additionalTranslations,
-    ctx.prisma
+    prisma
   );
 
-  return findRestaurantById(updatedProduct.restaurantId, prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: updatedProduct.restaurantId, userId },
+    prisma
+  );
 };
 
 export const updateProductsPositionHandler = async ({
@@ -134,7 +147,10 @@ export const updateProductsPositionHandler = async ({
     userId,
     ctx.prisma
   );
-  return findRestaurantById(updatedProduct?.restaurantId ?? "", ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: updatedProduct?.restaurantId ?? "", userId },
+    ctx.prisma
+  );
 };
 
 export const deleteProductHandler = async ({
@@ -152,5 +168,9 @@ export const deleteProductHandler = async ({
       userId,
     },
   });
-  return findRestaurantById(deletedProduct.restaurantId, ctx.prisma);
+
+  return findRestaurantByIdAndUserId(
+    { restaurantId: deletedProduct.restaurantId, userId },
+    ctx.prisma
+  );
 };

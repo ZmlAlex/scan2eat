@@ -5,18 +5,17 @@ import { RestaurantPublishForm } from "~/components/Forms/RestaurantPublishForm"
 import { Icons } from "~/components/Icons";
 import { RestaurantLanguageSelector } from "~/components/RestaurantLanguageSelector";
 import { Button } from "~/components/ui/Button";
-import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 import { useModal } from "~/hooks/useModal";
 
 type Props = {
-  restaurant: RestaurantWithDetails;
   isRestauranatLanguageSelectorAvailable?: boolean;
 };
 
 export const DashboardRestaurantHeaderContent = ({
-  restaurant,
   isRestauranatLanguageSelectorAvailable = true,
 }: Props) => {
+  const { data: restaurant } = useGetRestaurantWithUserCheck();
   const { isModalOpen, toggleModal } = useModal();
 
   const t = useTranslations("Form.restaurantPublish.publishButton");
@@ -37,15 +36,13 @@ export const DashboardRestaurantHeaderContent = ({
         </Button>
 
         {!!restaurant && isRestauranatLanguageSelectorAvailable && (
-          <RestaurantLanguageSelector restaurant={restaurant} />
+          <RestaurantLanguageSelector />
         )}
       </div>
 
       {/* Modal window */}
       {isModalOpen && (
         <RestaurantPublishForm
-          restaurantId={restaurant.id}
-          isPublished={restaurant.isPublished}
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
         />

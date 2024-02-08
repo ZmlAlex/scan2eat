@@ -19,29 +19,30 @@ import { Switch } from "~/components/ui/Switch";
 import { toast } from "~/components/ui/useToast";
 import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 
 type Props = {
   isModalOpen: boolean;
-  isPublished: boolean;
   toggleModal: () => void;
-  restaurantId: string;
 };
 
-export const RestaurantPublishForm = ({
-  restaurantId,
-  isPublished,
-  isModalOpen,
-  toggleModal,
-}: Props) => {
-  const [isRestaurantPublished, setIsRestaurantPublished] =
-    React.useState(isPublished);
+export const RestaurantPublishForm = ({ isModalOpen, toggleModal }: Props) => {
+  const {
+    data: { id: restaurantId, ...restaurant },
+  } = useGetRestaurantWithUserCheck();
+
+  const [isRestaurantPublished, setIsRestaurantPublished] = React.useState(
+    restaurant.isPublished
+  );
 
   const qrCode = React.useRef(null);
 
   const trpcContext = api.useContext();
+
   const t = useTranslations("Form.restaurantPublish");
   const tError = useTranslations("ResponseErrorMessage");
 
+  // TODO: ADD LOADER DURING PROCESS
   const { mutate: setPublishRestaurant, isLoading } =
     api.restaurant.setPublishedRestaurant.useMutation({
       onError: (error) => {
@@ -53,7 +54,7 @@ export const RestaurantPublishForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

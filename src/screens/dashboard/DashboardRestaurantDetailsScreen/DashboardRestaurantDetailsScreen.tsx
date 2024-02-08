@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -6,27 +5,28 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { RestaurantUpdateForm } from "~/components/Forms/RestaurantUpdateForm";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
-import { useGetRestaurant } from "~/hooks/useGetRestaurant";
+import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
 import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 export const DashboardRestaurantDetailsScreen = () => {
-  const router = useRouter();
   const t = useTranslations("Dashboard.page.restaurantDetails");
 
-  const { data: restaurant, status } = useGetRestaurant(
-    router.query.restaurantId as string
-  );
+  const {
+    data: restaurant,
+    status,
+    isLoading,
+  } = useGetRestaurantWithUserCheck();
 
   return (
     <DashboardLayout>
-      {status === "loading" && <SkeletonFactory />}
+      {isLoading && <SkeletonFactory />}
       {status === "success" && (
         <>
           <DashboardHeader
             heading={restaurant.restaurantI18N.name}
             text={t("description")}
           >
-            <DashboardRestaurantHeaderContent restaurant={restaurant} />
+            <DashboardRestaurantHeaderContent />
           </DashboardHeader>
           <div className="grid gap-10">
             {/*  Update main details */}
@@ -34,7 +34,6 @@ export const DashboardRestaurantDetailsScreen = () => {
               <RestaurantUpdateForm
                 // * force update on language change
                 key={restaurant.category[0]?.categoryI18N.name}
-                restaurant={restaurant}
               />
             </div>
           </div>
