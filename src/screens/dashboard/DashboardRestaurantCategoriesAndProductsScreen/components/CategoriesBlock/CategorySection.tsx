@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/Accordion";
 import { Button } from "~/components/ui/Button";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useModal } from "~/hooks/useModal";
+import { useModal } from "~/hooks/utils/useModal";
 import type { ArrayElement } from "~/types/shared.type";
 
 import { CategoryOperations } from "./CategoryOperations";

@@ -13,9 +13,9 @@ import {
   AlertDialogTitle,
 } from "~/components/ui/AlertDialog";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
+import { api } from "~/libs/api";
 
 interface RestaurantOperationsProps {
   isModalOpen: boolean;

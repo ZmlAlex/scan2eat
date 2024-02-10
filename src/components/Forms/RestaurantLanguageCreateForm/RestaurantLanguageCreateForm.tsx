@@ -31,9 +31,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/Select";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
+import { api } from "~/libs/api";
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -50,7 +50,6 @@ type Props = {
 
 export const RestaurantLanguageCreateForm = ({
   availableLanguages,
-  // TODO: GET FROM QUERY?
   isModalOpen,
   toggleModal,
 }: Props) => {

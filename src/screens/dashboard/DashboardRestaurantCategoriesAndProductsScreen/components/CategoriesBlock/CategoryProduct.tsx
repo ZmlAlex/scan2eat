@@ -5,7 +5,7 @@ import { Placeholder } from "~/components/ui/Placeholder";
 import { TableCell, TableRow } from "~/components/ui/Table";
 import { formatPrice } from "~/helpers/formatPrice";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import type { ArrayElement } from "~/types/shared.type";
 
 import { ProductOperations } from "./ProductOperations";

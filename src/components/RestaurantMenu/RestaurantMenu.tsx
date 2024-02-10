@@ -4,7 +4,7 @@ import { isMobileSafari } from "react-device-detect";
 
 import { Badge } from "~/components/ui/Badge";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useScrollDirection } from "~/hooks/useScrollDirection";
+import { useScrollDirection } from "~/hooks/utils/useScrollDirection";
 
 import { CategorySection } from "./CategorySection";
 
@@ -18,6 +18,7 @@ type Props = {
 };
 
 export const RestaurantMenu = ({
+  // TODO: GET IT FROM HOOK
   categories = [],
   products = [],
   currencyCode,

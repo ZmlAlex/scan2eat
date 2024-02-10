@@ -12,7 +12,6 @@ const BOTTOM_OFFSET = 140;
 type Props = {
   products: RestaurantWithDetails["product"];
   categorySectionsRefs: React.MutableRefObject<(HTMLElement | null)[]>;
-  // TODO: TAKE IT FROM CONTEXT
   currencyCode: Currency["code"];
   categoryId: string;
   name: string;

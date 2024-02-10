@@ -6,10 +6,10 @@ import { RestaurantCreateForm } from "~/components/Forms/RestaurantCreateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
-import { api } from "~/helpers/api";
 import { formatTranslationsToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
-import { useModal } from "~/hooks/useModal";
+import { useModal } from "~/hooks/utils/useModal";
 import { DashboardLayout } from "~/layouts/Dashboard.layout";
+import { api } from "~/libs/api";
 
 import { AllRestaurantsPlaceholder } from "./components/AllRestaurantsEmptyPlaceholder";
 import { RestaurantItem } from "./components/RestaurantItem";

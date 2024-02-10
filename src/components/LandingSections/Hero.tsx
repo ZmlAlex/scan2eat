@@ -5,7 +5,7 @@ import React from "react";
 
 import { buttonVariants } from "~/components/ui/Button";
 import { siteConfig } from "~/config/site";
-import { cn } from "~/helpers/cn";
+import { cn } from "~/libs/cn";
 
 const foodPlaces = [
   {

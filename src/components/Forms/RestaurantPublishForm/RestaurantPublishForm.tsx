@@ -17,9 +17,9 @@ import {
 } from "~/components/ui/Dialog";
 import { Switch } from "~/components/ui/Switch";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
+import { api } from "~/libs/api";
 
 type Props = {
   isModalOpen: boolean;

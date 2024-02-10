@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/Select";
-import { api } from "~/helpers/api";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
+import { api } from "~/libs/api";
 
 export const RestaurantLanguageSelector = () => {
   const { data: restaurant } = useGetRestaurantWithUserCheck();

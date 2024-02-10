@@ -4,9 +4,9 @@ import { useTranslations } from "next-intl";
 import { parseCookies, setCookie } from "nookies";
 
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { api } from "~/libs/api";
 import { type findRestaurantById } from "~/server/api/services/restaurant.service";
 
 const INITIAL_DATA: Awaited<ReturnType<typeof findRestaurantById>> = {

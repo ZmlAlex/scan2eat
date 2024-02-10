@@ -8,7 +8,7 @@ import { Icons } from "~/components/Icons";
 import { LanguageToggle } from "~/components/LanguageToggle";
 import { ModeToggle } from "~/components/ModeToggle";
 import { buttonVariants } from "~/components/ui/Button";
-import { cn } from "~/helpers/cn";
+import { cn } from "~/libs/cn";
 
 interface AuthLayoutProps {
   children: React.ReactNode;

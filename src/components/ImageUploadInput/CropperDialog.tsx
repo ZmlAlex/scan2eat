@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/Dialog";
-import { useForceUpdate } from "~/hooks/useForceUpdate";
+import { useForceUpdate } from "~/hooks/utils/useForceUpdate";
 
 const CROP_AREA_WIDTH = 225;
 const CROP_AREA_HEIGHT = 150;

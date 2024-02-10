@@ -5,8 +5,8 @@ import { RestaurantPublishForm } from "~/components/Forms/RestaurantPublishForm"
 import { Icons } from "~/components/Icons";
 import { RestaurantLanguageSelector } from "~/components/RestaurantLanguageSelector";
 import { Button } from "~/components/ui/Button";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
-import { useModal } from "~/hooks/useModal";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
+import { useModal } from "~/hooks/utils/useModal";
 
 type Props = {
   isRestauranatLanguageSelectorAvailable?: boolean;

@@ -1,8 +1,8 @@
 import type { LanguageCode } from "@prisma/client";
 import { parseCookies, setCookie } from "nookies";
 
-import { api } from "~/helpers/api";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { api } from "~/libs/api";
 
 export const useGetRestaurant = (restaurantId: string) => {
   return api.restaurant.getRestaurant.useQuery(

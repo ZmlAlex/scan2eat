@@ -5,7 +5,7 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { RestaurantUpdateForm } from "~/components/Forms/RestaurantUpdateForm";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
-import { useGetRestaurantWithUserCheck } from "~/hooks/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 export const DashboardRestaurantDetailsScreen = () => {

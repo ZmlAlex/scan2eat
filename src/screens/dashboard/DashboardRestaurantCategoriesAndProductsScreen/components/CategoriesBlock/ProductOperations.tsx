@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useModal } from "~/hooks/useModal";
+import { useModal } from "~/hooks/utils/useModal";
 import type { ArrayElement } from "~/types/shared.type";
 
 interface RestaurantOperationsProps {

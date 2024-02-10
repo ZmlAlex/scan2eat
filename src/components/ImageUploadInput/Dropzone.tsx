@@ -3,7 +3,7 @@ import React from "react";
 import { useDropzone } from "react-dropzone";
 
 import { Icons } from "~/components/Icons";
-import { cn } from "~/helpers/cn";
+import { cn } from "~/libs/cn";
 
 export type DropzoneProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

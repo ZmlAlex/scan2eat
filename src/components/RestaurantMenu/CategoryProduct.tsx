@@ -11,8 +11,8 @@ import {
 import { Placeholder } from "~/components/ui/Placeholder";
 import { formatPrice } from "~/helpers/formatPrice";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useBreakpoint } from "~/hooks/useBreakpoints";
-import { useModal } from "~/hooks/useModal";
+import { useBreakpoint } from "~/hooks/utils/useBreakpoints";
+import { useModal } from "~/hooks/utils/useModal";
 import type { ArrayElement } from "~/types/shared.type";
 
 type Product = ArrayElement<RestaurantWithDetails["product"]>;

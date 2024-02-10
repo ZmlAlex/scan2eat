@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Icons } from "~/components/Icons";
 import type { DashboardConfig } from "~/config/dashboard";
 import type { RestaurantDashboardConfig } from "~/config/restaurantDashboard";
-import { cn } from "~/helpers/cn";
+import { cn } from "~/libs/cn";
 
 export type SidebarNavItem = {
   title:

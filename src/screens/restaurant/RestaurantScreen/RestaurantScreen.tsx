@@ -20,8 +20,11 @@ export const RestaurantScreen = ({ restaurant }: Props) => {
       <NextSeo title={name} description={description} />
       <RestaurantLayout>
         {/* name and switcher */}
+        {/* TODO: USE HOOK */}
         <RestaurantHeader name={name} restaurantLanguage={restaurantLanguage} />
+
         {/* general info */}
+        {/* TODO: USE HOOK */}
         <RestaurantInformation restaurant={restaurant} />
         {/* menu */}
         <RestaurantMenu

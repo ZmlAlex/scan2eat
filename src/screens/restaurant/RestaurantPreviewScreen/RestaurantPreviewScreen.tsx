@@ -26,6 +26,7 @@ export const RestaurantPreviewScreen = ({ restaurant }: Props) => {
       <RestaurantLayout>
         {/* name and switcher */}
         <RestaurantHeader name={name} restaurantLanguage={restaurantLanguage} />
+        {/* TODO: THINK ABOUT ALERT! MODE: REGULAR/PREVIEW  */}
         {/* preview alert */}
         <Alert variant="destructive">
           <Icons.warning className="h-5 w-5" />

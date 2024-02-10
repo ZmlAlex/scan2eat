@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
-import { useModal } from "~/hooks/useModal";
+import { useModal } from "~/hooks/utils/useModal";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
