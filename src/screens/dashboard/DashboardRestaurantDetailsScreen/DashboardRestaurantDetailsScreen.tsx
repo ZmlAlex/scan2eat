@@ -6,7 +6,6 @@ import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaura
 import { RestaurantUpdateForm } from "~/components/Forms/RestaurantUpdateForm";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 export const DashboardRestaurantDetailsScreen = () => {
   const t = useTranslations("Dashboard.page.restaurantDetails");
@@ -18,7 +17,7 @@ export const DashboardRestaurantDetailsScreen = () => {
   } = useGetRestaurantWithUserCheck();
 
   return (
-    <DashboardLayout>
+    <>
       {isLoading && <SkeletonFactory />}
       {status === "success" && (
         <>
@@ -39,6 +38,6 @@ export const DashboardRestaurantDetailsScreen = () => {
           </div>
         </>
       )}
-    </DashboardLayout>
+    </>
   );
 };

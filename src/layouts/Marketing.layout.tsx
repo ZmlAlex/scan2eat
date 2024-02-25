@@ -1,7 +1,5 @@
-import type { LanguageCode } from "@prisma/client";
+// "use client";
 import Link from "next/link";
-// TODO: REPLACE
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import { Icons } from "~/components/Icons";
@@ -17,7 +15,6 @@ interface MarketingLayoutProps {
 }
 
 export function MarketingLayout({ children }: MarketingLayoutProps) {
-  const { locales = [] } = useRouter();
   const t = useTranslations("Common");
 
   return (
@@ -35,11 +32,7 @@ export function MarketingLayout({ children }: MarketingLayoutProps) {
             <ModeToggle />
           </div>
 
-          <LanguageToggle
-            languages={locales?.map((locale) => ({
-              languageCode: locale as LanguageCode,
-            }))}
-          />
+          <LanguageToggle />
 
           <nav>
             <Link

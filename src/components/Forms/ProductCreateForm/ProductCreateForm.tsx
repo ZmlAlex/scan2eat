@@ -37,7 +37,7 @@ import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -62,7 +62,7 @@ export const ProductCreateForm = ({
   isModalOpen,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const {
     data: { id: restaurantId },
@@ -72,7 +72,7 @@ export const ProductCreateForm = ({
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createProduct, isLoading } =
-    api.product.createProduct.useMutation({
+    clientApi.product.createProduct.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

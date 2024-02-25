@@ -40,7 +40,7 @@ import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { imageInput } from "~/helpers/formTypes/common";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 import type { ArrayElement } from "~/types/shared.type";
 
@@ -69,7 +69,7 @@ export const ProductUpdateForm = ({
   isModalOpen,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const {
     data: { id: restaurantId, ...restaurant },
@@ -84,7 +84,7 @@ export const ProductUpdateForm = ({
   const hasMultipleLanguages = restaurant.restaurantLanguage.length > 1;
 
   const { mutate: updateProduct, isLoading } =
-    api.product.updateProduct.useMutation({
+    clientApi.product.updateProduct.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

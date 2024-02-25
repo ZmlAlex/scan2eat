@@ -14,7 +14,7 @@ import {
 } from "~/components/ui/AlertDialog";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 interface RestaurantOperationsProps {
   restaurantId: string;
@@ -30,10 +30,10 @@ export function RestaurantDeleteForm({
   const t = useTranslations("Dashboard.restaurantOperations");
   const tError = useTranslations("ResponseErrorMessage");
 
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const { mutate: deleteRestaurant, isLoading } =
-    api.restaurant.deleteRestaurant.useMutation({
+    clientApi.restaurant.deleteRestaurant.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

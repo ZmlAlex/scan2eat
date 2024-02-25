@@ -40,7 +40,7 @@ import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 import { currencyCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -59,7 +59,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export const RestaurantUpdateForm = () => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const {
     data: { id: restaurantId, ...restaurant },
@@ -74,7 +74,7 @@ export const RestaurantUpdateForm = () => {
   const hasMultipleLanguages = (restaurant.restaurantLanguage?.length ?? 0) > 1;
 
   const { mutate: updateRestaurant, isLoading } =
-    api.restaurant.updateRestaurant.useMutation({
+    clientApi.restaurant.updateRestaurant.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

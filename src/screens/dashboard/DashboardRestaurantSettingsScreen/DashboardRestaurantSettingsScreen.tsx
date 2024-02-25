@@ -5,7 +5,6 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 import { LanguagesBlock } from "./components/LanguagesBlock";
 
@@ -15,7 +14,7 @@ export const DashboardRestaurantSettingsScreen = () => {
   const { status, isLoading } = useGetRestaurantWithUserCheck();
 
   return (
-    <DashboardLayout>
+    <>
       {isLoading && <SkeletonFactory />}
       {status === "success" && (
         <>
@@ -31,6 +30,6 @@ export const DashboardRestaurantSettingsScreen = () => {
           </div>
         </>
       )}
-    </DashboardLayout>
+    </>
   );
 };

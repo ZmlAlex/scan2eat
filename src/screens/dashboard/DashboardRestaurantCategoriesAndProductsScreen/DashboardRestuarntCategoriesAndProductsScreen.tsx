@@ -5,7 +5,6 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { DashboardLayout } from "~/layouts/Dashboard.layout";
 
 import { CategoriesBlock } from "./components/CategoriesBlock";
 
@@ -20,7 +19,7 @@ export const DashboardRestuarntCategoriesAndProductsScreen = () => {
   } = useGetRestaurantWithUserCheck();
 
   return (
-    <DashboardLayout>
+    <>
       {/* TODO: REPLACE IT WITH SUSPENCE? */}
       {isLoading && <SkeletonFactory />}
 
@@ -39,7 +38,7 @@ export const DashboardRestuarntCategoriesAndProductsScreen = () => {
           </div>
         </>
       )}
-    </DashboardLayout>
+    </>
   );
 };
 

@@ -1,5 +1,4 @@
 export const baseErrorMessage = {
-  // ERROR MESSAGES
   Unknown: "Unknown",
   ReachedCategoriesLimit: "ReachedCategoriesLimit",
   ReachedProductsLimit: "ReachedProductsLimit",

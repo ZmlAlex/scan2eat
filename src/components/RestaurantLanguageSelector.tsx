@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "~/components/ui/Select";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 export const RestaurantLanguageSelector = () => {
   const { data: restaurant } = useGetRestaurantWithUserCheck();
@@ -18,7 +18,7 @@ export const RestaurantLanguageSelector = () => {
   const cookies = parseCookies();
   const selectedRestaurantLang =
     cookies[`selectedRestaurantLang${restaurant.id}`];
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const handleLanguageChange = (language: string) => {
     setCookie(null, `selectedRestaurantLang${restaurant.id}`, language, {

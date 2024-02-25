@@ -13,7 +13,7 @@ import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 import { CategoryProduct } from "./CategoryProduct";
 
@@ -30,14 +30,14 @@ export const CategoryProductsTable = ({ products }: Props) => {
     () => products
   );
 
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
   const t = useTranslations("Dashboard.categoryProductsTable");
   const tError = useTranslations("ResponseErrorMessage");
 
   React.useEffect(() => setSortableProducts(products), [products]);
 
   const { mutate: updateProductsPosition } =
-    api.product.updateProductsPosition.useMutation({
+    clientApi.product.updateProductsPosition.useMutation({
       onMutate: () => {
         toast({
           title: t("updateProductPosition.start.title"),

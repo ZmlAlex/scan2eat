@@ -27,7 +27,7 @@ import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),
@@ -41,7 +41,7 @@ type Props = {
 };
 
 export const CategoryCreateForm = ({ isModalOpen, toggleModal }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const {
     data: { id: restaurantId },
@@ -50,7 +50,7 @@ export const CategoryCreateForm = ({ isModalOpen, toggleModal }: Props) => {
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createCategory, isLoading } =
-    api.category.createCategory.useMutation({
+    clientApi.category.createCategory.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

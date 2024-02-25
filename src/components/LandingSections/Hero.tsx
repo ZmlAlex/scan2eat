@@ -1,3 +1,4 @@
+"use client";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -22,8 +23,11 @@ const foodPlaces = [
   },
 ] as const;
 
+// equals to the foodPlaces indexes
+type IndexState = 0 | 1 | 2;
+
 export const Hero = () => {
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState<IndexState>(0);
 
   const t = useTranslations("Landing.hero");
 
@@ -31,7 +35,7 @@ export const Hero = () => {
     const id = setInterval(() => {
       setIndex((state) => {
         if (state >= foodPlaces.length - 1) return 0;
-        return state + 1;
+        return (state + 1) as IndexState;
       });
     }, 3000);
     return () => clearInterval(id);
@@ -51,12 +55,12 @@ export const Hero = () => {
           <h1 className="font-heading text-3xl font-medium sm:text-5xl md:text-6xl lg:text-7xl">
             {t("title.firstLine")}
             <motion.div
-              key={foodPlaces[index]?.id}
+              key={foodPlaces[index].id}
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 200 }}
             >
-              {t(foodPlaces[index]?.content ?? "title.secondLineBar")}
+              {t(foodPlaces[index].content ?? "title.secondLineBar")}
             </motion.div>
             {t("title.thirdLine")}
           </h1>

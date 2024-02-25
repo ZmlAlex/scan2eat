@@ -16,6 +16,7 @@ import {
 } from "~/server/api/services/product.service";
 import { findRestaurantByIdAndUserId } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
+import { prisma } from "~/server/db";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { uploadImage } from "~/server/libs/cloudinary";
 
@@ -36,7 +37,7 @@ export const createProductHandler = async ({
 
   const restaurant = await findRestaurantByIdAndUserId(
     { restaurantId: input.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 
   if (
@@ -72,12 +73,12 @@ export const createProductHandler = async ({
   const createdProduct = await createProduct(
     { ...input, userId, imageUrl: uploadedImageUrl },
     additionalTranslations,
-    ctx.prisma
+    prisma
   );
 
   return findRestaurantByIdAndUserId(
     { restaurantId: createdProduct.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 };
 
@@ -88,7 +89,6 @@ export const updateProductHandler = async ({
   ctx: ProtectedContext;
   input: UpdateProductInput;
 }) => {
-  const { prisma } = ctx;
   const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
@@ -145,11 +145,11 @@ export const updateProductsPositionHandler = async ({
   const [updatedProduct] = await updateManyProductsPositions(
     input,
     userId,
-    ctx.prisma
+    prisma
   );
   return findRestaurantByIdAndUserId(
     { restaurantId: updatedProduct?.restaurantId ?? "", userId },
-    ctx.prisma
+    prisma
   );
 };
 
@@ -162,7 +162,7 @@ export const deleteProductHandler = async ({
 }) => {
   const userId = ctx.session.user.id;
 
-  const deletedProduct = await ctx.prisma.product.delete({
+  const deletedProduct = await prisma.product.delete({
     where: {
       id: input.productId,
       userId,
@@ -171,6 +171,6 @@ export const deleteProductHandler = async ({
 
   return findRestaurantByIdAndUserId(
     { restaurantId: deletedProduct.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 };

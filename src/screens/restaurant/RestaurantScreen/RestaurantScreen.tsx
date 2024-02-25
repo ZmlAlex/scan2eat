@@ -1,38 +1,36 @@
-import { NextSeo } from "next-seo";
+"use client";
 import React from "react";
 
 import { RestaurantHeader } from "~/components/RestaurantHeader";
 import { RestaurantInformation } from "~/components/RestaurantInformation";
-import { RestaurantMenu } from "~/components/RestaurantMenu";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { RestaurantLayout } from "~/layouts/Restaurant.layout";
+import { RestaurantMenu } from "~/screens/restaurant/RestaurantScreen/components/RestaurantMenu";
 
 type Props = {
   restaurant: RestaurantWithDetails;
+  children?: React.ReactNode;
 };
 
-export const RestaurantScreen = ({ restaurant }: Props) => {
+export const RestaurantScreen = ({ restaurant, children }: Props) => {
   const { category, product, currencyCode, restaurantLanguage } = restaurant;
-  const { name, description } = restaurant.restaurantI18N;
+  const { name } = restaurant.restaurantI18N;
 
   return (
     <>
-      <NextSeo title={name} description={description} />
-      <RestaurantLayout>
-        {/* name and switcher */}
-        {/* TODO: USE HOOK */}
-        <RestaurantHeader name={name} restaurantLanguage={restaurantLanguage} />
-
-        {/* general info */}
-        {/* TODO: USE HOOK */}
-        <RestaurantInformation restaurant={restaurant} />
-        {/* menu */}
-        <RestaurantMenu
-          categories={category}
-          products={product}
-          currencyCode={currencyCode}
-        />
-      </RestaurantLayout>
+      {/* name and switcher */}
+      {/* TODO: USE HOOK */}
+      <RestaurantHeader name={name} restaurantLanguage={restaurantLanguage} />
+      {/* additional banners and alerts */}
+      {children}
+      {/* general info */}
+      {/* TODO: USE HOOK */}
+      <RestaurantInformation restaurant={restaurant} />
+      {/* menu */}
+      <RestaurantMenu
+        categories={category}
+        products={product}
+        currencyCode={currencyCode}
+      />
     </>
   );
 };

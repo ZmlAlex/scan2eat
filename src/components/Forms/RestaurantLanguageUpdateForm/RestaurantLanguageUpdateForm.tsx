@@ -17,7 +17,7 @@ import {
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
 const formSchema = z.object({
@@ -28,7 +28,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export const RestaurantLanguageUpdateForm = () => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const {
     data: { id: restaurantId, ...restaurant },
@@ -38,7 +38,7 @@ export const RestaurantLanguageUpdateForm = () => {
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: setEnabledRestaurantLanguages, isLoading } =
-    api.restaurant.setEnabledRestaurantLanguages.useMutation({
+    clientApi.restaurant.setEnabledRestaurantLanguages.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

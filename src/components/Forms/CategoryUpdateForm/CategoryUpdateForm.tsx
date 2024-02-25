@@ -30,7 +30,7 @@ import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 import type { ArrayElement } from "~/types/shared.type";
 
 const formSchema = z.object({
@@ -51,7 +51,7 @@ export const CategoryUpdateForm = ({
   category,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const { data: restaurant } = useGetRestaurantWithUserCheck();
 
@@ -64,7 +64,7 @@ export const CategoryUpdateForm = ({
   const hasMultipleLanguages = restaurant.restaurantLanguage.length > 1;
 
   const { mutate: updateCategory, isLoading } =
-    api.category.updateCategory.useMutation({
+    clientApi.category.updateCategory.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

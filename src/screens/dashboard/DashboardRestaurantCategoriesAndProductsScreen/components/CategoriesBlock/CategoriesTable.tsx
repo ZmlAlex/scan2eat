@@ -7,7 +7,7 @@ import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 import { CategorySection } from "./CategorySection";
 
@@ -21,7 +21,7 @@ export const CategoriesTable = () => {
     restaurant.category
   );
 
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
   const t = useTranslations("Dashboard.categoriesBlock");
   const tError = useTranslations("ResponseErrorMessage");
 
@@ -31,7 +31,7 @@ export const CategoriesTable = () => {
   );
 
   const { mutate: updateCategoriesPosition } =
-    api.category.updateCategoriesPosition.useMutation({
+    clientApi.category.updateCategoriesPosition.useMutation({
       onMutate: () => {
         toast({
           title: t("updateCategoriesPosition.start.title"),

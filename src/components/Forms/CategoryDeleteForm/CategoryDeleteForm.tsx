@@ -15,7 +15,7 @@ import {
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 interface RestaurantOperationsProps {
   isModalOpen: boolean;
@@ -35,10 +35,10 @@ export function CategoryDeleteForm({
   const t = useTranslations("Dashboard.categoryOperations");
   const tError = useTranslations("ResponseErrorMessage");
 
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const { mutate: deleteCategory, isLoading } =
-    api.category.deleteCategory.useMutation({
+    clientApi.category.deleteCategory.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

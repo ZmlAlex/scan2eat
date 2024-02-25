@@ -6,7 +6,7 @@ import { parseCookies, setCookie } from "nookies";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 import { type findRestaurantById } from "~/server/api/services/restaurant.service";
 
 const INITIAL_DATA: Awaited<ReturnType<typeof findRestaurantById>> = {
@@ -25,7 +25,7 @@ const INITIAL_DATA: Awaited<ReturnType<typeof findRestaurantById>> = {
   category: [],
   product: [],
 };
-// TODO: create folder hooks/queries
+
 export const useGetRestaurantWithUserCheck = (
   restaurantIdQueryParam?: string
 ) => {
@@ -35,7 +35,7 @@ export const useGetRestaurantWithUserCheck = (
     restaurantIdQueryParam ?? (params.restaurantId as string);
   const tError = useTranslations("ResponseErrorMessage");
 
-  return api.restaurant.getRestaurantWithUserCheck.useQuery(
+  return clientApi.restaurant.getRestaurantWithUserCheck.useQuery(
     {
       restaurantId,
     },

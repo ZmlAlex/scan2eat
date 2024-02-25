@@ -19,7 +19,7 @@ import { Switch } from "~/components/ui/Switch";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 
 type Props = {
   isModalOpen: boolean;
@@ -37,14 +37,14 @@ export const RestaurantPublishForm = ({ isModalOpen, toggleModal }: Props) => {
 
   const qrCode = React.useRef(null);
 
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const t = useTranslations("Form.restaurantPublish");
   const tError = useTranslations("ResponseErrorMessage");
 
   // TODO: ADD LOADER DURING PROCESS
   const { mutate: setPublishRestaurant, isLoading } =
-    api.restaurant.setPublishedRestaurant.useMutation({
+    clientApi.restaurant.setPublishedRestaurant.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

@@ -86,7 +86,7 @@
 @layer base {
   * {
     @apply border-border;
-    /* reset for flex child elements */
+    /* !reset for flex child elements */
     min-width: 0;
   }
 

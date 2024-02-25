@@ -17,6 +17,7 @@ import {
 } from "~/server/api/services/category.service";
 import { findRestaurantByIdAndUserId } from "~/server/api/services/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
+import { prisma } from "~/server/db";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 
 export const createCategoryHandler = async ({
@@ -34,7 +35,7 @@ export const createCategoryHandler = async ({
 
   const restaurant = await findRestaurantByIdAndUserId(
     { restaurantId: input.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 
   if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
@@ -55,15 +56,11 @@ export const createCategoryHandler = async ({
       );
   }
 
-  await createCategory(
-    { ...input, userId },
-    additionalTranslations,
-    ctx.prisma
-  );
+  await createCategory({ ...input, userId }, additionalTranslations, prisma);
 
   return findRestaurantByIdAndUserId(
     { restaurantId: input.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 };
 
@@ -82,7 +79,7 @@ export const updateCategoryHandler = async ({
 
   const restaurant = await findRestaurantByIdAndUserId(
     { restaurantId: input.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 
   if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
@@ -96,14 +93,10 @@ export const updateCategoryHandler = async ({
       );
   }
 
-  await updateCategory(
-    { ...input, userId },
-    additionalTranslations,
-    ctx.prisma
-  );
+  await updateCategory({ ...input, userId }, additionalTranslations, prisma);
   return findRestaurantByIdAndUserId(
     { restaurantId: input.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 };
 
@@ -119,12 +112,12 @@ export const updateCategoriesPositionHandler = async ({
   const [updatedCategory] = await updateManyCategoriesPositions(
     input,
     userId,
-    ctx.prisma
+    prisma
   );
 
   return findRestaurantByIdAndUserId(
     { restaurantId: updatedCategory?.restaurantId ?? "", userId },
-    ctx.prisma
+    prisma
   );
 };
 
@@ -139,11 +132,11 @@ export const deleteCategoryHandler = async ({
 
   const deletedCategory = await deleteCategory(
     { id: input.categoryId, userId },
-    ctx.prisma
+    prisma
   );
 
   return findRestaurantByIdAndUserId(
     { restaurantId: deletedCategory.restaurantId, userId },
-    ctx.prisma
+    prisma
   );
 };

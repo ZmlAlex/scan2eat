@@ -1,3 +1,4 @@
+"use client";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import React from "react";

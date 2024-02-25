@@ -33,7 +33,7 @@ import {
 } from "~/components/ui/Select";
 import { errorMapper } from "~/helpers/errorMapper";
 import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { api } from "~/libs/api";
+import { clientApi } from "~/libs/trpc/client";
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -53,7 +53,7 @@ export const RestaurantLanguageCreateForm = ({
   isModalOpen,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
 
   const {
     data: { id: restaurantId },
@@ -63,7 +63,7 @@ export const RestaurantLanguageCreateForm = ({
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createRestaurantLanguage, isLoading } =
-    api.restaurant.createRestaurantLanguage.useMutation({
+    clientApi.restaurant.createRestaurantLanguage.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
