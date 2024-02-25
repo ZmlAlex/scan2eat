@@ -1,4 +1,9 @@
-import type { Active, UniqueIdentifier } from "@dnd-kit/core";
+import type {
+  Active,
+  DragEndEvent,
+  DragStartEvent,
+  UniqueIdentifier,
+} from "@dnd-kit/core";
 import {
   closestCenter,
   DndContext,
@@ -25,14 +30,14 @@ type BaseItem = {
 
 type Props<T extends BaseItem> = {
   items: T[];
-  onChange(items: T[]): void;
+  onDragEnd(items: T[]): void;
   onDragStart?(): void;
   renderItem(item: T): ReactNode;
 };
 
 export function SortableList<T extends BaseItem>({
   items,
-  onChange,
+  onDragEnd,
   onDragStart,
   renderItem,
 }: Props<T>) {
@@ -48,25 +53,27 @@ export function SortableList<T extends BaseItem>({
     })
   );
 
+  const handleDragStart = ({ active }: DragStartEvent) => {
+    setActive(active);
+    onDragStart?.();
+  };
+  const handleDragCancel = () => setActive(null);
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (over && active.id !== over?.id) {
+      const activeIndex = items.findIndex(({ id }) => id === active.id);
+      const overIndex = items.findIndex(({ id }) => id === over.id);
+
+      onDragEnd(arrayMove(items, activeIndex, overIndex));
+    }
+    setActive(null);
+  };
+
   return (
     <DndContext
       sensors={sensors}
-      onDragStart={({ active }) => {
-        setActive(active);
-        onDragStart?.();
-      }}
-      onDragEnd={({ active, over }) => {
-        if (over && active.id !== over?.id) {
-          const activeIndex = items.findIndex(({ id }) => id === active.id);
-          const overIndex = items.findIndex(({ id }) => id === over.id);
-
-          onChange(arrayMove(items, activeIndex, overIndex));
-        }
-        setActive(null);
-      }}
-      onDragCancel={() => {
-        setActive(null);
-      }}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
       collisionDetection={closestCenter}
       modifiers={[restrictToVerticalAxis]}
     >

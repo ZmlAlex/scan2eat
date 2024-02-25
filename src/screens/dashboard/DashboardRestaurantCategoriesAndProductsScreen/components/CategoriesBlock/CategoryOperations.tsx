@@ -17,16 +17,10 @@ import { useModal } from "~/hooks/useModal";
 import type { ArrayElement } from "~/types/shared.type";
 
 interface RestaurantOperationsProps {
-  restaurantId: string;
   category: ArrayElement<RestaurantWithDetails["category"]>;
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 }
 
-export function CategoryOperations({
-  restaurantId,
-  category,
-  restaurantLanguages,
-}: RestaurantOperationsProps) {
+export function CategoryOperations({ category }: RestaurantOperationsProps) {
   const { isModalOpen: isModalDeleteOpen, toggleModal: toggleModalDelete } =
     useModal();
   const { isModalOpen: isModalUpdateOpen, toggleModal: toggleModalUpdate } =
@@ -68,7 +62,6 @@ export function CategoryOperations({
 
       {/* Modal window */}
       <CategoryDeleteForm
-        restaurantId={restaurantId}
         categoryId={category.id}
         isModalOpen={isModalDeleteOpen}
         toggleModal={toggleModalDelete}
@@ -77,9 +70,7 @@ export function CategoryOperations({
       {/* Modal window */}
       {isModalUpdateOpen && (
         <CategoryUpdateForm
-          restaurantId={restaurantId}
           category={category}
-          restaurantLanguages={restaurantLanguages}
           isModalOpen={isModalUpdateOpen}
           toggleModal={toggleModalUpdate}
         />

@@ -6,25 +6,23 @@ import { RestaurantLanguageCreateForm } from "~/components/Forms/RestaurantLangu
 import { RestaurantLanguageUpdateForm } from "~/components/Forms/RestaurantLanguageUpdateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
-import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useModal } from "~/hooks/useModal";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 // TODO: GET IT FROM CONTEXT
-type Props = {
-  restaurant: RestaurantWithDetails;
-};
-
 const LANGUAGES: LanguageCode[] = ["english", "russian"];
 
-export const LanguagesBlock = ({ restaurant }: Props) => {
+export const LanguagesBlock = () => {
   const t = useTranslations("Dashboard.page.restaurantSettings");
   const { isModalOpen, toggleModal } = useModal();
 
-  const restaurantLanguages = restaurant.restaurantLanguage.map(
-    (language) => language.languageCode
-  );
+  const { data: restaurant } = useGetRestaurantWithUserCheck();
+
   const availableLanguages = LANGUAGES.filter(
-    (language) => !restaurantLanguages.includes(language)
+    (language) =>
+      !restaurant.restaurantLanguage.find(
+        (restaurantLanguage) => restaurantLanguage.languageCode === language
+      )
   );
 
   return (
@@ -40,10 +38,7 @@ export const LanguagesBlock = ({ restaurant }: Props) => {
         </Button>
 
         <div>
-          <RestaurantLanguageUpdateForm
-            restaurantLanguages={restaurant.restaurantLanguage}
-            restaurantId={restaurant.id}
-          />
+          <RestaurantLanguageUpdateForm />
         </div>
       </div>
 
@@ -52,7 +47,6 @@ export const LanguagesBlock = ({ restaurant }: Props) => {
         <RestaurantLanguageCreateForm
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
-          restaurantId={restaurant.id}
           availableLanguages={availableLanguages}
         />
       )}

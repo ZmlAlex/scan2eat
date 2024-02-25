@@ -3,36 +3,26 @@ import React, { type ForwardedRef, type ReactNode } from "react";
 
 import { Placeholder } from "~/components/ui/Placeholder";
 import { TableCell, TableRow } from "~/components/ui/Table";
-import { api } from "~/helpers/api";
 import { formatPrice } from "~/helpers/formatPrice";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 import type { ArrayElement } from "~/types/shared.type";
 
 import { ProductOperations } from "./ProductOperations";
 
 type Props = {
-  restaurantId: string;
   product: ArrayElement<RestaurantWithDetails["product"]>;
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
   dragHandler?: ReactNode;
 };
 
 export const CategoryProduct = React.forwardRef(
   (
-    {
-      product,
-      restaurantId,
-      dragHandler,
-      restaurantLanguages,
-      ...props
-    }: Props,
+    { product, dragHandler, ...props }: Props,
     forwardedRef: ForwardedRef<HTMLTableRowElement>
   ) => {
-    const tprcContext = api.useContext();
-
-    const currencyCode = tprcContext.restaurant.getRestaurant.getData({
-      restaurantId,
-    })?.currencyCode;
+    const {
+      data: { currencyCode },
+    } = useGetRestaurantWithUserCheck();
 
     return (
       <>
@@ -66,11 +56,7 @@ export const CategoryProduct = React.forwardRef(
             {product.productI18N.description}
           </TableCell>
           <TableCell className="sticky right-0 bg-background px-1 py-2">
-            <ProductOperations
-              restaurantId={restaurantId}
-              product={product}
-              restaurantLanguages={restaurantLanguages}
-            />
+            <ProductOperations product={product} />
           </TableCell>
         </TableRow>
       </>

@@ -13,29 +13,32 @@ import {
   AlertDialogTitle,
 } from "~/components/ui/AlertDialog";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
+import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 interface RestaurantOperationsProps {
   isModalOpen: boolean;
   toggleModal: () => void;
-  restaurantId: string;
   productId: string;
 }
 
 export function ProductDeleteForm({
-  restaurantId,
   isModalOpen,
   toggleModal,
   productId,
 }: RestaurantOperationsProps) {
+  const trpcContext = clientApi.useContext();
+
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Dashboard.productOperations");
   const tError = useTranslations("ResponseErrorMessage");
 
-  const trpcContext = api.useContext();
-
   const { mutate: deleteProduct, isLoading } =
-    api.product.deleteProduct.useMutation({
+    clientApi.product.deleteProduct.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
@@ -45,7 +48,7 @@ export function ProductDeleteForm({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

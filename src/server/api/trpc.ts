@@ -14,15 +14,13 @@
  *
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { NextApiRequest } from "next";
 import { type Session } from "next-auth";
 
-import { getServerAuthSession } from "~/server/auth";
-import { prisma } from "~/server/db";
+import { getServerAuthSession } from "~/server/libs/auth";
 
 type CreateContextOptions = {
-  req?: NextApiRequest;
+  req?: FetchCreateContextFnOptions["req"];
   session: Session | null;
   prisma?: PrismaClient;
 };
@@ -42,7 +40,6 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     req: opts.req,
     session: opts.session,
-    prisma: opts.prisma || prisma,
   };
 };
 
@@ -55,11 +52,10 @@ export type ProtectedContext = Omit<Context, "session"> & { session: Session };
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
-
+export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
+  const { req } = opts;
   // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+  const session = await getServerAuthSession();
 
   return createInnerTRPCContext({
     req,
@@ -76,6 +72,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 import type { PrismaClient } from "@prisma/client";
 import { type inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
+import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -159,27 +156,28 @@ const getFingerprint = ({
   return "";
 };
 
-const rateLimiter = t.middleware(async ({ ctx, next }) => {
-  const fingerPrint = getFingerprint(ctx);
+// TODO: RESOLVE
+// const rateLimiter = t.middleware(async ({ ctx, next }) => {
+//   const fingerPrint = getFingerprint(ctx);
 
-  if (!fingerPrint) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "No fingerprint returned",
-    });
-  }
+//   if (!fingerPrint) {
+//     throw new TRPCError({
+//       code: "INTERNAL_SERVER_ERROR",
+//       message: "No fingerprint returned",
+//     });
+//   }
 
-  const { success } = await rateLimitClient.limit(fingerPrint);
+//   const { success } = await rateLimitClient.limit(fingerPrint);
 
-  if (!success) {
-    throw new TRPCError({
-      code: "TOO_MANY_REQUESTS",
-      message: "ReachedRequestsLimit",
-    });
-  }
+//   if (!success) {
+//     throw new TRPCError({
+//       code: "TOO_MANY_REQUESTS",
+//       message: "ReachedRequestsLimit",
+//     });
+//   }
 
-  return next();
-});
+//   return next();
+// });
 
 /**
  * Protected (authenticated) procedure
@@ -190,5 +188,6 @@ const rateLimiter = t.middleware(async ({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = publicProcedure
-  .use(rateLimiter)
+  // TODO: FIX RATE LIMITER!
+  // .use(rateLimiter)
   .use(enforceUserIsAuthed);

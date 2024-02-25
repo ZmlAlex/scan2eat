@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -11,8 +12,8 @@ import { buttonVariants } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 import { Label } from "~/components/ui/Label";
 import { toast } from "~/components/ui/useToast";
-import { cn } from "~/helpers/cn";
 import { baseErrorMessage } from "~/helpers/errorMapper";
+import { cn } from "~/libs/cn";
 
 const userAuthSchema = z.object({
   email: z.string().email(),
@@ -30,7 +31,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   } = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
   });
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const searchParams = useSearchParams();
 
   const t = useTranslations("Form.userAuthForm");
@@ -42,7 +43,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const signInResult = await signIn("email", {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
+      callbackUrl: searchParams.get("from") || "/dashboard",
     });
 
     setIsLoading(false);

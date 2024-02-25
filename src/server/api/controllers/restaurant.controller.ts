@@ -25,6 +25,7 @@ import {
   deleteRestaurant,
   findAllRestaurants,
   findRestaurantById,
+  findRestaurantByIdAndUserId,
   updateRestaurant,
 } from "~/server/api/services/restaurant.service";
 import type { Context, ProtectedContext } from "~/server/api/trpc";
@@ -34,13 +35,27 @@ import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFi
 import { uploadImage } from "~/server/libs/cloudinary";
 
 export const getRestaurantHandler = ({
-  ctx,
   input,
 }: {
   ctx: Context;
   input: GetRestaurantInput;
 }) => {
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantById(input.restaurantId, prisma);
+};
+
+export const getRestaurantWithUserCheckHandler = ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: GetRestaurantInput;
+}) => {
+  const userId = ctx.session.user.id;
+
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 };
 
 export const getAllRestaurantsHandler = ({
@@ -48,7 +63,7 @@ export const getAllRestaurantsHandler = ({
 }: {
   ctx: ProtectedContext;
 }) => {
-  return findAllRestaurants({ userId: ctx.session.user.id }, ctx.prisma);
+  return findAllRestaurants({ userId: ctx.session.user.id }, prisma);
 };
 
 export const createRestaurantHandler = async ({
@@ -58,7 +73,6 @@ export const createRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: CreateRestaurantInput;
 }) => {
-  const { prisma } = ctx;
   const userId = ctx.session.user.id;
   let uploadedImageUrl;
 
@@ -89,7 +103,6 @@ export const updateRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: UpdateRestaurantInput;
 }) => {
-  const { prisma } = ctx;
   const userId = ctx.session.user.id;
   //if image deleted we want to remove it from db, if not keep - original in db
   let uploadedImageUrl = input.isImageDeleted ? "" : undefined;
@@ -98,7 +111,10 @@ export const updateRestaurantHandler = async ({
     "fieldName" | "languageCode" | "translation"
   >[] = [];
 
-  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+  const restaurant = await findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 
   if (restaurant.restaurantLanguage.length > 1 && input.autoTranslateEnabled) {
     additionalTranslations =
@@ -127,7 +143,10 @@ export const updateRestaurantHandler = async ({
     prisma
   );
 
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 };
 
 export const setPublishedRestaurantHandler = async ({
@@ -137,12 +156,17 @@ export const setPublishedRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: SetPublishedRestaurantInput;
 }) => {
-  await ctx.prisma.restaurant.update({
+  const userId = ctx.session.user.id;
+
+  await prisma.restaurant.update({
     where: { id: input.restaurantId },
     data: { isPublished: input.isPublished },
   });
 
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 };
 
 export const deleteRestaurantHandler = async ({
@@ -152,9 +176,9 @@ export const deleteRestaurantHandler = async ({
   ctx: ProtectedContext;
   input: DeleteRestaurantInput;
 }) => {
-  await deleteRestaurant({ id: input.restaurantId }, ctx.prisma);
+  await deleteRestaurant({ id: input.restaurantId }, prisma);
 
-  return findAllRestaurants({ userId: ctx.session?.user.id }, ctx.prisma);
+  return findAllRestaurants({ userId: ctx.session?.user.id }, prisma);
 };
 
 // Restaurant Language handlers
@@ -166,10 +190,12 @@ export const createRestaurantLanguageHandler = async ({
   ctx: ProtectedContext;
   input: CreateRestaurantLanguageInput;
 }) => {
-  const { prisma } = ctx;
   const userId = ctx.session.user.id;
 
-  const restaurant = await findRestaurantById(input.restaurantId, ctx.prisma);
+  const restaurant = await findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 
   //TODO: CHANGE WITH DEFAULT LANGUAGE
   const defaultRestaurantLanguage =
@@ -217,7 +243,10 @@ export const createRestaurantLanguageHandler = async ({
     ...updateManyProductsTranslations(productsResult, prisma),
   ]);
 
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 };
 
 export const setEnabledRestaurantLanguagesHandler = async ({
@@ -227,8 +256,10 @@ export const setEnabledRestaurantLanguagesHandler = async ({
   ctx: ProtectedContext;
   input: SetEnabledRestaurantLanguagesInput;
 }) => {
+  const userId = ctx.session.user.id;
+
   const restaurantLanguageTransactions = input.languageCodes.map((language) =>
-    ctx.prisma.restaurantLanguage.updateMany({
+    prisma.restaurantLanguage.updateMany({
       where: {
         restaurantId: input.restaurantId,
         languageCode: language.languageCode,
@@ -241,5 +272,8 @@ export const setEnabledRestaurantLanguagesHandler = async ({
 
   await prisma.$transaction(restaurantLanguageTransactions);
 
-  return findRestaurantById(input.restaurantId, ctx.prisma);
+  return findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
 };

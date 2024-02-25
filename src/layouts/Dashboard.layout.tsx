@@ -1,5 +1,6 @@
-import type { LanguageCode } from "@prisma/client";
-import { useRouter } from "next/router";
+"use client";
+import { useParams, usePathname } from "next/navigation";
+// TODO: REPLACE
 import { useSession } from "next-auth/react";
 
 import { DashboardMobileNav } from "~/components/DashboardMobileNav";
@@ -18,11 +19,8 @@ interface RestaurantDashboardLayoutProps {
 
 export function DashboardLayout({ children }: RestaurantDashboardLayoutProps) {
   const { data: sessionData } = useSession();
-  const {
-    query: { restaurantId },
-    pathname,
-    locales = [],
-  } = useRouter();
+  const { restaurantId } = useParams();
+  const pathname = usePathname();
 
   const config = pathname.includes("restaurant")
     ? restaurantDashboardConfig(restaurantId as string)
@@ -39,9 +37,6 @@ export function DashboardLayout({ children }: RestaurantDashboardLayoutProps) {
           </div>
 
           <LanguageToggle
-            languages={locales?.map((locale) => ({
-              languageCode: locale as LanguageCode,
-            }))}
           />
 
           {sessionData && (

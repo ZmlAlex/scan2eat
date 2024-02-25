@@ -4,21 +4,18 @@ import React from "react";
 import { CategoryCreateForm } from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
-import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { useModal } from "~/hooks/useModal";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 import { CategoriesEmptyPlaceholder } from "./CategoriesEmptyPlaceholder";
 import { CategoriesTable } from "./CategoriesTable";
 
-type Props = {
-  restaurant: RestaurantWithDetails;
-};
-
-export const CategoriesBlock = ({ restaurant }: Props) => {
+export const CategoriesBlock = () => {
+  const { data: restaurant } = useGetRestaurantWithUserCheck();
   const { isModalOpen, toggleModal } = useModal();
   const t = useTranslations("Dashboard.categoriesBlock");
 
-  const hasCategories = !!restaurant.category?.length;
+  const hasCategories = !!restaurant?.category?.length;
 
   return (
     <>
@@ -28,7 +25,7 @@ export const CategoriesBlock = ({ restaurant }: Props) => {
             <Icons.add className="mr-2 h-4 w-4" />
             {t("newCategoryButtonLabel")}
           </Button>
-          <CategoriesTable restaurant={restaurant} />
+          <CategoriesTable />
         </>
       ) : (
         <CategoriesEmptyPlaceholder onClick={toggleModal} />
@@ -39,7 +36,6 @@ export const CategoriesBlock = ({ restaurant }: Props) => {
         <CategoryCreateForm
           isModalOpen={isModalOpen}
           toggleModal={toggleModal}
-          restaurantId={restaurant?.id || ""}
         />
       )}
     </>

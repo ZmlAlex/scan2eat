@@ -34,9 +34,10 @@ import {
 } from "~/components/ui/Select";
 import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
+import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -53,23 +54,25 @@ type FormSchema = z.infer<typeof formSchema>;
 type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
-  restaurantId: string;
-
   categoryId: string;
 };
 
 export const ProductCreateForm = ({
-  restaurantId,
   categoryId,
   isModalOpen,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
+
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.productCreate");
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createProduct, isLoading } =
-    api.product.createProduct.useMutation({
+    clientApi.product.createProduct.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
@@ -79,7 +82,7 @@ export const ProductCreateForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

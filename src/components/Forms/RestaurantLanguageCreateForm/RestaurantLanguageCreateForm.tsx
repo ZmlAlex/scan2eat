@@ -31,8 +31,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/Select";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
+import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({
@@ -45,22 +46,24 @@ type Props = {
   toggleModal: () => void;
   isModalOpen: boolean;
   availableLanguages: LanguageCode[];
-  restaurantId: string;
 };
 
 export const RestaurantLanguageCreateForm = ({
   availableLanguages,
-  // TODO: GET FROM QUERY?
-  restaurantId,
   isModalOpen,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
+
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.restaurantLanguageCreate");
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createRestaurantLanguage, isLoading } =
-    api.restaurant.createRestaurantLanguage.useMutation({
+    clientApi.restaurant.createRestaurantLanguage.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
@@ -70,7 +73,7 @@ export const RestaurantLanguageCreateForm = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );

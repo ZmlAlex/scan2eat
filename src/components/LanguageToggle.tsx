@@ -1,5 +1,7 @@
+"use client";
+
 import { type RestaurantLanguage } from "@prisma/client";
-import { useRouter } from "next/router";
+import { useLocale } from "next-intl";
 import React from "react";
 
 import { Icons } from "~/components/Icons";
@@ -10,24 +12,20 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
+import { locales } from "~/libs/nextIntl/navigation";
+import { Link, usePathname } from "~/libs/nextIntl/navigation";
 
 type Props = {
-  languages: Pick<RestaurantLanguage, "languageCode">[];
+  languages?: Pick<RestaurantLanguage, "languageCode">[];
 };
 
-export function LanguageToggle({ languages }: Props) {
-  const { asPath, push, pathname, query, locale, reload } = useRouter();
+const DEFAULT_LANGUAGES = locales.map((locale) => ({
+  languageCode: locale,
+}));
 
-  const handleClick = (locale: string) => async () => {
-    await push({ pathname, query }, asPath, {
-      locale,
-    });
-
-    // !TODO: It's a workaround solution for temp issue with locale reloading https://stackoverflow.com/questions/73274826/next-js-router-push-does-not-change-locale-in-url
-    if (query.restaurantId) {
-      reload();
-    }
-  };
+export function LanguageToggle({ languages = DEFAULT_LANGUAGES }: Props) {
+  const pathname = usePathname();
+  const locale = useLocale();
 
   return (
     <DropdownMenu>
@@ -39,14 +37,19 @@ export function LanguageToggle({ languages }: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {languages.map((language) => (
-          <DropdownMenuCheckboxItem
-            className="capitalize"
-            checked={language.languageCode === locale}
+          <Link
             key={language.languageCode}
-            onClick={handleClick(language.languageCode)}
+            href={pathname}
+            locale={language.languageCode}
           >
-            {language.languageCode}
-          </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              className="capitalize"
+              checked={language.languageCode === locale}
+              key={language.languageCode}
+            >
+              {language.languageCode}
+            </DropdownMenuCheckboxItem>
+          </Link>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>

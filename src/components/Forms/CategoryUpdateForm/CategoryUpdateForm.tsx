@@ -27,9 +27,10 @@ import {
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 import type { ArrayElement } from "~/types/shared.type";
 
 const formSchema = z.object({
@@ -40,31 +41,30 @@ const formSchema = z.object({
 type Props = {
   isModalOpen: boolean;
   toggleModal: () => void;
-  restaurantId: string;
   category: ArrayElement<RestaurantWithDetails["category"]>;
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 };
 
 type FormSchema = z.infer<typeof formSchema>;
 
 export const CategoryUpdateForm = ({
   isModalOpen,
-  restaurantId,
   category,
-  restaurantLanguages,
   toggleModal,
 }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
+
+  const { data: restaurant } = useGetRestaurantWithUserCheck();
+
   const t = useTranslations("Form.categoryUpdate");
   const tError = useTranslations("ResponseErrorMessage");
 
   const cookies = parseCookies();
   const selectedRestaurantLang =
-    cookies[`selectedRestaurantLang${restaurantId}`];
-  const hasMultipleLanguages = restaurantLanguages.length > 1;
+    cookies[`selectedRestaurantLang${restaurant.id}`];
+  const hasMultipleLanguages = restaurant.restaurantLanguage.length > 1;
 
   const { mutate: updateCategory, isLoading } =
-    api.category.updateCategory.useMutation({
+    clientApi.category.updateCategory.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
@@ -74,8 +74,8 @@ export const CategoryUpdateForm = ({
         });
       },
       onSuccess: (updatedRestaurants) => {
-        trpcContext.restaurant.getRestaurant.setData(
-          { restaurantId },
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
+          { restaurantId: restaurant.id },
           () => updatedRestaurants
         );
 
@@ -97,7 +97,7 @@ export const CategoryUpdateForm = ({
 
   function onSubmit(values: FormSchema) {
     updateCategory({
-      restaurantId,
+      restaurantId: restaurant.id,
       categoryId: category.id,
       name: values.name,
       autoTranslateEnabled: values.autoTranslateEnabled,
@@ -161,7 +161,7 @@ export const CategoryUpdateForm = ({
                 />
 
                 <div className="space-x-2">
-                  {restaurantLanguages
+                  {restaurant.restaurantLanguage
                     .filter(
                       (lang) => selectedRestaurantLang !== lang.languageCode
                     )

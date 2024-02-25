@@ -10,37 +10,34 @@ import {
   TableRow,
 } from "~/components/ui/Table";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
+import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 import { CategoryProduct } from "./CategoryProduct";
 
 type Props = {
-  restaurantId: string;
   products: RestaurantWithDetails["product"];
-  restaurantLanguages: RestaurantWithDetails["restaurantLanguage"];
 };
 
-//TODO: GET RESTAURANT ID FROM ROUTER
-export const CategoryProductsTable = ({
-  restaurantId,
-  products,
-  restaurantLanguages,
-}: Props) => {
+export const CategoryProductsTable = ({ products }: Props) => {
+  const {
+    data: { id: restaurantId },
+  } = useGetRestaurantWithUserCheck();
   // * It's required for drag and drop optimistic update
   const [sortableProducts, setSortableProducts] = React.useState(
     () => products
   );
 
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
   const t = useTranslations("Dashboard.categoryProductsTable");
   const tError = useTranslations("ResponseErrorMessage");
 
   React.useEffect(() => setSortableProducts(products), [products]);
 
   const { mutate: updateProductsPosition } =
-    api.product.updateProductsPosition.useMutation({
+    clientApi.product.updateProductsPosition.useMutation({
       onMutate: () => {
         toast({
           title: t("updateProductPosition.start.title"),
@@ -55,7 +52,7 @@ export const CategoryProductsTable = ({
         });
       },
       onSuccess: (updatedRestaurant) => {
-        trpcContext.restaurant.getRestaurant.setData(
+        trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );
@@ -84,7 +81,7 @@ export const CategoryProductsTable = ({
           <TableBody className="whitespace-nowrap">
             <SortableList
               items={sortableProducts}
-              onChange={(updatedProducts) => {
+              onDragEnd={(updatedProducts) => {
                 setSortableProducts(updatedProducts);
 
                 updateProductsPosition(
@@ -100,8 +97,6 @@ export const CategoryProductsTable = ({
                   <CategoryProduct
                     key={product.id}
                     product={product}
-                    restaurantId={restaurantId}
-                    restaurantLanguages={restaurantLanguages}
                     dragHandler={<SortableList.DragHandle />}
                   />
                 </SortableList.Item>

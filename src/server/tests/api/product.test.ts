@@ -116,7 +116,7 @@ describe("Product API", () => {
             },
             russian: {
               name: "яблочный сок",
-              description: "удивительный свежий напиток",
+              description: "удивительный свежевыжатый напиток",
             },
           }) as unknown,
         });
@@ -352,7 +352,7 @@ describe("Product API", () => {
               },
               russian: {
                 name: "яблочный сок",
-                description: "свежий удивительный сок",
+                description: "свежий изумительный сок",
               },
             }) as unknown,
           });

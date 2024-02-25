@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 import { siteConfig } from "~/config/site";
-import { cn } from "~/helpers/cn";
+import { cn } from "~/libs/cn";
 
 import type { MainNavItem } from "./MainNav";
 

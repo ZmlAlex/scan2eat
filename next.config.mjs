@@ -4,21 +4,13 @@ import { withAxiom } from "next-axiom";
  * for Docker builds.
  */
 await import("./src/env.mjs");
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./src/libs/nextIntl/i18n.ts");
 
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
-  /**
-   * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
-   * out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: {
-    locales: ["english", "russian"],
-    defaultLocale: "english",
-  },
   images: {
     // TODO: REMOVE WHEN MOCK WILL BE REPLACED
     domains: [
@@ -29,15 +21,7 @@ const config = {
   },
   experimental: {
     scrollRestoration: true,
-    swcPlugins: [
-      [
-        "next-superjson-plugin",
-        {
-          excluded: [],
-        },
-      ],
-    ],
   },
 };
 
-export default withAxiom(config);
+export default withNextIntl(withAxiom(config));

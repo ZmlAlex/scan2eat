@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Icons } from "~/components/Icons";
-import { cn } from "~/helpers/cn";
+import { cn } from "~/libs/cn";
 
 type EmptyPlaceholderProps = React.HTMLAttributes<HTMLDivElement>;
 

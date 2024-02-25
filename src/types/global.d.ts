@@ -1,4 +1,4 @@
-type Messages = typeof import("~/lang/english.json");
+type Messages = typeof import("~/libs/nextIntl/languages/english.json");
 type IntlMessages = Messages;
 
 declare module "@uidotdev/usehooks" {

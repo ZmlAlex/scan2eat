@@ -33,9 +33,9 @@ import {
 } from "~/components/ui/Select";
 import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
-import { api } from "~/helpers/api";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
+import { clientApi } from "~/libs/trpc/client";
 import {
   currencyCodeS,
   languageCodeS,
@@ -61,12 +61,12 @@ type Props = {
 };
 
 export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
-  const trpcContext = api.useContext();
+  const trpcContext = clientApi.useContext();
   const t = useTranslations("Form.restaurantCreate");
   const tError = useTranslations("ResponseErrorMessage");
 
   const { mutate: createRestaurant, isLoading } =
-    api.restaurant.createRestaurant.useMutation({
+    clientApi.restaurant.createRestaurant.useMutation({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 

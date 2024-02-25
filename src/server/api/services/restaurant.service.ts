@@ -18,13 +18,17 @@ import type {
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
 
-export const findRestaurantById = async (
-  restaurantId: string,
+export const findRestaurant = async (
+  { restaurantId, userId }: { restaurantId: string; userId?: string },
   prisma: PrismaClient
 ) => {
   try {
+    const whereClause = userId
+      ? { id: restaurantId, userId }
+      : { id: restaurantId };
+
     const restaurantP = prisma.restaurant.findFirstOrThrow({
-      where: { id: restaurantId },
+      where: whereClause,
       select: {
         userId: true,
         id: true,
@@ -93,10 +97,26 @@ export const findRestaurantById = async (
     // TODO: THINK ABOUT OTHER ERROR CODES
     throw new TRPCError({
       code: "NOT_FOUND",
-      message: "Restaurant not found",
+      message: "NotFound",
       cause: e,
     });
   }
+};
+
+// use it for a public route (ex. when we want to return restaurant details)
+export const findRestaurantById = async (
+  restaurantId: string,
+  prisma: PrismaClient
+) => {
+  return findRestaurant({ restaurantId }, prisma);
+};
+
+// use it for private routes (ex. when we want to update restaurant details)
+export const findRestaurantByIdAndUserId = async (
+  { restaurantId, userId }: { restaurantId: string; userId: string },
+  prisma: PrismaClient
+) => {
+  return findRestaurant({ restaurantId, userId }, prisma);
 };
 
 export const findAllRestaurants = async (

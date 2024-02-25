@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["vitest/globals"],
     "allowJs": true,
@@ -20,7 +20,12 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "ts-node": {
     // these options are overrides used only by ts-node
@@ -37,7 +42,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "src/server/script.mts"
+    "src/server/script.mts",
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
