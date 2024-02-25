@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useModal } from "~/hooks/utils/useModal";
+import { useModal } from "~/hooks/useModal";
 
 import { CropperDialog } from "./CropperDialog";
 import { Dropzone } from "./Dropzone";

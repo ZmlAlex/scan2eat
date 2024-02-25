@@ -5,7 +5,7 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { DashboardRestaurantHeaderContent } from "~/components/DashboardRestaurantHeaderContent";
 import { RestaurantUpdateForm } from "~/components/Forms/RestaurantUpdateForm";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 export const DashboardRestaurantDetailsScreen = () => {
   const t = useTranslations("Dashboard.page.restaurantDetails");

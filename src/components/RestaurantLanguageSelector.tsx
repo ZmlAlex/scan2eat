@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/Select";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 export const RestaurantLanguageSelector = () => {
   const { data: restaurant } = useGetRestaurantWithUserCheck();

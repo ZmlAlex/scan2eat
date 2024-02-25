@@ -43,6 +43,7 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_RESTAURANT_EXAMPLE_ID: z.string().min(1),
   },
 
   /**
@@ -64,5 +65,7 @@ export const env = createEnv({
     AWS_REGION: process.env.AWS_REGION,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    NEXT_PUBLIC_RESTAURANT_EXAMPLE_ID:
+      process.env.NEXT_PUBLIC_RESTAURANT_EXAMPLE_ID,
   },
 });

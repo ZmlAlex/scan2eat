@@ -26,8 +26,8 @@ import {
 import { Input } from "~/components/ui/Input";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 const formSchema = z.object({
   name: z.string().trim().min(1).max(30),

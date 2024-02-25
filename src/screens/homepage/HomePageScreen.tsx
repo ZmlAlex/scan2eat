@@ -1,5 +1,4 @@
-import { Features } from "~/components/LandingSections/Features";
-import { Hero } from "~/components/LandingSections/Hero";
+import { Features, Hero } from "~/screens/homepage/components/LandingSections";
 
 export const HomePageScreen = () => {
   return (

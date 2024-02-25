@@ -16,8 +16,8 @@ import {
 } from "~/components/ui/Form";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 //TODO: UPDATE WITH ALL POSSIBLE LANGUAGES
 const formSchema = z.object({

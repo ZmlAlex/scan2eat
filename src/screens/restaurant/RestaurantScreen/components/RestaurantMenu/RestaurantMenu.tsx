@@ -5,7 +5,7 @@ import { isMobileSafari } from "react-device-detect";
 
 import { Badge } from "~/components/ui/Badge";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useScrollDirection } from "~/hooks/utils/useScrollDirection";
+import { useScrollDirection } from "~/hooks/useScrollDirection";
 
 import { CategorySection } from "./CategorySection";
 

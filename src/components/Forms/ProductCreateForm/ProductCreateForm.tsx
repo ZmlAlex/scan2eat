@@ -36,8 +36,8 @@ import { Textarea } from "~/components/ui/Textarea";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 import { measurementUnitS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({

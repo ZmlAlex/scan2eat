@@ -6,8 +6,8 @@ import { RestaurantLanguageCreateForm } from "~/components/Forms/RestaurantLangu
 import { RestaurantLanguageUpdateForm } from "~/components/Forms/RestaurantLanguageUpdateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { useModal } from "~/hooks/utils/useModal";
+import { useModal } from "~/hooks/useModal";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 // TODO: GET IT FROM CONTEXT
 const LANGUAGES: LanguageCode[] = ["english", "russian"];

@@ -4,8 +4,8 @@ import React from "react";
 import { CategoryCreateForm } from "~/components/Forms/CategoryCreateForm/CategoryCreateForm";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
-import { useModal } from "~/hooks/utils/useModal";
+import { useModal } from "~/hooks/useModal";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 import { CategoriesEmptyPlaceholder } from "./CategoriesEmptyPlaceholder";
 import { CategoriesTable } from "./CategoriesTable";

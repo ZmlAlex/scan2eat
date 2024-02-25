@@ -32,8 +32,8 @@ import {
   SelectValue,
 } from "~/components/ui/Select";
 import { errorMapper } from "~/helpers/errorMapper";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 import { languageCodeS } from "~/server/api/schemas/common.schema";
 
 const formSchema = z.object({

@@ -7,7 +7,7 @@ import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import { SkeletonFactory } from "~/components/ui/Skeleton";
 import { formatTranslationsToOneLanguage } from "~/helpers/formatTranslationToOneLanguage";
-import { useModal } from "~/hooks/utils/useModal";
+import { useModal } from "~/hooks/useModal";
 import { clientApi } from "~/libs/trpc/client";
 
 import { AllRestaurantsPlaceholder } from "./components/AllRestaurantsEmptyPlaceholder";

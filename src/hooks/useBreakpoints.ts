@@ -3,7 +3,7 @@ import { type Config } from "tailwindcss";
 import resolveConfig from "tailwindcss/resolveConfig";
 
 // TODO: TRANSFORM INTO ES?
-import * as tailwindConfig from "../../../tailwind.config.cjs";
+import * as tailwindConfig from "../../tailwind.config.cjs";
 
 const fullConfig = resolveConfig(tailwindConfig as unknown as Config);
 const breakpoints = fullConfig.theme?.screens as Record<

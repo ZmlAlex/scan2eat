@@ -6,8 +6,8 @@ import { Accordion } from "~/components/ui/Accordion";
 import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
-import { useGetRestaurantWithUserCheck } from "~/hooks/queries/useGetRestaurantWithUserCheck";
 import { clientApi } from "~/libs/trpc/client";
+import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
 
 import { CategorySection } from "./CategorySection";
 

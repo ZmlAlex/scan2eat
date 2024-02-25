@@ -1,3 +1,5 @@
+import { env } from "~/env.mjs";
+
 export type SiteConfig = {
   name: string;
   description: string;
@@ -18,10 +20,6 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: "https://twitter.com/alexzml1",
     github: "https://github.com/shadcn/taxonomy",
-    restaurantExample:
-      // TODO: MOVE IT TO THE ENV VARIABLE!
-      process.env.NODE_ENV === "production"
-        ? "/restaurants/clmaav1bs004t3s6wk7sxlxrz"
-        : "/restaurants/clmaaf1wd004t3sa35fkallcm",
+    restaurantExample: `/restaurants/${env.NEXT_PUBLIC_RESTAURANT_EXAMPLE_ID}`,
   },
 };
