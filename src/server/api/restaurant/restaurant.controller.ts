@@ -8,6 +8,8 @@ import { TRPCError } from "@trpc/server";
 
 import { MAX_RESTAURANTS_PER_ACCOUNT } from "~/config/limitations";
 import { baseErrorMessage } from "~/helpers/errorMapper";
+import { updateManyCategoriesTranslations } from "~/server/api/category/category.service";
+import { updateManyProductsTranslations } from "~/server/api/product/product.service";
 import type {
   CreateRestaurantInput,
   CreateRestaurantLanguageInput,
@@ -16,9 +18,7 @@ import type {
   SetEnabledRestaurantLanguagesInput,
   SetPublishedRestaurantInput,
   UpdateRestaurantInput,
-} from "~/server/api/schemas/restaurant.schema";
-import { updateManyCategoriesTranslations } from "~/server/api/services/category.service";
-import { updateManyProductsTranslations } from "~/server/api/services/product.service";
+} from "~/server/api/restaurant/restaurant.schema";
 import {
   createRestaurant,
   createRestaurantLanguage,
@@ -27,7 +27,7 @@ import {
   findRestaurantById,
   findRestaurantByIdAndUserId,
   updateRestaurant,
-} from "~/server/api/services/restaurant.service";
+} from "~/server/api/restaurant/restaurant.service";
 import type { Context, ProtectedContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";

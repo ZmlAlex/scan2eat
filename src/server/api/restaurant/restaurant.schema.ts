@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { currencyCodeS, languageCodeS } from "./common.schema";
+import { currencyCodeS, languageCodeS } from "~/server/helpers/common.schema";
 
 export const getRestaurantSchemaInput = z.object({
   restaurantId: z.string(),

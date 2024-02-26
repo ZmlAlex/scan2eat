@@ -41,7 +41,7 @@ import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLang
 import { imageInput } from "~/helpers/formTypes/common";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
-import { measurementUnitS } from "~/server/api/schemas/common.schema";
+import { measurementUnitS } from "~/server/helpers/common.schema";
 import type { ArrayElement } from "~/types/shared.type";
 
 const formSchema = z.object({

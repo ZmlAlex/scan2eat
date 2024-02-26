@@ -12,11 +12,11 @@ const withNextIntl = createNextIntlPlugin("./src/libs/nextIntl/i18n.ts");
 const config = {
   reactStrictMode: true,
   images: {
-    // TODO: REMOVE WHEN MOCK WILL BE REPLACED
-    domains: [
-      "imageproxy.wolt.com",
-      "res.cloudinary.com",
-      "upload.wikimedia.org",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
   experimental: {

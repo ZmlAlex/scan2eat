@@ -36,10 +36,7 @@ import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
 import { clientApi } from "~/libs/trpc/client";
-import {
-  currencyCodeS,
-  languageCodeS,
-} from "~/server/api/schemas/common.schema";
+import { currencyCodeS, languageCodeS } from "~/server/helpers/common.schema";
 
 const formSchema = z.object({
   languageCode: languageCodeS,

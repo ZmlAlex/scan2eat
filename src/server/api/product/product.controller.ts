@@ -8,13 +8,13 @@ import type {
   DeleteProductInput,
   UpdateProductInput,
   UpdateProductsPositionInput,
-} from "~/server/api/schemas/product.schema";
+} from "~/server/api/product/product.schema";
 import {
   createProduct,
   updateManyProductsPositions,
   updateProduct,
-} from "~/server/api/services/product.service";
-import { findRestaurantByIdAndUserId } from "~/server/api/services/restaurant.service";
+} from "~/server/api/product/product.service";
+import { findRestaurantByIdAndUserId } from "~/server/api/restaurant/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";

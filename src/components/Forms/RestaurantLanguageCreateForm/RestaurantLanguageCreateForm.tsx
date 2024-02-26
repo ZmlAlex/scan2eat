@@ -34,7 +34,7 @@ import {
 import { errorMapper } from "~/helpers/errorMapper";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
-import { languageCodeS } from "~/server/api/schemas/common.schema";
+import { languageCodeS } from "~/server/helpers/common.schema";
 
 const formSchema = z.object({
   languageCode: languageCodeS,

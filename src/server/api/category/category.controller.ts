@@ -8,14 +8,14 @@ import type {
   DeleteCategorytInput,
   UpdateCategoriesPositionInput,
   UpdateCategoryInput,
-} from "~/server/api/schemas/category.schema";
+} from "~/server/api/category/category.schema";
 import {
   createCategory,
   deleteCategory,
   updateCategory,
   updateManyCategoriesPositions,
-} from "~/server/api/services/category.service";
-import { findRestaurantByIdAndUserId } from "~/server/api/services/restaurant.service";
+} from "~/server/api/category/category.service";
+import { findRestaurantByIdAndUserId } from "~/server/api/restaurant/restaurant.service";
 import type { ProtectedContext } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";

@@ -41,7 +41,7 @@ import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
-import { currencyCodeS } from "~/server/api/schemas/common.schema";
+import { currencyCodeS } from "~/server/helpers/common.schema";
 
 const formSchema = z.object({
   name: z.string().trim().min(2).max(30),

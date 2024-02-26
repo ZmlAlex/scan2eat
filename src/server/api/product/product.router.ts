@@ -3,13 +3,13 @@ import {
   deleteProductHandler,
   updateProductHandler,
   updateProductsPositionHandler,
-} from "~/server/api/controllers/product.controller";
+} from "~/server/api/product/product.controller";
 import {
   createProductSchemaInput,
   deleteProductSchemaInput,
   updateProductSchemaInput,
   updateProductsPositionSchemaInput,
-} from "~/server/api/schemas/product.schema";
+} from "~/server/api/product/product.schema";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const productRouter = createTRPCRouter({

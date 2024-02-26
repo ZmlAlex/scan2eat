@@ -3,7 +3,7 @@ import type { LanguageCode } from "@prisma/client";
 import type {
   findAllRestaurants,
   findRestaurantById,
-} from "~/server/api/services/restaurant.service";
+} from "~/server/api/restaurant/restaurant.service";
 
 export type RestaurantWithDetails = ReturnType<
   typeof formatTranslationToOneLanguageWithDetails

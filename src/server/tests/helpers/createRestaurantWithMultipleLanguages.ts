@@ -1,6 +1,6 @@
 import type { RestaurantTranslationField } from "@prisma/client";
 
-import type { CreateRestaurantInput } from "~/server/api/schemas/restaurant.schema";
+import type { CreateRestaurantInput } from "~/server/api/restaurant/restaurant.schema";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";

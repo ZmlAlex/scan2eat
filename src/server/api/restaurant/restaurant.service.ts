@@ -14,7 +14,7 @@ import type {
   CreateRestaurantInput,
   CreateRestaurantLanguageInput,
   UpdateRestaurantInput,
-} from "~/server/api/schemas/restaurant.schema";
+} from "~/server/api/restaurant/restaurant.schema";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
 
@@ -94,7 +94,6 @@ export const findRestaurant = async (
       })),
     };
   } catch (e) {
-    // TODO: THINK ABOUT OTHER ERROR CODES
     throw new TRPCError({
       code: "NOT_FOUND",
       message: "NotFound",
