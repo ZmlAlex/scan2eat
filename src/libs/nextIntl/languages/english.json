@@ -6,6 +6,9 @@
       "lightLabel": "Light",
       "systemLabel": "System"
     },
+    "clipboardCopy": {
+      "title": "Copied!"
+    },
     "imageUploadInput": {
       "firstRow": {
         "boldText": "Click to upload",
@@ -69,7 +72,7 @@
       },
       "updateCategoriesPosition": {
         "success": {
-          "title": "Category position has been updated. ✅"
+          "title": "Category position has been updated."
         },
         "start": {
           "title": "Updating category position...⏳"
@@ -79,7 +82,7 @@
     "categoryProductsTable": {
       "updateProductPosition": {
         "success": {
-          "title": "Product position has been updated. ✅"
+          "title": "Product position has been updated."
         },
         "start": {
           "title": "Updating product position...⏳"
@@ -102,7 +105,7 @@
       },
       "deleteRestaurantMutation": {
         "success": {
-          "title": "Restaurant has been deleted. ✅"
+          "title": "Restaurant has been deleted."
         }
       }
     },
@@ -117,7 +120,7 @@
       },
       "deleteCategoryMutation": {
         "success": {
-          "title": "Category has been deleted. ✅"
+          "title": "Category has been deleted."
         }
       }
     },
@@ -132,7 +135,7 @@
       },
       "deleteProductMutation": {
         "success": {
-          "title": "Product has been deleted. ✅"
+          "title": "Product has been deleted."
         }
       }
     }
@@ -149,7 +152,7 @@
       "signInMutation": {
         "success": {
           "title": "Check your email",
-          "description": "We sent you a login link. Be sure to check your spam too. ✅"
+          "description": "We sent you a login link. Be sure to check your spam too. "
         }
       }
     },
@@ -178,7 +181,7 @@
       "primaryButtonLabel": "Save Changes",
       "createRestaurantMutation": {
         "success": {
-          "title": "Restaurant has been created. ✅"
+          "title": "Restaurant has been created."
         }
       }
     },
@@ -206,7 +209,7 @@
       "primaryButtonLabel": "Save Changes",
       "updateRestaurantMutation": {
         "success": {
-          "title": "Restaurant has been updated. ✅"
+          "title": "Restaurant has been updated."
         }
       }
     },
@@ -217,12 +220,20 @@
         "unpublishedLabel": "Not published"
       },
       "setPublishRestaurantMutation": {
+        "start": {
+          "publish": {
+            "title": "Publishing...⏳"
+          },
+          "unpublish": {
+            "title": "Unpublishing...⏳"
+          }
+        },
         "success": {
           "published": {
-            "title": "Restaurant has been published."
+            "title": "Restaurant has been published"
           },
           "unpublished": {
-            "title": "Restaurant has been unpublished. ✅"
+            "title": "Restaurant has been unpublished"
           }
         }
       },
@@ -256,7 +267,7 @@
       "primaryButtonLabel": "Save Changes",
       "createRestaurantLanguageMutation": {
         "success": {
-          "title": "Restaurant's language has been added. ✅"
+          "title": "Restaurant's language has been added."
         }
       }
     },
@@ -265,7 +276,7 @@
       "primaryButtonLabel": "Save Changes",
       "updateRestaurantLanguageMutation": {
         "success": {
-          "title": "Restaurant's languages have been updated. ✅"
+          "title": "Restaurant's languages have been updated."
         },
         "error": {
           "allLanguagesIsDisabled": {
@@ -295,7 +306,7 @@
       "primaryButtonLabel": "Save Changes",
       "createProductMutation": {
         "success": {
-          "title": "Product has been created. ✅"
+          "title": "Product has been created."
         }
       }
     },
@@ -324,7 +335,7 @@
       "primaryButtonLabel": "Save Changes",
       "updateProductMutation": {
         "success": {
-          "title": "Product has been updated. ✅"
+          "title": "Product has been updated."
         }
       }
     },
@@ -337,7 +348,7 @@
       "primaryButtonLabel": "Save Changes",
       "createCategoryMutation": {
         "success": {
-          "title": "Category has been updated. ✅"
+          "title": "Category has been updated."
         }
       }
     },
@@ -354,7 +365,7 @@
       "primaryButtonLabel": "Save Changes",
       "updateCategoryMutation": {
         "success": {
-          "title": "Category has been updated. ✅"
+          "title": "Category has been updated."
         }
       }
     }

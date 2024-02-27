@@ -81,6 +81,7 @@
     "react-hook-form": "^7.43.9",
     "react-qr-code": "^2.0.12",
     "resend": "^3.1.0",
+    "sonner": "^1.4.2",
     "superjson": "1.12.2",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.5",

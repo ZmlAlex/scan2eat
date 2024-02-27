@@ -3,6 +3,7 @@ import type { LanguageCode } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Switch } from "~/components//ui/Switch";
@@ -14,7 +15,6 @@ import {
   FormItem,
   FormLabel,
 } from "~/components/ui/Form";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
@@ -42,10 +42,7 @@ export const RestaurantLanguageUpdateForm = () => {
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
@@ -53,9 +50,7 @@ export const RestaurantLanguageUpdateForm = () => {
           () => updatedRestaurant
         );
 
-        toast({
-          title: t("updateRestaurantLanguageMutation.success.title"),
-        });
+        toast.success(t("updateRestaurantLanguageMutation.success.title"));
       },
     });
 
@@ -84,12 +79,9 @@ export const RestaurantLanguageUpdateForm = () => {
       }));
 
     if (!languageCodes.some((lang) => lang.isEnabled)) {
-      toast({
-        title: t(
-          "updateRestaurantLanguageMutation.error.allLanguagesIsDisabled.title"
-        ),
-        variant: "destructive",
-      });
+      toast.error(
+        t("updateRestaurantLanguageMutation.error.allLanguagesIsDisabled.title")
+      );
       return;
     }
 

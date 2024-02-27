@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import React from "react";
+import { toast } from "sonner";
 
 import { Icons } from "~/components/Icons";
 import {
@@ -12,7 +13,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/AlertDialog";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
@@ -42,10 +42,7 @@ export function CategoryDeleteForm({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
@@ -53,9 +50,7 @@ export function CategoryDeleteForm({
           () => updatedRestaurant
         );
 
-        toast({
-          title: t("deleteCategoryMutation.success.title"),
-        });
+        toast.success(t("deleteCategoryMutation.success.title"));
       },
     });
 

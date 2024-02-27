@@ -5,13 +5,13 @@ import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Icons } from "~/components/Icons";
 import { buttonVariants } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 import { Label } from "~/components/ui/Label";
-import { toast } from "~/components/ui/useToast";
 import { baseErrorMessage } from "~/helpers/errorMapper";
 import { cn } from "~/libs/cn";
 
@@ -49,14 +49,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setIsLoading(false);
 
     if (!signInResult?.ok || signInResult.error) {
-      return toast({
-        title: tError(baseErrorMessage.Unknown),
-        variant: "destructive",
-      });
+      toast.error(tError(baseErrorMessage.Unknown));
     }
 
-    return toast({
-      title: t("signInMutation.success.title"),
+    return toast.success(t("signInMutation.success.title"), {
       description: t("signInMutation.success.description"),
     });
   }

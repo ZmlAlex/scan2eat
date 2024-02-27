@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import React from "react";
+import { toast } from "sonner";
 
 import { Icons } from "~/components/Icons";
 import {
@@ -12,7 +13,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/AlertDialog";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { clientApi } from "~/libs/trpc/client";
 
@@ -37,10 +37,7 @@ export function RestaurantDeleteForm({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurants) => {
         trpcContext.restaurant.getAllRestaurants.setData(
@@ -48,9 +45,7 @@ export function RestaurantDeleteForm({
           () => updatedRestaurants
         );
 
-        toast({
-          title: t("deleteRestaurantMutation.success.title"),
-        });
+        toast.success(t("deleteRestaurantMutation.success.title"));
       },
     });
 

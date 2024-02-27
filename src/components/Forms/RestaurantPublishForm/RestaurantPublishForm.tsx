@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import React from "react";
 import QRCode from "react-qr-code";
+import { toast } from "sonner";
 
 import { Icons } from "~/components/Icons";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
@@ -16,7 +17,6 @@ import {
   DialogTitle,
 } from "~/components/ui/Dialog";
 import { Switch } from "~/components/ui/Switch";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
@@ -42,16 +42,18 @@ export const RestaurantPublishForm = ({ isModalOpen, toggleModal }: Props) => {
   const t = useTranslations("Form.restaurantPublish");
   const tError = useTranslations("ResponseErrorMessage");
 
-  // TODO: ADD LOADER DURING PROCESS
-  const { mutate: setPublishRestaurant, isLoading } =
+  const { mutate: setPublishRestaurant } =
     clientApi.restaurant.setPublishedRestaurant.useMutation({
+      onMutate: ({ isPublished }) => {
+        const action = isPublished
+          ? t("setPublishRestaurantMutation.start.publish.title")
+          : t("setPublishRestaurantMutation.start.unpublish.title");
+        toast.info(action);
+      },
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
@@ -62,10 +64,7 @@ export const RestaurantPublishForm = ({ isModalOpen, toggleModal }: Props) => {
         const action = updatedRestaurant.isPublished
           ? t("setPublishRestaurantMutation.success.published.title")
           : t("setPublishRestaurantMutation.success.unpublished.title");
-
-        toast({
-          title: action,
-        });
+        toast.success(action);
       },
     });
 

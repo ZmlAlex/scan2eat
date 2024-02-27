@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Icons } from "~/components/Icons";
@@ -32,7 +33,6 @@ import {
   SelectValue,
 } from "~/components/ui/Select";
 import { Textarea } from "~/components/ui/Textarea";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { imageInput } from "~/helpers/formTypes/common";
 import { clientApi } from "~/libs/trpc/client";
@@ -67,10 +67,7 @@ export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (newRestaurant) => {
         trpcContext.restaurant.getAllRestaurants.setData(
@@ -78,9 +75,7 @@ export const RestaurantCreateForm = ({ isModalOpen, toggleModal }: Props) => {
           (prevRestaurants = []) => [...prevRestaurants, newRestaurant]
         );
 
-        toast({
-          title: t("createRestaurantMutation.success.title"),
-        });
+        toast.success(t("createRestaurantMutation.success.title"));
         toggleModal();
       },
     });

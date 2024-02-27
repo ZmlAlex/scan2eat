@@ -1,9 +1,9 @@
+import { useTranslations } from "next-intl";
 import React from "react";
+import { toast } from "sonner";
 
 import { Icons } from "~/components/Icons";
 import { cn } from "~/libs/cn";
-
-import { toast } from "./useToast";
 
 type Props = {
   className?: string;
@@ -13,14 +13,13 @@ type Props = {
 export function ClipboardCopy({ className, copyText }: Props) {
   const [isCopied, setIsCopied] = React.useState(false);
 
+  const t = useTranslations("Common.clipboardCopy");
+
   React.useEffect(() => {
     if (isCopied) {
-      toast({
-        title: "Copied! ✅",
-        description: "A short permalink has been copied to your clipboard",
-      });
+      toast.success(t("title"));
     }
-  }, [isCopied]);
+  }, [isCopied, t]);
 
   async function copyTextToClipboard(text: string) {
     if ("clipboard" in navigator) {

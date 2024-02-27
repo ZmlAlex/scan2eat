@@ -3,9 +3,9 @@ import type { LanguageCode } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
-import { toast } from "~/components//ui/useToast";
 import { Icons } from "~/components/Icons";
 import { Button } from "~/components/ui/Button";
 import {
@@ -67,10 +67,7 @@ export const RestaurantLanguageCreateForm = ({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
@@ -78,9 +75,7 @@ export const RestaurantLanguageCreateForm = ({
           () => updatedRestaurant
         );
 
-        toast({
-          title: t("createRestaurantLanguageMutation.success.title"),
-        });
+        toast.success(t("createRestaurantLanguageMutation.success.title"));
         toggleModal();
       },
     });

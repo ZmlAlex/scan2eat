@@ -2,8 +2,8 @@ import type { LanguageCode } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { parseCookies, setCookie } from "nookies";
+import { toast } from "sonner";
 
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { clientApi } from "~/libs/trpc/client";
@@ -45,10 +45,7 @@ export const useGetRestaurantWithUserCheck = (
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
 
         if (error?.data?.code === "NOT_FOUND") {
           router.push("/dashboard");

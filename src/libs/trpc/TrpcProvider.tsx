@@ -8,9 +8,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { toast } from "sonner";
 import superjson from "superjson";
 
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { isTRPCClientError } from "~/helpers/isTRPCError";
 
@@ -30,10 +30,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({
             if (isTRPCClientError(error) && error.message) {
               const errorMessage = errorMapper(error.message);
 
-              toast({
-                title: t(errorMessage),
-                variant: "destructive",
-              });
+              toast.error(t(errorMessage));
             }
           },
         }),
