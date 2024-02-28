@@ -15,7 +15,7 @@ const getRestaurantInfo = React.cache(
     const session = await getServerAuthSession();
     const initialRestaurantData = await serverClient.restaurant
       .getRestaurant({
-        restaurantId: restaurantId || "clmaaf1wd004t3sa35fkallcm",
+        restaurantId: restaurantId,
       })
       .catch((error) => {
         // check and redirect to the homepage if restaurant doesn't exist
