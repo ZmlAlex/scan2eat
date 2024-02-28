@@ -76,8 +76,6 @@ import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { rateLimitClient } from "~/server/libs/rateLimitClient";
-
 export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
@@ -129,56 +127,6 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-/** Reusable middleware that setup rate limit for requests. */
-const getFingerprint = ({
-  req,
-  session,
-}: {
-  req?: NextApiRequest;
-  session: Session | null;
-}) => {
-  if (req) {
-    const forwarded = req.headers["x-forwarded-for"];
-    const ip = forwarded
-      ? (typeof forwarded === "string" ? forwarded : forwarded[0])?.split(
-          /, /
-        )[0]
-      : req.socket.remoteAddress;
-    return ip || "127.0.0.1";
-  }
-
-  // !it's for API test when we mock caller
-  if (session) {
-    return session.user.id;
-  }
-
-  // in case if request is empty
-  return "";
-};
-
-// TODO: RESOLVE
-// const rateLimiter = t.middleware(async ({ ctx, next }) => {
-//   const fingerPrint = getFingerprint(ctx);
-
-//   if (!fingerPrint) {
-//     throw new TRPCError({
-//       code: "INTERNAL_SERVER_ERROR",
-//       message: "No fingerprint returned",
-//     });
-//   }
-
-//   const { success } = await rateLimitClient.limit(fingerPrint);
-
-//   if (!success) {
-//     throw new TRPCError({
-//       code: "TOO_MANY_REQUESTS",
-//       message: "ReachedRequestsLimit",
-//     });
-//   }
-
-//   return next();
-// });
-
 /**
  * Protected (authenticated) procedure
  *
@@ -187,7 +135,4 @@ const getFingerprint = ({
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = publicProcedure
-  // TODO: FIX RATE LIMITER!
-  // .use(rateLimiter)
-  .use(enforceUserIsAuthed);
+export const protectedProcedure = publicProcedure.use(enforceUserIsAuthed);
