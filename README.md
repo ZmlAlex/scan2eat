@@ -10,7 +10,6 @@ Make sure that you have accounts and api keys for
 - [AWS](https://aws.amazon.com/ru/console/)
 - [Supabase](https://supabase.com/)
 - [Cloudinary](https://console.cloudinary.com/)
-- [Upstash](https://upstash.com/)
 - [Resend](https://resend.com/)
 
 ## App schema
@@ -22,7 +21,7 @@ the brief system overview
 
 ## Env variables
 
-To check all required env variables please check [env-example](./env.example)
+To check all required env variables please check [env-example](./.env.example)
 
 ## Database commands
 
