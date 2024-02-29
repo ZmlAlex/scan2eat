@@ -12,7 +12,7 @@ import type {
   CreateProductInput,
   UpdateProductInput,
   UpdateProductsPositionInput,
-} from "~/server/api/schemas/product.schema";
+} from "~/server/api/product/product.schema";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
 export const createProduct = async (

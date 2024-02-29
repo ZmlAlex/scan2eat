@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Icons } from "~/components/Icons";
@@ -24,7 +25,6 @@ import {
   FormMessage,
 } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
@@ -54,10 +54,7 @@ export const CategoryCreateForm = ({ isModalOpen, toggleModal }: Props) => {
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
@@ -65,9 +62,7 @@ export const CategoryCreateForm = ({ isModalOpen, toggleModal }: Props) => {
           () => updatedRestaurant
         );
 
-        toast({
-          title: t("createCategoryMutation.success.title"),
-        });
+        toast.success(t("createCategoryMutation.success.title"));
         toggleModal();
       },
     });

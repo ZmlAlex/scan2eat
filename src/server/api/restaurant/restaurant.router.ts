@@ -8,7 +8,7 @@ import {
   setEnabledRestaurantLanguagesHandler,
   setPublishedRestaurantHandler,
   updateRestaurantHandler,
-} from "~/server/api/controllers/restaurant.controller";
+} from "~/server/api/restaurant/restaurant.controller";
 import {
   createRestaurantLanguageSchemaInput,
   createRestaurantSchemaInput,
@@ -17,7 +17,7 @@ import {
   setEnabledRestaurantLanguagesSchemaInput,
   setPublishedRestaurantSchemaInput,
   updateRestaurantSchemaInput,
-} from "~/server/api/schemas/restaurant.schema";
+} from "~/server/api/restaurant/restaurant.schema";
 import {
   createTRPCRouter,
   protectedProcedure,

@@ -11,7 +11,7 @@ import type {
   CreateCategoryInput,
   UpdateCategoriesPositionInput,
   UpdateCategoryInput,
-} from "~/server/api/schemas/category.schema";
+} from "~/server/api/category/category.schema";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
 export const createCategory = async (

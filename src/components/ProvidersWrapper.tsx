@@ -1,11 +1,10 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import { Toaster } from "~/components/ui/Toaster";
 import NextAuthSessionProvider from "~/libs/nextAuth/NextAuthSessionProvider";
 import NextIntlProvider from "~/libs/nextIntl/NextIntlProvider";
 import { ThemeProvider } from "~/libs/nextTheme/NextThemeProvider";
 import { TrpcProvider } from "~/libs/trpc/TrpcProvider";
-
-import { Toaster } from "./ui/Toaster";
 
 const ProvidersWrapper = ({
   children,

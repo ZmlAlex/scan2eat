@@ -3,7 +3,7 @@ import type {
   RestaurantTranslationField,
 } from "@prisma/client";
 
-import type { CreateCategoryInput } from "~/server/api/schemas/category.schema";
+import type { CreateCategoryInput } from "~/server/api/category/category.schema";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";

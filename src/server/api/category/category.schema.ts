@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { languageCodeS } from "./common.schema";
+import { languageCodeS } from "~/server/helpers/common.schema";
 
 export const createCategorySchemaInput = z.object({
   restaurantId: z.string(),

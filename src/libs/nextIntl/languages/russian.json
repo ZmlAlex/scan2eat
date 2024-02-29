@@ -6,6 +6,9 @@
       "lightLabel": "Светлая",
       "systemLabel": "Системная"
     },
+    "clipboardCopy": {
+      "title": "Cкопировано!"
+    },
     "imageUploadInput": {
       "firstRow": {
         "boldText": "Нажмите для загрузки",
@@ -80,7 +83,7 @@
       },
       "updateCategoriesPosition": {
         "success": {
-          "title": "Позиция категории была обновлена. ✅"
+          "title": "Позиция категории была обновлена."
         },
         "start": {
           "title": "Обновление позиции категории...⏳"
@@ -90,7 +93,7 @@
     "categoryProductsTable": {
       "updateProductPosition": {
         "success": {
-          "title": "Позиция продукта была обновлена. ✅"
+          "title": "Позиция продукта была обновлена."
         },
         "start": {
           "title": "Обновление позиции продукта...⏳"
@@ -113,7 +116,7 @@
       },
       "deleteRestaurantMutation": {
         "success": {
-          "title": "Ресторан был удален. ✅"
+          "title": "Ресторан был удален."
         }
       }
     },
@@ -128,7 +131,7 @@
       },
       "deleteCategoryMutation": {
         "success": {
-          "title": "Категория был удалена. ✅"
+          "title": "Категория был удалена."
         }
       }
     },
@@ -143,7 +146,7 @@
       },
       "deleteProductMutation": {
         "success": {
-          "title": "Продукт был удален. ✅"
+          "title": "Продукт был удален."
         }
       }
     }
@@ -159,7 +162,7 @@
       },
       "signInMutation": {
         "success": {
-          "title": "Проверьте ваш email. ✅",
+          "title": "Проверьте ваш email.",
           "description": "Мы отправили вам ссылку для входа. Обязательно проверьте также свой спам."
         }
       }
@@ -190,7 +193,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "createRestaurantMutation": {
         "success": {
-          "title": "Заведение было создано. ✅"
+          "title": "Заведение было создано."
         }
       }
     },
@@ -218,7 +221,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "updateRestaurantMutation": {
         "success": {
-          "title": "Заведение было обновлено. ✅"
+          "title": "Заведение было обновлено."
         }
       }
     },
@@ -229,12 +232,20 @@
         "unpublishedLabel": "Не опубликовано"
       },
       "setPublishRestaurantMutation": {
+        "start": {
+          "publish": {
+            "title": "Publishing...⏳"
+          },
+          "unpublish": {
+            "title": "Unpublishing...⏳"
+          }
+        },
         "success": {
           "published": {
-            "title": "Заведение было опубликовано. ✅"
+            "title": "Заведение было опубликовано."
           },
           "unpublished": {
-            "title": "Заведение было снято с публикации. ✅"
+            "title": "Заведение было снято с публикации."
           }
         }
       },
@@ -268,7 +279,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "createRestaurantLanguageMutation": {
         "success": {
-          "title": "Язык для заведения был добавлен. ✅"
+          "title": "Язык для заведения был добавлен. "
         }
       }
     },
@@ -277,7 +288,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "updateRestaurantLanguageMutation": {
         "success": {
-          "title": "Активные языки для заведения были обновлены. ✅"
+          "title": "Активные языки для заведения были обновлены. "
         },
         "error": {
           "allLanguagesIsDisabled": {
@@ -307,7 +318,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "createProductMutation": {
         "success": {
-          "title": "Продукт был создан. ✅"
+          "title": "Продукт был создан. "
         }
       }
     },
@@ -336,7 +347,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "updateProductMutation": {
         "success": {
-          "title": "Продукт был обновлен. ✅"
+          "title": "Продукт был обновлен. "
         }
       }
     },
@@ -351,7 +362,7 @@
 
       "createCategoryMutation": {
         "success": {
-          "title": "Категория была создана. ✅"
+          "title": "Категория была создана. "
         }
       }
     },
@@ -369,7 +380,7 @@
       "primaryButtonLabel": "Сохранить изменения",
       "updateCategoryMutation": {
         "success": {
-          "title": "Категория была обновлена. ✅"
+          "title": "Категория была обновлена. "
         }
       }
     }

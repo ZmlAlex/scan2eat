@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { parseCookies } from "nookies";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Icons } from "~/components/Icons";
@@ -35,13 +36,12 @@ import {
   SelectValue,
 } from "~/components/ui/Select";
 import { Textarea } from "~/components/ui/Textarea";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import type { RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { imageInput } from "~/helpers/formTypes/common";
 import { clientApi } from "~/libs/trpc/client";
 import { useGetRestaurantWithUserCheck } from "~/libs/trpc/hooks/useGetRestaurantWithUserCheck";
-import { measurementUnitS } from "~/server/api/schemas/common.schema";
+import { measurementUnitS } from "~/server/helpers/common.schema";
 import type { ArrayElement } from "~/types/shared.type";
 
 const formSchema = z.object({
@@ -88,10 +88,7 @@ export const ProductUpdateForm = ({
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurants) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
@@ -99,10 +96,7 @@ export const ProductUpdateForm = ({
           () => updatedRestaurants
         );
 
-        toast({
-          title: t("updateProductMutation.success.title"),
-        });
-
+        toast.success(t("updateProductMutation.success.title"));
         toggleModal();
       },
     });

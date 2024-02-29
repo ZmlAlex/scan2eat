@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import React from "react";
+import { toast } from "sonner";
 
 import { SortableList } from "~/components/SortableList";
 import {
@@ -9,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/Table";
-import { toast } from "~/components/ui/useToast";
 import { errorMapper } from "~/helpers/errorMapper";
 import { type RestaurantWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { clientApi } from "~/libs/trpc/client";
@@ -39,26 +39,19 @@ export const CategoryProductsTable = ({ products }: Props) => {
   const { mutate: updateProductsPosition } =
     clientApi.product.updateProductsPosition.useMutation({
       onMutate: () => {
-        toast({
-          title: t("updateProductPosition.start.title"),
-        });
+        toast.info(t("updateProductPosition.start.title"));
       },
       onError: (error) => {
         const errorMessage = errorMapper(error.message);
 
-        toast({
-          title: tError(errorMessage),
-          variant: "destructive",
-        });
+        toast.error(tError(errorMessage));
       },
       onSuccess: (updatedRestaurant) => {
         trpcContext.restaurant.getRestaurantWithUserCheck.setData(
           { restaurantId },
           () => updatedRestaurant
         );
-        toast({
-          title: t("updateProductPosition.success.title"),
-        });
+        toast.success(t("updateProductPosition.success.title"));
       },
     });
 

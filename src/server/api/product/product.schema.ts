@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { languageCodeS, measurementUnitS } from "./common.schema";
+import { languageCodeS, measurementUnitS } from "../../helpers/common.schema";
 
 export const createProductSchemaInput = z.object({
   restaurantId: z.string(),

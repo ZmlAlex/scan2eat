@@ -3,13 +3,13 @@ import {
   deleteCategoryHandler,
   updateCategoriesPositionHandler,
   updateCategoryHandler,
-} from "~/server/api/controllers/category.controller";
+} from "~/server/api/category/category.controller";
 import {
   createCategorySchemaInput,
   deleteCategorySchemaInput,
   updateCategoriesPositionSchemaInput,
   updateCategorySchemaInput,
-} from "~/server/api/schemas/category.schema";
+} from "~/server/api/category/category.schema";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const categoryRouter = createTRPCRouter({

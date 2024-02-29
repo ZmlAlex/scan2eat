@@ -1,6 +1,6 @@
 import type { ProductTranslationField } from "@prisma/client";
 
-import type { CreateProductInput } from "~/server/api/schemas/product.schema";
+import type { CreateProductInput } from "~/server/api/product/product.schema";
 import { prisma } from "~/server/db";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 import { transformTranslation } from "~/server/helpers/formatTranslation";
