@@ -21,12 +21,6 @@ export const createCategory = async (
   >[],
   prisma: PrismaClient
 ) => {
-  // TODO: MOVE IT ON THE SERVICE LEVEL?
-  // const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
-  //   ["name"],
-  //   input
-  // );
-
   const { position: biggestPosition } =
     (await prisma.category.findFirst({
       where: { restaurantId: input.restaurantId },
@@ -56,11 +50,6 @@ export const updateCategory = async (
   >[],
   prisma: PrismaClient
 ) => {
-  // const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
-  //   ["name"],
-  //   input
-  // );
-
   const transactions: PrismaPromise<unknown>[] = translations
     .filter(({ translation }) => translation)
     .map((record) =>
