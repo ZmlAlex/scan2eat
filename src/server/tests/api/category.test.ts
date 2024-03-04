@@ -268,8 +268,12 @@ describe("Category API", () => {
       const updateProductsPositionInput: inferProcedureInput<
         AppRouter["category"]["updateCategoriesPosition"]
       > = [
-        { id: testCategory.id, position: 1 },
-        { id: testCategorySecond.id, position: 0 },
+        { id: testCategory.id, position: 1, restaurantId: testRestaurant.id },
+        {
+          id: testCategorySecond.id,
+          position: 0,
+          restaurantId: testRestaurant.id,
+        },
       ];
       const { category } = await caller.category.updateCategoriesPosition(
         updateProductsPositionInput
@@ -312,6 +316,7 @@ describe("Category API", () => {
         AppRouter["category"]["deleteCategory"]
       > = {
         categoryId: testCategory.id,
+        restaurantId: testRestaurant.id,
       };
 
       const { category } = await caller.category.deleteCategory(input);

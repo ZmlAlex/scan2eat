@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { languageCodeS, measurementUnitS } from "../../helpers/common.schema";
 
-export const createProductSchemaInput = z.object({
+export const createProductInput = z.object({
   restaurantId: z.string(),
   categoryId: z.string(),
   isEnabled: z.boolean().optional(),
@@ -15,7 +15,7 @@ export const createProductSchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
-export const updateProductSchemaInput = z.object({
+export const updateProductInput = z.object({
   restaurantId: z.string(),
   productId: z.string(),
   price: z.number(),
@@ -30,17 +30,22 @@ export const updateProductSchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
-export const updateProductsPositionSchemaInput = z.array(
-  z.object({ id: z.string(), position: z.number() })
+export const updateProductsPositionInput = z.array(
+  z.object({
+    restaurantId: z.string(),
+    id: z.string(),
+    position: z.number(),
+  })
 );
 
-export const deleteProductSchemaInput = z.object({
+export const deleteProductInput = z.object({
+  restaurantId: z.string(),
   productId: z.string(),
 });
 
-export type CreateProductInput = z.infer<typeof createProductSchemaInput>;
-export type UpdateProductInput = z.infer<typeof updateProductSchemaInput>;
+export type CreateProductInput = z.infer<typeof createProductInput>;
+export type UpdateProductInput = z.infer<typeof updateProductInput>;
 export type UpdateProductsPositionInput = z.infer<
-  typeof updateProductsPositionSchemaInput
+  typeof updateProductsPositionInput
 >;
-export type DeleteProductInput = z.infer<typeof deleteProductSchemaInput>;
+export type DeleteProductInput = z.infer<typeof deleteProductInput>;

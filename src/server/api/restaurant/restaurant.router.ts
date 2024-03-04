@@ -1,23 +1,5 @@
-import {
-  createRestaurantHandler,
-  createRestaurantLanguageHandler,
-  deleteRestaurantHandler,
-  getAllRestaurantsHandler,
-  getRestaurantHandler,
-  getRestaurantWithUserCheckHandler,
-  setEnabledRestaurantLanguagesHandler,
-  setPublishedRestaurantHandler,
-  updateRestaurantHandler,
-} from "~/server/api/restaurant/restaurant.controller";
-import {
-  createRestaurantLanguageSchemaInput,
-  createRestaurantSchemaInput,
-  deleteRestaurantSchemaInput,
-  getRestaurantSchemaInput,
-  setEnabledRestaurantLanguagesSchemaInput,
-  setPublishedRestaurantSchemaInput,
-  updateRestaurantSchemaInput,
-} from "~/server/api/restaurant/restaurant.schema";
+import * as restaurantController from "~/server/api/restaurant/restaurant.controller";
+import * as restaurantSchema from "~/server/api/restaurant/restaurant.schema";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -26,44 +8,30 @@ import {
 
 export const restaurantRouter = createTRPCRouter({
   getRestaurant: publicProcedure
-    .input(getRestaurantSchemaInput)
-    .query(async ({ ctx, input }) => getRestaurantHandler({ ctx, input })),
+    .input(restaurantSchema.getRestaurantInput)
+    .query(restaurantController.getRestaurant),
   getRestaurantWithUserCheck: protectedProcedure
-    .input(getRestaurantSchemaInput)
-    .query(async ({ ctx, input }) =>
-      getRestaurantWithUserCheckHandler({ ctx, input })
-    ),
-  getAllRestaurants: protectedProcedure.query(async ({ ctx }) =>
-    getAllRestaurantsHandler({ ctx })
+    .input(restaurantSchema.getRestaurantInput)
+    .query(restaurantController.getRestaurantWithUserCheck),
+  getAllRestaurants: protectedProcedure.query(
+    restaurantController.getAllRestaurants
   ),
   createRestaurant: protectedProcedure
-    .input(createRestaurantSchemaInput)
-    .mutation(async ({ ctx, input }) =>
-      createRestaurantHandler({ ctx, input })
-    ),
+    .input(restaurantSchema.createRestaurantInput)
+    .mutation(restaurantController.createRestaurant),
   updateRestaurant: protectedProcedure
-    .input(updateRestaurantSchemaInput)
-    .mutation(async ({ ctx, input }) =>
-      updateRestaurantHandler({ ctx, input })
-    ),
+    .input(restaurantSchema.updateRestaurantInput)
+    .mutation(restaurantController.updateRestaurant),
   createRestaurantLanguage: protectedProcedure
-    .input(createRestaurantLanguageSchemaInput)
-    .mutation(async ({ ctx, input }) =>
-      createRestaurantLanguageHandler({ ctx, input })
-    ),
+    .input(restaurantSchema.createRestaurantLanguageInput)
+    .mutation(restaurantController.createRestaurantLanguage),
   setPublishedRestaurant: protectedProcedure
-    .input(setPublishedRestaurantSchemaInput)
-    .mutation(async ({ ctx, input }) =>
-      setPublishedRestaurantHandler({ ctx, input })
-    ),
+    .input(restaurantSchema.setPublishedRestaurantInput)
+    .mutation(restaurantController.setPublishedRestaurant),
   setEnabledRestaurantLanguages: protectedProcedure
-    .input(setEnabledRestaurantLanguagesSchemaInput)
-    .mutation(async ({ ctx, input }) =>
-      setEnabledRestaurantLanguagesHandler({ ctx, input })
-    ),
+    .input(restaurantSchema.setEnabledRestaurantLanguagesInput)
+    .mutation(restaurantController.setEnabledRestaurantLanguages),
   deleteRestaurant: protectedProcedure
-    .input(deleteRestaurantSchemaInput)
-    .mutation(async ({ ctx, input }) =>
-      deleteRestaurantHandler({ ctx, input })
-    ),
+    .input(restaurantSchema.deleteRestaurantInput)
+    .mutation(restaurantController.deleteRestaurant),
 });

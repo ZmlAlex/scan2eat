@@ -79,6 +79,7 @@ export const CategoryProductsTable = ({ products }: Props) => {
 
                 updateProductsPosition(
                   updatedProducts.map((product, index) => ({
+                    restaurantId: product.restaurantId,
                     id: product.id,
                     position: index,
                   }))

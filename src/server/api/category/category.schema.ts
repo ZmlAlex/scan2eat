@@ -2,13 +2,13 @@ import { z } from "zod";
 
 import { languageCodeS } from "~/server/helpers/common.schema";
 
-export const createCategorySchemaInput = z.object({
+export const createCategoryInput = z.object({
   restaurantId: z.string(),
   name: z.string().min(1).max(30),
   languageCode: languageCodeS,
 });
 
-export const updateCategorySchemaInput = z.object({
+export const updateCategoryInput = z.object({
   restaurantId: z.string(),
   categoryId: z.string(),
   name: z.string().min(1).max(30),
@@ -16,17 +16,18 @@ export const updateCategorySchemaInput = z.object({
   autoTranslateEnabled: z.boolean(),
 });
 
-export const updateCategoriesPositionSchemaInput = z.array(
-  z.object({ id: z.string(), position: z.number() })
+export const updateCategoriesPositionInput = z.array(
+  z.object({ restaurantId: z.string(), id: z.string(), position: z.number() })
 );
 
-export const deleteCategorySchemaInput = z.object({
+export const deleteCategoryInput = z.object({
+  restaurantId: z.string(),
   categoryId: z.string(),
 });
 
-export type CreateCategoryInput = z.infer<typeof createCategorySchemaInput>;
-export type UpdateCategoryInput = z.infer<typeof updateCategorySchemaInput>;
+export type CreateCategoryInput = z.infer<typeof createCategoryInput>;
+export type UpdateCategoryInput = z.infer<typeof updateCategoryInput>;
 export type UpdateCategoriesPositionInput = z.infer<
-  typeof updateCategoriesPositionSchemaInput
+  typeof updateCategoriesPositionInput
 >;
-export type DeleteCategorytInput = z.infer<typeof deleteCategorySchemaInput>;
+export type DeleteCategorytInput = z.infer<typeof deleteCategoryInput>;

@@ -1,150 +1,133 @@
-import type {
-  CategoryI18N,
-  CategoryTranslationField,
-  LanguageCode,
-  Prisma,
-  PrismaClient,
-  PrismaPromise,
-} from "@prisma/client";
+import type { CategoryI18N, CategoryTranslationField } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
+import { MAX_CATEGORIES_PER_RESTAURANT } from "~/config/limitations";
+import { baseErrorMessage } from "~/helpers/errorMapper";
+import * as categoryRepository from "~/server/api/category/category.repository";
 import type {
   CreateCategoryInput,
+  DeleteCategorytInput,
   UpdateCategoriesPositionInput,
   UpdateCategoryInput,
 } from "~/server/api/category/category.schema";
+import * as restaurantRepository from "~/server/api/restaurant/restaurant.repository";
+import type { ProtectedContext } from "~/server/api/trpc";
+import { prisma } from "~/server/db";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
 
-export const createCategory = async (
-  input: CreateCategoryInput & { userId: string },
-  additionalTranslations: Pick<
+export const createCategory = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: CreateCategoryInput;
+}) => {
+  let additionalTranslations: Pick<
     CategoryI18N,
     "fieldName" | "languageCode" | "translation"
-  >[],
-  prisma: PrismaClient
-) => {
-  const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
-    ["name"],
-    input
+  >[] = [];
+  const userId = ctx.session.user.id;
+
+  const restaurant = await restaurantRepository.findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
   );
 
-  const { position: biggestPosition } =
-    (await prisma.category.findFirst({
-      where: { restaurantId: input.restaurantId },
-      select: { position: true },
-      orderBy: { position: "desc" },
-    })) ?? {};
-
-  const nextPosition = biggestPosition ? biggestPosition + 1 : 0;
-
-  return await prisma.category.create({
-    data: {
-      userId: input.userId,
-      restaurantId: input.restaurantId,
-      position: nextPosition,
-      categoryI18N: {
-        createMany: { data: [...translations, ...additionalTranslations] },
-      },
-    },
-  });
-};
-
-export const updateCategory = async (
-  input: Omit<UpdateCategoryInput, "autoTranslateEnabled"> & { userId: string },
-  additionalTranslations: Pick<
-    CategoryI18N,
-    "fieldName" | "languageCode" | "translation"
-  >[],
-  prisma: PrismaClient
-) => {
-  const translations = formatFieldsToTranslationTable<CategoryTranslationField>(
-    ["name"],
-    input
-  );
-
-  const transactions: PrismaPromise<unknown>[] = [
-    ...translations,
-    ...additionalTranslations,
-  ]
-    .filter(({ translation }) => translation)
-    .map((record) =>
-      prisma.categoryI18N.upsert({
-        where: {
-          categoryId_languageCode_fieldName: {
-            categoryId: input.categoryId,
-            languageCode: record.languageCode,
-            fieldName: record.fieldName,
-          },
-        },
-        update: {
-          translation: record.translation,
-        },
-        create: {
-          translation: record.translation,
-          categoryId: input.categoryId,
-          languageCode: record.languageCode,
-          fieldName: record.fieldName,
-        },
-      })
-    );
-
-  await prisma.$transaction(transactions);
-};
-
-export const updateManyCategoriesTranslations = (
-  translations: {
-    categoryId?: string;
-    languageCode: LanguageCode;
-    translation: string;
-    fieldName: CategoryTranslationField;
-  }[],
-  prisma: PrismaClient
-) => {
-  const transactions = translations
-    .filter(({ translation }) => translation)
-    .map((record) => {
-      return prisma.categoryI18N.upsert({
-        where: {
-          categoryId_languageCode_fieldName: {
-            categoryId: record.categoryId as string,
-            languageCode: record.languageCode,
-            fieldName: record.fieldName,
-          },
-        },
-        update: {
-          translation: record.translation,
-        },
-        create: {
-          translation: record.translation,
-          categoryId: record.categoryId as string,
-          languageCode: record.languageCode,
-          fieldName: record.fieldName,
-        },
-      });
+  if (restaurant.category.length >= MAX_CATEGORIES_PER_RESTAURANT) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: baseErrorMessage.ReachedCategoriesLimit,
     });
+  }
 
-  return transactions;
-};
+  if (restaurant.restaurantLanguage.length > 1) {
+    additionalTranslations =
+      await createFieldTranslationsForAdditionalLanguages<CategoryTranslationField>(
+        {
+          sourceLanguage: input.languageCode,
+          restaurantLanguages: restaurant.restaurantLanguage,
+          fieldsForTranslation: [["name", input.name]],
+        }
+      );
+  }
 
-export const updateManyCategoriesPositions = async (
-  input: UpdateCategoriesPositionInput,
-  userId: string,
-  prisma: PrismaClient
-) => {
-  return prisma.$transaction(
-    input.map((item) =>
-      prisma.category.update({
-        data: { position: item.position },
-        where: { id: item.id, userId },
-      })
-    )
+  const mainTranslation =
+    formatFieldsToTranslationTable<CategoryTranslationField>(["name"], input);
+  const translations = [...mainTranslation, ...additionalTranslations];
+
+  await categoryRepository.createCategory(
+    { ...input, userId },
+    translations,
+    prisma
   );
 };
 
-export const deleteCategory = async (
-  where: Prisma.CategoryWhereUniqueInput,
-  prisma: PrismaClient
-) => {
-  return await prisma.category.delete({
-    where,
-  });
+export const updateCategory = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: UpdateCategoryInput;
+}) => {
+  const { autoTranslateEnabled, ...restInput } = input;
+  const userId = ctx.session.user.id;
+  let additionalTranslations: Pick<
+    CategoryI18N,
+    "fieldName" | "languageCode" | "translation"
+  >[] = [];
+
+  const restaurant = await restaurantRepository.findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
+
+  if (restaurant.restaurantLanguage.length > 1 && autoTranslateEnabled) {
+    additionalTranslations =
+      await createFieldTranslationsForAdditionalLanguages<CategoryTranslationField>(
+        {
+          sourceLanguage: input.languageCode,
+          restaurantLanguages: restaurant.restaurantLanguage,
+          fieldsForTranslation: [["name", input.name]],
+        }
+      );
+  }
+
+  const mainTranslation =
+    formatFieldsToTranslationTable<CategoryTranslationField>(
+      ["name"],
+      restInput
+    );
+  const translations = [...mainTranslation, ...additionalTranslations];
+
+  await categoryRepository.updateCategory(
+    { ...input, userId },
+    translations,
+    prisma
+  );
+};
+
+export const updateCategoriesPosition = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: UpdateCategoriesPositionInput;
+}) => {
+  const userId = ctx.session.user.id;
+  await categoryRepository.updateManyCategoriesPositions(input, userId, prisma);
+};
+
+export const deleteCategory = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: DeleteCategorytInput;
+}) => {
+  const userId = ctx.session.user.id;
+  await categoryRepository.deleteCategory(
+    { id: input.categoryId, userId },
+    prisma
+  );
 };

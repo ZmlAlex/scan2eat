@@ -466,8 +466,12 @@ describe("Product API", () => {
       const updateProductsPositionInput: inferProcedureInput<
         AppRouter["product"]["updateProductsPosition"]
       > = [
-        { id: testProduct.id, position: 1 },
-        { id: testProductSecond.id, position: 0 },
+        { id: testProduct.id, position: 1, restaurantId: testRestaurant.id },
+        {
+          id: testProductSecond.id,
+          position: 0,
+          restaurantId: testRestaurant.id,
+        },
       ];
       const { product } = await caller.product.updateProductsPosition(
         updateProductsPositionInput
@@ -522,6 +526,7 @@ describe("Product API", () => {
       const input: inferProcedureInput<AppRouter["product"]["deleteProduct"]> =
         {
           productId: testProduct.id,
+          restaurantId: testRestaurant.id,
         };
 
       const { product } = await caller.product.deleteProduct(input);
