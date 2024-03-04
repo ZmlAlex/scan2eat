@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { errorMapper } from "~/helpers/errorMapper";
 import { formatTranslationToOneLanguageWithDetails } from "~/helpers/formatTranslationToOneLanguage";
 import { clientApi } from "~/libs/trpc/client";
-import { type findRestaurantById } from "~/server/api/restaurant/restaurant.service";
+import { type findRestaurantById } from "~/server/api/restaurant/restaurant.repository";
 
 const INITIAL_DATA: Awaited<ReturnType<typeof findRestaurantById>> = {
   id: "",

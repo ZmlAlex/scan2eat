@@ -1,314 +1,251 @@
 import type {
   CategoryTranslationField,
-  Prisma,
-  PrismaClient,
-  PrismaPromise,
   ProductTranslationField,
-  Restaurant,
   RestaurantI18N,
   RestaurantTranslationField,
 } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
+import { MAX_RESTAURANTS_PER_ACCOUNT } from "~/config/limitations";
+import { baseErrorMessage } from "~/helpers/errorMapper";
+import * as categoryRepository from "~/server/api/category/category.repository";
+import * as productRepository from "~/server/api/product/product.repository";
+import * as restaurantRepository from "~/server/api/restaurant/restaurant.repository";
 import type {
   CreateRestaurantInput,
   CreateRestaurantLanguageInput,
+  DeleteRestaurantInput,
+  GetRestaurantInput,
+  SetEnabledRestaurantLanguagesInput,
+  SetPublishedRestaurantInput,
   UpdateRestaurantInput,
 } from "~/server/api/restaurant/restaurant.schema";
+import type { ProtectedContext } from "~/server/api/trpc";
+import { prisma } from "~/server/db";
+import { createFieldTranslationsForAdditionalLanguages } from "~/server/helpers/createFieldTranslationsForAddtionalLanugages";
+import { createFieldTranslationsForNewLanguage } from "~/server/helpers/createFieldTranslationsForNewLanguage";
 import { formatFieldsToTranslationTable } from "~/server/helpers/formatFieldsToTranslationTable";
-import { transformTranslation } from "~/server/helpers/formatTranslation";
+import { uploadImage } from "~/server/libs/cloudinary";
 
-export const findRestaurant = async (
-  { restaurantId, userId }: { restaurantId: string; userId?: string },
-  prisma: PrismaClient
-) => {
-  try {
-    const whereClause = userId
-      ? { id: restaurantId, userId }
-      : { id: restaurantId };
+export const getRestaurant = ({ input }: { input: GetRestaurantInput }) => {
+  return restaurantRepository.findRestaurantById(input.restaurantId, prisma);
+};
 
-    const restaurantP = prisma.restaurant.findFirstOrThrow({
-      where: whereClause,
-      select: {
-        userId: true,
-        id: true,
-        workingHours: true,
-        logoUrl: true,
-        isPublished: true,
-        currencyCode: true,
-        phone: true,
-      },
-    });
-    const restaurantLanguagesP = prisma.restaurantLanguage.findMany({
-      where: { restaurantId },
-      orderBy: { createdAt: "asc" },
-    });
-    const restaurantI18NP = prisma.restaurantI18N.findMany({
-      where: { restaurantId },
-    });
-    const categoriesP = prisma.category.findMany({
-      where: { restaurantId },
-      include: {
-        categoryI18N: true,
-      },
-      orderBy: { position: "asc" },
-    });
-    const productsP = prisma.product.findMany({
-      where: { restaurantId },
-      include: {
-        productI18N: true,
-      },
-      orderBy: { position: "asc" },
-    });
+export const getRestaurantWithUserCheck = ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: GetRestaurantInput;
+}) => {
+  const userId = ctx.session.user.id;
 
-    const [
-      restaurant,
-      restaurantI18N,
-      restaurantLanguages,
-      categories,
-      products,
-    ] = await Promise.all([
-      restaurantP,
-      restaurantI18NP,
-      restaurantLanguagesP,
-      categoriesP,
-      productsP,
-    ]);
+  return restaurantRepository.findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
+};
 
-    return {
-      ...restaurant,
-      restaurantLanguage: restaurantLanguages,
-      restaurantI18N:
-        transformTranslation<RestaurantTranslationField>(restaurantI18N),
-      category: categories.map((record) => ({
-        ...record,
-        categoryI18N: transformTranslation<CategoryTranslationField>(
-          record.categoryI18N
-        ),
-      })),
-      product: products.map((record) => ({
-        ...record,
-        productI18N: transformTranslation<ProductTranslationField>(
-          record.productI18N
-        ),
-      })),
-    };
-  } catch (e) {
+export const getAllRestaurants = ({ ctx }: { ctx: ProtectedContext }) => {
+  return restaurantRepository.findAllRestaurants(
+    { userId: ctx.session.user.id },
+    prisma
+  );
+};
+
+export const createRestaurant = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: CreateRestaurantInput;
+}) => {
+  const userId = ctx.session.user.id;
+  let uploadedImageUrl;
+
+  const allRestaurants = await restaurantRepository.findAllRestaurants(
+    { userId },
+    prisma
+  );
+
+  if (allRestaurants.length >= MAX_RESTAURANTS_PER_ACCOUNT) {
     throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "NotFound",
-      cause: e,
+      code: "BAD_REQUEST",
+      message: baseErrorMessage.ReachedRestaurantsLimit,
     });
   }
-};
 
-// use it for a public route (ex. when we want to return restaurant details)
-export const findRestaurantById = async (
-  restaurantId: string,
-  prisma: PrismaClient
-) => {
-  return findRestaurant({ restaurantId }, prisma);
-};
+  if (input.logoImageBase64) {
+    const uploadedImage = await uploadImage(input.logoImageBase64, userId);
+    uploadedImageUrl = uploadedImage.url;
+  }
 
-// use it for private routes (ex. when we want to update restaurant details)
-export const findRestaurantByIdAndUserId = async (
-  { restaurantId, userId }: { restaurantId: string; userId: string },
-  prisma: PrismaClient
-) => {
-  return findRestaurant({ restaurantId, userId }, prisma);
-};
-
-export const findAllRestaurants = async (
-  where: Partial<Prisma.RestaurantWhereInput>,
-  prisma: PrismaClient
-) => {
-  const result = await prisma.restaurant.findMany({
-    where,
-    include: {
-      restaurantI18N: {
-        select: {
-          fieldName: true,
-          translation: true,
-          languageCode: true,
-        },
-      },
-      restaurantLanguage: {
-        select: { languageCode: true, isEnabled: true },
-      },
-      currency: {
-        select: {
-          code: true,
-          title: true,
-        },
-      },
-    },
-    orderBy: { createdAt: "asc" },
-  });
-
-  return result.map((record) => ({
-    ...record,
-    restaurantI18N: transformTranslation<RestaurantTranslationField>(
-      record.restaurantI18N
-    ),
-  }));
-};
-
-export const createRestaurant = async (
-  input: CreateRestaurantInput & { userId: string; logoUrl?: string },
-  prisma: PrismaClient
-) => {
-  const translations =
+  const mainTranslations =
     formatFieldsToTranslationTable<RestaurantTranslationField>(
       ["name", "description", "address"],
       input
     );
-  const result = await prisma.restaurant.create({
-    data: {
-      userId: input.userId,
-      workingHours: input.workingHours,
-      logoUrl: input.logoUrl ?? "",
-      currencyCode: input.currencyCode,
-      phone: input.phone,
-      restaurantLanguage: {
-        create: {
-          languageCode: input.languageCode,
-        },
-      },
-      restaurantI18N: {
-        createMany: {
-          data: translations,
-        },
-      },
-    },
-    select: {
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-      userId: true,
-      currencyCode: true,
-      workingHours: true,
-      logoUrl: true,
-      isPublished: true,
-      phone: true,
-      restaurantLanguage: {
-        select: {
-          languageCode: true,
-          isEnabled: true,
-        },
-      },
-      restaurantI18N: {
-        select: {
-          fieldName: true,
-          translation: true,
-          languageCode: true,
-        },
-      },
-      currency: {
-        select: {
-          code: true,
-          title: true,
-        },
-      },
-    },
-  });
 
-  return {
-    ...result,
-    restaurantI18N: transformTranslation<RestaurantTranslationField>(
-      result.restaurantI18N
-    ),
-  };
+  return restaurantRepository.createRestaurant(
+    { ...input, userId, logoUrl: uploadedImageUrl },
+    mainTranslations,
+    prisma
+  );
 };
 
-export const createRestaurantLanguage = (
-  input: CreateRestaurantLanguageInput & { userId: string },
-  translations: Pick<
-    RestaurantI18N,
-    "translation" | "fieldName" | "languageCode"
-  >[],
-  prisma: PrismaClient
-) => {
-  return prisma.restaurant.update({
-    where: {
-      id: input.restaurantId,
-      userId: input.userId,
-    },
-    data: {
-      restaurantI18N: { createMany: { data: translations } },
-      restaurantLanguage: {
-        create: { languageCode: input.languageCode },
-      },
-    },
-  });
-};
-
-export const updateRestaurant = async (
-  input: Omit<
-    UpdateRestaurantInput,
-    "isImageDeleted" | "autoTranslateEnabled"
-  > & {
-    logoUrl?: string;
-  },
-  additionalTranslations: Pick<
+export const updateRestaurant = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: UpdateRestaurantInput;
+}) => {
+  const { isImageDeleted, autoTranslateEnabled, ...restInput } = input;
+  const userId = ctx.session.user.id;
+  //if image is deleted we want to remove it from db, if not keep - original in db
+  let uploadedImageUrl = isImageDeleted ? "" : undefined;
+  let additionalTranslations: Pick<
     RestaurantI18N,
     "fieldName" | "languageCode" | "translation"
-  >[],
-  where: Prisma.RestaurantWhereUniqueInput,
-  prisma: PrismaClient
-) => {
-  const updatedData: Partial<Restaurant> = {
-    workingHours: input.workingHours,
-    currencyCode: input.currencyCode,
-    phone: input.phone,
-    ...(typeof input.logoUrl === "string" && { logoUrl: input.logoUrl }),
-  };
+  >[] = [];
 
-  const translations =
+  const restaurant = await restaurantRepository.findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
+
+  if (restaurant.restaurantLanguage.length > 1 && autoTranslateEnabled) {
+    additionalTranslations =
+      await createFieldTranslationsForAdditionalLanguages<RestaurantTranslationField>(
+        {
+          sourceLanguage: input.languageCode,
+          restaurantLanguages: restaurant.restaurantLanguage,
+          fieldsForTranslation: [
+            ["name", input.name],
+            ["description", input.description],
+            ["address", input.address],
+          ],
+        }
+      );
+  }
+
+  const mainTranslations =
     formatFieldsToTranslationTable<RestaurantTranslationField>(
       ["name", "description", "address"],
-      input
+      restInput
     );
+  const translations = [...mainTranslations, ...additionalTranslations];
 
-  const transactions: PrismaPromise<unknown>[] = [
-    ...translations,
-    ...additionalTranslations,
-  ]
-    .filter(({ translation }) => translation)
-    .map((record) =>
-      prisma.restaurantI18N.upsert({
-        where: {
-          restaurantId_languageCode_fieldName: {
-            languageCode: record.languageCode,
-            fieldName: record.fieldName,
-            restaurantId: input.restaurantId,
-          },
-        },
-        update: {
-          translation: record.translation,
-        },
-        create: {
-          restaurantId: input.restaurantId,
-          languageCode: record.languageCode,
-          fieldName: record.fieldName,
-          translation: record.translation,
-        },
-      })
-    );
+  if (input.logoImageBase64) {
+    const uploadedImage = await uploadImage(input.logoImageBase64, userId);
+    uploadedImageUrl = uploadedImage.url;
+  }
+
+  await restaurantRepository.updateRestaurant(
+    { ...input, logoUrl: uploadedImageUrl },
+    translations,
+    { id: input.restaurantId },
+    prisma
+  );
+};
+
+export const setPublishedRestaurant = async ({
+  input,
+}: {
+  input: SetPublishedRestaurantInput;
+}) => {
+  await prisma.restaurant.update({
+    where: { id: input.restaurantId },
+    data: { isPublished: input.isPublished },
+  });
+
+  await restaurantRepository.setPublishedRestaurant(input, prisma);
+};
+
+export const deleteRestaurant = async ({
+  input,
+}: {
+  input: DeleteRestaurantInput;
+}) => {
+  await restaurantRepository.deleteRestaurant(
+    { id: input.restaurantId },
+    prisma
+  );
+};
+
+// Restaurant Language Services
+export const createRestaurantLanguage = async ({
+  ctx,
+  input,
+}: {
+  ctx: ProtectedContext;
+  input: CreateRestaurantLanguageInput;
+}) => {
+  const userId = ctx.session.user.id;
+
+  const restaurant = await restaurantRepository.findRestaurantByIdAndUserId(
+    { restaurantId: input.restaurantId, userId },
+    prisma
+  );
+
+  //TODO: CHANGE WITH DEFAULT LANGUAGE
+  const defaultRestaurantLanguage =
+    restaurant.restaurantLanguage[0]?.languageCode ?? "english";
+
+  const categoriesTextForTranslationPromises =
+    createFieldTranslationsForNewLanguage<CategoryTranslationField>({
+      defaultLanguage: defaultRestaurantLanguage,
+      items: restaurant.category ?? [],
+      itemKey: "categoryI18N",
+      itemIdIdentificator: "categoryId",
+      targetLanguage: input.languageCode,
+    });
+
+  const productsTextForTranslationPromises =
+    createFieldTranslationsForNewLanguage<ProductTranslationField>({
+      defaultLanguage: defaultRestaurantLanguage,
+      items: restaurant.product ?? [],
+      itemKey: "productI18N",
+      itemIdIdentificator: "productId",
+      targetLanguage: input.languageCode,
+    });
+
+  const restaurantTextForTranslationPromises =
+    createFieldTranslationsForNewLanguage<RestaurantTranslationField>({
+      defaultLanguage: defaultRestaurantLanguage,
+      items: [restaurant],
+      itemKey: "restaurantI18N",
+      targetLanguage: input.languageCode,
+    });
+
+  const restaurantResult = await Promise.all(
+    restaurantTextForTranslationPromises
+  );
+
+  const categoriesResult = await Promise.all(
+    categoriesTextForTranslationPromises
+  );
+
+  const productsResult = await Promise.all(productsTextForTranslationPromises);
 
   await prisma.$transaction([
-    ...transactions,
-    prisma.restaurant.update({
-      where,
-      data: updatedData,
-    }),
+    restaurantRepository.createRestaurantLanguage(
+      { ...input, userId },
+      restaurantResult,
+      prisma
+    ),
+    ...categoryRepository.updateManyCategoriesTranslations(
+      categoriesResult,
+      prisma
+    ),
+    ...productRepository.updateManyProductsTranslations(productsResult, prisma),
   ]);
 };
 
-export const deleteRestaurant = async (
-  where: Prisma.RestaurantWhereUniqueInput,
-  prisma: PrismaClient
-) => {
-  await prisma.restaurant.delete({
-    where,
-  });
+export const setEnabledRestaurantLanguages = async ({
+  input,
+}: {
+  input: SetEnabledRestaurantLanguagesInput;
+}) => {
+  await restaurantRepository.setEnabledManyRestaurantLanguages(input, prisma);
 };

@@ -70,7 +70,7 @@ export function CategoryDeleteForm({
           <AlertDialogAction
             onClick={(event) => {
               event.preventDefault();
-              deleteCategory({ categoryId });
+              deleteCategory({ restaurantId, categoryId });
             }}
             className="bg-red-600 focus:ring-red-600"
           >

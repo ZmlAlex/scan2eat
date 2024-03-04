@@ -2,13 +2,13 @@ import { z } from "zod";
 
 import { currencyCodeS, languageCodeS } from "~/server/helpers/common.schema";
 
-export const getRestaurantSchemaInput = z.object({
+export const getRestaurantInput = z.object({
   restaurantId: z.string(),
 });
 
-// export const getAllRestaurantsSchemaInput = z.object({});
+// export const getAllRestaurantsInput = z.object({});
 
-export const createRestaurantSchemaInput = z.object({
+export const createRestaurantInput = z.object({
   name: z.string().min(2).max(30),
   description: z.string().max(150).optional(),
   address: z.string().max(50).optional(),
@@ -19,12 +19,12 @@ export const createRestaurantSchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
-export const createRestaurantLanguageSchemaInput = z.object({
+export const createRestaurantLanguageInput = z.object({
   restaurantId: z.string(),
   languageCode: languageCodeS,
 });
 
-export const updateRestaurantSchemaInput = z.object({
+export const updateRestaurantInput = z.object({
   restaurantId: z.string(),
   name: z.string().min(2).max(30),
   description: z.string().max(150).optional(),
@@ -38,32 +38,32 @@ export const updateRestaurantSchemaInput = z.object({
   languageCode: languageCodeS,
 });
 
-export const setPublishedRestaurantSchemaInput = z.object({
+export const setPublishedRestaurantInput = z.object({
   restaurantId: z.string(),
   isPublished: z.boolean(),
 });
 
-export const setEnabledRestaurantLanguagesSchemaInput = z.object({
+export const setEnabledRestaurantLanguagesInput = z.object({
   restaurantId: z.string(),
   languageCodes: z.array(
     z.object({ languageCode: languageCodeS, isEnabled: z.boolean() })
   ),
 });
 
-export const deleteRestaurantSchemaInput = z.object({
+export const deleteRestaurantInput = z.object({
   restaurantId: z.string(),
 });
 
-export type GetRestaurantInput = z.infer<typeof getRestaurantSchemaInput>;
-export type CreateRestaurantInput = z.infer<typeof createRestaurantSchemaInput>;
+export type GetRestaurantInput = z.infer<typeof getRestaurantInput>;
+export type CreateRestaurantInput = z.infer<typeof createRestaurantInput>;
 export type CreateRestaurantLanguageInput = z.infer<
-  typeof createRestaurantLanguageSchemaInput
+  typeof createRestaurantLanguageInput
 >;
-export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchemaInput>;
-export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantSchemaInput>;
+export type UpdateRestaurantInput = z.infer<typeof updateRestaurantInput>;
+export type DeleteRestaurantInput = z.infer<typeof deleteRestaurantInput>;
 export type SetPublishedRestaurantInput = z.infer<
-  typeof setPublishedRestaurantSchemaInput
+  typeof setPublishedRestaurantInput
 >;
 export type SetEnabledRestaurantLanguagesInput = z.infer<
-  typeof setEnabledRestaurantLanguagesSchemaInput
+  typeof setEnabledRestaurantLanguagesInput
 >;

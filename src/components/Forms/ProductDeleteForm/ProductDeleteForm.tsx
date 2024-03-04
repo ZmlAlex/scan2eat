@@ -70,7 +70,7 @@ export function ProductDeleteForm({
           <AlertDialogAction
             onClick={(event) => {
               event.preventDefault();
-              deleteProduct({ productId });
+              deleteProduct({ restaurantId, productId });
             }}
             className="bg-red-600 focus:ring-red-600"
           >

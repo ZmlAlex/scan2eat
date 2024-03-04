@@ -54,6 +54,7 @@ export const CategoriesTable = () => {
 
     updateCategoriesPosition(
       items.map((category, index) => ({
+        restaurantId: category.restaurantId,
         id: category.id,
         position: index,
       }))

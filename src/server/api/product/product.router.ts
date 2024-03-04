@@ -1,30 +1,18 @@
-import {
-  createProductHandler,
-  deleteProductHandler,
-  updateProductHandler,
-  updateProductsPositionHandler,
-} from "~/server/api/product/product.controller";
-import {
-  createProductSchemaInput,
-  deleteProductSchemaInput,
-  updateProductSchemaInput,
-  updateProductsPositionSchemaInput,
-} from "~/server/api/product/product.schema";
+import * as productController from "~/server/api/product/product.controller";
+import * as productSchema from "~/server/api/product/product.schema";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const productRouter = createTRPCRouter({
   createProduct: protectedProcedure
-    .input(createProductSchemaInput)
-    .mutation(({ ctx, input }) => createProductHandler({ ctx, input })),
+    .input(productSchema.createProductInput)
+    .mutation(productController.createProduct),
   updateProduct: protectedProcedure
-    .input(updateProductSchemaInput)
-    .mutation(({ ctx, input }) => updateProductHandler({ ctx, input })),
+    .input(productSchema.updateProductInput)
+    .mutation(productController.updateProduct),
   updateProductsPosition: protectedProcedure
-    .input(updateProductsPositionSchemaInput)
-    .mutation(({ ctx, input }) =>
-      updateProductsPositionHandler({ ctx, input })
-    ),
+    .input(productSchema.updateProductsPositionInput)
+    .mutation(productController.updateProductsPosition),
   deleteProduct: protectedProcedure
-    .input(deleteProductSchemaInput)
-    .mutation(({ ctx, input }) => deleteProductHandler({ ctx, input })),
+    .input(productSchema.deleteProductInput)
+    .mutation(productController.deleteProduct),
 });

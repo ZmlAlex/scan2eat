@@ -14,7 +14,6 @@
  *
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
-import type { NextApiRequest } from "next";
 import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "~/server/libs/auth";
